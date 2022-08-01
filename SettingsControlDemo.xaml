@@ -1,0 +1,248 @@
+﻿<UserControl x:Class="User.PluginSdkDemo.SettingsControlDemo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:User.PluginSdkDemo"
+             xmlns:styles="clr-namespace:SimHub.Plugins.Styles;assembly=SimHub.Plugins" mc:Ignorable="d" 
+             xmlns:ui="clr-namespace:SimHub.Plugins.UI;assembly=SimHub.Plugins"
+             d:DesignHeight="1200" Width="820" HorizontalAlignment="Left">
+
+    <Grid>
+        <TabControl HorizontalAlignment="Left" Height="1100" VerticalAlignment="Top" Width="820 " Margin="0,12,0,0">
+            <TabItem Header="PIT ROTARY" Foreground="#FF252525">
+                <Grid Background="#FFDADADA" Margin="0,0,0,0">
+                    <ScrollViewer>
+                        <styles:SHSection Title="PIT MENU">
+                            <StackPanel>
+                                <ui:ControlsEditor FriendlyName="Position 1" ActionName="DahlDesign.L1" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 2" ActionName="DahlDesign.L2" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 3" ActionName="DahlDesign.L3" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 4" ActionName="DahlDesign.L4" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 5" ActionName="DahlDesign.L5" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 6" ActionName="DahlDesign.L6" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 7" ActionName="DahlDesign.L7" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 8" ActionName="DahlDesign.L8" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 9" ActionName="DahlDesign.L9" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 10" ActionName="DahlDesign.L10" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 11" ActionName="DahlDesign.L11" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 12" ActionName="DahlDesign.L12" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Increment" ActionName="DahlDesign.LInc" HorizontalAlignment="Left" Width="750" Margin="0,0,-40,0"/>
+                                <ui:ControlsEditor FriendlyName="Decrement" ActionName="DahlDesign.LDec" HorizontalAlignment="Left" Width="750" Margin="0,0,-40,0"/>
+                            </StackPanel>
+                        </styles:SHSection>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="IN-CAR ROTARY" Margin="1,0,-1,0" Foreground="#FF252525">
+                <Grid Background="#FFDADADA" Margin="0,0,0,0">
+                    <ScrollViewer>
+                        <styles:SHSection Title="IN-CAR MENU">
+                            <StackPanel>
+                                <ui:ControlsEditor FriendlyName="Position 1" ActionName="DahlDesign.R1" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 2" ActionName="DahlDesign.R2" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 3" ActionName="DahlDesign.R3" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 4" ActionName="DahlDesign.R4" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 5" ActionName="DahlDesign.R5" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 6" ActionName="DahlDesign.R6" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 7" ActionName="DahlDesign.R7" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 8" ActionName="DahlDesign.R8" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 9" ActionName="DahlDesign.R9" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 10" ActionName="DahlDesign.R10" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 11" ActionName="DahlDesign.R11" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 12" ActionName="DahlDesign.R12" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Increment" ActionName="DahlDesign.RInc" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Decrement" ActionName="DahlDesign.RDec" HorizontalAlignment="Left" Width="750"/>
+                            </StackPanel>
+                        </styles:SHSection>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="CONTROLS" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
+                <Grid Background="#FFDADADA" Margin="0,0,0,0">
+                    <ScrollViewer>
+                        <styles:SHSection Title="CAR CONTROLS" Margin="0,0,0,0">
+                            <StackPanel>
+                                <ui:ControlsEditor FriendlyName="Upshift (pressed)" ActionName="DahlDesign.Upshift" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Downshift (pressed)" ActionName="DahlDesign.Downshift" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Menu: +" ActionName="DahlDesign.PlussPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Menu: -" ActionName="DahlDesign.MinusPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Menu: OK" ActionName="DahlDesign.OKPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Launch Screen (button toggle)" ActionName="DahlDesign.LaunchPressed" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Launch Screen (toggle switch released)" ActionName="DahlDesign.LaunchReleased" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="TC Off (pressed)" ActionName="DahlDesign.TCPressed"  HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="TC Off (released)" ActionName="DahlDesign.TCReleased" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="ERS No Boost" ActionName="DahlDesign.NBPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Pit Screen (pressed)" ActionName="DahlDesign.PitPressed" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Pit Screen (released)" ActionName="DahlDesign.PitReleased" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Pace Screen (pressed)" ActionName="DahlDesign.PacePressed" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Pace Screen (released)" ActionName="DahlDesign.PaceReleased" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Radio (pressed)" ActionName="DahlDesign.RadioPressed" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Radio (released)" ActionName="DahlDesign.RadioReleased" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="LED Warnings (pressed)" ActionName="DahlDesign.LEDWarningPressed" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="LED Warnings (released)" ActionName="DahlDesign.LEDWarningReleased" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Bite Point Adjust (pressed)" ActionName="DahlDesign.BitePointPressed" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Bite Point Adjust (released)" ActionName="DahlDesign.BitePointReleased" HorizontalAlignment="Left" Width="750"/>
+                                <TextBlock
+                                    Text="Post message to driver ahead on track:" Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                                <TextBox
+                                    VerticalAlignment="Top"
+                                    Height="20"
+                                    Margin="10,-20,0,10"                        
+                                    Text="{Binding AheadPlayerText}"/>
+                                <TextBlock
+                                    Text="Post message to driver behind on track:" Grid.Row="1" Margin="10,0,0,23" Grid.RowSpan="2"/>
+                                <TextBox
+                                    VerticalAlignment="Top"
+                                    Height="20"
+                                    Margin="10,-20,0,10"                        
+                                    Text="{Binding BehindPlayerText}"/>
+                            </StackPanel>
+                        </styles:SHSection>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="LED" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
+                <Grid Background="#FFDADADA" Margin="0,0,0,0">
+                    <styles:SHSection Title="Dahl Design LED controls" Margin="0,0,0,0">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition  Height="40"/>
+                                    <RowDefinition  Height="40"/>
+                                    <RowDefinition  Height="40"/>
+                                    <RowDefinition  Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="75"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                        Grid.Row="0"
+                        Text="DDU Enabled" Margin="0,22,0,18" Grid.RowSpan="2">
+                                </TextBlock>
+                                <styles:SHToggleButton  
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Height="20"
+                        IsChecked="{Binding Path=DDUEnabled}" Margin="23,22,0,0" Grid.RowSpan="2">
+                                </styles:SHToggleButton>
+
+                                <TextBlock
+                        Grid.Row="2"
+                        Text="SW1 Enabled" Margin="0,16,0,24" Grid.RowSpan="2"/>
+                                <styles:SHToggleButton  
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Height="20"
+                        IsChecked="{Binding Path=SW1Enabled}" Margin="24,16,0,0">
+                                </styles:SHToggleButton>
+                                <TextBlock
+                        Grid.Row="3"
+                        Text="SW1 start LED" Margin="0,13,0,-13"/>
+                                <TextBox
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        VerticalAlignment="Top"
+                        Height="20"
+                        Margin="22,11,-58,0"                        
+                        Text="{Binding Path=SW1startLED}">
+                                </TextBox>
+                                <TextBlock
+                        Grid.Row="3"
+                        Text="Reaction time (ms)" Margin="0,56,0,-56">
+                                </TextBlock>
+                                <Slider
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Margin="22,51,-184,-56"
+                        AutoToolTipPlacement="TopLeft"                        
+                        Ticks="10,20,30,40,50,60,70,80,90"
+                        TickFrequency="1"
+                        TickPlacement="Both"
+                        Value="{Binding Path=ReactionTime}" Minimum="100" Maximum="1000"
+                        >
+                                </Slider>
+                                <TextBlock
+                                    Text="DDU start LED" Grid.Row="1" Margin="0,17,0,23" Grid.RowSpan="2"/>
+                                <TextBox
+                                    Grid.Column="1"
+                                    VerticalAlignment="Top"
+                                    Height="20"
+                                    Margin="24,12,-58,0"                        
+                                    Text="{Binding DDUstartLED}" Grid.Row="1">
+                                </TextBox>
+                            </Grid>
+                        </StackPanel>
+                    </styles:SHSection>
+                </Grid>
+            </TabItem>
+            <TabItem Header="DDC" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
+                <Grid Background="#FFDADADA" Margin="0,0,0,0">
+                    <styles:SHSection Title="Dahl Design Controller" Margin="0,0,0,0">
+                        <StackPanel>
+                            <TextBlock
+                                    Text="Name of your joystick controller. &quot;JoystickPlugin.Arduino_Leonardo_B01&quot; means you write &quot;Arduino_Leonardo&quot; here." Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                            <TextBox
+                                    VerticalAlignment="Top"
+                                    Height="20"  
+                                    Margin="10,-20,0,10"                        
+                                    Text="{Binding DDC}"/>
+                        </StackPanel>
+                    </styles:SHSection>
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Text="DDC Enabled" Margin="32,127,-32,895"/>
+                    <styles:SHToggleButton  
+                        Grid.Row="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Height="20"
+                        IsChecked="{Binding Path=DDCEnabled}" Margin="115,126,0,0"/>
+                    <TextBlock
+                        Grid.Row="0"
+                        Text="DDS Enabled" Margin="32,166,-32,856"/>
+                    <styles:SHToggleButton  
+                        Grid.Row="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Height="20"
+                        IsChecked="{Binding DDSEnabled}" Margin="115,165,0,0"/>
+                    <TextBlock
+                        Grid.Row="0"
+                        Text="DDC
+ Clutch" Margin="32,204,-32,818"/>
+                    <styles:SHToggleButton  
+                        Grid.Row="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Height="20"
+                        IsChecked="{Binding DDCclutchEnabled}" Margin="115,203,0,0"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="MISC" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
+                <Grid Background="#FFDADADA" Margin="0,0,0,0">
+                    <styles:SHSection Title="Miscellaneous" Margin="0,0,0,0">
+                        <StackPanel>
+                            <TextBlock
+                                Text="Fuel per lap target:" Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                            <TextBox
+                                VerticalAlignment="Top"
+                                Height="20"  
+                                Margin="10,-20,0,10"                        
+                                Text="{Binding fuelPerLapTarget}"/>
+                        </StackPanel>
+                    </styles:SHSection>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
