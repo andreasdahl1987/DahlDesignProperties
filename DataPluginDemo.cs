@@ -466,7 +466,6 @@ namespace User.PluginSdkDemo
         int button9Mode = 0;
         int button10Mode = 0;
         int button11Mode = 0;
-        int button12Mode = 0;
         int button15Mode = 0;
         int button16Mode = 0;
 
@@ -625,8 +624,7 @@ namespace User.PluginSdkDemo
                 button8Mode = (buttonField & 128) >> 7;
                 button9Mode = (buttonField & 256) >> 8;
                 button10Mode = (buttonField & 512) >> 9;
-                button11Mode = (buttonField & 1024) >> 10;
-                button12Mode = (buttonField & 14336) >> 11;
+                button11Mode = (buttonField & 15360) >> 10;
                 button15Mode = (buttonField & 16384) >> 14;
                 button16Mode = (buttonField & 32768) >> 15;
 
@@ -640,13 +638,12 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("DDCmodeB3", this.GetType(), button3Mode);
                 pluginManager.SetPropertyValue("DDCmodeB4", this.GetType(), button4Mode);
                 pluginManager.SetPropertyValue("DDCmodeB5", this.GetType(), button5Mode);
-                pluginManager.SetPropertyValue("DDCmodeB6", this.GetType(), button6Mode);
-                pluginManager.SetPropertyValue("DDCmodeB7", this.GetType(), button7Mode);
-                pluginManager.SetPropertyValue("DDCmodeB8", this.GetType(), button8Mode);
-                pluginManager.SetPropertyValue("DDCmodeB9", this.GetType(), button9Mode);
-                pluginManager.SetPropertyValue("DDCmodeB10", this.GetType(), button10Mode);
-                pluginManager.SetPropertyValue("DDCmodeB11", this.GetType(), button11Mode);
-                pluginManager.SetPropertyValue("DDCPreset", this.GetType(), button12Mode+1);
+                pluginManager.SetPropertyValue("DDCthrottleHoldActive", this.GetType(), button6Mode);
+                pluginManager.SetPropertyValue("DDCmagicActive", this.GetType(), button7Mode);
+                pluginManager.SetPropertyValue("DDCquickSwitchMode", this.GetType(), button8Mode);
+                pluginManager.SetPropertyValue("DDCquickSwitchActive", this.GetType(), button9Mode);
+                pluginManager.SetPropertyValue("DDChandbrakeActive", this.GetType(), button10Mode);
+                pluginManager.SetPropertyValue("DDCPreset", this.GetType(), button11Mode+1);
                 pluginManager.SetPropertyValue("DDCneutralMode", this.GetType(), button15Mode);
                 pluginManager.SetPropertyValue("DDCneutralActive", this.GetType(), button16Mode);
 
@@ -7015,12 +7012,12 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("DDCmodeB3", this.GetType(), -1);
             pluginManager.AddProperty("DDCmodeB4", this.GetType(), -1);
             pluginManager.AddProperty("DDCmodeB5", this.GetType(), -1);
-            pluginManager.AddProperty("DDCmodeB6", this.GetType(), -1);
-            pluginManager.AddProperty("DDCmodeB7", this.GetType(), -1);
-            pluginManager.AddProperty("DDCmodeB8", this.GetType(), -1);
-            pluginManager.AddProperty("DDCmodeB9", this.GetType(), -1);
-            pluginManager.AddProperty("DDCmodeB10", this.GetType(), -1);
-            pluginManager.AddProperty("DDCmodeB11", this.GetType(), -1);
+            pluginManager.AddProperty("DDCthrottleHoldActive", this.GetType(), -1);
+            pluginManager.AddProperty("DDCmagicActive", this.GetType(), -1);
+            pluginManager.AddProperty("DDCquickSwitchMode", this.GetType(), -1);
+            pluginManager.AddProperty("DDCquickSwitchActive", this.GetType(), -1);
+            pluginManager.AddProperty("DDChandbrakeActive", this.GetType(), -1);
+
             pluginManager.AddProperty("DDCneutralMode", this.GetType(), -1);
             pluginManager.AddProperty("DDCneutralActive", this.GetType(), false);
             pluginManager.AddProperty("DDCPreset", this.GetType(), -1);
