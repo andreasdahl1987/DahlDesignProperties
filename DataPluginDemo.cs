@@ -537,14 +537,18 @@ namespace User.PluginSdkDemo
             if (Settings.SW1Enabled)
             {
                 int encoderField = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_Z")); //Encoder field
-  
+                encoder1Mode = encoderField & 1;
+                encoder2Mode = (encoderField & 2) >> 1;
+
                 encoder6Mode = (encoderField & 3072) >> 10;
                 encoder7Mode = (encoderField & 12288) >> 12;
                 encoder8Mode = (encoderField & 49152) >> 14;
 
                 pluginManager.SetPropertyValue("SW1DDSMode", this.GetType(), encoder8Mode);
-                pluginManager.SetPropertyValue("SW1clutchMode", this.GetType(), encoder7Mode);
-                pluginManager.SetPropertyValue("SW1biteSetting", this.GetType(), encoder6Mode);
+                pluginManager.SetPropertyValue("SW1ClutchMode", this.GetType(), encoder7Mode);
+                pluginManager.SetPropertyValue("SW1BiteSetting", this.GetType(), encoder6Mode);
+                pluginManager.SetPropertyValue("SW1HandbrakeActive", this.GetType(), encoder1Mode);
+                pluginManager.SetPropertyValue("SW1QuickSwitchMode", this.GetType(), encoder2Mode);
 
                 int buttonField = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_Y")); //Buttonfield
                 button1Mode = buttonField & 1;
@@ -7022,9 +7026,11 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("DDCPreset", this.GetType(), -1);
 
             pluginManager.AddProperty("SW1DDSMode", this.GetType(), -1);
-            pluginManager.AddProperty("SW1clutchMode", this.GetType(), -1);
-            pluginManager.AddProperty("SW1biteSetting", this.GetType(), -1);
+            pluginManager.AddProperty("SW1ClutchMode", this.GetType(), -1);
+            pluginManager.AddProperty("SW1BiteSetting", this.GetType(), -1);
 
+            pluginManager.AddProperty("SW1QuickSwitchMode", this.GetType(), -1);
+            pluginManager.AddProperty("SW1HandbrakeActive", this.GetType(), -1);
             pluginManager.AddProperty("SW1RadioButtonMode", this.GetType(), -1);
             pluginManager.AddProperty("SW1RightRotaryMode", this.GetType(), -1);
             pluginManager.AddProperty("SW1LeftRotaryMode", this.GetType(), -1);
