@@ -499,6 +499,7 @@ namespace User.PluginSdkDemo
             pluginManager.SetPropertyValue("SW1startLED", this.GetType(), Settings.SW1startLED);
             pluginManager.SetPropertyValue("DDUEnabled", this.GetType(), Settings.DDUEnabled);
             pluginManager.SetPropertyValue("SW1Enabled", this.GetType(), Settings.SW1Enabled);
+            pluginManager.SetPropertyValue("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
 
             //---------------------------------------------------
             //----------------GETTING DATA------------------------
@@ -6350,6 +6351,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("SW1startLED", this.GetType(), Settings.SW1startLED);
             pluginManager.AddProperty("DDUEnabled", this.GetType(), Settings.DDUEnabled);
             pluginManager.AddProperty("SW1Enabled", this.GetType(), Settings.SW1Enabled);
+            pluginManager.AddProperty("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
 
             pluginManager.AddProperty("Idle", this.GetType(), true);
             pluginManager.AddProperty("SmoothGear", this.GetType(), "");

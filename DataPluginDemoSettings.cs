@@ -11,10 +11,12 @@ namespace User.PluginSdkDemo
     {
 
         public int ReactionTime { get; set; } = 300;
-        public bool DDUEnabled { get; set; } = true;
+        public bool DDUEnabled { get; set; } = false;
         public int DDUstartLED { get; set; } = 1;
-        public bool SW1Enabled { get; set; } = true;
+        public bool SW1Enabled { get; set; } = false;
         public int SW1startLED { get; set; } = 30;
+
+        public bool DashLEDEnabled { get; set; } = false;
 
         public string AheadPlayerText { get; set; } = "Blue flag";
 
@@ -29,6 +31,8 @@ namespace User.PluginSdkDemo
         public bool DDSEnabled { get; set; } = false;
 
         public double fuelPerLapTarget { get; set; } = 2.50;
+
+
 
 
         #region Property supporting UI refresh from code
