@@ -238,6 +238,13 @@
                                 Height="20"  
                                 Margin="10,-20,0,10"                        
                                 Text="{Binding fuelPerLapTarget}"/>
+                            <TextBlock
+                                Text="Swap RPM bar for LEDs:" Margin="10,0,0,23"/>
+                            <styles:SHToggleButton
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Height="20"
+                        IsChecked="{Binding DashLEDEnabled}" Margin="14,-10,0,0"/>
                         </StackPanel>
                     </styles:SHSection>
 
