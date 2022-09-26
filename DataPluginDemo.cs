@@ -163,6 +163,8 @@ namespace User.PluginSdkDemo
 
         List<int> sessionCarsLap = new List<int> { };
         List<int> sessionCarsLapsSincePit = new List<int> { };
+        List<int> sessionCarsLapsOnCaution = new List<int> { };
+        List<int> sessionCarsLapCounter = new List<int> { };
 
         double pitBox = 0;
         double awayFromPits = 0;
@@ -342,7 +344,7 @@ namespace User.PluginSdkDemo
         int neutralCounter = 0;
 
         //Buttons
-        int leftRotary = 0;
+        int leftRotary = 12;
         int rightRotary = 0;
 
         bool TCactive = false;
@@ -789,6 +791,7 @@ namespace User.PluginSdkDemo
                 irData.Telemetry.TryGetValue("CarIdxTireCompound", out object tireCompounds);           //Tire compounds
 
                 bool furled = Convert.ToBoolean(pluginManager.GetPropertyValue("GameRawData.Telemetry.SessionFlagsDetails.IsFurled"));  //Furled flag
+                bool caution = Convert.ToBoolean(pluginManager.GetPropertyValue("GameRawData.Telemetry.SessionFlagsDetails.IsCaution,"));
 
                 irData.Telemetry.TryGetValue("LRshockVel", out object rawLRShockVel);                   //Left rear shock
                 double LRShockVel = Convert.ToDouble(rawLRShockVel);
@@ -4071,10 +4074,12 @@ namespace User.PluginSdkDemo
                             {
                                 sessionCarsLap[i] = irData.Telemetry.CarIdxLap[i];
                                 sessionCarsLapsSincePit[i] = 0;
+                                sessionCarsLapCounter[i] = sessionCarsLap[i];
                             }
                             else if (sessionCarsLapsSincePit[i] != -1 || (sessionCarsLapsSincePit[i] == -1 && irData.Telemetry.CarIdxLap[i] - sessionCarsLap[i] > 0))
                             { 
                                 sessionCarsLapsSincePit[i] = irData.Telemetry.CarIdxLap[i] - sessionCarsLap[i];
+                                if ()
                             }
                             else if (sessionCarsLapsSincePit[i] < -1)
                             {
@@ -4086,6 +4091,7 @@ namespace User.PluginSdkDemo
                         {
                             sessionCarsLap[i] = irData.Telemetry.CarIdxLap[i];
                             sessionCarsLapsSincePit[i] = -1;
+                            sessionCarsLapCounter[i] = -1;
 
                         }
                     }
@@ -5467,6 +5473,8 @@ namespace User.PluginSdkDemo
                             realGapOpponentDelta.Clear();
                             realGapOpponentRelative.Clear();
                             sessionCarsLapsSincePit.Clear();
+                            sessionCarsLapsOnCaution.Clear();
+                            sessionCarsLapCounter.Clear();
                             sessionCarsLap.Clear();
 
                             for (int u = 0; u < trackSections; u++)
@@ -5492,6 +5500,8 @@ namespace User.PluginSdkDemo
                                 realGapOpponentDelta.Add(0);
                                 realGapOpponentRelative.Add(0);
                                 sessionCarsLapsSincePit.Add(-1);
+                                sessionCarsLapsOnCaution.Add(-1);
+                                sessionCarsLapCounter.Add(-1);
                                 sessionCarsLap.Add(-1);
                             }
                         }
@@ -5703,6 +5713,8 @@ namespace User.PluginSdkDemo
                     realGapOpponentDelta.Clear();
                     realGapOpponentRelative.Clear();
                     sessionCarsLapsSincePit.Clear();
+                    sessionCarsLapsOnCaution.Clear();
+                    sessionCarsLapCounter.Clear();
                     sessionCarsLap.Clear();
 
                     for (int u = 0; u < trackSections; u++)
@@ -5728,6 +5740,8 @@ namespace User.PluginSdkDemo
                         realGapOpponentDelta.Add(0);
                         realGapOpponentRelative.Add(0);
                         sessionCarsLapsSincePit.Add(-1);
+                        sessionCarsLapsOnCaution.Add(-1);
+                        sessionCarsLapCounter.Add(-1);
                         sessionCarsLap.Add(-1);
                     }
                 }
@@ -5805,6 +5819,8 @@ namespace User.PluginSdkDemo
                 realGapOpponentDelta.Add(0);
                 realGapOpponentRelative.Add(0);
                 sessionCarsLapsSincePit.Add(-1);
+                sessionCarsLapsOnCaution.Add(-1);
+                sessionCarsLapCounter.Add(-1);
                 sessionCarsLap.Add(-1);
             }
 
