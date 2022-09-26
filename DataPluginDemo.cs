@@ -4079,7 +4079,6 @@ namespace User.PluginSdkDemo
                             else if (sessionCarsLapsSincePit[i] != -1 || (sessionCarsLapsSincePit[i] == -1 && irData.Telemetry.CarIdxLap[i] - sessionCarsLap[i] > 0))
                             { 
                                 sessionCarsLapsSincePit[i] = irData.Telemetry.CarIdxLap[i] - sessionCarsLap[i];
-                                if ()
                             }
                             else if (sessionCarsLapsSincePit[i] < -1)
                             {
