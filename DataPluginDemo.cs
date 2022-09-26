@@ -4074,7 +4074,8 @@ namespace User.PluginSdkDemo
                             {
                                 sessionCarsLap[i] = irData.Telemetry.CarIdxLap[i];
                                 sessionCarsLapsSincePit[i] = 0;
-                                sessionCarsLapCounter[i] = sessionCarsLap[i];
+                                sessionCarsLapCounter[i] = 0;
+                                sessionCarsLapsOnCaution[i] = 0;
                             }
                             else if (sessionCarsLapsSincePit[i] != -1 || (sessionCarsLapsSincePit[i] == -1 && irData.Telemetry.CarIdxLap[i] - sessionCarsLap[i] > 0))
                             { 
@@ -4085,12 +4086,22 @@ namespace User.PluginSdkDemo
                                 sessionCarsLap[i] = irData.Telemetry.CarIdxLap[i];
                                 sessionCarsLapsSincePit[i] = -1;
                             }
+                            if (sessionCarsLapsSincePit[i] != sessionCarsLapCounter[i])
+                            {
+                                sessionCarsLapCounter[i] = sessionCarsLapsSincePit[i];
+                                if (caution)
+                                {
+                                    sessionCarsLapsOnCaution[i]++;
+                                }
+                            }
+
                         }
                         else
                         {
                             sessionCarsLap[i] = irData.Telemetry.CarIdxLap[i];
                             sessionCarsLapsSincePit[i] = -1;
                             sessionCarsLapCounter[i] = -1;
+                            sessionCarsLapsOnCaution[i] = -1;
 
                         }
                     }
