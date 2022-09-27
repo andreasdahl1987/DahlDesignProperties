@@ -133,10 +133,12 @@ namespace User.PluginSdkDemo
         List<TimeSpan> carAheadBestLap = new List<TimeSpan> { };
         List<long> carAheadJokerLaps = new List<long> { };
         List<int> carAheadLapsSincePit = new List<int> { };
+        List<int> carAheadGreenFlagTireLaps = new List<int> { };
         List<int> carAheadP2PCount = new List<int> { };
         List<bool> carAheadP2PStatus = new List<bool> { };
         List<double?> carAheadRealGap = new List<double?> { };
         List<double?> carAheadRealRelative = new List<double?> { };
+
 
         string aheadGlobal = "";
 
@@ -154,6 +156,7 @@ namespace User.PluginSdkDemo
         List<TimeSpan> carBehindBestLap = new List<TimeSpan> { };
         List<long> carBehindJokerLaps = new List<long> { };
         List<int> carBehindLapsSincePit = new List<int> { };
+        List<int> carBehindGreenFlagTireLaps = new List<int> { };
         List<int> carBehindP2PCount = new List<int> { };
         List<bool> carBehindP2PStatus = new List<bool> { };
         List<double?> carBehindRealGap = new List<double?> { };
@@ -3406,6 +3409,7 @@ namespace User.PluginSdkDemo
                     bool aheadSlowLap = false;
                     int aheadOvertakePrediction = 0;
                     int aheadLapsSincePit = -1;
+                    int aheadGreenFlagTireLaps = -1;
                     int aheadP2PCount = -1;
                     bool aheadP2PActive = false;
                     double? aheadRealGap = 0;
@@ -3420,6 +3424,7 @@ namespace User.PluginSdkDemo
                     bool behindSlowLap = false;
                     int behindOvertakePrediction = 0;
                     int behindLapsSincePit = -1;
+                    int behindGreenFlagTireLaps = -1;
                     int behindP2PCount = -1;
                     bool behindP2PActive = false;
                     double? behindRealGap = 0;
@@ -3674,6 +3679,7 @@ namespace User.PluginSdkDemo
                     pluginManager.SetPropertyValue("BehindPrognosis", this.GetType(), 0);
                     pluginManager.SetPropertyValue("BehindLapsToOvertake", this.GetType(), -1);
                     pluginManager.SetPropertyValue("BehindLapsSincePit", this.GetType(), -1);
+                    pluginManager.SetPropertyValue("BehindGreenFlagTireLaps", this.GetType(), -1);
                     pluginManager.SetPropertyValue("BehindP2PStatus", this.GetType(), false);
                     pluginManager.SetPropertyValue("BehindP2PCount", this.GetType(), -1);
 
@@ -3722,6 +3728,7 @@ namespace User.PluginSdkDemo
                                     aheadRealGap = aheadGap;
                                 }
                                 aheadLapsSincePit = sessionCarsLapsSincePit[carID];
+                                aheadGreenFlagTireLaps = sessionCarsLapsSincePit[carID] - sessionCarsLapsOnCaution[carID];
                                 if (p2pCount != null)
                                 {
                                     aheadP2PCount = ((int[])p2pCount)[carID];
@@ -3756,6 +3763,8 @@ namespace User.PluginSdkDemo
                                 }
 
                                 behindLapsSincePit = sessionCarsLapsSincePit[carID];
+                                behindGreenFlagTireLaps = sessionCarsLapsSincePit[carID] - sessionCarsLapsOnCaution[carID];
+
                                 if (p2pCount != null)
                                 {
                                     behindP2PCount = ((int[])p2pCount)[carID];
@@ -3869,6 +3878,7 @@ namespace User.PluginSdkDemo
                             pluginManager.SetPropertyValue("AheadPrognosis", this.GetType(), aheadOvertakePrediction);
                             pluginManager.SetPropertyValue("AheadLapsToOvertake", this.GetType(), aheadLapsToOvertake);
                             pluginManager.SetPropertyValue("AheadLapsSincePit", this.GetType(), aheadLapsSincePit);
+                            pluginManager.SetPropertyValue("AheadGreenFlagTireLaps", this.GetType(), aheadGreenFlagTireLaps);
                             pluginManager.SetPropertyValue("AheadP2PStatus", this.GetType(), aheadP2PActive);
                             pluginManager.SetPropertyValue("AheadP2PCount", this.GetType(), aheadP2PCount);
                             pluginManager.SetPropertyValue("AheadRealGap", this.GetType(), aheadRealGap);
@@ -3931,6 +3941,7 @@ namespace User.PluginSdkDemo
                             pluginManager.SetPropertyValue("BehindSlowLap", this.GetType(), behindSlowLap);
                             pluginManager.SetPropertyValue("BehindPrognosis", this.GetType(), behindOvertakePrediction);
                             pluginManager.SetPropertyValue("BehindLapsSincePit", this.GetType(), behindLapsSincePit);
+                            pluginManager.SetPropertyValue("BehindGreenFlagTireLaps", this.GetType(), behindGreenFlagTireLaps);
                             pluginManager.SetPropertyValue("BehindP2PStatus", this.GetType(), behindP2PActive);
                             pluginManager.SetPropertyValue("BehindP2PCount", this.GetType(), behindP2PCount);
                             pluginManager.SetPropertyValue("BehindRealGap", this.GetType(), behindRealGap);
@@ -4035,6 +4046,7 @@ namespace User.PluginSdkDemo
                     carAheadBestLap.Clear();
                     carAheadJokerLaps.Clear();
                     carAheadLapsSincePit.Clear();
+                    carAheadGreenFlagTireLaps.Clear();
                     carAheadPosition.Clear();
                     carAheadP2PCount.Clear();
                     carAheadP2PStatus.Clear();
@@ -4054,6 +4066,7 @@ namespace User.PluginSdkDemo
                     carBehindBestLap.Clear();
                     carBehindJokerLaps.Clear();
                     carBehindLapsSincePit.Clear();
+                    carBehindGreenFlagTireLaps.Clear();
                     carBehindPosition.Clear();
                     carBehindP2PCount.Clear();
                     carBehindP2PStatus.Clear();
@@ -4126,6 +4139,7 @@ namespace User.PluginSdkDemo
                                 carAheadClassColor.Add(irData.SessionData.DriverInfo.CompetingDrivers[u].CarClassColor);
                                 carAheadClassDifference.Add((classColors.IndexOf(irData.SessionData.DriverInfo.CompetingDrivers[u].CarClassColor)) - myClassColorIndex);
                                 carAheadLapsSincePit.Add(sessionCarsLapsSincePit[Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[u].CarIdx)]);
+                                carAheadGreenFlagTireLaps.Add(sessionCarsLapsSincePit[Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[u].CarIdx)] - sessionCarsLapsOnCaution[Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[u].CarIdx)]);
 
                                 double? gap = data.NewData.OpponentsAheadOnTrack[i].GaptoPlayer;
                                 double? realgap = realGapOpponentDelta[Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[u].CarIdx)];
@@ -4208,6 +4222,7 @@ namespace User.PluginSdkDemo
                         pluginManager.SetPropertyValue("CarAhead0" + (i + 1) + "Position", this.GetType(), carAheadPosition[i]);
                         pluginManager.SetPropertyValue("CarAhead0" + (i + 1) + "JokerLaps", this.GetType(), carAheadJokerLaps[i]);
                         pluginManager.SetPropertyValue("CarAhead0" + (i + 1) + "LapsSincePit", this.GetType(), carAheadLapsSincePit[i]);
+                        pluginManager.SetPropertyValue("CarAhead0" + (i + 1) + "GreenFlagTireLaps", this.GetType(), carAheadGreenFlagTireLaps[i]);
 
                         if (carAheadP2PCount.Count > 0)
                         {
@@ -4236,6 +4251,7 @@ namespace User.PluginSdkDemo
                         pluginManager.SetPropertyValue("CarAhead0" + (i + 1) + "Position", this.GetType(), 0);
                         pluginManager.SetPropertyValue("CarAhead0" + (i + 1) + "JokerLaps", this.GetType(), 0);
                         pluginManager.SetPropertyValue("CarAhead0" + (i + 1) + "LapsSincePit", this.GetType(), -1);
+                        pluginManager.SetPropertyValue("CarAhead0" + (i + 1) + "GreenFlagTireLaps", this.GetType(), -1);
                         pluginManager.SetPropertyValue("CarAhead0" + (i + 1) + "P2PCount", this.GetType(), -1);
                         pluginManager.SetPropertyValue("CarAhead0" + (i + 1) + "P2PStatus", this.GetType(), false);
                         pluginManager.SetPropertyValue("CarAhead0" + (i + 1) + "RealGap", this.GetType(), 0);
@@ -4260,6 +4276,7 @@ namespace User.PluginSdkDemo
                                 carBehindClassColor.Add(irData.SessionData.DriverInfo.CompetingDrivers[u].CarClassColor);
                                 carBehindClassDifference.Add((classColors.IndexOf(irData.SessionData.DriverInfo.CompetingDrivers[u].CarClassColor)) - myClassColorIndex);
                                 carBehindLapsSincePit.Add(sessionCarsLapsSincePit[Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[u].CarIdx)]);
+                                carBehindGreenFlagTireLaps.Add(sessionCarsLapsSincePit[Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[u].CarIdx)] - sessionCarsLapsOnCaution[Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[u].CarIdx)]);
 
                                 double? relative = data.NewData.OpponentsBehindOnTrack[i].RelativeGapToPlayer;
                                 double? gap = data.NewData.OpponentsBehindOnTrack[i].GaptoPlayer;
@@ -4344,6 +4361,7 @@ namespace User.PluginSdkDemo
                         pluginManager.SetPropertyValue("CarBehind0" + (i + 1) + "Position", this.GetType(), carBehindPosition[i]);
                         pluginManager.SetPropertyValue("CarBehind0" + (i + 1) + "JokerLaps", this.GetType(), carBehindJokerLaps[i]);
                         pluginManager.SetPropertyValue("CarBehind0" + (i + 1) + "LapsSincePit", this.GetType(), carBehindLapsSincePit[i]);
+                        pluginManager.SetPropertyValue("CarBehind0" + (i + 1) + "GreenFlagTireLaps", this.GetType(), carBehindGreenFlagTireLaps[i]);
 
                         if (carBehindP2PCount.Count > 0)
                         {
@@ -4371,6 +4389,7 @@ namespace User.PluginSdkDemo
                         pluginManager.SetPropertyValue("CarBehind0" + (i + 1) + "Position", this.GetType(), 0);
                         pluginManager.SetPropertyValue("CarBehind0" + (i + 1) + "JokerLaps", this.GetType(), 0);
                         pluginManager.SetPropertyValue("CarBehind0" + (i + 1) + "LapsSincePit", this.GetType(), -1);
+                        pluginManager.SetPropertyValue("CarBehind0" + (i + 1) + "GreenFlagTireLaps", this.GetType(), -1);
                         pluginManager.SetPropertyValue("CarBehind0" + (i + 1) + "P2PCount", this.GetType(), -1);
                         pluginManager.SetPropertyValue("CarBehind0" + (i + 1) + "P2PStatus", this.GetType(), false);
                         pluginManager.SetPropertyValue("CarBehind0" + (i + 1) + "RealGap", this.GetType(), 0);
@@ -6641,6 +6660,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("AheadPrognosis", this.GetType(), 0);
             pluginManager.AddProperty("AheadLapsToOvertake", this.GetType(), 0);
             pluginManager.AddProperty("AheadLapsSincePit", this.GetType(), -1);
+            pluginManager.AddProperty("AheadGreenFlagTireLaps", this.GetType(), -1);
             pluginManager.AddProperty("AheadP2PStatus", this.GetType(), false);
             pluginManager.AddProperty("AheadP2PCount", this.GetType(), -1);
             pluginManager.AddProperty("AheadRealGap", this.GetType(), 0);
@@ -6655,6 +6675,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("BehindPrognosis", this.GetType(), 0);
             pluginManager.AddProperty("BehindLapsToOvertake", this.GetType(), 0);
             pluginManager.AddProperty("BehindLapsSincePit", this.GetType(), -1);
+            pluginManager.AddProperty("BehindGreenFlagTireLaps", this.GetType(), -1);
             pluginManager.AddProperty("BehindP2PStatus", this.GetType(), false);
             pluginManager.AddProperty("BehindP2PCount", this.GetType(), -1);
             pluginManager.AddProperty("BehindRealGap", this.GetType(), 0);
@@ -6678,6 +6699,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("CarAhead01ClassDifference", this.GetType(), 0);
             pluginManager.AddProperty("CarAhead01JokerLaps", this.GetType(), 0);
             pluginManager.AddProperty("CarAhead01LapsSincePit", this.GetType(), -1);
+            pluginManager.AddProperty("CarAhead01GreenFlagTireLaps", this.GetType(), -1);
             pluginManager.AddProperty("CarAhead01P2PCount" , this.GetType(), -1);
             pluginManager.AddProperty("CarAhead01P2PStatus", this.GetType(), false);
             pluginManager.AddProperty("CarAhead01RealGap", this.GetType(), 0);
@@ -6697,6 +6719,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("CarAhead02ClassDifference", this.GetType(), 0);
             pluginManager.AddProperty("CarAhead02JokerLaps", this.GetType(), 0);
             pluginManager.AddProperty("CarAhead02LapsSincePit", this.GetType(), -1);
+            pluginManager.AddProperty("CarAhead02GreenFlagTireLaps", this.GetType(), -1);
             pluginManager.AddProperty("CarAhead02P2PCount", this.GetType(), -1);
             pluginManager.AddProperty("CarAhead02P2PStatus", this.GetType(), false);
             pluginManager.AddProperty("CarAhead02RealGap", this.GetType(), 0);
@@ -6716,6 +6739,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("CarAhead03ClassDifference", this.GetType(), 0);
             pluginManager.AddProperty("CarAhead03JokerLaps", this.GetType(), 0);
             pluginManager.AddProperty("CarAhead03LapsSincePit", this.GetType(), -1);
+            pluginManager.AddProperty("CarAhead03GreenFlagTireLaps", this.GetType(), -1);
             pluginManager.AddProperty("CarAhead03P2PCount", this.GetType(), -1);
             pluginManager.AddProperty("CarAhead03P2PStatus", this.GetType(), false);
             pluginManager.AddProperty("CarAhead03RealGap", this.GetType(), 0);
@@ -6735,6 +6759,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("CarAhead04ClassDifference", this.GetType(), 0);
             pluginManager.AddProperty("CarAhead04JokerLaps", this.GetType(), 0);
             pluginManager.AddProperty("CarAhead04LapsSincePit", this.GetType(), -1);
+            pluginManager.AddProperty("CarAhead04GreenFlagTireLaps", this.GetType(), -1);
             pluginManager.AddProperty("CarAhead04P2PCount", this.GetType(), -1);
             pluginManager.AddProperty("CarAhead04P2PStatus", this.GetType(), false);
             pluginManager.AddProperty("CarAhead04RealGap", this.GetType(), 0);
@@ -6754,6 +6779,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("CarAhead05ClassDifference", this.GetType(), 0);
             pluginManager.AddProperty("CarAhead05JokerLaps", this.GetType(), 0);
             pluginManager.AddProperty("CarAhead05LapsSincePit", this.GetType(), -1);
+            pluginManager.AddProperty("CarAhead05GreenFlagTireLaps", this.GetType(), -1);
             pluginManager.AddProperty("CarAhead05P2PCount", this.GetType(), -1);
             pluginManager.AddProperty("CarAhead05P2PStatus", this.GetType(), false);
             pluginManager.AddProperty("CarAhead05RealGap", this.GetType(), 0);
@@ -6773,6 +6799,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("CarBehind01ClassDifference", this.GetType(), 0);
             pluginManager.AddProperty("CarBehind01JokerLaps", this.GetType(), 0);
             pluginManager.AddProperty("CarBehind01LapsSincePit", this.GetType(), -1);
+            pluginManager.AddProperty("CarBehind01GreenFlagTireLaps", this.GetType(), -1);
             pluginManager.AddProperty("CarBehind01P2PCount", this.GetType(), -1);
             pluginManager.AddProperty("CarBehind01P2PStatus", this.GetType(), false);
             pluginManager.AddProperty("CarBehind01RealGap", this.GetType(), 0);
@@ -6792,6 +6819,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("CarBehind02ClassDifference", this.GetType(), 0);
             pluginManager.AddProperty("CarBehind02JokerLaps", this.GetType(), 0);
             pluginManager.AddProperty("CarBehind02LapsSincePit", this.GetType(), -1);
+            pluginManager.AddProperty("CarBehind02GreenFlagTireLaps", this.GetType(), -1);
             pluginManager.AddProperty("CarBehind02P2PCount", this.GetType(), -1);
             pluginManager.AddProperty("CarBehind02P2PStatus", this.GetType(), false);
             pluginManager.AddProperty("CarBehind02RealGap", this.GetType(), 0);
@@ -6811,6 +6839,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("CarBehind03ClassDifference", this.GetType(), 0);
             pluginManager.AddProperty("CarBehind03JokerLaps", this.GetType(), 0);
             pluginManager.AddProperty("CarBehind03LapsSincePit", this.GetType(), -1);
+            pluginManager.AddProperty("CarBehind03GreenFlagTireLaps", this.GetType(), -1);
             pluginManager.AddProperty("CarBehind03P2PCount", this.GetType(), -1);
             pluginManager.AddProperty("CarBehind03P2PStatus", this.GetType(), false);
             pluginManager.AddProperty("CarBehind03RealGap", this.GetType(), 0);
@@ -6830,6 +6859,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("CarBehind04ClassDifference", this.GetType(), 0);
             pluginManager.AddProperty("CarBehind04JokerLaps", this.GetType(), 0);
             pluginManager.AddProperty("CarBehind04LapsSincePit", this.GetType(), -1);
+            pluginManager.AddProperty("CarBehind04GreenFlagTireLaps", this.GetType(), -1);
             pluginManager.AddProperty("CarBehind04P2PCount", this.GetType(), -1);
             pluginManager.AddProperty("CarBehind04P2PStatus", this.GetType(), false);
             pluginManager.AddProperty("CarBehind04RealGap", this.GetType(), 0);
@@ -6849,6 +6879,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("CarBehind05ClassDifference", this.GetType(), 0);
             pluginManager.AddProperty("CarBehind05JokerLaps", this.GetType(), 0);
             pluginManager.AddProperty("CarBehind05LapsSincePit", this.GetType(), -1);
+            pluginManager.AddProperty("CarBehind05GreenFlagTireLaps", this.GetType(), -1);
             pluginManager.AddProperty("CarBehind05P2PCount", this.GetType(), -1);
             pluginManager.AddProperty("CarBehind05P2PStatus", this.GetType(), false);
             pluginManager.AddProperty("CarBehind05RealGap", this.GetType(), 0);
