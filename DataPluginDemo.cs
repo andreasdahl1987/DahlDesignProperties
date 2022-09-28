@@ -794,7 +794,9 @@ namespace User.PluginSdkDemo
                 irData.Telemetry.TryGetValue("CarIdxTireCompound", out object tireCompounds);           //Tire compounds
 
                 bool furled = Convert.ToBoolean(pluginManager.GetPropertyValue("GameRawData.Telemetry.SessionFlagsDetails.IsFurled"));  //Furled flag
-                bool caution = Convert.ToBoolean(pluginManager.GetPropertyValue("GameRawData.Telemetry.SessionFlagsDetails.IsCaution,"));
+                long SCFlag = Convert.ToInt64(irData.Telemetry.SessionFlags);
+                long caution = (SCFlag & 32768) >> 15;
+
 
                 irData.Telemetry.TryGetValue("LRshockVel", out object rawLRShockVel);                   //Left rear shock
                 double LRShockVel = Convert.ToDouble(rawLRShockVel);
@@ -3429,6 +3431,11 @@ namespace User.PluginSdkDemo
                     bool behindP2PActive = false;
                     double? behindRealGap = 0;
 
+                    double? luckyDogRealGap = 0;
+                    double? luckyDogGap = 0;
+                    string luckyDogName = "";
+                    int luckyDogCarsAhead = 0;
+
                     remainingLaps = 0;
 
                     int gridSubtract = 0;
@@ -3481,9 +3488,20 @@ namespace User.PluginSdkDemo
                             behindIsConnected = data.NewData.Opponents[i].IsConnected;
                             behindIsInPit = data.NewData.Opponents[i].IsCarInPit;
                         }
-
+                        if ((leaderCurrentLap + leaderTrackPosition) - (data.NewData.Opponents[i].TrackPositionPercent + data.NewData.Opponents[i].CurrentLap) > 1 && data.NewData.Opponents[i].CarClass == myClass && data.NewData.Opponents[i].GaptoPlayer < luckyDogGap)
+                        {
+                            luckyDogGap = data.NewData.Opponents[i].GaptoPlayer;
+                            luckyDogName = data.NewData.Opponents[i].Name;
+                            if (data.NewData.Opponents[i].GaptoPlayer < 0)
+                            {
+                                luckyDogCarsAhead++;
+                            }
+                        }
+                        else if((leaderCurrentLap + leaderTrackPosition) - (data.NewData.Opponents[i].TrackPositionPercent + data.NewData.Opponents[i].CurrentLap) > 1 && data.NewData.Opponents[i].CarClass == myClass && data.NewData.Opponents[i].GaptoPlayer < 0)
+                        {
+                            luckyDogCarsAhead++;
+                        }
                     }
-
                     myExpectedLapTime = pace;
 
                     if (myExpectedLapTime == 0)
@@ -3502,6 +3520,9 @@ namespace User.PluginSdkDemo
                     pluginManager.SetPropertyValue("P1Name", this.GetType(), leaderName);
                     pluginManager.SetPropertyValue("ClassP1Gap", this.GetType(), classLeaderGap);
                     pluginManager.SetPropertyValue("ClassP1Name", this.GetType(), classLeaderName);
+                    pluginManager.SetPropertyValue("LuckyDogGap", this.GetType(), luckyDogGap);
+                    pluginManager.SetPropertyValue("LuckyDogName", this.GetType(), luckyDogName);
+                    pluginManager.SetPropertyValue("LuckyDogCarsAhead", this.GetType(), luckyDogCarsAhead);
 
                     //Leader lap times
                     double leaderExpectedLapTime = (leaderLastLap.TotalSeconds * 2 + leaderBestLap.TotalSeconds) / 3;
@@ -3713,7 +3734,7 @@ namespace User.PluginSdkDemo
                         pluginManager.SetPropertyValue("BehindIsConnected", this.GetType(), behindIsConnected);
                         pluginManager.SetPropertyValue("BehindIsInPit", this.GetType(), behindIsInPit);
 
-                        //Calculations of ahead and behind drivers
+                        //Calculations of ahead and behind drivers + lucky dog
 
                         for (int e = 0; e < irData.SessionData.DriverInfo.CompetingDrivers.Length; e++)
                         {
@@ -3780,6 +3801,23 @@ namespace User.PluginSdkDemo
                                 else
                                 {
                                     behindP2PActive = false;
+                                }
+
+                                break;
+
+                            }
+                        }
+
+                        for (int i = 0; i < irData.SessionData.DriverInfo.CompetingDrivers.Length; i++)
+                        {
+                            if (luckyDogName == irData.SessionData.DriverInfo.CompetingDrivers[i].UserName)
+                            {
+                                int carID = Convert.ToInt16(irData.SessionData.DriverInfo.CompetingDrivers[i].CarIdx);
+                                luckyDogRealGap = realGapOpponentDelta[carID];
+
+                                if ((luckyDogRealGap > luckyDogGap * 1.25 && luckyDogRealGap - luckyDogGap > 10) || (luckyDogRealGap < luckyDogGap * 0.75 && luckyDogRealGap - luckyDogGap < -10) || luckyDogRealGap <= 0)
+                                {
+                                    luckyDogRealGap = luckyDogGap;
                                 }
 
                                 break;
@@ -3947,6 +3985,8 @@ namespace User.PluginSdkDemo
                             pluginManager.SetPropertyValue("BehindRealGap", this.GetType(), behindRealGap);
 
                             behindGlobal = behindName;
+
+                            pluginManager.SetPropertyValue("LuckyDogRealGap", this.GetType(), luckyDogRealGap);
                         }
                     }
                 }
@@ -4102,7 +4142,7 @@ namespace User.PluginSdkDemo
                             if (sessionCarsLapsSincePit[i] != sessionCarsLapCounter[i])
                             {
                                 sessionCarsLapCounter[i] = sessionCarsLapsSincePit[i];
-                                if (caution)
+                                if ((caution == 1 || sessionState < 4) && sessionCarsLapsSincePit[i] > 0)
                                 {
                                     sessionCarsLapsOnCaution[i]++;
                                 }
@@ -4114,7 +4154,7 @@ namespace User.PluginSdkDemo
                             sessionCarsLap[i] = irData.Telemetry.CarIdxLap[i];
                             sessionCarsLapsSincePit[i] = -1;
                             sessionCarsLapCounter[i] = -1;
-                            sessionCarsLapsOnCaution[i] = -1;
+                            sessionCarsLapsOnCaution[i] = 0;
 
                         }
                     }
@@ -5529,7 +5569,7 @@ namespace User.PluginSdkDemo
                                 realGapOpponentDelta.Add(0);
                                 realGapOpponentRelative.Add(0);
                                 sessionCarsLapsSincePit.Add(-1);
-                                sessionCarsLapsOnCaution.Add(-1);
+                                sessionCarsLapsOnCaution.Add(0);
                                 sessionCarsLapCounter.Add(-1);
                                 sessionCarsLap.Add(-1);
                             }
@@ -5769,7 +5809,7 @@ namespace User.PluginSdkDemo
                         realGapOpponentDelta.Add(0);
                         realGapOpponentRelative.Add(0);
                         sessionCarsLapsSincePit.Add(-1);
-                        sessionCarsLapsOnCaution.Add(-1);
+                        sessionCarsLapsOnCaution.Add(0);
                         sessionCarsLapCounter.Add(-1);
                         sessionCarsLap.Add(-1);
                     }
@@ -5848,7 +5888,7 @@ namespace User.PluginSdkDemo
                 realGapOpponentDelta.Add(0);
                 realGapOpponentRelative.Add(0);
                 sessionCarsLapsSincePit.Add(-1);
-                sessionCarsLapsOnCaution.Add(-1);
+                sessionCarsLapsOnCaution.Add(0);
                 sessionCarsLapCounter.Add(-1);
                 sessionCarsLap.Add(-1);
             }
@@ -6649,6 +6689,11 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("ClassP1Name", this.GetType(), "");
             pluginManager.AddProperty("ClassP1Pace", this.GetType(), new TimeSpan(0));
             pluginManager.AddProperty("ClassP1RealGap", this.GetType(), 0);
+
+            pluginManager.AddProperty("LuckyDogGap", this.GetType(), 0);
+            pluginManager.AddProperty("LuckyDogRealGap", this.GetType(), 0);
+            pluginManager.AddProperty("LuckyDogName", this.GetType(), "");
+            pluginManager.AddProperty("LuckyDogCarsAhead", this.GetType(), 0);
 
             pluginManager.AddProperty("AheadName", this.GetType(), "");
             pluginManager.AddProperty("AheadGap", this.GetType(), 0);
