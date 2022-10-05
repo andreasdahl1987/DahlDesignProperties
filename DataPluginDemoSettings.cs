@@ -17,6 +17,8 @@ namespace User.PluginSdkDemo
         public int SW1startLED { get; set; } = 30;
 
         public bool DashLEDEnabled { get; set; } = false;
+        public bool LapInfoScreen { get; set; } = true;
+        public bool ShiftWarning { get; set; } = false;
 
         public string AheadPlayerText { get; set; } = "Blue flag";
 

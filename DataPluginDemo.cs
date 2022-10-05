@@ -342,8 +342,8 @@ namespace User.PluginSdkDemo
         int neutralCounter = 0;
 
         //Buttons
-        int leftRotary = 0;
-        int rightRotary = 0;
+        int pitMenuRotary = 12; //Starting on strat page
+        int inCarRotary = 0;
 
         bool TCactive = false;
         double TCOffTimer = 0;
@@ -500,6 +500,9 @@ namespace User.PluginSdkDemo
             pluginManager.SetPropertyValue("DDUEnabled", this.GetType(), Settings.DDUEnabled);
             pluginManager.SetPropertyValue("SW1Enabled", this.GetType(), Settings.SW1Enabled);
             pluginManager.SetPropertyValue("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
+            pluginManager.SetPropertyValue("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
+            pluginManager.SetPropertyValue("ShiftWarning", this.GetType(), Settings.ShiftWarning);
+
 
             //---------------------------------------------------
             //----------------GETTING DATA------------------------
@@ -537,8 +540,9 @@ namespace User.PluginSdkDemo
             if (Settings.SW1Enabled)
             {
                 int encoderField = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_Z")); //Encoder field
-                encoder1Mode = encoderField & 1;
+                encoder1Mode = (encoderField & 1);
                 encoder2Mode = (encoderField & 2) >> 1;
+                string bitField = Convert.ToString(encoderField, 2).PadLeft(16, '0');
 
                 encoder6Mode = (encoderField & 3072) >> 10;
                 encoder7Mode = (encoderField & 12288) >> 12;
@@ -1776,7 +1780,7 @@ namespace User.PluginSdkDemo
                 //----------------------------------------------------
 
                 //Pit commands
-                if (rightRotary == 0 && leftRotary != 0 || rotaryType == "Single" || (rotaryType != "Single" && rotaryType != "Default" && rightRotary == 12))
+                if (inCarRotary == 0 && pitMenuRotary != 0 || rotaryType == "Single" || (rotaryType != "Single" && rotaryType != "Default" && inCarRotary == 12))
                 {
                     isInPitMenu = true;
                 }
@@ -1797,14 +1801,14 @@ namespace User.PluginSdkDemo
                     behindPlayerReady = true;
                 }
 
-                if (rotaryType == "Single" && leftRotary == 0)
+                if (rotaryType == "Single" && pitMenuRotary == 0)
                 {
-                    leftRotary = rightRotary;
+                    pitMenuRotary = inCarRotary;
                 }
 
                 if (plussButtonCheck)
                 {
-                    if (leftRotary == 1 && isInPitMenu)
+                    if (pitMenuRotary == 1 && isInPitMenu)
                     {
                         string pushPit = "";
 
@@ -1819,15 +1823,15 @@ namespace User.PluginSdkDemo
                         
                         PitCommands.iRacingChat(pushPit);
                     }
-                    else if (leftRotary == 2 && isInPitMenu)
+                    else if (pitMenuRotary == 2 && isInPitMenu)
                     {
                         launchActive = !launchActive;
                     }
-                    else if (leftRotary == 3 && isInPitMenu)
+                    else if (pitMenuRotary == 3 && isInPitMenu)
                     {
                         PitCommands.iRacingChat("#lf +3kpa rf +3kpa lr +3kpa rr +3kpa$");
                     }
-                    else if (leftRotary == 4 && isInPitMenu)
+                    else if (pitMenuRotary == 4 && isInPitMenu)
                     {
                         if (pitCrewType < CrewType.LeftRight || pitCrewType == CrewType.All)
                         {
@@ -1838,7 +1842,7 @@ namespace User.PluginSdkDemo
                             PitCommands.iRacingChat("#lf +3kpa lr +3kpa$");
                         }
                     }
-                    else if (leftRotary == 5 && isInPitMenu)
+                    else if (pitMenuRotary == 5 && isInPitMenu)
                     {
                         if (pitCrewType < CrewType.LeftRight || pitCrewType == CrewType.All)
                         {
@@ -1849,35 +1853,35 @@ namespace User.PluginSdkDemo
                             PitCommands.iRacingChat("#rf +3kpa rr +3kpa$");
                         }
                     }
-                    else if (leftRotary == 6 && isInPitMenu && aheadPlayerReady)
+                    else if (pitMenuRotary == 6 && isInPitMenu && aheadPlayerReady)
                     {
                         PitCommands.iRacingChat("/" + data.NewData.OpponentsAheadOnTrack[0].CarNumber + " " + Settings.AheadPlayerText);
                     }
-                    else if (leftRotary == 7 && isInPitMenu)
+                    else if (pitMenuRotary == 7 && isInPitMenu)
                     {
                         PitCommands.iRacingChat("#fuel +2l$");
                     }
-                    else if (leftRotary == 8 && isInPitMenu)
+                    else if (pitMenuRotary == 8 && isInPitMenu)
                     {
                         PitCommands.iRacingChat("#fuel +10l$");
                     }
-                    else if (leftRotary == 9 && isInPitMenu)
+                    else if (pitMenuRotary == 9 && isInPitMenu)
                     {
                         watchSplit = true;
                     }
 
-                    else if (leftRotary == 10 && isInPitMenu)
+                    else if (pitMenuRotary == 10 && isInPitMenu)
                     {
                         pluginManager.TriggerAction("DataCorePlugin.IncrementSystemVolume");
                     }
 
-                    else if (leftRotary == 11 && isInPitMenu)
+                    else if (pitMenuRotary == 11 && isInPitMenu)
                     {
                         savePitTimerLock = true;
                         savePitTimerSnap = slowestLapTimeSpanCopy;
                     }
 
-                    else if (leftRotary == 12 && isInPitMenu)
+                    else if (pitMenuRotary == 12 && isInPitMenu)
                     {
                         //pluginManager.TriggerAction("ShakeITBSV3Plugin.MainFeedbackLevelIncrement");
                         fuelPerLapOffset = fuelPerLapOffset + 0.01;
@@ -1889,7 +1893,7 @@ namespace User.PluginSdkDemo
 
                 if (minusButtonCheck)
                 {
-                    if (leftRotary == 1 && isInPitMenu)
+                    if (pitMenuRotary == 1 && isInPitMenu)
                     {
                         string pushPit = "";
                         if (commandMinFuel == 0)
@@ -1902,15 +1906,15 @@ namespace User.PluginSdkDemo
                         }
                         PitCommands.iRacingChat(pushPit);
                     }
-                    else if (leftRotary == 2 && isInPitMenu)
+                    else if (pitMenuRotary == 2 && isInPitMenu)
                     {
                         paceCheck = !paceCheck;
                     }
-                    else if (leftRotary == 3 && isInPitMenu)
+                    else if (pitMenuRotary == 3 && isInPitMenu)
                     {
                         PitCommands.iRacingChat("#lf -3kpa rf -3kpa lr -3kpa rr -3kpa$");
                     }
-                    else if (leftRotary == 4 && isInPitMenu)
+                    else if (pitMenuRotary == 4 && isInPitMenu)
                     {
                         if (pitCrewType < CrewType.LeftRight || pitCrewType == CrewType.All)
                         {
@@ -1921,7 +1925,7 @@ namespace User.PluginSdkDemo
                             PitCommands.iRacingChat("#lf -3kpa lr -3kpa$");
                         }
                     }
-                    else if (leftRotary == 5 && isInPitMenu)
+                    else if (pitMenuRotary == 5 && isInPitMenu)
                     {
                         if (pitCrewType < CrewType.LeftRight || pitCrewType == CrewType.All)
                         {
@@ -1932,21 +1936,21 @@ namespace User.PluginSdkDemo
                             PitCommands.iRacingChat("#rf -3kpa rr -3kpa$");
                         }
                     }
-                    else if (leftRotary == 6 && isInPitMenu && behindPlayerReady)
+                    else if (pitMenuRotary == 6 && isInPitMenu && behindPlayerReady)
                     {
                         string driverText = "/#" + data.NewData.OpponentsBehindOnTrack[0].CarNumber + " " + Settings.BehindPlayerText;
                         PitCommands.iRacingChat(driverText);
                     }
-                    else if (leftRotary == 7 && isInPitMenu)
+                    else if (pitMenuRotary == 7 && isInPitMenu)
                     {
                         PitCommands.iRacingChat("#fuel -2l$");
                     }
-                    else if (leftRotary == 8 && isInPitMenu)
+                    else if (pitMenuRotary == 8 && isInPitMenu)
                     {
                         PitCommands.iRacingChat("#fuel -10l$");
                     }
 
-                    else if (leftRotary == 9 && isInPitMenu)
+                    else if (pitMenuRotary == 9 && isInPitMenu)
                     {
                         watchTimer = globalClock;
                         watchSnap = 0;
@@ -1955,18 +1959,18 @@ namespace User.PluginSdkDemo
                         watchSplit = false;
                     }
 
-                    else if (leftRotary == 10 && isInPitMenu)
+                    else if (pitMenuRotary == 10 && isInPitMenu)
                     {
                         pluginManager.TriggerAction("DataCorePlugin.DecrementSystemVolume");
 
                     }
 
-                    else if (leftRotary == 11 && isInPitMenu)
+                    else if (pitMenuRotary == 11 && isInPitMenu)
                     {
                         savePitTimerLock = false;
                     }
 
-                    else if (leftRotary == 12 && isInPitMenu)
+                    else if (pitMenuRotary == 12 && isInPitMenu)
                     {
                         //pluginManager.TriggerAction("ShakeITBSV3Plugin.MainFeedbackLevelDecrement");
                         if ((fuelAvgLap + fuelPerLapOffset - 0.01) > 0)
@@ -1984,20 +1988,20 @@ namespace User.PluginSdkDemo
 
                 if (OKButtonCheck)
                 {
-                    if (leftRotary == 1 && isInPitMenu)
+                    if (pitMenuRotary == 1 && isInPitMenu)
                     {
                         PitCommands.iRacingChat("#clear$");
                         fuelPerLapOffset = 0;
                     }
-                    else if (leftRotary == 2 && isInPitMenu)
+                    else if (pitMenuRotary == 2 && isInPitMenu)
                     {
                         PitCommands.iRacingChat("#!fr$");
                     }
-                    else if (leftRotary == 3 && isInPitMenu)
+                    else if (pitMenuRotary == 3 && isInPitMenu)
                     {
                         PitCommands.iRacingChat("#!cleartires$");
                     }
-                    else if (leftRotary == 4 && isInPitMenu)
+                    else if (pitMenuRotary == 4 && isInPitMenu)
                     {
                         if (pitCrewType < CrewType.LeftRight)
                         {
@@ -2012,7 +2016,7 @@ namespace User.PluginSdkDemo
                             PitCommands.iRacingChat("#!cleartires$");
                         }
                     }
-                    else if (leftRotary == 5 && isInPitMenu)
+                    else if (pitMenuRotary == 5 && isInPitMenu)
                     {
                         if (pitCrewType < CrewType.LeftRight)
                         {
@@ -2027,27 +2031,27 @@ namespace User.PluginSdkDemo
                             PitCommands.iRacingChat("#!cleartires$");
                         }
                     }
-                    else if (leftRotary == 6 && isInPitMenu)
+                    else if (pitMenuRotary == 6 && isInPitMenu)
                     {
                         PitCommands.iRacingChat("#!ws$");
                     }
-                    else if (leftRotary == 7 && isInPitMenu)
+                    else if (pitMenuRotary == 7 && isInPitMenu)
                     {
                         PitCommands.iRacingChat("#!fuel$");
                     }
-                    else if (leftRotary == 8 && isInPitMenu)
+                    else if (pitMenuRotary == 8 && isInPitMenu)
                     {
                         pitActive = !pitActive;
                     }
-                    else if (leftRotary == 9 && isInPitMenu)
+                    else if (pitMenuRotary == 9 && isInPitMenu)
                     {
                         watchOn = !watchOn;
                     }
-                    else if (leftRotary == 10 && isInPitMenu)
+                    else if (pitMenuRotary == 10 && isInPitMenu)
                     {
                         spotMode = !spotMode;
                     }
-                    else if (leftRotary == 11 && isInPitMenu)
+                    else if (pitMenuRotary == 11 && isInPitMenu)
                     {
                         fuelSaveDelta++;
                         if (fuelSaveDelta > 2)
@@ -2055,7 +2059,7 @@ namespace User.PluginSdkDemo
                             fuelSaveDelta = 0;
                         }
                     }
-                    else if (leftRotary == 12 && isInPitMenu)
+                    else if (pitMenuRotary == 12 && isInPitMenu)
                     {
                         Settings.fuelPerLapTarget = fuelAvgLap+fuelPerLapOffset;
                     }
@@ -5920,141 +5924,141 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("PitMenu", this.GetType(), 1);
             pluginManager.AddAction("L1", this.GetType(), (a, b) =>
             {
-                leftRotary = 1;
-                pluginManager.SetPropertyValue("PitMenu", this.GetType(), leftRotary);
+                pitMenuRotary = 1;
+                pluginManager.SetPropertyValue("PitMenu", this.GetType(), pitMenuRotary);
                 if(Settings.DDSEnabled)
                 {
-                    rightRotary = 0;
-                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                    inCarRotary = 0;
+                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 }
             });
             pluginManager.AddAction("L2", this.GetType(), (a, b) =>
             {
-                leftRotary = 2;
-                pluginManager.SetPropertyValue("PitMenu", this.GetType(), leftRotary);
+                pitMenuRotary = 2;
+                pluginManager.SetPropertyValue("PitMenu", this.GetType(), pitMenuRotary);
                 if (Settings.DDSEnabled)
                 {
-                    rightRotary = 0;
-                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                    inCarRotary = 0;
+                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 }
             });
             pluginManager.AddAction("L3", this.GetType(), (a, b) =>
             {
-                leftRotary = 3;
-                pluginManager.SetPropertyValue("PitMenu", this.GetType(), leftRotary);
+                pitMenuRotary = 3;
+                pluginManager.SetPropertyValue("PitMenu", this.GetType(), pitMenuRotary);
                 if (Settings.DDSEnabled)
                 {
-                    rightRotary = 0;
-                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                    inCarRotary = 0;
+                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 }
             });
             pluginManager.AddAction("L4", this.GetType(), (a, b) =>
             {
-                leftRotary = 4;
-                pluginManager.SetPropertyValue("PitMenu", this.GetType(), leftRotary);
+                pitMenuRotary = 4;
+                pluginManager.SetPropertyValue("PitMenu", this.GetType(), pitMenuRotary);
                 if (Settings.DDSEnabled)
                 {
-                    rightRotary = 0;
-                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                    inCarRotary = 0;
+                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 }
             });
             pluginManager.AddAction("L5", this.GetType(), (a, b) =>
             {
-                leftRotary = 5;
-                pluginManager.SetPropertyValue("PitMenu", this.GetType(), leftRotary);
+                pitMenuRotary = 5;
+                pluginManager.SetPropertyValue("PitMenu", this.GetType(), pitMenuRotary);
                 if (Settings.DDSEnabled)
                 {
-                    rightRotary = 0;
-                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                    inCarRotary = 0;
+                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 }
             });
             pluginManager.AddAction("L6", this.GetType(), (a, b) =>
             {
-                leftRotary = 6;
-                pluginManager.SetPropertyValue("PitMenu", this.GetType(), leftRotary);
+                pitMenuRotary = 6;
+                pluginManager.SetPropertyValue("PitMenu", this.GetType(), pitMenuRotary);
                 if (Settings.DDSEnabled)
                 {
-                    rightRotary = 0;
-                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                    inCarRotary = 0;
+                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 }
             });
             pluginManager.AddAction("L7", this.GetType(), (a, b) =>
             {
-                leftRotary = 7;
-                pluginManager.SetPropertyValue("PitMenu", this.GetType(), leftRotary);
+                pitMenuRotary = 7;
+                pluginManager.SetPropertyValue("PitMenu", this.GetType(), pitMenuRotary);
                 if (Settings.DDSEnabled)
                 {
-                    rightRotary = 0;
-                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                    inCarRotary = 0;
+                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 }
             });
             pluginManager.AddAction("L8", this.GetType(), (a, b) =>
             {
-                leftRotary = 8;
-                pluginManager.SetPropertyValue("PitMenu", this.GetType(), leftRotary);
+                pitMenuRotary = 8;
+                pluginManager.SetPropertyValue("PitMenu", this.GetType(), pitMenuRotary);
                 if (Settings.DDSEnabled)
                 {
-                    rightRotary = 0;
-                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                    inCarRotary = 0;
+                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 }
             });
             pluginManager.AddAction("L9", this.GetType(), (a, b) =>
             {
-                leftRotary = 9;
-                pluginManager.SetPropertyValue("PitMenu", this.GetType(), leftRotary);
+                pitMenuRotary = 9;
+                pluginManager.SetPropertyValue("PitMenu", this.GetType(), pitMenuRotary);
                 if (Settings.DDSEnabled)
                 {
-                    rightRotary = 0;
-                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                    inCarRotary = 0;
+                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 }
             });
             pluginManager.AddAction("L10", this.GetType(), (a, b) =>
             {
-                leftRotary = 10;
-                pluginManager.SetPropertyValue("PitMenu", this.GetType(), leftRotary);
+                pitMenuRotary = 10;
+                pluginManager.SetPropertyValue("PitMenu", this.GetType(), pitMenuRotary);
                 if (Settings.DDSEnabled)
                 {
-                    rightRotary = 0;
-                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                    inCarRotary = 0;
+                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 }
             });
             pluginManager.AddAction("L11", this.GetType(), (a, b) =>
             {
-                leftRotary = 11;
-                pluginManager.SetPropertyValue("PitMenu", this.GetType(), leftRotary);
+                pitMenuRotary = 11;
+                pluginManager.SetPropertyValue("PitMenu", this.GetType(), pitMenuRotary);
                 if (Settings.DDSEnabled)
                 {
-                    rightRotary = 0;
-                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                    inCarRotary = 0;
+                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 }
             });
             pluginManager.AddAction("L12", this.GetType(), (a, b) =>
             {
-                leftRotary = 12;
-                pluginManager.SetPropertyValue("PitMenu", this.GetType(), leftRotary);
+                pitMenuRotary = 12;
+                pluginManager.SetPropertyValue("PitMenu", this.GetType(), pitMenuRotary);
                 if (Settings.DDSEnabled)
                 {
-                    rightRotary = 0;
-                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                    inCarRotary = 0;
+                    pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 }
             });
             pluginManager.AddAction("LInc", this.GetType(), (a, b) =>
             {
-                leftRotary++;
-                if (leftRotary > 12)
+                pitMenuRotary++;
+                if (pitMenuRotary > 12)
                 {
-                    leftRotary = 1;
+                    pitMenuRotary = 1;
                 }
-                pluginManager.SetPropertyValue("PitMenu", this.GetType(), leftRotary);
+                pluginManager.SetPropertyValue("PitMenu", this.GetType(), pitMenuRotary);
             });
             pluginManager.AddAction("LDec", this.GetType(), (a, b) =>
             {
-                leftRotary--;
-                if (leftRotary < 1)
+                pitMenuRotary--;
+                if (pitMenuRotary < 1)
                 {
-                    leftRotary = 12;
+                    pitMenuRotary = 12;
                 }
-                pluginManager.SetPropertyValue("PitMenu", this.GetType(), leftRotary);
+                pluginManager.SetPropertyValue("PitMenu", this.GetType(), pitMenuRotary);
             });
 
             pluginManager.AddProperty("PitSavePaceLock", this.GetType(), false);
@@ -6062,14 +6066,14 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("InCarMenu", this.GetType(), 0);
             pluginManager.AddAction("R1", this.GetType(), (a, b) =>
             {
-                rightRotary = 1;
-                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                inCarRotary = 1;
+                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 if (Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
-                        leftRotary = rightRotary;
-                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), rightRotary);
+                        pitMenuRotary = inCarRotary;
+                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), inCarRotary);
                     }
                     else
                     {
@@ -6079,14 +6083,14 @@ namespace User.PluginSdkDemo
             });
             pluginManager.AddAction("R2", this.GetType(), (a, b) =>
             {
-                rightRotary = 2;
-                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                inCarRotary = 2;
+                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 if (Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
-                        leftRotary = rightRotary;
-                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), rightRotary);
+                        pitMenuRotary = inCarRotary;
+                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), inCarRotary);
                     }
                     else
                     {
@@ -6096,14 +6100,14 @@ namespace User.PluginSdkDemo
             });
             pluginManager.AddAction("R3", this.GetType(), (a, b) =>
             {
-                rightRotary = 3;
-                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                inCarRotary = 3;
+                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 if (Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
-                        leftRotary = rightRotary;
-                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), rightRotary);
+                        pitMenuRotary = inCarRotary;
+                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), inCarRotary);
                     }
                     else
                     {
@@ -6113,14 +6117,14 @@ namespace User.PluginSdkDemo
             });
             pluginManager.AddAction("R4", this.GetType(), (a, b) =>
             {
-                rightRotary = 4;
-                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                inCarRotary = 4;
+                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 if (Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
-                        leftRotary = rightRotary;
-                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), rightRotary);
+                        pitMenuRotary = inCarRotary;
+                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), inCarRotary);
                     }
                     else
                     {
@@ -6130,14 +6134,14 @@ namespace User.PluginSdkDemo
             });
             pluginManager.AddAction("R5", this.GetType(), (a, b) =>
             {
-                rightRotary = 5;
-                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                inCarRotary = 5;
+                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 if (Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
-                        leftRotary = rightRotary;
-                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), rightRotary);
+                        pitMenuRotary = inCarRotary;
+                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), inCarRotary);
                     }
                     else
                     {
@@ -6147,14 +6151,14 @@ namespace User.PluginSdkDemo
             });
             pluginManager.AddAction("R6", this.GetType(), (a, b) =>
             {
-                rightRotary = 6;
-                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                inCarRotary = 6;
+                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 if (Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
-                        leftRotary = rightRotary;
-                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), rightRotary);
+                        pitMenuRotary = inCarRotary;
+                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), inCarRotary);
                     }
                     else
                     {
@@ -6164,14 +6168,14 @@ namespace User.PluginSdkDemo
             });
             pluginManager.AddAction("R7", this.GetType(), (a, b) =>
             {
-                rightRotary = 7;
-                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                inCarRotary = 7;
+                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 if (Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
-                        leftRotary = rightRotary;
-                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), rightRotary);
+                        pitMenuRotary = inCarRotary;
+                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), inCarRotary);
                     }
                     else
                     {
@@ -6181,14 +6185,14 @@ namespace User.PluginSdkDemo
             });
             pluginManager.AddAction("R8", this.GetType(), (a, b) =>
             {
-                rightRotary = 8;
-                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                inCarRotary = 8;
+                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 if (Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
-                        leftRotary = rightRotary;
-                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), rightRotary);
+                        pitMenuRotary = inCarRotary;
+                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), inCarRotary);
                     }
                     else
                     {
@@ -6198,14 +6202,14 @@ namespace User.PluginSdkDemo
             });
             pluginManager.AddAction("R9", this.GetType(), (a, b) =>
             {
-                rightRotary = 9;
-                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                inCarRotary = 9;
+                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 if (Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
-                        leftRotary = rightRotary;
-                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), rightRotary);
+                        pitMenuRotary = inCarRotary;
+                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), inCarRotary);
                     }
                     else
                     {
@@ -6215,14 +6219,14 @@ namespace User.PluginSdkDemo
             });
             pluginManager.AddAction("R10", this.GetType(), (a, b) =>
             {
-                rightRotary = 10;
-                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                inCarRotary = 10;
+                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 if (Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
-                        leftRotary = rightRotary;
-                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), rightRotary);
+                        pitMenuRotary = inCarRotary;
+                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), inCarRotary);
                     }
                     else
                     {
@@ -6232,14 +6236,14 @@ namespace User.PluginSdkDemo
             });
             pluginManager.AddAction("R11", this.GetType(), (a, b) =>
             {
-                rightRotary = 11;
-                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                inCarRotary = 11;
+                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 if (Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
-                        leftRotary = rightRotary;
-                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), rightRotary);
+                        pitMenuRotary = inCarRotary;
+                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), inCarRotary);
                     }
                     else
                     {
@@ -6249,14 +6253,14 @@ namespace User.PluginSdkDemo
             });
             pluginManager.AddAction("R12", this.GetType(), (a, b) =>
             {
-                rightRotary = 12;
-                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                inCarRotary = 12;
+                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
                 if (Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
-                        leftRotary = rightRotary;
-                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), rightRotary);
+                        pitMenuRotary = inCarRotary;
+                        pluginManager.SetPropertyValue("PitMenu", this.GetType(), inCarRotary);
                     }
                     else
                     {
@@ -6266,21 +6270,21 @@ namespace User.PluginSdkDemo
             });
             pluginManager.AddAction("RInc", this.GetType(), (a, b) =>
             {
-                rightRotary++;
-                if (rightRotary > 12)
+                inCarRotary++;
+                if (inCarRotary > 12)
                 {
-                    rightRotary = 1;
+                    inCarRotary = 1;
                 }
-                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
             });
             pluginManager.AddAction("RDec", this.GetType(), (a, b) =>
             {
-                rightRotary--;
-                if (rightRotary < 1)
+                inCarRotary--;
+                if (inCarRotary < 1)
                 {
-                    rightRotary = 12;
+                    inCarRotary = 12;
                 }
-                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), rightRotary);
+                pluginManager.SetPropertyValue("InCarMenu", this.GetType(), inCarRotary);
             });
 
 
@@ -6352,6 +6356,8 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("DDUEnabled", this.GetType(), Settings.DDUEnabled);
             pluginManager.AddProperty("SW1Enabled", this.GetType(), Settings.SW1Enabled);
             pluginManager.AddProperty("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
+            pluginManager.AddProperty("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
+            pluginManager.AddProperty("ShiftWarning", this.GetType(), Settings.ShiftWarning);
 
             pluginManager.AddProperty("Idle", this.GetType(), true);
             pluginManager.AddProperty("SmoothGear", this.GetType(), "");
