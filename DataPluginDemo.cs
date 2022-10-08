@@ -12,8 +12,6 @@ using ACSharedMemory;
 namespace User.PluginSdkDemo
 {
 
-
-
     [PluginDescription("Dahl Design DDU Properties")]
     [PluginAuthor("Andreas Dahl")]
     [PluginName("DahlDesign")]
@@ -21,6 +19,7 @@ namespace User.PluginSdkDemo
 
     public class DahlDesign : IPlugin, IDataPlugin, IWPFSettingsV2
     {
+       
 
         public DataPluginDemoSettings Settings;
 
@@ -534,7 +533,7 @@ namespace User.PluginSdkDemo
             {
                 controllerEnabled = false;
             }
-
+            
             pluginManager.SetPropertyValue("DDCEnabled", this.GetType(), controllerEnabled);
 
             if (Settings.SW1Enabled)
@@ -698,6 +697,10 @@ namespace User.PluginSdkDemo
                 irData.Telemetry.TryGetValue("DRS_Status", out object rawDRS);
                 int DRSState = Convert.ToInt32(rawDRS);                                                 //DRS state
 
+                double slipLF = Convert.ToDouble(pluginManager.GetPropertyValue("ShakeITMotorsV3Plugin.Export.WheelSlip.FrontLeft"));  //Wheel slip
+                double slipRF = Convert.ToDouble(pluginManager.GetPropertyValue("ShakeITMotorsV3Plugin.Export.WheelSlip.FrontRight"));  //Wheel slip
+                double slipLR = Convert.ToDouble(pluginManager.GetPropertyValue("ShakeITMotorsV3Plugin.Export.WheelSlip.RearLeft"));  //Wheel slip
+                double slipRR = Convert.ToDouble(pluginManager.GetPropertyValue("ShakeITMotorsV3Plugin.Export.WheelSlip.RearRight"));  //Wheel slip
 
                 double trackPosition = irData.Telemetry.LapDistPct;                                     //Lap distance
                 bool spotLeft = Convert.ToBoolean(data.NewData.SpotterCarLeft);                         //Spotter call left
@@ -780,6 +783,8 @@ namespace User.PluginSdkDemo
 
                 irData.Telemetry.TryGetValue("dpPowerSteering", out object rawPWS);                     //Powersteering
                 int PWS = Convert.ToInt16(rawPWS);
+
+                double gearRatio = Convert.ToDouble(pluginManager.GetPropertyValue("GameRawData.SessionData.CarSetup.Chassis.Rear.DropGearARatio")); //Gear ratio
 
                 irData.Telemetry.TryGetValue("SessionOnJokerLap", out object rawisOnJoker);             //Joker lap
                 bool onJokerLap = Convert.ToBoolean(rawisOnJoker);
@@ -1084,6 +1089,7 @@ namespace User.PluginSdkDemo
                 //----------------------CAR ATTRIBUTES UPDATE----------------------------------
                 //-----------------------------------------------------------------------------
 
+
                 if (counter == 14)
                 {
 
@@ -1230,6 +1236,58 @@ namespace User.PluginSdkDemo
                     {
                         rotaryType = "Default";
                     }
+
+                    //Supercar gear ratio bite point setting
+                    if (dashType == "Supercar")
+                    {
+                        switch (gearRatio)
+                        {
+                            case 0.85:
+                                clutchBitePoint = 28;
+                                clutchSpin = 0;
+                                clutchIdealRangeStart = 28;
+                                clutchIdealRangeStop = 31;
+                                break;
+                            case 0.931:
+                                clutchBitePoint = 29.5;
+                                clutchSpin = 29.0;
+                                clutchIdealRangeStart = 29.5;
+                                clutchIdealRangeStop = 33;
+                                break;
+                            case 0.96:
+                                clutchBitePoint = 31.0;
+                                clutchSpin = 30.5;
+                                clutchIdealRangeStart = 31.0;
+                                clutchIdealRangeStop = 34;
+                                break;
+                            case 1:
+                                clutchBitePoint = 32.0;
+                                clutchSpin = 31.5;
+                                clutchIdealRangeStart = 32.0;
+                                clutchIdealRangeStop = 35;
+                                break;
+                            case 1.042:
+                                clutchBitePoint = 34.0;
+                                clutchSpin = 33.5;
+                                clutchIdealRangeStart = 34.0;
+                                clutchIdealRangeStop = 36;
+                                break;
+                            case 1.074:
+                                clutchBitePoint = 35.0;
+                                clutchSpin = 34.5;
+                                clutchIdealRangeStart = 35.0;
+                                clutchIdealRangeStop = 37;
+                                break;
+                            case 1.13:
+                                clutchBitePoint = 36.0;
+                                clutchSpin = 35.0;
+                                clutchIdealRangeStart = 35.5;
+                                clutchIdealRangeStop = 38;
+                                break;
+                        }
+                    }
+
+                    
 
                     pluginManager.SetPropertyValue("LaunchBitePoint", this.GetType(), clutchBitePoint);
                     pluginManager.SetPropertyValue("LaunchSpin", this.GetType(), clutchSpin);
@@ -1729,7 +1787,15 @@ namespace User.PluginSdkDemo
                 //----------MISC--------------------
                 //----------------------------------
 
-                
+                //Wheel slip
+
+                pluginManager.SetPropertyValue("SlipLF", this.GetType(), slipLF);
+                pluginManager.SetPropertyValue("SlipRF", this.GetType(), slipRF);
+                pluginManager.SetPropertyValue("SlipLR", this.GetType(), slipLR);
+                pluginManager.SetPropertyValue("SlipRR", this.GetType(), slipRR);
+
+
+
                 //OvertakeMode
                 bool overtakeMode = false;
 
@@ -6312,8 +6378,8 @@ namespace User.PluginSdkDemo
 
             trackInfo.Add(new Tracks("daytona 2011 road", 0, false, 0, 0, 0, 0, false, 0, 19.5, 0.2, 0.3, 0.3, 0.1, true, "Left"));
 
-            trackInfo.Add(new Tracks("silverstone 2019 gp", 0, false, 0, 0, 0, 0, false, 0, 22.5, 0.4, 0.3, 0.1, 0.2, false, "Right"));
-            trackInfo.Add(new Tracks("silverstone 2019 international", 0, false, 0, 0, 0, 0, false, 0, 22.5, 0.4, 0.3, 0.1, 0.2, false, "Right"));
+            trackInfo.Add(new Tracks("silverstone 2019 gp", 0, false, 0, 0, 0, 0, false, 0, 13.5, 0.4, 0.3, 0.1, 0.2, false, "Right"));
+            trackInfo.Add(new Tracks("silverstone 2019 international", 0, false, 0, 0, 0, 0, false, 0, 13.5, 0.4, 0.3, 0.1, 0.2, false, "Right"));
             trackInfo.Add(new Tracks("silverstone 2019 national", 0, false, 0, 0, 0, 0, false, 0, 17.5, 0.6, 0.2, 0, 0.2, false, "Right"));
 
             trackInfo.Add(new Tracks("limerock 2019 gp", 0, false, 0, 0, 0, 0, false, 0, 18.5, 0.6, 0, 0.2, 0.3, false, "Right"));
@@ -6348,7 +6414,8 @@ namespace User.PluginSdkDemo
             carInfo.Add(new Cars("Audi R8 LMS", false, false, false, true, 12, true, true, false, 12, -1, -1, false, false, "Audi R8 GT3", "GT3", 7950, 8080, 8120, 8050, 8000, 0, 0, 8480, 1090, 39.8, 39.5, 39.8, 45.0, 1, 100, 1, 100, false, 0, 1, 0.9, 1.1, 0.7, 2.7, false, 0, 0, 6.5, 1.5, CrewType.SingleTyre, false, true, AnimationType.AudiR8, 0.25));
             carInfo.Add(new Cars("Lamborghini Huracan GT3 EVO", false, false, false, true, 12, true, true, false, 12, 1, 12, false, false, "Lamborghini Huracan GT3", "GT3", 8250, 8200, 8220, 8220, 8240, 0, 0, 8480, 1090, 41.8,41.5,41.6,45, 1, 60, 1, 70, false, 0, 1, 0.9, 1.1, 0.7, 2.7, false, 0, 0, 6.5, 1.5, CrewType.SingleTyre, false, true, AnimationType.LamboGT3, 0.25));
             carInfo.Add(new Cars("Porsche 911 GT3.R", true, false, false, true, 0, true, true, false, 0, 4, 0, false, false, "Porsche GT3R", "Porsche GT3R", 9250, 9250, 9250, 9250, 9250, 0, 0, 9435, 1846, 65.0, 64.5, 64.5, 65.5, 1, 90, 1, 90, false, 0, 1, 0.9, 1.1, 0.7, 2.7, false, 0, 0, 6.5, 1.5, CrewType.SingleTyre, false, true, AnimationType.PorscheGT3R, 0.25));
-            carInfo.Add(new Cars("Audi 90 Quattro GTO", false, false, false, false, -1, false, false, false, -1, -1, -1, false, false, "Single", "Default", 7650, 7650, 7650, 7650, 0, 0, 0, 7670, 1300, 0, 0, 0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0, 0, 0, false, 10, 1, 10, 1, CrewType.SingleTyre, true, true, AnimationType.Porsche, 0.15));
+            carInfo.Add(new Cars("Audi 90 Quattro GTO", false, false, false, false, -1, false, false, false, -1, -1, -1, false, false, "Single", "Default", 7650, 7650, 7650, 7650, 0, 0, 0, 7670, 1300, 0, 0, 0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0, 0, 0, false, 0, 0, 10, 1, CrewType.SingleTyre, true, true, AnimationType.Porsche, 0.15));
+            carInfo.Add(new Cars("Supercars Ford Mustang GT", false, false, false, false, -1, false, false, false, -1, -1, -1, false, false, "Single", "Supercar", 7470, 7470, 7470, 7480, 7480, 0, 0, 7490, 1205, 29.5, 29.0, 29.6, 33.0, 1, 100, 1, 100, false, 0,1.15, 0.7,0.7, 0.9, 2.36, false, 0, 0, 6.7, 0.9, CrewType.All, true, true, AnimationType.Supercar, 0.35));
 
             // Declare a property available in the property list
             pluginManager.AddProperty("DDUstartLED", this.GetType(), Settings.DDUstartLED);
@@ -6393,6 +6460,12 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("P2PCount", this.GetType(), -1);
             pluginManager.AddProperty("P2PStatus", this.GetType(), false);
             pluginManager.AddProperty("DRSCount", this.GetType(), -1);
+
+            pluginManager.AddProperty("SlipLF", this.GetType(), 0);
+            pluginManager.AddProperty("SlipRF", this.GetType(), 0);
+            pluginManager.AddProperty("SlipLR", this.GetType(), 0);
+            pluginManager.AddProperty("SlipRR", this.GetType(), 0);
+
 
             pluginManager.AddProperty("AnimationType", this.GetType(), 1);
             pluginManager.AddProperty("ShiftLightRPM", this.GetType(), 0);

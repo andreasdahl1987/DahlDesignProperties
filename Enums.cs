@@ -25,7 +25,8 @@ namespace User.PluginSdkDemo
         Vee,
         AudiR8,
         LamboGT3,
-        PorscheGT3R
+        PorscheGT3R,
+        Supercar
     }
 
     public enum CrewType
