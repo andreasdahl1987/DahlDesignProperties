@@ -19,7 +19,7 @@ namespace User.PluginSdkDemo
 
     public class DahlDesign : IPlugin, IDataPlugin, IWPFSettingsV2
     {
-       
+
 
         public DataPluginDemoSettings Settings;
 
@@ -48,6 +48,22 @@ namespace User.PluginSdkDemo
         List<List<TimeSpan>> realGapPoints = new List<List<TimeSpan>> { };
         List<List<bool>> realGapLocks = new List<List<bool>> { };
         List<List<bool>> realGapChecks = new List<List<bool>> { };
+
+        List<double> lapDeltaCurrent = new List<double> { };
+        List<double> lapDeltaLast = new List<double> { };
+        List<double> lapDeltaSessionBest = new List<double> { };
+        List<double> lapDeltaATB = new List<double> { };
+
+        List<double> lapDeltaLastChange = new List<double> { };
+        List<double> lapDeltaSessionBestChange = new List<double> { };
+        List<double> lastChunks = new List<double> { };
+        List<double> SBChunks = new List<double> { };
+
+
+        int myDeltaIndexOld = -1;
+        int lapDeltaSections = 120;
+        int deltaChangeChunks = 20;
+
 
         int counter = 0;
 
@@ -512,7 +528,7 @@ namespace User.PluginSdkDemo
 
             //FRAME COUNTER FOR CPU SAVING
             counter++;
-            //Counters used: 1,3,4,5,6,7,8,9,10,11,14,15,17,20,22,24,25,27,30,33,35,36,38,39,40,43,45,47,50,52,53,54,55,59  
+            //Counters used: 1,3,4,5,6,7,8,9,10,11,14,15,17,20,22,24,25,27,30,33,35,36,38,39,40,43,45,47,50,51,52,53,54,55,59  
 
 
             //----------------------------------------------------------------------------
@@ -660,7 +676,7 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("DDCclutchEnabled", this.GetType(), Settings.DDCclutchEnabled);
             }
 
-            
+
             //----------------------------------------------------------------------------
             //----------------------------------------------------------------------------
             //----------------------------------------------------------------------------
@@ -732,13 +748,13 @@ namespace User.PluginSdkDemo
                         pitSpeedLimit = Convert.ToInt32(irData.SessionData.WeekendInfo.TrackPitSpeedLimit.Substring(0, 2));
                     }
                 }
-                
+
                 int ERSlimit = 0;
-                    if (pitSpeedLimit > 70)
+                if (pitSpeedLimit > 70)
                 {
                     ERSlimit = 76;
                 }
-                    else
+                else
                 {
                     ERSlimit = 52;
                 }
@@ -791,7 +807,7 @@ namespace User.PluginSdkDemo
 
                 irData.Telemetry.TryGetValue("PlayerCarIdx", out object rawPlayerIdx);                  //My CarIdx
                 int myCarIdx = Convert.ToInt32(rawPlayerIdx);
-                
+
                 irData.Telemetry.TryGetValue("CarIdxP2P_Count", out object p2pCount);                   //P2P Counts
                 irData.Telemetry.TryGetValue("CarIdxP2P_Status", out object p2pStatus);                 //P2P Statuses
                 irData.Telemetry.TryGetValue("CarIdxBestLapTime", out object BestLapTimes);             //BestLapTimes
@@ -972,7 +988,7 @@ namespace User.PluginSdkDemo
                         {
                             IRchange = Math.Round((classOpponents - realPosition - IRscore - posCorr) * 200 / classOpponents);
                         }
-                        
+
                     }
 
                     pluginManager.SetPropertyValue("SoF", this.GetType(), SoF);
@@ -1225,7 +1241,7 @@ namespace User.PluginSdkDemo
                     if (tireCompounds != null)
                     {
                         myTireCompound = ((int[])tireCompounds)[myCarIdx];
-                    } 
+                    }
                     else
                     {
                         myTireCompound = -1;
@@ -1287,7 +1303,7 @@ namespace User.PluginSdkDemo
                         }
                     }
 
-                    
+
 
                     pluginManager.SetPropertyValue("LaunchBitePoint", this.GetType(), clutchBitePoint);
                     pluginManager.SetPropertyValue("LaunchSpin", this.GetType(), clutchSpin);
@@ -1372,28 +1388,28 @@ namespace User.PluginSdkDemo
                 //-----------------------------------------------
                 string DRSpush = "";
                 switch (DRSState)
-                    {
-                        case 0:
-                            DRSpush = "None";
-                            break;
-                        case 1:
-                            DRSpush = "Acquired";
-                            if (carId == "Formula Renault 3.5")
-                            {
-                                DRSpush = "None";
-                            }
-                            break;
-                        case 2:
-                            DRSpush = "Ready";
-                            if (carId == "Formula Renault 3.5")
-                            {
-                                DRSpush = "Open";
-                            }
+                {
+                    case 0:
+                        DRSpush = "None";
                         break;
-                        case 3:
+                    case 1:
+                        DRSpush = "Acquired";
+                        if (carId == "Formula Renault 3.5")
+                        {
+                            DRSpush = "None";
+                        }
+                        break;
+                    case 2:
+                        DRSpush = "Ready";
+                        if (carId == "Formula Renault 3.5")
+                        {
                             DRSpush = "Open";
-                            break;
-                    }
+                        }
+                        break;
+                    case 3:
+                        DRSpush = "Open";
+                        break;
+                }
 
                 pluginManager.SetPropertyValue("DRSState", this.GetType(), DRSpush);
 
@@ -1533,7 +1549,7 @@ namespace User.PluginSdkDemo
                         ERSreturnMode = ERSselectedMode;
                         ERSstartingLap = false;
                     }
- 
+
                     pluginManager.SetPropertyValue("ERSCharges", this.GetType(), ERSChangeCount);
                     pluginManager.SetPropertyValue("ERSTarget", this.GetType(), ERSreturnMode);
                 }
@@ -1572,7 +1588,7 @@ namespace User.PluginSdkDemo
                 }
 
                 if (!accelerationStart && speed > 0.5)
-                { 
+                {
                     if (!oneHundered && !twoHundered)
                     {
                         accelerationPremature = 2;
@@ -1809,7 +1825,7 @@ namespace User.PluginSdkDemo
                 if (sessionScreen && !spotMode)
                 {
                     iRIdle = true;
-                } 
+                }
                 else
                 {
                     iRIdle = false;
@@ -1886,7 +1902,7 @@ namespace User.PluginSdkDemo
                         {
                             pushPit = "#clear fuel " + Convert.ToString(commandMaxFuel) + "l ws$";
                         }
-                        
+
                         PitCommands.iRacingChat(pushPit);
                     }
                     else if (pitMenuRotary == 2 && isInPitMenu)
@@ -2127,7 +2143,7 @@ namespace User.PluginSdkDemo
                     }
                     else if (pitMenuRotary == 12 && isInPitMenu)
                     {
-                        Settings.fuelPerLapTarget = fuelAvgLap+fuelPerLapOffset;
+                        Settings.fuelPerLapTarget = fuelAvgLap + fuelPerLapOffset;
                     }
 
                     OKButtonCheck = false;
@@ -2202,7 +2218,7 @@ namespace User.PluginSdkDemo
                 {
                     radioName = irData.SessionData.DriverInfo.Drivers[irData.Telemetry.RadioTransmitCarIdx].UserName;
                     radioIsSpectator = Convert.ToBoolean(irData.SessionData.DriverInfo.Drivers[irData.Telemetry.RadioTransmitCarIdx].IsSpectator);
-                    
+
                     if (radioName == aheadGlobal)
                     {
                         radioPosition = realPosition - 1;
@@ -2319,7 +2335,7 @@ namespace User.PluginSdkDemo
 
                 if (((hasTCtog && TCswitch) || (hasTCtimer && TCPushTimer == 0)) && !(pitLimiter == 1 && speed > 0.9 * pitSpeedLimit) && TC != TCoffPosition)
                 {
- 
+
                     if (TCrpm * 0.998 > rpm || TCdropCD > 0)  //Main filter
                     {
                         TCdropCD++;
@@ -2401,11 +2417,11 @@ namespace User.PluginSdkDemo
 
                 }
 
-                if (!hasTC || TCPushTimer > 0 || (TC == TCoffPosition && TCoffPosition != -1) ||  (hasTCtog && !TCswitch) )
+                if (!hasTC || TCPushTimer > 0 || (TC == TCoffPosition && TCoffPosition != -1) || (hasTCtog && !TCswitch))
                 {
                     pluginManager.SetPropertyValue("TCToggle", this.GetType(), false);
                 }
-                
+
                 else
                 {
                     pluginManager.SetPropertyValue("TCToggle", this.GetType(), true);
@@ -2793,6 +2809,10 @@ namespace User.PluginSdkDemo
                         if ((lapTimeList[0].TotalSeconds < sessionBestLap.TotalSeconds || sessionBestLap.TotalSeconds == 0) && lapStatusList[0] == 1)
                         {
                             sessionBestLap = lapTimeList[0];
+                            for (int i = 0; i < lapDeltaSections + 1; i++) //Keep hold of the timings on that lap
+                            {
+                                lapDeltaSessionBest[i] = lapDeltaLast[i];
+                            }
                         }
                         lapTimeList.RemoveAt(8); //Making sure list doesnt grow untill infinity
                     }
@@ -2938,7 +2958,7 @@ namespace User.PluginSdkDemo
 
                 bool pitSpeeding = false;
 
-                if (pit == 1 && (Math.Round(speed,0)-2.5) > pitSpeedLimit)
+                if (pit == 1 && (Math.Round(speed, 0) - 2.5) > pitSpeedLimit)
                 {
                     pitSpeeding = true;
                 }
@@ -3709,7 +3729,7 @@ namespace User.PluginSdkDemo
                     }
 
                     else if (session == "Offline Testing")
-                    {   
+                    {
                         remainingLaps = 0;
                     }
                     else
@@ -3781,10 +3801,10 @@ namespace User.PluginSdkDemo
                             if (aheadName == irData.SessionData.DriverInfo.CompetingDrivers[e].UserName)
                             {
                                 int carID = Convert.ToInt16(irData.SessionData.DriverInfo.CompetingDrivers[e].CarIdx);
-                                
+
                                 aheadRealGap = realGapOpponentDelta[carID];
 
-                                if ((aheadRealGap > aheadGap * 1.25 && aheadRealGap - aheadGap > 10)|| (aheadRealGap < aheadGap * 0.75 && aheadRealGap - aheadGap < -10) || aheadRealGap >= 0)
+                                if ((aheadRealGap > aheadGap * 1.25 && aheadRealGap - aheadGap > 10) || (aheadRealGap < aheadGap * 0.75 && aheadRealGap - aheadGap < -10) || aheadRealGap >= 0)
                                 {
                                     aheadRealGap = aheadGap;
                                 }
@@ -3817,7 +3837,7 @@ namespace User.PluginSdkDemo
                                 int carID = Convert.ToInt16(irData.SessionData.DriverInfo.CompetingDrivers[i].CarIdx);
                                 behindRealGap = realGapOpponentDelta[carID];
 
-                                if ((behindRealGap > behindGap * 1.25 && behindRealGap - behindGap > 10) ||( behindRealGap < behindGap * 0.75 && behindRealGap - behindGap < -10 )|| behindRealGap <= 0)
+                                if ((behindRealGap > behindGap * 1.25 && behindRealGap - behindGap > 10) || (behindRealGap < behindGap * 0.75 && behindRealGap - behindGap < -10) || behindRealGap <= 0)
                                 {
                                     behindRealGap = behindGap;
                                 }
@@ -3984,7 +4004,7 @@ namespace User.PluginSdkDemo
                             {
                                 behindOvertakePrediction = 5;
                             }
-                            
+
                             int behindLapsToOvertake = ((int)(((-overtakeGap / paceDifference) + trackPosition) * 100)) / 100;
                             if (paceDifference > 0 || overtakeGap < 0.5)
                             {
@@ -4143,7 +4163,7 @@ namespace User.PluginSdkDemo
                                 sessionCarsLapsSincePit[i] = 0;
                             }
                             else if (sessionCarsLapsSincePit[i] != -1 || (sessionCarsLapsSincePit[i] == -1 && irData.Telemetry.CarIdxLap[i] - sessionCarsLap[i] > 0))
-                            { 
+                            {
                                 sessionCarsLapsSincePit[i] = irData.Telemetry.CarIdxLap[i] - sessionCarsLap[i];
                             }
                             else if (sessionCarsLapsSincePit[i] < -1)
@@ -4159,7 +4179,7 @@ namespace User.PluginSdkDemo
 
                         }
                     }
-                            
+
                     //Cars ahead/behind on track calculations
 
                     for (int i = 0; i < data.NewData.OpponentsAheadOnTrack.Count && i < 5; i++)
@@ -4186,7 +4206,7 @@ namespace User.PluginSdkDemo
                                 double? relative = data.NewData.OpponentsAheadOnTrack[i].RelativeGapToPlayer;
                                 double? realrelative = realGapOpponentRelative[Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[u].CarIdx)];
 
-                                if ((gap > realgap*1.25 && gap-realgap > 10) || (gap < realgap*0.75 && gap - realgap < -10) || realgap == 0)
+                                if ((gap > realgap * 1.25 && gap - realgap > 10) || (gap < realgap * 0.75 && gap - realgap < -10) || realgap == 0)
                                 {
                                     realgap = gap;
                                     if (realgap == null)
@@ -4194,7 +4214,7 @@ namespace User.PluginSdkDemo
                                         realgap = 0;
                                     }
                                 }
-                                if (relative - realrelative > 10 || relative - realrelative <-10 || realrelative >= 0)
+                                if (relative - realrelative > 10 || relative - realrelative < -10 || realrelative >= 0)
                                 {
                                     realrelative = relative;
                                 }
@@ -4453,7 +4473,7 @@ namespace User.PluginSdkDemo
 
                     if (counter != 4)
                     {
-                        fuelPerLap = fuelAvgLap + Math.Round(fuelPerLapOffset,2);
+                        fuelPerLap = fuelAvgLap + Math.Round(fuelPerLapOffset, 2);
                     }
                     else
                     {
@@ -4569,7 +4589,7 @@ namespace User.PluginSdkDemo
 
                         if (counter != 4)
                         {
-                            commandMinFuel = Math.Ceiling(minFuelPush+0.5);
+                            commandMinFuel = Math.Ceiling(minFuelPush + 0.5);
                             if (minFuelPush == 0)
                             {
                                 commandMinFuel = 0;
@@ -4611,7 +4631,7 @@ namespace User.PluginSdkDemo
                             {
                                 saveDelta = minFuelPush - maxFillOnStop;
                             }
-                            
+
                         }
                         else
                         {
@@ -5091,7 +5111,7 @@ namespace User.PluginSdkDemo
                     }
 
                 }
-                
+
                 //-----------------------------------------------------------------------------
                 //----------------------PIT STOP DURATION--------------------------------------
                 //-----------------------------------------------------------------------------
@@ -5243,7 +5263,7 @@ namespace User.PluginSdkDemo
                     {
                         currentFrontWingC = currentFrontWingC * 10;
                     }
-                    
+
                     if (currentFrontWingC > 0)
                     {
                         frontWingTime = 2.6 + (currentFrontWingC - 1) * 0.2;
@@ -5270,14 +5290,14 @@ namespace User.PluginSdkDemo
                     }
 
                     //Tape
-                    int currentTapeC = Math.Abs(currentTape-tape);
+                    int currentTapeC = Math.Abs(currentTape - tape);
 
                     if (currentTapeC > 0)
                     {
                         tapeTime = 1.2 + (currentTapeC - 1) * 0.2;
                     }
 
-                    double adjustmentTime = Math.Max(Math.Max(Math.Max(frontWingTime, rearWingTime), powersteerTime),tapeTime);
+                    double adjustmentTime = Math.Max(Math.Max(Math.Max(frontWingTime, rearWingTime), powersteerTime), tapeTime);
 
                     double pitTime = Math.Max(Math.Max(Math.Max(tireTime, fuelTime), WStimer), adjustmentTime);
                     if (!pitMultitask)
@@ -5318,8 +5338,114 @@ namespace User.PluginSdkDemo
                 }
 
                 //-----------------------------------------------------------------------------
-                //----------------------REAL GAPS----------------------------------------------
+                //----------------------LAP DELTA TIMING---------------------------------------
                 //-----------------------------------------------------------------------------
+
+
+                int myDeltaIndex = ((int)((trackPosition * lapDeltaSections) * 100)) / 100;
+
+                if (myDeltaIndex >= lapDeltaSections)
+                {
+                    myDeltaIndex = trackSections - 1;
+                }
+                if (myDeltaIndex < 0)
+                {
+                    myDeltaIndex = 0;
+                    myDeltaIndexOld = 0;
+                }
+
+                double deltaLastLap = 0;
+                double deltaSessionBest = 0;
+
+
+                if (myDeltaIndex != myDeltaIndexOld)
+                {
+                    myDeltaIndexOld = myDeltaIndex;
+                    if (lapDeltaCurrent[0] == 1)
+                    {
+                        lapDeltaCurrent[myDeltaIndex + 1] = currentLapTime.TotalMilliseconds;
+                    }
+                    else if (currentLapTime.TotalSeconds < 2 && lapDeltaCurrent[0] != 1)
+                    {
+                        lapDeltaCurrent[0] = 1; //This lap recording checked for full-length
+                        lapDeltaCurrent[myDeltaIndex + 1] = currentLapTime.TotalMilliseconds;
+                    }
+
+                    bool passCheck = (pit == 0 && (myDeltaIndex > 3 || (myDeltaIndex > 5 && lapDeltaLast[myDeltaIndex + 1] < 10000 && lapDeltaCurrent[myDeltaIndex + 1] < 10000)));
+
+                    //Setting last lap delta
+                    if (passCheck && lapDeltaLast[myDeltaIndex + 1] > 0 && lapDeltaCurrent[myDeltaIndex + 1] > 0)
+                    {
+                        deltaLastLap = (lapDeltaCurrent[myDeltaIndex + 1] - lapDeltaLast[myDeltaIndex + 1]) / 1000;
+                        lapDeltaLastChange[myDeltaIndex] = deltaLastLap;
+                        pluginManager.SetPropertyValue("DeltaLastLap", this.GetType(), deltaLastLap);
+                    }
+
+                    if (myDeltaIndex > 5 && lapDeltaSessionBest[myDeltaIndex + 1] < 10000)
+                    {
+                        passCheck = false;
+                    }
+                    //Setting session best lap delta
+                    if (passCheck && lapDeltaSessionBest[myDeltaIndex + 1] > 0 && lapDeltaCurrent[myDeltaIndex + 1] > 0)
+                    {
+                        deltaSessionBest = (lapDeltaCurrent[myDeltaIndex + 1] - lapDeltaSessionBest[myDeltaIndex + 1]) / 1000;
+                        lapDeltaSessionBestChange[myDeltaIndex] = deltaSessionBest;
+                        pluginManager.SetPropertyValue("DeltaSessionBest", this.GetType(), deltaSessionBest);
+                    }
+
+                    if (myDeltaIndex == 0) //last section, copy to last lap. Further copy to session/ATB on lap changes. (from last lap)
+                    {
+                        for (int i = 0; i < lapDeltaSections + 1; i++)
+                        {
+                            lapDeltaLast[i] = lapDeltaCurrent[i];
+                            lapDeltaCurrent[i] = -1;
+                        }
+                    }
+                }
+
+                int chunkSize = lapDeltaSections / deltaChangeChunks;
+                int currentChunk = myDeltaIndex / chunkSize;
+                int changeCounter = 0;
+                double changeSum = 0;
+                double firstOfChunk = 0;
+                double lastOfChunk = 0;
+
+                for (int i = currentChunk * chunkSize; i < myDeltaIndex; i++)
+                {
+                    if (lapDeltaLastChange[i] != 0)
+                    {
+                        if (changeCounter == 0)
+                        {
+                            firstOfChunk = lapDeltaLastChange[i];
+                        }
+                        changeCounter++;
+                    }
+                    if (i == (myDeltaIndex-1))
+                    {
+                        lastOfChunk = lapDeltaLastChange[i];
+                    }
+
+                    if (changeCounter != 0)
+                    {
+                        changeSum = (lastOfChunk - firstOfChunk) / changeCounter;
+                    }
+
+                }
+
+                lastChunks[currentChunk] = changeSum;
+
+
+
+
+
+                //Futher calculate the delta to last lap, to SB and ATB. Using the prevRecords as a starting point. The item in the list is myDistIndex-prevRecords+1. 
+
+
+
+                    //-----------------------------------------------------------------------------
+                    //----------------------REAL GAPS----------------------------------------------
+                    //-----------------------------------------------------------------------------
+
                 int myLap = irData.Telemetry.CarIdxLap[myCarIdx]; //My lap count
                 double myLoc = irData.Telemetry.CarIdxLapDistPct[myCarIdx]; //My current track position
                 int myDistIndex = ((int)((myLoc * trackSections) * 100)) / 100; //Distance index, dividing track position into sections
@@ -5539,6 +5665,15 @@ namespace User.PluginSdkDemo
                             sessionCarsLapsSincePit.Clear();
                             sessionCarsLap.Clear();
 
+                            lapDeltaCurrent.Clear();
+                            lapDeltaSessionBest.Clear();
+                            lapDeltaLast.Clear();
+                            lapDeltaATB.Clear();
+                            lapDeltaLastChange.Clear();
+                            lapDeltaSessionBestChange.Clear();
+                            lastChunks.Clear();
+                            SBChunks.Clear();
+
                             for (int u = 0; u < trackSections; u++)
                             {
                                 List<bool> locks = new List<bool> { };
@@ -5563,6 +5698,21 @@ namespace User.PluginSdkDemo
                                 realGapOpponentRelative.Add(0);
                                 sessionCarsLapsSincePit.Add(-1);
                                 sessionCarsLap.Add(-1);
+                            }
+
+                            for (int i = 0; i < lapDeltaSections + 1; i++)
+                            {
+                                lapDeltaCurrent.Add(-1);
+                                lapDeltaSessionBest.Add(-1);
+                                lapDeltaLast.Add(-1);
+                                lapDeltaATB.Add(-1);
+                                lapDeltaLastChange.Add(0);
+                                lapDeltaSessionBestChange.Add(0);
+                            }
+                            for (int i = 0; i < deltaChangeChunks; i++)
+                            {
+                                lastChunks.Add(0);
+                                SBChunks.Add(0);
                             }
                         }
   
@@ -5721,8 +5871,7 @@ namespace User.PluginSdkDemo
                     pluginManager.SetPropertyValue("CurrentRearWing", this.GetType(), currentRearWing);
                     pluginManager.SetPropertyValue("CurrentPowersteer", this.GetType(), currentPWS);
                     pluginManager.SetPropertyValue("CurrentTape", this.GetType(), currentTape);
-                   
-
+                  
                 }
 
             }
@@ -5775,6 +5924,15 @@ namespace User.PluginSdkDemo
                     sessionCarsLapsSincePit.Clear();
                     sessionCarsLap.Clear();
 
+                    lapDeltaCurrent.Clear();
+                    lapDeltaSessionBest.Clear();
+                    lapDeltaLast.Clear();
+                    lapDeltaATB.Clear();
+                    lapDeltaLastChange.Clear();
+                    lapDeltaSessionBestChange.Clear();
+                    lastChunks.Clear();
+                    SBChunks.Clear();
+
                     for (int u = 0; u < trackSections; u++)
                     {
                         List<bool> locks = new List<bool> { };
@@ -5799,6 +5957,21 @@ namespace User.PluginSdkDemo
                         realGapOpponentRelative.Add(0);
                         sessionCarsLapsSincePit.Add(-1);
                         sessionCarsLap.Add(-1);
+                    }
+
+                    for (int i = 0; i < lapDeltaSections + 1; i++)
+                    {
+                        lapDeltaCurrent.Add(-1);
+                        lapDeltaSessionBest.Add(-1);
+                        lapDeltaLast.Add(-1);
+                        lapDeltaATB.Add(-1);
+                        lapDeltaLastChange.Add(0);
+                        lapDeltaSessionBestChange.Add(0);
+                    }
+                    for (int i = 0; i < deltaChangeChunks; i++)
+                    {
+                        lastChunks.Add(0);
+                        SBChunks.Add(0);
                     }
                 }
 
@@ -5877,6 +6050,23 @@ namespace User.PluginSdkDemo
                 sessionCarsLapsSincePit.Add(-1);
                 sessionCarsLap.Add(-1);
             }
+
+            for (int i = 0; i < lapDeltaSections + 1; i++)
+            {
+                lapDeltaCurrent.Add(-1);
+                lapDeltaSessionBest.Add(-1);
+                lapDeltaLast.Add(-1);
+                lapDeltaATB.Add(-1);
+                lapDeltaLastChange.Add(0);
+                lapDeltaSessionBestChange.Add(0);
+            }
+
+            for(int i = 0; i < deltaChangeChunks; i ++)
+            {
+                lastChunks.Add(0);
+                SBChunks.Add(0);
+            }
+
 
             //Test property
 
@@ -6672,6 +6862,9 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("Lap08Sector2Status", this.GetType(), 0);
             pluginManager.AddProperty("Lap08Sector3Status", this.GetType(), 0);
             pluginManager.AddProperty("Lap08FuelTargetDelta", this.GetType(), 0);
+
+            pluginManager.AddProperty("DeltaLastLap", this.GetType(), 0);
+            pluginManager.AddProperty("DeltaSessionBest", this.GetType(), 0);
 
             pluginManager.AddProperty("P1Gap", this.GetType(), 0);
             pluginManager.AddProperty("P1Name", this.GetType(), "");
