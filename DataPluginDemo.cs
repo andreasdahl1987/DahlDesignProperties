@@ -5405,7 +5405,7 @@ namespace User.PluginSdkDemo
 
                 int chunkSize = lapDeltaSections / deltaChangeChunks;
                 int currentChunk = myDeltaIndex / chunkSize;
-                int changeCounter = 0;
+                bool changeStarted = false; ;
                 double changeSum = 0;
                 double firstOfChunk = 0;
                 double lastOfChunk = 0;
@@ -5414,28 +5414,24 @@ namespace User.PluginSdkDemo
                 {
                     if (lapDeltaLastChange[i] != 0)
                     {
-                        if (changeCounter == 0)
+                        if (!changeStarted)
                         {
                             firstOfChunk = lapDeltaLastChange[i];
                         }
-                        changeCounter++;
+                        changeStarted = true;
                     }
                     if (i == (myDeltaIndex-1))
                     {
                         lastOfChunk = lapDeltaLastChange[i];
                     }
+                }
 
-                    if (changeCounter != 0)
-                    {
-                        changeSum = (lastOfChunk - firstOfChunk) / changeCounter;
-                    }
-
+                if (changeStarted)
+                {
+                    changeSum = lastOfChunk - firstOfChunk;
                 }
 
                 lastChunks[currentChunk] = changeSum;
-
-
-
 
 
                 //Futher calculate the delta to last lap, to SB and ATB. Using the prevRecords as a starting point. The item in the list is myDistIndex-prevRecords+1. 
