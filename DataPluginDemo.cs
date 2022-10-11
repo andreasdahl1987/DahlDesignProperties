@@ -2141,7 +2141,7 @@ namespace User.PluginSdkDemo
                     else if (pitMenuRotary == 11 && isInPitMenu)
                     {
                         fuelSaveDelta++;
-                        if (fuelSaveDelta > 2)
+                        if (fuelSaveDelta > 3)
                         {
                             fuelSaveDelta = 0;
                         }
@@ -6352,6 +6352,26 @@ namespace User.PluginSdkDemo
                     pitMenuRotary = 12;
                 }
                 pluginManager.SetPropertyValue("PitMenu", this.GetType(), pitMenuRotary);
+            });
+
+            pluginManager.AddAction("DeltaInc", this.GetType(), (a, b) =>
+            {
+                fuelSaveDelta++;
+                if (fuelSaveDelta > 3)
+                {
+                    fuelSaveDelta = 0;
+                }
+                pluginManager.SetPropertyValue("FuelSaveDelta", this.GetType(), fuelSaveDelta);
+            });
+
+            pluginManager.AddAction("DeltaDec", this.GetType(), (a, b) =>
+            {
+                fuelSaveDelta--;
+                if (fuelSaveDelta < 0)
+                {
+                    fuelSaveDelta = 3;
+                }
+                pluginManager.SetPropertyValue("FuelSaveDelta", this.GetType(), fuelSaveDelta);
             });
 
             pluginManager.AddProperty("PitSavePaceLock", this.GetType(), false);

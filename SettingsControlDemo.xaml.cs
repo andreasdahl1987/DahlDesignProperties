@@ -19,5 +19,9 @@ namespace User.PluginSdkDemo
             this.Plugin = plugin;
         }
 
+        private void ControlsEditor_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
     }
 }

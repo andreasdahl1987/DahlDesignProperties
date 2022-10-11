@@ -9,7 +9,7 @@
              d:DesignHeight="1200" Width="820" HorizontalAlignment="Left">
 
     <Grid>
-        <TabControl HorizontalAlignment="Left" Height="1100" VerticalAlignment="Top" Width="820 " Margin="0,12,0,0">
+        <TabControl HorizontalAlignment="Left" Height="1155" VerticalAlignment="Top" Width="820 " Margin="0,12,0,0">
             <TabItem Header="PIT ROTARY" Foreground="#FF252525">
                 <Grid Background="#FFDADADA" Margin="0,0,0,0">
                     <ScrollViewer>
@@ -97,6 +97,8 @@
                                     Height="20"
                                     Margin="10,-20,0,10"                        
                                     Text="{Binding BehindPlayerText}"/>
+                                <ui:ControlsEditor FriendlyName="Next delta screen" ActionName="DahlDesign.DeltaInc" HorizontalAlignment="Left" Width="750" Loaded="ControlsEditor_Loaded"/>
+                                <ui:ControlsEditor FriendlyName="Previous delta screen" ActionName="DahlDesign.DeltaDec" HorizontalAlignment="Left" Width="750"/>
                             </StackPanel>
                         </styles:SHSection>
                     </ScrollViewer>
