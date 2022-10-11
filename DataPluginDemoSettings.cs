@@ -19,6 +19,7 @@ namespace User.PluginSdkDemo
         public bool DashLEDEnabled { get; set; } = false;
         public bool LapInfoScreen { get; set; } = true;
         public bool ShiftWarning { get; set; } = false;
+        public bool WheelSlipLEDs { get; set; } = false;
 
         public string AheadPlayerText { get; set; } = "Blue flag";
 

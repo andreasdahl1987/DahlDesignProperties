@@ -180,6 +180,23 @@
                                     Margin="24,12,-58,0"                        
                                     Text="{Binding DDUstartLED}" Grid.Row="1">
                                 </TextBox>
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Text="SW1 Enabled" Margin="0,16,0,24" Grid.RowSpan="2"/>
+                                <styles:SHToggleButton  
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Height="20"
+                                    IsChecked="{Binding SW1Enabled}" Margin="24,16,0,0"/>
+                                <styles:SHToggleButton  
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Height="20"
+                                    IsChecked="{Binding SW1Enabled}" Margin="24,16,0,0"/>
                             </Grid>
                         </StackPanel>
                     </styles:SHSection>
@@ -270,6 +287,13 @@
                                 VerticalAlignment="Top"
                                 Height="20"
                                 IsChecked="{Binding LapInfoScreen}" Margin="14,-10,0,0"/>
+                            <TextBlock
+                                Text="Activate wheel slip functions:" Margin="10,0,0,23"/>
+                            <styles:SHToggleButton
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Height="20"
+                                IsChecked="{Binding WheelSlipLEDs}" Margin="14,-10,0,0"/>
                         </StackPanel>
                     </styles:SHSection>
 

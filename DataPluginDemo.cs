@@ -928,7 +928,7 @@ namespace User.PluginSdkDemo
                     smoothGear = "N";
                     neutralCounter = 0;
                 }
-                if (button16Mode == 1)
+                if (button8Mode == 1)
                 {
                     smoothGear = "N";
                 }
@@ -1809,6 +1809,14 @@ namespace User.PluginSdkDemo
                 //----------------------------------
 
                 //Wheel slip
+                if (!Settings.WheelSlipLEDs)
+                {
+                    slipLF = 0;
+                    slipLR = 0;
+                    slipRF = 0;
+                    slipRR = 0;
+                }
+
 
                 pluginManager.SetPropertyValue("SlipLF", this.GetType(), slipLF);
                 pluginManager.SetPropertyValue("SlipRF", this.GetType(), slipRF);
