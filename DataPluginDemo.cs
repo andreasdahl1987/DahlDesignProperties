@@ -557,17 +557,23 @@ namespace User.PluginSdkDemo
                 int encoderField = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_Z")); //Encoder field
                 encoder1Mode = (encoderField & 1);
                 encoder2Mode = (encoderField & 2) >> 1;
+                encoder3Mode = (encoderField & 4) >> 2;
+
                 string bitField = Convert.ToString(encoderField, 2).PadLeft(16, '0');
 
+                encoder5Mode = (encoderField & 768) >> 8;
                 encoder6Mode = (encoderField & 3072) >> 10;
                 encoder7Mode = (encoderField & 12288) >> 12;
-                encoder8Mode = (encoderField & 49152) >> 14;
+                encoder8Mode = (encoderField & 16384) >> 14;
 
-                pluginManager.SetPropertyValue("SW1DDSMode", this.GetType(), encoder8Mode);
-                pluginManager.SetPropertyValue("SW1ClutchMode", this.GetType(), encoder7Mode);
-                pluginManager.SetPropertyValue("SW1BiteSetting", this.GetType(), encoder6Mode);
                 pluginManager.SetPropertyValue("SW1HandbrakeActive", this.GetType(), encoder1Mode);
                 pluginManager.SetPropertyValue("SW1QuickSwitchMode", this.GetType(), encoder2Mode);
+                
+                pluginManager.SetPropertyValue("SW1DDSMode", this.GetType(), encoder5Mode);
+                pluginManager.SetPropertyValue("SW1ClutchMode", this.GetType(), encoder7Mode);
+                pluginManager.SetPropertyValue("SW1BiteSetting", this.GetType(), encoder6Mode);
+                pluginManager.SetPropertyValue("SW1QuickSwitchActive", this.GetType(), encoder8Mode);
+
 
                 int buttonField = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_Y")); //Buttonfield
                 button1Mode = buttonField & 1;
@@ -596,12 +602,11 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("SW1RightToggleMode", this.GetType(), button5Mode);
                 pluginManager.SetPropertyValue("SW1LeftToggleMode", this.GetType(), button6Mode);
                 pluginManager.SetPropertyValue("SW1ShifterMode", this.GetType(), button7Mode);
-                pluginManager.SetPropertyValue("SW1QuickSwitchActive", this.GetType(), button8Mode);
+                pluginManager.SetPropertyValue("SW1NeutralActive", this.GetType(), button8Mode);
                 pluginManager.SetPropertyValue("SW1ThrottleHoldActive", this.GetType(), button9Mode);
                 pluginManager.SetPropertyValue("SW1MagicToggleActive", this.GetType(), button10Mode);
                 pluginManager.SetPropertyValue("SW1Preset", this.GetType(), button11Mode + 1);
                 pluginManager.SetPropertyValue("SW1NeutralMode", this.GetType(), button15Mode);
-                pluginManager.SetPropertyValue("SW1NeutralActive", this.GetType(), button16Mode);
 
                 pluginManager.SetPropertyValue("SW1Clutch", this.GetType(), Math.Round(clutchValue, 1));
                 pluginManager.SetPropertyValue("SW1BitePoint", this.GetType(), Math.Round(bitePointValue, 1));
@@ -5381,6 +5386,11 @@ namespace User.PluginSdkDemo
                         pluginManager.SetPropertyValue("DeltaLastLap", this.GetType(), deltaLastLap);
                     }
 
+                    if (lapDeltaLast[myDeltaIndex + 1] == -1)
+                    {
+                        pluginManager.SetPropertyValue("DeltaLastLap", this.GetType(), 0);
+                    }
+
                     if (myDeltaIndex > 5 && lapDeltaSessionBest[myDeltaIndex + 1] < 10000)
                     {
                         passCheck = false;
@@ -5392,6 +5402,8 @@ namespace User.PluginSdkDemo
                         lapDeltaSessionBestChange[myDeltaIndex] = deltaSessionBest;
                         pluginManager.SetPropertyValue("DeltaSessionBest", this.GetType(), deltaSessionBest);
                     }
+
+
 
                     if (myDeltaIndex == 0) //last section, copy to last lap. Further copy to session/ATB on lap changes. (from last lap)
                     {
@@ -5405,24 +5417,25 @@ namespace User.PluginSdkDemo
 
                 int chunkSize = lapDeltaSections / deltaChangeChunks;
                 int currentChunk = myDeltaIndex / chunkSize;
-                bool changeStarted = false; ;
+                bool changeStarted = false;
                 double changeSum = 0;
                 double firstOfChunk = 0;
                 double lastOfChunk = 0;
 
-                for (int i = currentChunk * chunkSize; i < myDeltaIndex; i++)
+                if (lapDeltaLast[myDeltaIndex+1] > 0)
                 {
-                    if (lapDeltaLastChange[i] != 0)
+                    for (int i = currentChunk * chunkSize; i < myDeltaIndex + 1; i++)
                     {
                         if (!changeStarted)
                         {
                             firstOfChunk = lapDeltaLastChange[i];
                         }
                         changeStarted = true;
-                    }
-                    if (i == (myDeltaIndex-1))
-                    {
-                        lastOfChunk = lapDeltaLastChange[i];
+
+                        if (i == myDeltaIndex)
+                        {
+                            lastOfChunk = lapDeltaLastChange[i];
+                        }
                     }
                 }
 
@@ -5432,15 +5445,43 @@ namespace User.PluginSdkDemo
                 }
 
                 lastChunks[currentChunk] = changeSum;
+                
+                string lastResult = string.Join(",", lastChunks); //push result as string
 
+                changeStarted = false; 
+                changeSum = 0;
+                firstOfChunk = 0;
+                lastOfChunk = 0;
 
-                //Futher calculate the delta to last lap, to SB and ATB. Using the prevRecords as a starting point. The item in the list is myDistIndex-prevRecords+1. 
+                for (int i = currentChunk * chunkSize; i < myDeltaIndex + 1; i++)
+                {
+                    if (!changeStarted)
+                    {
+                        firstOfChunk = lapDeltaSessionBestChange[i];
+                    }
+                    changeStarted = true;
 
+                    if (i == myDeltaIndex)
+                    {
+                        lastOfChunk = lapDeltaSessionBestChange[i];
+                    }
+                }
 
+                if (changeStarted)
+                {
+                    changeSum = lastOfChunk - firstOfChunk;
+                }
 
-                    //-----------------------------------------------------------------------------
-                    //----------------------REAL GAPS----------------------------------------------
-                    //-----------------------------------------------------------------------------
+                SBChunks[currentChunk] = changeSum;
+
+                string SBResult = string.Join(",", SBChunks); //push result as string
+
+                pluginManager.SetPropertyValue("DeltaLastLapChange", this.GetType(), lastResult);
+                pluginManager.SetPropertyValue("DeltaSessionBestChange", this.GetType(), SBResult);
+
+                //-----------------------------------------------------------------------------
+                //----------------------REAL GAPS----------------------------------------------
+                //-----------------------------------------------------------------------------
 
                 int myLap = irData.Telemetry.CarIdxLap[myCarIdx]; //My lap count
                 double myLoc = irData.Telemetry.CarIdxLapDistPct[myCarIdx]; //My current track position
@@ -6861,6 +6902,8 @@ namespace User.PluginSdkDemo
 
             pluginManager.AddProperty("DeltaLastLap", this.GetType(), 0);
             pluginManager.AddProperty("DeltaSessionBest", this.GetType(), 0);
+            pluginManager.AddProperty("DeltaLastLapChange", this.GetType(), "");
+            pluginManager.AddProperty("DeltaSessionBestChange", this.GetType(), "");
 
             pluginManager.AddProperty("P1Gap", this.GetType(), 0);
             pluginManager.AddProperty("P1Name", this.GetType(), "");
