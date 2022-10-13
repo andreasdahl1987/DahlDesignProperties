@@ -469,6 +469,10 @@ namespace User.PluginSdkDemo
         int encoder6Mode = 0;
         int encoder7Mode = 0;
         int encoder8Mode = 0;
+        int DDSmode = 0;
+        int bitePointMode = 0;
+        int dualClutchesMode = 0;
+        int encoder15Mode = 0;
 
         int button1Mode = 0;
         int button2Mode = 0;
@@ -620,23 +624,35 @@ namespace User.PluginSdkDemo
             else if (controllerEnabled)
             {
                 int encoderField = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_Z")); //Encoder field
-                encoder1Mode = encoderField & 3;
-                encoder2Mode = (encoderField & 12) >> 2;
-                encoder3Mode = (encoderField & 48) >> 4;
-                encoder4Mode = (encoderField & 192) >> 6;
-                encoder5Mode = (encoderField & 768) >> 8;
-                encoder6Mode = (encoderField & 3072) >> 10;
-                encoder7Mode = (encoderField & 12288) >> 12;
-                encoder8Mode = (encoderField & 49152) >> 14;
+                encoder1Mode = encoderField & 1;
+                encoder2Mode = (encoderField & 2) >> 1;
+                encoder3Mode = (encoderField & 4) >> 2;
+                encoder4Mode = (encoderField & 8) >> 3;
+                encoder5Mode = (encoderField & 16) >> 4;
+                encoder6Mode = (encoderField & 32) >> 5;
+                encoder7Mode = (encoderField & 64) >> 6;
+                encoder8Mode = (encoderField & 128) >> 7;
 
-                pluginManager.SetPropertyValue("DDCmodeE1", this.GetType(), encoder1Mode);
-                pluginManager.SetPropertyValue("DDCmodeE2", this.GetType(), encoder2Mode);
-                pluginManager.SetPropertyValue("DDCmodeE3", this.GetType(), encoder3Mode);
-                pluginManager.SetPropertyValue("DDCmodeE4", this.GetType(), encoder4Mode);
-                pluginManager.SetPropertyValue("DDCmodeE5", this.GetType(), encoder5Mode);
-                pluginManager.SetPropertyValue("DDCDDSMode", this.GetType(), encoder8Mode);
-                pluginManager.SetPropertyValue("DDCclutchMode", this.GetType(), encoder7Mode);
-                pluginManager.SetPropertyValue("DDCbiteSetting", this.GetType(), encoder6Mode);
+                DDSmode = (encoderField & 768) >> 8;
+                bitePointMode = (encoderField & 3072) >> 10;
+                dualClutchesMode = (encoderField & 12288) >> 12;
+                encoder15Mode = (encoderField & 16384) >> 14;
+
+
+                pluginManager.SetPropertyValue("DDCR1", this.GetType(), encoder1Mode);
+                pluginManager.SetPropertyValue("DDCR2", this.GetType(), encoder2Mode);
+                pluginManager.SetPropertyValue("DDCR3", this.GetType(), encoder3Mode);
+                pluginManager.SetPropertyValue("DDCR4", this.GetType(), encoder4Mode);
+                pluginManager.SetPropertyValue("DDCR5", this.GetType(), encoder5Mode);
+                pluginManager.SetPropertyValue("DDCR6", this.GetType(), encoder6Mode);
+                pluginManager.SetPropertyValue("DDCR7", this.GetType(), encoder7Mode);
+                pluginManager.SetPropertyValue("DDCR8", this.GetType(), encoder8Mode);
+                pluginManager.SetPropertyValue("DDCR15", this.GetType(), encoder15Mode);
+
+
+                pluginManager.SetPropertyValue("DDCDDSMode", this.GetType(), DDSmode);
+                pluginManager.SetPropertyValue("DDCclutchMode", this.GetType(), dualClutchesMode);
+                pluginManager.SetPropertyValue("DDCbiteSetting", this.GetType(), bitePointMode); 
 
                 int buttonField = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_Y")); //Buttonfield
                 button1Mode = buttonField & 1;
@@ -658,11 +674,11 @@ namespace User.PluginSdkDemo
                 double brakeValue = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_RZ")) / 655.35;
                 double throttleValue = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_Slider0")) / 655.35;
 
-                pluginManager.SetPropertyValue("DDCmodeB1", this.GetType(), button1Mode);
-                pluginManager.SetPropertyValue("DDCmodeB2", this.GetType(), button2Mode);
-                pluginManager.SetPropertyValue("DDCmodeB3", this.GetType(), button3Mode);
-                pluginManager.SetPropertyValue("DDCmodeB4", this.GetType(), button4Mode);
-                pluginManager.SetPropertyValue("DDCmodeB5", this.GetType(), button5Mode);
+                pluginManager.SetPropertyValue("DDCB1", this.GetType(), button1Mode);
+                pluginManager.SetPropertyValue("DDCB2", this.GetType(), button2Mode);
+                pluginManager.SetPropertyValue("DDCB3", this.GetType(), button3Mode);
+                pluginManager.SetPropertyValue("DDCB4", this.GetType(), button4Mode);
+
                 pluginManager.SetPropertyValue("DDCthrottleHoldActive", this.GetType(), button6Mode);
                 pluginManager.SetPropertyValue("DDCmagicActive", this.GetType(), button7Mode);
                 pluginManager.SetPropertyValue("DDCquickSwitchMode", this.GetType(), button8Mode);
@@ -670,7 +686,7 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("DDChandbrakeActive", this.GetType(), button10Mode);
                 pluginManager.SetPropertyValue("DDCPreset", this.GetType(), button11Mode+1);
                 pluginManager.SetPropertyValue("DDCneutralMode", this.GetType(), button15Mode);
-                pluginManager.SetPropertyValue("DDCneutralActive", this.GetType(), button16Mode);
+                pluginManager.SetPropertyValue("DDCneutralActive", this.GetType(), button5Mode);
 
                 pluginManager.SetPropertyValue("DDCclutch", this.GetType(), Math.Round(clutchValue, 1));
                 pluginManager.SetPropertyValue("DDCbitePoint", this.GetType(), Math.Round(bitePointValue, 1));
@@ -7336,11 +7352,15 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("DDCbrake", this.GetType(), 0);
             pluginManager.AddProperty("DDCthrottle", this.GetType(), 0);
 
-            pluginManager.AddProperty("DDCmodeE1", this.GetType(), -1);
-            pluginManager.AddProperty("DDCmodeE2", this.GetType(), -1);
-            pluginManager.AddProperty("DDCmodeE3", this.GetType(), -1);
-            pluginManager.AddProperty("DDCmodeE4", this.GetType(), -1);
-            pluginManager.AddProperty("DDCmodeE5", this.GetType(), -1);
+            pluginManager.AddProperty("DDCR1", this.GetType(), -1);
+            pluginManager.AddProperty("DDCR2", this.GetType(), -1);
+            pluginManager.AddProperty("DDCR3", this.GetType(), -1);
+            pluginManager.AddProperty("DDCR4", this.GetType(), -1);
+            pluginManager.AddProperty("DDCR5", this.GetType(), -1);
+            pluginManager.AddProperty("DDCR6", this.GetType(), -1);
+            pluginManager.AddProperty("DDCR7", this.GetType(), -1);
+            pluginManager.AddProperty("DDCR8", this.GetType(), -1);
+            pluginManager.AddProperty("DDCR15", this.GetType(), -1);
             pluginManager.AddProperty("DDCDDSMode", this.GetType(), -1);
             pluginManager.AddProperty("DDCDDSEnabled", this.GetType(), false);
             pluginManager.AddProperty("DDCEnabled", this.GetType(), false);
@@ -7348,11 +7368,12 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("DDCclutchMode", this.GetType(), -1);
             pluginManager.AddProperty("DDCbiteSetting", this.GetType(), -1);
 
-            pluginManager.AddProperty("DDCmodeB1", this.GetType(), -1);
-            pluginManager.AddProperty("DDCmodeB2", this.GetType(), -1);
-            pluginManager.AddProperty("DDCmodeB3", this.GetType(), -1);
-            pluginManager.AddProperty("DDCmodeB4", this.GetType(), -1);
-            pluginManager.AddProperty("DDCmodeB5", this.GetType(), -1);
+
+            pluginManager.AddProperty("DDCB1", this.GetType(), -1);
+            pluginManager.AddProperty("DDCB2", this.GetType(), -1);
+            pluginManager.AddProperty("DDCB3", this.GetType(), -1);
+            pluginManager.AddProperty("DDCB4", this.GetType(), -1);
+
             pluginManager.AddProperty("DDCthrottleHoldActive", this.GetType(), -1);
             pluginManager.AddProperty("DDCmagicActive", this.GetType(), -1);
             pluginManager.AddProperty("DDCquickSwitchMode", this.GetType(), -1);
