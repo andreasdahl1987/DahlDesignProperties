@@ -1298,42 +1298,50 @@ namespace User.PluginSdkDemo
                                 clutchSpin = 0;
                                 clutchIdealRangeStart = 28;
                                 clutchIdealRangeStop = 31;
+                                launchThrottle = 100;
+
                                 break;
                             case 0.931:
-                                clutchBitePoint = 29.5;
+                                clutchBitePoint = 30.0;
                                 clutchSpin = 29.0;
                                 clutchIdealRangeStart = 29.5;
                                 clutchIdealRangeStop = 33;
+                                launchThrottle = 85;
                                 break;
                             case 0.96:
-                                clutchBitePoint = 31.0;
-                                clutchSpin = 30.5;
+                                clutchBitePoint = 30.0;
+                                clutchSpin = 29.5;
                                 clutchIdealRangeStart = 31.0;
                                 clutchIdealRangeStop = 34;
+                                launchThrottle = 85;
                                 break;
                             case 1:
                                 clutchBitePoint = 32.0;
                                 clutchSpin = 31.5;
                                 clutchIdealRangeStart = 32.0;
                                 clutchIdealRangeStop = 35;
+                                launchThrottle = 80;
                                 break;
                             case 1.042:
                                 clutchBitePoint = 34.0;
-                                clutchSpin = 33.5;
+                                clutchSpin = 33.0;
                                 clutchIdealRangeStart = 34.0;
                                 clutchIdealRangeStop = 36;
+                                launchThrottle = 75;
                                 break;
                             case 1.074:
-                                clutchBitePoint = 35.0;
-                                clutchSpin = 34.5;
+                                clutchBitePoint = 34.0;
+                                clutchSpin = 33.0;
                                 clutchIdealRangeStart = 35.0;
                                 clutchIdealRangeStop = 37;
+                                launchThrottle = 70;
                                 break;
                             case 1.13:
                                 clutchBitePoint = 36.0;
                                 clutchSpin = 35.0;
                                 clutchIdealRangeStart = 35.5;
                                 clutchIdealRangeStop = 38;
+                                launchThrottle = 67;
                                 break;
                         }
                     }
@@ -6809,7 +6817,7 @@ namespace User.PluginSdkDemo
             carInfo.Add(new Cars("Mercedes AMG GT3", false, false, true, false, -1, true, true, true, 12, 3, 1, false, false, "Mercedes AMG GT3", "GT3", 7350, 7130, 6780, 6570, 6530, 0, 0,7470, 1284, 37.5, 36.7, 36.8, 48.0, 1, 20, 1, 70, false, 50, 1, 0.9, 1.1, 0.7, 2.7, false, 0, 0, 6.5, 1.5, CrewType.SingleTyre, false, true, AnimationType.AMGGT3, 0.25)); 
             carInfo.Add(new Cars("Ferrari 488 GT3 Evo 2020", false, false, false, true, 1, true, true, false, 1, 1, 12, false, false, "Ferrari 488 GT3" , "GT3", 7300, 7450, 7200, 7200, 7150, 0, 0, 7650, 1962, 33.2, 32.9, 32.9, 36.5, 1, 50, 1, 100, false, 0, 1, 0.9, 1.1, 0.7, 2.7, false, 0, 0, 6.5, 1.5, CrewType.SingleTyre, false, true, AnimationType.Ferrari488, 0.25));
             carInfo.Add(new Cars("Volkswagen Beetle GRC Lite", false, false, false, false,-1, false, false, false, -1, -1, -1, false, false, "Default", "Rally", 7500, 7500, 7500, 7500, 7500, 0, 0, 8190, 1918, 50, 50, 50, 50, 50, 50, 50, 50, false, 0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0, CrewType.SingleTyre, true, true, AnimationType.Analog, 1)); //not finished 
-            carInfo.Add(new Cars("Porsche 911 GT3 Cup (992)", false, false, false, false, -1, false, false, false, -1, -1, -1, false, false, "Single", "BiasOnly", 8560, 8560, 8560, 8560, 8560, 0, 0, 8740, 1570, 44.2, 43.8, 43.8, 50.0, 1, 10, 1, 15, false, 0, 0.9, 0.8, 1.2, 0.9, 3, false, 0, 0, 6.5, 1.5, CrewType.SingleTyre, false, true, AnimationType.Porsche, 0.3));
+            carInfo.Add(new Cars("Porsche 911 GT3 Cup (992)", false, false, false, false, -1, false, false, false, -1, -1, -1, false, false, "Single", "BiasOnly", 8560, 8560, 8560, 8560, 8560, 0, 0, 8740, 1570, 40.5, 40.0, 40.5, 47.0, 1, 10, 1, 15, false, 0, 0.9, 0.8, 1.2, 0.9, 3, false, 0, 0, 6.5, 1.5, CrewType.SingleTyre, false, true, AnimationType.Porsche, 0.3));
             carInfo.Add(new Cars("Dallara IR18", true, false, false, false, -1, false, false, false, -1, 1, 8, false, true, "Indycar", "Indycar", 11900, 11900, 11930, 11960, 11960, 0, 0, 11995, 2999, 51.5, 0, 0, 0, 1, 70, 1, 80, true, 80, 0, 0, 0, 0, 9.2, true, 7.1, 0, 6.2, 0, CrewType.All, true, false, AnimationType.Indycar, 0.7)); 
             carInfo.Add(new Cars("Formula Renault 3.5", false, true, false, false, -1, false, false, false, -1, -1, -1, false, false, "FR3.5", "FR3.5", 8940, 8940, 8940, 8940, 8940, 0, 0, 8950, 2499, 44.5, 0, 0, 0, 1, 30, 1, 90, true, 63, 1.1, 1.1, 1, 1.1, 8.1, false, 0, 0, 6.2, 0, CrewType.All, true, false, AnimationType.FormulaRenault, 0.4));
             carInfo.Add(new Cars("Mazda MX-5 Cup", false, false, false, false, -1, true, false, false, -1, -1, -1, false, false, "Single", "Default", 7200, 7380, 7420, 7420, 0, 0, 0, 7350, 885, 45.5, 0, 40, 48, 1, 40, 1, 40, false, 0, 0.8, 0.8, 1, 0.5, 0.6, false, 0, 0, 10.3, 0, CrewType.LeftRight, true, true, AnimationType.MX5, 0.15));
@@ -6819,7 +6827,7 @@ namespace User.PluginSdkDemo
             carInfo.Add(new Cars("Lamborghini Huracan GT3 EVO", false, false, false, true, 12, true, true, false, 12, 1, 12, false, false, "Lamborghini Huracan GT3", "GT3", 8250, 8200, 8220, 8220, 8240, 0, 0, 8480, 1090, 41.8,41.5,41.6,45, 1, 60, 1, 70, false, 0, 1, 0.9, 1.1, 0.7, 2.7, false, 0, 0, 6.5, 1.5, CrewType.SingleTyre, false, true, AnimationType.LamboGT3, 0.25));
             carInfo.Add(new Cars("Porsche 911 GT3.R", true, false, false, true, 0, true, true, false, 0, 4, 0, false, false, "Porsche GT3R", "Porsche GT3R", 9250, 9250, 9250, 9250, 9250, 0, 0, 9435, 1846, 65.0, 64.5, 64.5, 65.5, 1, 90, 1, 90, false, 0, 1, 0.9, 1.1, 0.7, 2.7, false, 0, 0, 6.5, 1.5, CrewType.SingleTyre, false, true, AnimationType.PorscheGT3R, 0.25));
             carInfo.Add(new Cars("Audi 90 Quattro GTO", false, false, false, false, -1, false, false, false, -1, -1, -1, false, false, "Single", "Default", 7650, 7650, 7650, 7650, 0, 0, 0, 7670, 1300, 0, 0, 0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0, 0, 0, false, 0, 0, 10, 1, CrewType.SingleTyre, true, true, AnimationType.Porsche, 0.15));
-            carInfo.Add(new Cars("Supercars Ford Mustang GT", false, false, false, false, -1, false, false, false, -1, -1, -1, false, false, "Single", "Supercar", 7470, 7470, 7470, 7480, 7480, 0, 0, 7490, 1205, 29.5, 29.0, 29.6, 33.0, 1, 100, 1, 100, false, 0,1.15, 0.7,0.7, 0.9, 2.36, false, 0, 0, 6.7, 0.9, CrewType.All, true, true, AnimationType.Supercar, 0.35));
+            carInfo.Add(new Cars("Supercars Ford Mustang GT", false, false, false, false, -1, false, false, false, -1, -1, -1, false, false, "Single", "Supercar", 7470, 7470, 7470, 7480, 7480, 0, 0, 7490, 1205, 29.5, 29.0, 29.6, 33.0, 1, 100, 1, 100, true, 0,1.15, 0.7,0.7, 0.9, 2.36, false, 0, 0, 6.7, 0.9, CrewType.All, true, true, AnimationType.Supercar, 0.35));
 
             // Declare a property available in the property list
             pluginManager.AddProperty("DDUstartLED", this.GetType(), Settings.DDUstartLED);
