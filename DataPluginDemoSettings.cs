@@ -35,11 +35,8 @@ namespace User.PluginSdkDemo
 
         public double fuelPerLapTarget { get; set; } = 2.50;
 
-
-
-
-        #region Property supporting UI refresh from code
-        /*
+		#region Property supporting UI refresh from code
+		/*
         private string _FilePath;
         public string FilePath
         {
@@ -47,11 +44,11 @@ namespace User.PluginSdkDemo
             set => SetField(ref _FilePath, value);
         }
         */
-        #endregion
+		#endregion
 
-        #region Utilities methods to refresh the UI see https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged?view=netframework-4.7.2
+		#region Utilities methods to refresh the UI see https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged?view=netframework-4.7.2
 
-        protected void OnPropertyChanged(string propertyName)
+		protected void OnPropertyChanged(string propertyName)
           => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)

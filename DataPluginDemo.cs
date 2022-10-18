@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Media;
 using System.Linq;
+using System.Reflection;
 using IRacingReader;
 using System.Windows.Forms;
 using ACSharedMemory;
@@ -16,6 +17,7 @@ namespace User.PluginSdkDemo
     [PluginAuthor("Andreas Dahl")]
     [PluginName("DahlDesign")]
 
+    
 
     public class DahlDesign : IPlugin, IDataPlugin, IWPFSettingsV2
     {
@@ -32,6 +34,10 @@ namespace User.PluginSdkDemo
         public ImageSource PictureIcon => this.ToIcon(Properties.Resources.Dahl_icon);
 
         public string LeftMenuTitle => "Dahl Design";
+
+        //CSV file adress
+        string csvAdress = "";
+        int csvIndex = 0;
 
         //Declaring global variables
 
@@ -52,13 +58,15 @@ namespace User.PluginSdkDemo
         List<double> lapDeltaCurrent = new List<double> { };
         List<double> lapDeltaLast = new List<double> { };
         List<double> lapDeltaSessionBest = new List<double> { };
-        List<double> lapDeltaATB = new List<double> { };
+        List<double> lapDeltaRecord = new List<double> { };
 
         List<double> lapDeltaLastChange = new List<double> { };
         List<double> lapDeltaSessionBestChange = new List<double> { };
+        List<double> lapDeltaLapRecordChange = new List<double> { };
         List<double> lastChunks = new List<double> { };
         List<double> SBChunks = new List<double> { };
-
+        List<double> LRChunks = new List<double> { };
+        bool findLapRecord = true;
 
         int myDeltaIndexOld = -1;
         int lapDeltaSections = 120;
@@ -75,6 +83,7 @@ namespace User.PluginSdkDemo
         bool iRIdle = true;
         bool statusReadyToFetch = false;
         bool lineCross = false;
+
 
         int currentSector = 0;
         bool sector1to2 = false;
@@ -96,6 +105,7 @@ namespace User.PluginSdkDemo
         double oneThird = 1d / 3d;
         double twoThirds = 2d / 3d;
 
+        TimeSpan lapRecord = new TimeSpan(0);
         TimeSpan sessionBestLap = new TimeSpan(0);
         double sessionBestSector1 = 0;
         double sessionBestSector2 = 0;
@@ -511,6 +521,10 @@ namespace User.PluginSdkDemo
 
         public void DataUpdate(PluginManager pluginManager, ref GameData data)
         {
+            //Create CSV if not existent
+
+            
+
 
             //SETTINGS
 
@@ -1363,7 +1377,16 @@ namespace User.PluginSdkDemo
 
                 }
 
-                //FR3.5 DRS count
+
+                //----------------------------------------------------
+                //--------CHECK FOR BEST LAP--------------------------
+                //----------------------------------------------------
+
+                LapRecords.lapFetch(ref findLapRecord, csvAdress, ref csvIndex, track, carModel, ref lapRecord, ref lapDeltaRecord, lapDeltaSections);
+
+                //----------------------------------------------------
+                //--------F3.5 DRS COUNT------------------------------
+                //----------------------------------------------------
 
                 int DRSleft = 8 - myDRSCount;
 
@@ -1437,6 +1460,8 @@ namespace User.PluginSdkDemo
                 //----------------------------------------------
                 //-------SHIFT LIGHT/SHIFT POINT PER GEAR-------
                 //----------------------------------------------
+
+                
 
                 switch (gear)
                 {
@@ -1825,7 +1850,7 @@ namespace User.PluginSdkDemo
                 //----------------------------------
 
                 //Wheel slip
-                if (!Settings.WheelSlipLEDs)
+                if (!Settings.WheelSlipLEDs || slipLF < 25 || slipRF < 25)
                 {
                     slipLF = 0;
                     slipLR = 0;
@@ -1833,12 +1858,24 @@ namespace User.PluginSdkDemo
                     slipRR = 0;
                 }
 
+                if (slipLF < 40 && slipLF > slipRF)
+                {
+                    slipRF = 0;
+                    slipRR = 0;
+                }
+                else if (slipRF < 40 && slipRF > slipLF)
+                {
+                    slipLF = 0;
+                    slipLR = 0;
+                }
 
-                pluginManager.SetPropertyValue("SlipLF", this.GetType(), slipLF);
-                pluginManager.SetPropertyValue("SlipRF", this.GetType(), slipRF);
-                pluginManager.SetPropertyValue("SlipLR", this.GetType(), slipLR);
-                pluginManager.SetPropertyValue("SlipRR", this.GetType(), slipRR);
-
+                if (slipLF == 0 && slipLR == 0)
+                {
+                    pluginManager.SetPropertyValue("SlipLF", this.GetType(), 0);
+                    pluginManager.SetPropertyValue("SlipRF", this.GetType(), 0);
+                    pluginManager.SetPropertyValue("SlipLR", this.GetType(), 0);
+                    pluginManager.SetPropertyValue("SlipRR", this.GetType(), 0);
+                }
 
 
                 //OvertakeMode
@@ -2165,7 +2202,7 @@ namespace User.PluginSdkDemo
                     else if (pitMenuRotary == 11 && isInPitMenu)
                     {
                         fuelSaveDelta++;
-                        if (fuelSaveDelta > 3)
+                        if (fuelSaveDelta > 4)
                         {
                             fuelSaveDelta = 0;
                         }
@@ -2417,6 +2454,15 @@ namespace User.PluginSdkDemo
                         {
                             TCreleaseCD = 0;
                         }
+                    }
+
+                    //Running wheel slip through the filter
+                    if (!tcBump && TCreleaseCD == 0 && gear == TCgear && TCdropCD == 0 && (TCthrottle < throttle || TCthrottle == 100 && throttle == 100) && (throttle > 30 || trackLocation == 0))
+                    {
+                        pluginManager.SetPropertyValue("SlipLF", this.GetType(), slipLF);
+                        pluginManager.SetPropertyValue("SlipRF", this.GetType(), slipRF);
+                        pluginManager.SetPropertyValue("SlipLR", this.GetType(), slipLR);
+                        pluginManager.SetPropertyValue("SlipRR", this.GetType(), slipRR);
                     }
 
 
@@ -2817,6 +2863,7 @@ namespace User.PluginSdkDemo
                 {
                     ERSChangeCount = 4;
                     lapStatusList.Insert(0, lastStatusHolder);
+
                     if (lastStatusHolder == 1)
                     {
                         validStintLaps++;
@@ -2835,6 +2882,8 @@ namespace User.PluginSdkDemo
                     if (lapStatusList[0] != 0)
                     {
                         lapTimeList.Insert(0, lastLapTime);
+
+                        //Checking for session best lap
                         if ((lapTimeList[0].TotalSeconds < sessionBestLap.TotalSeconds || sessionBestLap.TotalSeconds == 0) && lapStatusList[0] == 1)
                         {
                             sessionBestLap = lapTimeList[0];
@@ -2843,6 +2892,23 @@ namespace User.PluginSdkDemo
                                 lapDeltaSessionBest[i] = lapDeltaLast[i];
                             }
                         }
+                        
+                        //Checking for lap record
+                        if (lapRecord.TotalSeconds == 0 && lapStatusList[0] == 1)
+                        {
+                            LapRecords.addLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds,lapDeltaLast, csvAdress, ref csvIndex);
+                            for (int i = 0; i < lapDeltaSections + 1; i++) //Keep hold of the timings on that lap
+                            {
+                                lapDeltaRecord[i] = lapDeltaLast[i];
+                            }
+                            findLapRecord = true;
+                        }
+                        else if (lapTimeList[0].TotalSeconds < lapRecord.TotalSeconds && lapStatusList[0] == 1)
+                        {
+                            LapRecords.replaceLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, csvIndex);
+                            findLapRecord=true;
+                        }
+                        
                         lapTimeList.RemoveAt(8); //Making sure list doesnt grow untill infinity
                     }
                     lastLapHolder = lastLapTime;
@@ -4482,6 +4548,7 @@ namespace User.PluginSdkDemo
                 }
 
 
+
                 //---------------------------------------------
                 //--------------FUEL CALCULATION + STINT-------
                 //---------------------------------------------
@@ -5385,22 +5452,21 @@ namespace User.PluginSdkDemo
 
                 double deltaLastLap = 0;
                 double deltaSessionBest = 0;
+                double deltaLapRecord = 0;
 
 
                 if (myDeltaIndex != myDeltaIndexOld)
                 {
                     myDeltaIndexOld = myDeltaIndex;
-                    if (lapDeltaCurrent[0] == 1)
-                    {
-                        lapDeltaCurrent[myDeltaIndex + 1] = currentLapTime.TotalMilliseconds;
-                    }
-                    else if (currentLapTime.TotalSeconds < 2 && lapDeltaCurrent[0] != 1)
+
+                    lapDeltaCurrent[myDeltaIndex + 1] = currentLapTime.TotalMilliseconds;
+
+                    if (currentLapTime.TotalSeconds < 2 && lapDeltaCurrent[0] != 1)
                     {
                         lapDeltaCurrent[0] = 1; //This lap recording checked for full-length
-                        lapDeltaCurrent[myDeltaIndex + 1] = currentLapTime.TotalMilliseconds;
                     }
 
-                    bool passCheck = (pit == 0 && (myDeltaIndex > 3 || (myDeltaIndex > 5 && lapDeltaLast[myDeltaIndex + 1] < 10000 && lapDeltaCurrent[myDeltaIndex + 1] < 10000)));
+                    bool passCheck = (pit == 0 && (myDeltaIndex > 5 || (myDeltaIndex > 3 && lapDeltaLast[myDeltaIndex + 1] < 10000 && lapDeltaCurrent[myDeltaIndex + 1] < 10000)));
 
                     //Setting last lap delta
                     if (passCheck && lapDeltaLast[myDeltaIndex + 1] > 0 && lapDeltaCurrent[myDeltaIndex + 1] > 0)
@@ -5419,6 +5485,7 @@ namespace User.PluginSdkDemo
                     {
                         passCheck = false;
                     }
+
                     //Setting session best lap delta
                     if (passCheck && lapDeltaSessionBest[myDeltaIndex + 1] > 0 && lapDeltaCurrent[myDeltaIndex + 1] > 0)
                     {
@@ -5426,7 +5493,24 @@ namespace User.PluginSdkDemo
                         lapDeltaSessionBestChange[myDeltaIndex] = deltaSessionBest;
                         pluginManager.SetPropertyValue("DeltaSessionBest", this.GetType(), deltaSessionBest);
                     }
+                    if (lapDeltaSessionBest[myDeltaIndex + 1] == -1)
+                    {
+                        pluginManager.SetPropertyValue("DeltaSessionBest", this.GetType(), 0);
+                    }
 
+
+                    //Setting lap record delta
+                    bool recordCheck = (pit == 0 && (myDeltaIndex > 5 || (myDeltaIndex > 3 && lapDeltaRecord[myDeltaIndex + 1] < 10000 && lapDeltaCurrent[myDeltaIndex + 1] < 10000)));
+                    if (recordCheck && lapDeltaRecord[myDeltaIndex + 1] > 0 && lapDeltaCurrent[myDeltaIndex + 1] > 0)
+                    {
+                        deltaLapRecord = (lapDeltaCurrent[myDeltaIndex + 1] - lapDeltaRecord[myDeltaIndex + 1]) / 1000;
+                        lapDeltaLapRecordChange[myDeltaIndex] = deltaLapRecord;
+                        pluginManager.SetPropertyValue("DeltaLapRecord", this.GetType(), deltaLapRecord);
+                    }
+                    if (lapDeltaRecord[myDeltaIndex + 1] == -1)
+                    {
+                        pluginManager.SetPropertyValue("DeltaLapRecord", this.GetType(), 0);
+                    }
 
 
                     if (myDeltaIndex == 0) //last section, copy to last lap. Further copy to session/ATB on lap changes. (from last lap)
@@ -5500,8 +5584,39 @@ namespace User.PluginSdkDemo
 
                 string SBResult = string.Join(",", SBChunks); //push result as string
 
+                changeStarted = false;
+                changeSum = 0;
+                firstOfChunk = 0;
+                lastOfChunk = 0;
+
+                for (int i = currentChunk * chunkSize; i < myDeltaIndex + 1; i++)
+                {
+                    if (!changeStarted)
+                    {
+                        firstOfChunk = lapDeltaLapRecordChange[i];
+                    }
+                    changeStarted = true;
+
+                    if (i == myDeltaIndex)
+                    {
+                        lastOfChunk = lapDeltaLapRecordChange[i];
+                    }
+                }
+
+                if (changeStarted)
+                {
+                    changeSum = lastOfChunk - firstOfChunk;
+                }
+
+                LRChunks[currentChunk] = changeSum;
+
+                string LRResult = string.Join(",", LRChunks); //push result as string
+
+
+
                 pluginManager.SetPropertyValue("DeltaLastLapChange", this.GetType(), lastResult);
                 pluginManager.SetPropertyValue("DeltaSessionBestChange", this.GetType(), SBResult);
+                pluginManager.SetPropertyValue("DeltaLapRecordChange", this.GetType(), LRResult);
 
                 //-----------------------------------------------------------------------------
                 //----------------------REAL GAPS----------------------------------------------
@@ -5641,6 +5756,8 @@ namespace User.PluginSdkDemo
                 //Stuf that happens when idle
                 if (iRIdle)
                 {
+                    findLapRecord = true;
+                    csvIndex = 0;
                     currentFrontWing = 0;
                     currentRearWing = 0;
                     currentPWS = 0;
@@ -5677,6 +5794,8 @@ namespace User.PluginSdkDemo
                     //Session or car or track change
                     if (carModelHolder != carModel || trackHolder != track || sessionHolder != session)
                     {
+                        findLapRecord = true;
+                        csvIndex = 0;
                         IRchange = 0;
                         ERSChangeCount = 4;
                         savePitTimerLock = false;
@@ -5729,11 +5848,13 @@ namespace User.PluginSdkDemo
                             lapDeltaCurrent.Clear();
                             lapDeltaSessionBest.Clear();
                             lapDeltaLast.Clear();
-                            lapDeltaATB.Clear();
+                            lapDeltaRecord.Clear();
                             lapDeltaLastChange.Clear();
                             lapDeltaSessionBestChange.Clear();
+                            lapDeltaLapRecordChange.Clear(); 
                             lastChunks.Clear();
                             SBChunks.Clear();
+                            LRChunks.Clear();
 
                             for (int u = 0; u < trackSections; u++)
                             {
@@ -5766,14 +5887,16 @@ namespace User.PluginSdkDemo
                                 lapDeltaCurrent.Add(-1);
                                 lapDeltaSessionBest.Add(-1);
                                 lapDeltaLast.Add(-1);
-                                lapDeltaATB.Add(-1);
+                                lapDeltaRecord.Add(-1);
                                 lapDeltaLastChange.Add(0);
                                 lapDeltaSessionBestChange.Add(0);
+                                lapDeltaLapRecordChange.Add(0);
                             }
                             for (int i = 0; i < deltaChangeChunks; i++)
                             {
                                 lastChunks.Add(0);
                                 SBChunks.Add(0);
+                                LRChunks.Add(0);
                             }
                         }
   
@@ -5808,6 +5931,7 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("StintValidLaps", this.GetType(), validStintLaps);
                 pluginManager.SetPropertyValue("StintInvalidLaps", this.GetType(), invalidStintLaps);
                 pluginManager.SetPropertyValue("SessionBestLap", this.GetType(), sessionBestLap);
+                pluginManager.SetPropertyValue("LapRecord", this.GetType(), lapRecord);
                 pluginManager.SetPropertyValue("SessionBestSector1", this.GetType(), TimeSpan.FromSeconds(sessionBestSector1));
                 pluginManager.SetPropertyValue("SessionBestSector2", this.GetType(), TimeSpan.FromSeconds(sessionBestSector2));
                 pluginManager.SetPropertyValue("SessionBestSector3", this.GetType(), TimeSpan.FromSeconds(sessionBestSector3));
@@ -5988,11 +6112,13 @@ namespace User.PluginSdkDemo
                     lapDeltaCurrent.Clear();
                     lapDeltaSessionBest.Clear();
                     lapDeltaLast.Clear();
-                    lapDeltaATB.Clear();
+                    lapDeltaRecord.Clear();
                     lapDeltaLastChange.Clear();
                     lapDeltaSessionBestChange.Clear();
+                    lapDeltaLapRecordChange.Clear();
                     lastChunks.Clear();
                     SBChunks.Clear();
+                    LRChunks.Clear();
 
                     for (int u = 0; u < trackSections; u++)
                     {
@@ -6025,14 +6151,16 @@ namespace User.PluginSdkDemo
                         lapDeltaCurrent.Add(-1);
                         lapDeltaSessionBest.Add(-1);
                         lapDeltaLast.Add(-1);
-                        lapDeltaATB.Add(-1);
+                        lapDeltaRecord.Add(-1);
                         lapDeltaLastChange.Add(0);
                         lapDeltaSessionBestChange.Add(0);
+                        lapDeltaLapRecordChange.Add(0);
                     }
                     for (int i = 0; i < deltaChangeChunks; i++)
                     {
                         lastChunks.Add(0);
                         SBChunks.Add(0);
+                        LRChunks.Add(0);
                     }
                 }
 
@@ -6084,6 +6212,9 @@ namespace User.PluginSdkDemo
             // Load settings
             Settings = this.ReadCommonSettings<DataPluginDemoSettings>("GeneralSettings", () => new DataPluginDemoSettings());
 
+            //Find the lap records file
+            LapRecords.findCSV(ref csvAdress);
+
             //Filling some lists
 
             for ( int u = 0; u < trackSections; u++)
@@ -6117,15 +6248,17 @@ namespace User.PluginSdkDemo
                 lapDeltaCurrent.Add(-1);
                 lapDeltaSessionBest.Add(-1);
                 lapDeltaLast.Add(-1);
-                lapDeltaATB.Add(-1);
+                lapDeltaRecord.Add(-1);
                 lapDeltaLastChange.Add(0);
                 lapDeltaSessionBestChange.Add(0);
+                lapDeltaLapRecordChange.Add(0);
             }
 
             for(int i = 0; i < deltaChangeChunks; i ++)
             {
                 lastChunks.Add(0);
                 SBChunks.Add(0);
+                LRChunks.Add(0);
             }
 
 
@@ -6381,7 +6514,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddAction("DeltaInc", this.GetType(), (a, b) =>
             {
                 fuelSaveDelta++;
-                if (fuelSaveDelta > 3)
+                if (fuelSaveDelta > 4)
                 {
                     fuelSaveDelta = 0;
                 }
@@ -6393,7 +6526,7 @@ namespace User.PluginSdkDemo
                 fuelSaveDelta--;
                 if (fuelSaveDelta < 0)
                 {
-                    fuelSaveDelta = 3;
+                    fuelSaveDelta = 4;
                 }
                 pluginManager.SetPropertyValue("FuelSaveDelta", this.GetType(), fuelSaveDelta);
             });
@@ -6944,10 +7077,13 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("Lap08Sector3Status", this.GetType(), 0);
             pluginManager.AddProperty("Lap08FuelTargetDelta", this.GetType(), 0);
 
+            pluginManager.AddProperty("LapRecord", this.GetType(), new TimeSpan(0));
             pluginManager.AddProperty("DeltaLastLap", this.GetType(), 0);
             pluginManager.AddProperty("DeltaSessionBest", this.GetType(), 0);
+            pluginManager.AddProperty("DeltaLapRecord", this.GetType(), 0);
             pluginManager.AddProperty("DeltaLastLapChange", this.GetType(), "");
             pluginManager.AddProperty("DeltaSessionBestChange", this.GetType(), "");
+            pluginManager.AddProperty("DeltaLapRecordChange", this.GetType(), "");
 
             pluginManager.AddProperty("P1Gap", this.GetType(), 0);
             pluginManager.AddProperty("P1Name", this.GetType(), "");
