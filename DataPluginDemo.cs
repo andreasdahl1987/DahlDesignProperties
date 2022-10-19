@@ -321,6 +321,7 @@ namespace User.PluginSdkDemo
         bool ERSstartingLap = false;
         int ERSChangeCount = 0;
         int W12ERSRef = 0;
+        
 
         double pitStopDuration = 0;
         bool LFTog = false;
@@ -521,20 +522,22 @@ namespace User.PluginSdkDemo
 
         public void DataUpdate(PluginManager pluginManager, ref GameData data)
         {
-            //Create CSV if not existent
-
-            
 
 
             //SETTINGS
+            if (counter == 2)
+            {
+                pluginManager.SetPropertyValue("DDUstartLED", this.GetType(), Settings.DDUstartLED);
+                pluginManager.SetPropertyValue("SW1startLED", this.GetType(), Settings.SW1startLED);
+                pluginManager.SetPropertyValue("DDUEnabled", this.GetType(), Settings.DDUEnabled);
+                pluginManager.SetPropertyValue("SW1Enabled", this.GetType(), Settings.SW1Enabled);
+                pluginManager.SetPropertyValue("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
+                pluginManager.SetPropertyValue("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
+                pluginManager.SetPropertyValue("ShiftWarning", this.GetType(), Settings.ShiftWarning);
+                pluginManager.SetPropertyValue("ARBswapped", this.GetType(), Settings.supercarSwapPosition);
+                pluginManager.SetPropertyValue("ARBstiffForward", this.GetType(), Settings.supercarARBdirection);
+            }
 
-            pluginManager.SetPropertyValue("DDUstartLED", this.GetType(), Settings.DDUstartLED);
-            pluginManager.SetPropertyValue("SW1startLED", this.GetType(), Settings.SW1startLED);
-            pluginManager.SetPropertyValue("DDUEnabled", this.GetType(), Settings.DDUEnabled);
-            pluginManager.SetPropertyValue("SW1Enabled", this.GetType(), Settings.SW1Enabled);
-            pluginManager.SetPropertyValue("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
-            pluginManager.SetPropertyValue("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
-            pluginManager.SetPropertyValue("ShiftWarning", this.GetType(), Settings.ShiftWarning);
 
 
             //---------------------------------------------------
@@ -546,7 +549,7 @@ namespace User.PluginSdkDemo
 
             //FRAME COUNTER FOR CPU SAVING
             counter++;
-            //Counters used: 1,3,4,5,6,7,8,9,10,11,14,15,17,20,22,24,25,27,30,33,35,36,38,39,40,43,45,47,50,51,52,53,54,55,59  
+            //Counters used: 1,2,3,4,5,6,7,8,9,10,11,14,15,17,20,22,24,25,27,30,33,35,36,38,39,40,43,45,47,50,51,52,53,54,55,59  
 
 
             //----------------------------------------------------------------------------
@@ -2040,7 +2043,7 @@ namespace User.PluginSdkDemo
                     else if (pitMenuRotary == 12 && isInPitMenu)
                     {
                         //pluginManager.TriggerAction("ShakeITBSV3Plugin.MainFeedbackLevelIncrement");
-                        fuelPerLapOffset = fuelPerLapOffset + 0.01;
+                        fuelPerLapOffset = fuelPerLapOffset + Settings.fuelOffsetIncrement;
                     }
 
 
@@ -2129,9 +2132,9 @@ namespace User.PluginSdkDemo
                     else if (pitMenuRotary == 12 && isInPitMenu)
                     {
                         //pluginManager.TriggerAction("ShakeITBSV3Plugin.MainFeedbackLevelDecrement");
-                        if ((fuelAvgLap + fuelPerLapOffset - 0.01) > 0)
+                        if ((fuelAvgLap + fuelPerLapOffset - Settings.fuelOffsetIncrement) > 0)
                         {
-                            fuelPerLapOffset = fuelPerLapOffset - 0.01;
+                            fuelPerLapOffset = fuelPerLapOffset - Settings.fuelOffsetIncrement;
                         }
                         else
                         {
@@ -3614,6 +3617,11 @@ namespace User.PluginSdkDemo
                     bool behindP2PActive = false;
                     double? behindRealGap = 0;
 
+                    double? luckyDogRealGap = 0;
+                    double? luckyDogGap = 0;
+                    string luckyDogName = "";
+                    int luckyDogPositionsAhead = 0;
+
                     remainingLaps = 0;
 
                     int gridSubtract = 0;
@@ -3666,6 +3674,25 @@ namespace User.PluginSdkDemo
                             behindIsConnected = data.NewData.Opponents[i].IsConnected;
                             behindIsInPit = data.NewData.Opponents[i].IsCarInPit;
                         }
+                        if ((leaderCurrentLap + leaderTrackPosition) - (data.NewData.Opponents[i].TrackPositionPercent + data.NewData.Opponents[i].CurrentLap) > 1 && data.NewData.Opponents[i].CarClass == myClass && (luckyDogGap == 0 || data.NewData.Opponents[i].GaptoLeader < luckyDogGap))
+                        {
+                            luckyDogGap = data.NewData.Opponents[i].GaptoPlayer;
+                            luckyDogName = data.NewData.Opponents[i].Name;
+                            if (data.NewData.Opponents[i].GaptoPlayer < 0)
+                            {
+                                luckyDogPositionsAhead++;
+                            }
+                        }
+                        else if ((leaderCurrentLap + leaderTrackPosition) - (data.NewData.Opponents[i].TrackPositionPercent + data.NewData.Opponents[i].CurrentLap) > 1 && data.NewData.Opponents[i].CarClass == myClass && data.NewData.Opponents[i].GaptoPlayer < 0)
+                        {
+                            luckyDogPositionsAhead++;
+                        }
+                        if ((leaderCurrentLap + leaderTrackPosition)-(currentLap +trackPosition) > 1 && luckyDogGap > 0)
+                        {
+                            luckyDogGap = 0;
+                            luckyDogName = data.NewData.PlayerName;
+                            luckyDogPositionsAhead = 0;
+                        }
 
                     }
 
@@ -3687,7 +3714,13 @@ namespace User.PluginSdkDemo
                     pluginManager.SetPropertyValue("P1Name", this.GetType(), leaderName);
                     pluginManager.SetPropertyValue("ClassP1Gap", this.GetType(), classLeaderGap);
                     pluginManager.SetPropertyValue("ClassP1Name", this.GetType(), classLeaderName);
-
+                    if (trackType > 4)
+                    {
+                        pluginManager.SetPropertyValue("LuckyDogGap", this.GetType(), luckyDogGap);
+                        pluginManager.SetPropertyValue("LuckyDogName", this.GetType(), luckyDogName);
+                        pluginManager.SetPropertyValue("LuckyDogPositionsAhead", this.GetType(), luckyDogPositionsAhead);
+                    }
+ 
                     //Leader lap times
                     double leaderExpectedLapTime = (leaderLastLap.TotalSeconds * 2 + leaderBestLap.TotalSeconds) / 3;
                     if (leaderLastLap.TotalSeconds == 0)
@@ -3897,7 +3930,7 @@ namespace User.PluginSdkDemo
                         pluginManager.SetPropertyValue("BehindIsConnected", this.GetType(), behindIsConnected);
                         pluginManager.SetPropertyValue("BehindIsInPit", this.GetType(), behindIsInPit);
 
-                        //Calculations of ahead and behind drivers
+                        //Calculations of ahead and behind drivers + lucky dog
 
                         for (int e = 0; e < irData.SessionData.DriverInfo.CompetingDrivers.Length; e++)
                         {
@@ -3968,6 +4001,27 @@ namespace User.PluginSdkDemo
                             }
                         }
 
+                        for (int i = 0; i < irData.SessionData.DriverInfo.CompetingDrivers.Length; i++)
+                        {
+                            if (luckyDogName == irData.SessionData.DriverInfo.CompetingDrivers[i].UserName)
+                            {
+                                int carID = Convert.ToInt16(irData.SessionData.DriverInfo.CompetingDrivers[i].CarIdx);
+                                luckyDogRealGap = realGapOpponentDelta[carID];
+
+                                if ((luckyDogRealGap > luckyDogGap * 1.25 && luckyDogRealGap - luckyDogGap > 10) || (luckyDogRealGap < luckyDogGap * 0.75 && luckyDogRealGap - luckyDogGap < -10) || luckyDogRealGap <= 0)
+                                {
+                                    luckyDogRealGap = luckyDogGap;
+                                }
+
+                                break;
+
+                            }
+                        }
+                        if ((leaderCurrentLap + leaderTrackPosition) - (currentLap + trackPosition) > 1 && luckyDogGap > 0)
+                        {
+                            luckyDogRealGap = 0;
+                        }
+
                         //Calculate class P1 real gap
 
                         for (int e = 0; e < irData.SessionData.DriverInfo.CompetingDrivers.Length; e++)
@@ -3992,7 +4046,10 @@ namespace User.PluginSdkDemo
                                 break;
                             }
                         }
-
+                        if (trackType > 4)
+                        {
+                            pluginManager.SetPropertyValue("LuckyDogRealGap", this.GetType(), luckyDogRealGap);
+                        }
                         pluginManager.SetPropertyValue("ClassP1RealGap", this.GetType(), classLeaderRealGap);
 
                         double overtakeThreshold = -0.5;
@@ -6828,6 +6885,7 @@ namespace User.PluginSdkDemo
             carInfo.Add(new Cars("Porsche 911 GT3.R", true, false, false, true, 0, true, true, false, 0, 4, 0, false, false, "Porsche GT3R", "Porsche GT3R", 9250, 9250, 9250, 9250, 9250, 0, 0, 9435, 1846, 65.0, 64.5, 64.5, 65.5, 1, 90, 1, 90, false, 0, 1, 0.9, 1.1, 0.7, 2.7, false, 0, 0, 6.5, 1.5, CrewType.SingleTyre, false, true, AnimationType.PorscheGT3R, 0.25));
             carInfo.Add(new Cars("Audi 90 Quattro GTO", false, false, false, false, -1, false, false, false, -1, -1, -1, false, false, "Single", "Default", 7650, 7650, 7650, 7650, 0, 0, 0, 7670, 1300, 0, 0, 0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0, 0, 0, false, 0, 0, 10, 1, CrewType.SingleTyre, true, true, AnimationType.Porsche, 0.15));
             carInfo.Add(new Cars("Supercars Ford Mustang GT", false, false, false, false, -1, false, false, false, -1, -1, -1, false, false, "Single", "Supercar", 7470, 7470, 7470, 7480, 7480, 0, 0, 7490, 1205, 29.5, 29.0, 29.6, 33.0, 1, 100, 1, 100, true, 0,1.15, 0.7,0.7, 0.9, 2.36, false, 0, 0, 6.7, 0.9, CrewType.All, true, true, AnimationType.Supercar, 0.35));
+            carInfo.Add(new Cars("Supercars Holden ZB Commodore", false, false, false, false, -1, false, false, false, -1, -1, -1, false, false, "Single", "Supercar", 7470, 7470, 7470, 7480, 7480, 0, 0, 7490, 1205, 29.5, 29.0, 29.6, 33.0, 1, 100, 1, 100, true, 0, 1.15, 0.7, 0.7, 0.9, 2.36, false, 0, 0, 6.7, 0.9, CrewType.All, true, true, AnimationType.Supercar, 0.35));
 
             // Declare a property available in the property list
             pluginManager.AddProperty("DDUstartLED", this.GetType(), Settings.DDUstartLED);
@@ -6837,6 +6895,8 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
             pluginManager.AddProperty("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
             pluginManager.AddProperty("ShiftWarning", this.GetType(), Settings.ShiftWarning);
+            pluginManager.AddProperty("ARBswapped", this.GetType(), Settings.supercarSwapPosition);
+            pluginManager.AddProperty("ARBstiffForward", this.GetType(), Settings.supercarARBdirection);
 
             pluginManager.AddProperty("Idle", this.GetType(), true);
             pluginManager.AddProperty("SmoothGear", this.GetType(), "");
@@ -7103,6 +7163,11 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("ClassP1Name", this.GetType(), "");
             pluginManager.AddProperty("ClassP1Pace", this.GetType(), new TimeSpan(0));
             pluginManager.AddProperty("ClassP1RealGap", this.GetType(), 0);
+
+            pluginManager.AddProperty("LuckyDogGap", this.GetType(), 0);
+            pluginManager.AddProperty("LuckyDogRealGap", this.GetType(), 0);
+            pluginManager.AddProperty("LuckyDogName", this.GetType(), "");
+            pluginManager.AddProperty("LuckyDogPositionsAhead", this.GetType(), 0);
 
             pluginManager.AddProperty("AheadName", this.GetType(), "");
             pluginManager.AddProperty("AheadGap", this.GetType(), 0);

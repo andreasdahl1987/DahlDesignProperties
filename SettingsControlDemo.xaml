@@ -255,8 +255,15 @@
                             <TextBox
                                 VerticalAlignment="Top"
                                 Height="20"  
-                                Margin="10,-20,0,10"                        
+                                Margin="10,-20,0,-20"                        
                                 Text="{Binding fuelPerLapTarget}"/>
+                            <TextBlock
+                                Text="Fuel per lap offset increments:" Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                            <TextBox
+                                VerticalAlignment="Top"
+                                Height="20"  
+                                Margin="10,-20,0,20"                        
+                                Text="{Binding fuelOffsetIncrement}"/>
                             <TextBlock
                                 Text="Swap RPM bar for LEDs:" Margin="10,0,0,23" RenderTransformOrigin="0.5,0.5" Height="18">
                                 <TextBlock.RenderTransform>
@@ -272,28 +279,42 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Height="20"
-                        IsChecked="{Binding DashLEDEnabled}" Margin="14,-10,0,0" RenderTransformOrigin="0.45,0.2"/>
+                        IsChecked="{Binding DashLEDEnabled}" Margin="14,-20,0,10" RenderTransformOrigin="0.45,0.2"/>
                             <TextBlock
                                 Text="RPM bar shift warning:" Margin="10,0,0,23"/>
                             <styles:SHToggleButton
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Height="20"
-                                IsChecked="{Binding ShiftWarning}" Margin="14,-10,0,0"/>
+                                IsChecked="{Binding ShiftWarning}" Margin="14,-20,0,10"/>
                             <TextBlock
                                 Text="Lap info screen on new lap:" Margin="10,0,0,23"/>
                             <styles:SHToggleButton
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Height="20"
-                                IsChecked="{Binding LapInfoScreen}" Margin="14,-10,0,0"/>
+                                IsChecked="{Binding LapInfoScreen}" Margin="14,-20,0,10"/>
                             <TextBlock
                                 Text="Activate wheel slip functions:" Margin="10,0,0,23"/>
                             <styles:SHToggleButton
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Height="20"
-                                IsChecked="{Binding WheelSlipLEDs}" Margin="14,-10,0,0"/>
+                                IsChecked="{Binding WheelSlipLEDs}" Margin="14,-20,0,10"/>
+                            <TextBlock
+                                Text="Swap ARB lever placement (Supercars):" Margin="10,0,0,23"/>
+                            <styles:SHToggleButton
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Height="20"
+                                IsChecked="{Binding supercarSwapPosition}" Margin="14,-20,0,10"/>
+                            <TextBlock
+                                Text="Swap ARB lever direction (Supercars):" Margin="10,0,0,23"/>
+                            <styles:SHToggleButton
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Height="20"
+                                IsChecked="{Binding supercarARBdirection}" Margin="14,-20,0,10"/>
                         </StackPanel>
                     </styles:SHSection>
 
