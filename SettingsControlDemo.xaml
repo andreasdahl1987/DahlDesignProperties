@@ -68,40 +68,38 @@
                                 <ui:ControlsEditor FriendlyName="Menu: +" ActionName="DahlDesign.PlussPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Menu: -" ActionName="DahlDesign.MinusPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Menu: OK" ActionName="DahlDesign.OKPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Launch Screen (button toggle)" ActionName="DahlDesign.LaunchPressed" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Launch Screen (toggle switch released)" ActionName="DahlDesign.LaunchReleased" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="TC Off (pressed)" ActionName="DahlDesign.TCPressed"  HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="TC Off (released)" ActionName="DahlDesign.TCReleased" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="ERS No Boost" ActionName="DahlDesign.NBPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Pit Screen (pressed)" ActionName="DahlDesign.PitPressed" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Pit Screen (released)" ActionName="DahlDesign.PitReleased" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Pace Screen (pressed)" ActionName="DahlDesign.PacePressed" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Pace Screen (released)" ActionName="DahlDesign.PaceReleased" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Radio (pressed)" ActionName="DahlDesign.RadioPressed" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Radio (released)" ActionName="DahlDesign.RadioReleased" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="LED Warnings (pressed)" ActionName="DahlDesign.LEDWarningPressed" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="LED Warnings (released)" ActionName="DahlDesign.LEDWarningReleased" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Bite Point Adjust (pressed)" ActionName="DahlDesign.BitePointPressed" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Bite Point Adjust (released)" ActionName="DahlDesign.BitePointReleased" HorizontalAlignment="Left" Width="750"/>
-                                <TextBlock
-                                    Text="Post message to driver ahead on track:" Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
-                                <TextBox
-                                    VerticalAlignment="Top"
-                                    Height="20"
-                                    Margin="10,-20,0,10"                        
-                                    Text="{Binding AheadPlayerText}"/>
-                                <TextBlock
-                                    Text="Post message to driver behind on track:" Grid.Row="1" Margin="10,0,0,23" Grid.RowSpan="2"/>
-                                <TextBox
-                                    VerticalAlignment="Top"
-                                    Height="20"
-                                    Margin="10,-20,0,10"                        
-                                    Text="{Binding BehindPlayerText}"/>
                                 <ui:ControlsEditor FriendlyName="Next delta screen" ActionName="DahlDesign.DeltaInc" HorizontalAlignment="Left" Width="750" Loaded="ControlsEditor_Loaded"/>
                                 <ui:ControlsEditor FriendlyName="Previous delta screen" ActionName="DahlDesign.DeltaDec" HorizontalAlignment="Left" Width="750"/>
                             </StackPanel>
                         </styles:SHSection>
                     </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="FULLSCREENS" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
+                <Grid Background="#FFDADADA" Margin="0,0,0,0">
+                    <styles:SHSection Title="Full Screen Overlay Bindings" Margin="0,0,0,0">
+                        <StackPanel>
+                            <ui:ControlsEditor FriendlyName="Launch Screen (button toggle)" ActionName="DahlDesign.LaunchPressed" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Launch Screen (toggle switch released)" ActionName="DahlDesign.LaunchReleased" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Pit Screen (pressed)" ActionName="DahlDesign.PitPressed" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Pit Screen (released)" ActionName="DahlDesign.PitReleased" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Pace Screen (pressed)" ActionName="DahlDesign.PacePressed" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Pace Screen (released)" ActionName="DahlDesign.PaceReleased" HorizontalAlignment="Left" Width="750"/>
+
+
+
+                        </StackPanel>
+                    </styles:SHSection>
+
                 </Grid>
             </TabItem>
             <TabItem Header="LED" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
@@ -329,6 +327,30 @@
                                 VerticalAlignment="Top"
                                 Height="20"
                                 IsChecked="{Binding SupercarARBDirection}" Margin="14,-20,0,10"/>
+                        </StackPanel>
+                    </styles:SHSection>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="CHAT" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
+                <Grid Background="#FFDADADA" Margin="0,0,0,0">
+                    <styles:SHSection Title="Chat Items" Margin="0,0,0,0">
+                        <StackPanel>
+                            <TextBlock
+                                    Text="Post message to driver ahead on track:" Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                            <TextBox
+                                    VerticalAlignment="Top"
+                                    Height="20"
+                                    Margin="10,-20,0,10"                        
+                                    Text="{Binding AheadPlayerText}"/>
+                            <TextBlock
+                                    Text="Post message to driver behind on track:" Grid.Row="1" Margin="10,0,0,23" Grid.RowSpan="2"/>
+                            <TextBox
+                                    VerticalAlignment="Top"
+                                    Height="20"
+                                    Margin="10,-20,0,10"                        
+                                    Text="{Binding BehindPlayerText}"/>
+
                         </StackPanel>
                     </styles:SHSection>
 
