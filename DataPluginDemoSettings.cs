@@ -21,6 +21,8 @@ namespace User.PluginSdkDemo
         public bool ShiftWarning { get; set; } = false;
         public bool WheelSlipLEDs { get; set; } = false;
 
+        public bool ShiftTimingAssist { get; set; } = false;
+
         public string AheadPlayerText { get; set; } = "Blue flag";
 
         public string BehindPlayerText { get; set; } = "Sorry!";
@@ -37,9 +39,11 @@ namespace User.PluginSdkDemo
 
         public double fuelOffsetIncrement { get; set; } = 0.01;
 
-        public bool supercarSwapPosition = false;
+        public bool SupercarSwapPosition { get; set; } = false;
 
-        public bool supercarARBdirection = false;
+        public bool SupercarARBDirection { get; set; } = false;
+
+        public bool CorrectByPitstop { get; set; } = false;
 
         #region Property supporting UI refresh from code
         /*

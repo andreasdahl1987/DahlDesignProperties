@@ -348,6 +348,7 @@ namespace User.PluginSdkDemo
         double minFuelPush = 0;
         double maxFuelPush = 0;
         double fuelPerLapOffset = 0;
+        bool onlyThrough = true;
 
         bool fuelTargetCheck = false;
         double oldFuelValue = 0;
@@ -533,9 +534,10 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("SW1Enabled", this.GetType(), Settings.SW1Enabled);
                 pluginManager.SetPropertyValue("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
                 pluginManager.SetPropertyValue("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
+                pluginManager.SetPropertyValue("ShiftTimingAssist", this.GetType(), Settings.ShiftTimingAssist);
                 pluginManager.SetPropertyValue("ShiftWarning", this.GetType(), Settings.ShiftWarning);
-                pluginManager.SetPropertyValue("ARBswapped", this.GetType(), Settings.supercarSwapPosition);
-                pluginManager.SetPropertyValue("ARBstiffForward", this.GetType(), Settings.supercarARBdirection);
+                pluginManager.SetPropertyValue("ARBswapped", this.GetType(), Settings.SupercarSwapPosition);
+                pluginManager.SetPropertyValue("ARBstiffForward", this.GetType(), Settings.SupercarARBDirection);
             }
 
 
@@ -869,16 +871,6 @@ namespace User.PluginSdkDemo
                     myDRSCount = 0;
                 }
 
-
-                double allTimeBest = 0;                                                                //All time best lap  
-                if (Convert.ToString(pluginManager.GetPropertyValue("PersistantTrackerPlugin.AllTimeBest")) == "00:00:00")
-                {
-                    allTimeBest = 0;
-                }
-                else
-                {
-                    allTimeBest = (SimHub.Plugins.DataPlugins.PersistantTracker.PersistantTrackerPlugin.AllTimeBestRecord.LapTime).TotalSeconds;
-                }
                 var estimatedLapTime = (TimeSpan)(pluginManager.GetPropertyValue("PersistantTrackerPlugin.EstimatedLapTime")); //EstimatedLapTime
 
                 if (data.NewData.OpponentsAheadOnTrack.Count > 0)
@@ -921,6 +913,7 @@ namespace User.PluginSdkDemo
                 fuelTog = Convert.ToBoolean(pitInfo & 16);
                 WSTog = Convert.ToBoolean(pitInfo & 32);
                 repairTog = Convert.ToBoolean(pitInfo & 64);
+
 
 
 
@@ -2410,7 +2403,7 @@ namespace User.PluginSdkDemo
 
                 //Materials on road: 2
 
-                if (((hasTCtog && TCswitch) || (hasTCtimer && TCPushTimer == 0)) && !(pitLimiter == 1 && speed > 0.9 * pitSpeedLimit) && TC != TCoffPosition)
+                if (Settings.WheelSlipLEDs || ((hasTCtog && TCswitch) || (hasTCtimer && TCPushTimer == 0)) && !(pitLimiter == 1 && speed > 0.9 * pitSpeedLimit) && TC != TCoffPosition)
                 {
 
                     if (TCrpm * 0.998 > rpm || TCdropCD > 0)  //Main filter
@@ -2442,7 +2435,6 @@ namespace User.PluginSdkDemo
                     }
 
 
-
                     if (roadTextures.Contains(surface) && (Math.Abs(LRShockVel) > 0.13 || Math.Abs(RRShockVel) > 0.13))  //Filter on bumps
                     {
                         tcBumpCounter = 1;
@@ -2465,15 +2457,6 @@ namespace User.PluginSdkDemo
                         {
                             TCreleaseCD = 0;
                         }
-                    }
-
-                    //Running wheel slip through the filter
-                    if (!tcBump && TCreleaseCD == 0 && gear == TCgear && TCdropCD == 0 && (TCthrottle < throttle || TCthrottle == 100 && throttle == 100) && (throttle > 30 || trackLocation == 0))
-                    {
-                        pluginManager.SetPropertyValue("SlipLF", this.GetType(), slipLF);
-                        pluginManager.SetPropertyValue("SlipRF", this.GetType(), slipRF);
-                        pluginManager.SetPropertyValue("SlipLR", this.GetType(), slipLR);
-                        pluginManager.SetPropertyValue("SlipRR", this.GetType(), slipRR);
                     }
 
 
@@ -2499,7 +2482,19 @@ namespace User.PluginSdkDemo
                         TCduration = 0;
                     }
 
-                    pluginManager.SetPropertyValue("TCActive", this.GetType(), TCon);
+                    //Running wheel slip through the filter
+                    if (!tcBump && TCreleaseCD == 0 && gear == TCgear && TCdropCD == 0 && (TCthrottle < throttle || TCthrottle == 100 && throttle == 100) && (throttle > 30 || trackLocation == 0))
+                    {
+                        pluginManager.SetPropertyValue("SlipLF", this.GetType(), slipLF);
+                        pluginManager.SetPropertyValue("SlipRF", this.GetType(), slipRF);
+                        pluginManager.SetPropertyValue("SlipLR", this.GetType(), slipLR);
+                        pluginManager.SetPropertyValue("SlipRR", this.GetType(), slipRR);
+                    }
+
+                    if ((hasTCtog && TCswitch) || (hasTCtimer && TCPushTimer == 0)) //Push active TC, check again that calculations has been done because of TC, and not because of wheel slip calc
+                    {
+                        pluginManager.SetPropertyValue("TCActive", this.GetType(), TCon);
+                    }
 
                 }
 
@@ -3631,6 +3626,11 @@ namespace User.PluginSdkDemo
 
                     double timeLeftSeconds = timeLeft.TotalSeconds;
 
+                    if(Settings.CorrectByPitstop && !onlyThrough)
+                    {
+                        timeLeftSeconds = timeLeftSeconds - pitStopDuration;
+                    }
+
                     pluginManager.SetPropertyValue("QualyLap1Status", this.GetType(), 0);
                     pluginManager.SetPropertyValue("QualyLap2Status", this.GetType(), 0);
                     pluginManager.SetPropertyValue("QualyLap1Time", this.GetType(), new TimeSpan(0));
@@ -3696,19 +3696,30 @@ namespace User.PluginSdkDemo
 
                     }
 
+                    bool inaccurateCalculations = false;
+
                     myExpectedLapTime = pace;
+
+                    if (lapRecord.TotalSeconds == 0 || (pace > 0 && pace > lapRecord.TotalSeconds * 1.05))
+                    {
+                        inaccurateCalculations = true;
+                    }
 
                     if (myExpectedLapTime == 0)
                     {
-                        myExpectedLapTime = allTimeBest * 1.005;
+                        myExpectedLapTime = lapRecord.TotalSeconds * 1.05;
+                        inaccurateCalculations = true;
                     }
                     if (myExpectedLapTime == 0)
                     {
                         myExpectedLapTime = trackLength / 40;
+                        inaccurateCalculations = true;
                     }
 
                     lapLapsRemaining = totalLaps - currentLap;
                     timeLapsRemaining = timeLeftSeconds / myExpectedLapTime + trackPosition - 1;
+
+                    pluginManager.SetPropertyValue("ApproximateCalculations", this.GetType(), inaccurateCalculations);
 
                     pluginManager.SetPropertyValue("P1Gap", this.GetType(), leaderGap);
                     pluginManager.SetPropertyValue("P1Name", this.GetType(), leaderName);
@@ -3766,7 +3777,7 @@ namespace User.PluginSdkDemo
                         {
                             timedOut = true;
                         }
-                        if (timedOut)
+                        if (timedOut || timeLeftSeconds < 0)
                         {
                             timeLeftSeconds = 0;
                         }
@@ -5481,6 +5492,15 @@ namespace User.PluginSdkDemo
 
                     pitStopDuration = pitTime + throughTime;
 
+                    if (pitStopDuration == throughTime)
+                    {
+                        onlyThrough = true;
+                    }
+                    else
+                    {
+                        onlyThrough = false;
+                    }
+
                     if (pitStall != 1)
                     {
                         pluginManager.SetPropertyValue("PitServiceFuelTarget", this.GetType(), fuelTarget);
@@ -6032,6 +6052,7 @@ namespace User.PluginSdkDemo
                 if (counter == 6 || counter == 36) //General lap times refreshed only twice per second
                 {
 
+
                     pluginManager.SetPropertyValue("Lap01Time", this.GetType(), lapTimeList[0]);
                     pluginManager.SetPropertyValue("Lap02Time", this.GetType(), lapTimeList[1]);
                     pluginManager.SetPropertyValue("Lap03Time", this.GetType(), lapTimeList[2]);
@@ -6333,7 +6354,7 @@ namespace User.PluginSdkDemo
 
             //Update property
 
-            pluginManager.AddProperty("Version", this.GetType(), "1.7.0");
+            pluginManager.AddProperty("Version", this.GetType(), "1.7.1");
 
             //Key presses
             pluginManager.AddProperty("FuelSaveDelta", this.GetType(), 0);
@@ -6894,9 +6915,10 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("SW1Enabled", this.GetType(), Settings.SW1Enabled);
             pluginManager.AddProperty("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
             pluginManager.AddProperty("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
+            pluginManager.AddProperty("ShiftTimingAssist", this.GetType(), Settings.ShiftTimingAssist);
             pluginManager.AddProperty("ShiftWarning", this.GetType(), Settings.ShiftWarning);
-            pluginManager.AddProperty("ARBswapped", this.GetType(), Settings.supercarSwapPosition);
-            pluginManager.AddProperty("ARBstiffForward", this.GetType(), Settings.supercarARBdirection);
+            pluginManager.AddProperty("ARBswapped", this.GetType(), Settings.SupercarSwapPosition);
+            pluginManager.AddProperty("ARBstiffForward", this.GetType(), Settings.SupercarARBDirection);
 
             pluginManager.AddProperty("Idle", this.GetType(), true);
             pluginManager.AddProperty("SmoothGear", this.GetType(), "");
@@ -6979,6 +7001,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("LaunchThrottle", this.GetType(), 0);
 
 
+            pluginManager.AddProperty("ApproximateCalculations", this.GetType(), false);
             pluginManager.AddProperty("LapsRemaining", this.GetType(), 0);
             pluginManager.AddProperty("LapBalance", this.GetType(), 0);
 
