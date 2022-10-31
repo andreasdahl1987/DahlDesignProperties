@@ -256,12 +256,20 @@
                                 Margin="10,-20,0,-20"                        
                                 Text="{Binding fuelPerLapTarget}"/>
                             <TextBlock
-                                Text="Fuel per lap offset increments:" Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                                Text="Fuel per lap offset increments:" Grid.Row="1" Margin="10,10,0,23" Grid.RowSpan="2"/>
                             <TextBox
                                 VerticalAlignment="Top"
                                 Height="20"  
-                                Margin="10,-20,0,20"                        
+                                Margin="10,-20,0,10"                        
                                 Text="{Binding fuelOffsetIncrement}"/>
+                            <TextBlock
+                                Text="Small Pitstop Fuel Adjustment Increment (Liters)" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                            <TextBlock Text="{Binding ElementName=SmallIncrementSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,0,0,0" Width="20" Height="20"/>
+                            <Slider x:Name="SmallIncrementSlider" Value="{Binding SmallFuelIncrement}" Width="600" HorizontalAlignment="Left" Maximum="10" Minimum="1" SmallChange="1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" />
+                            <TextBlock
+                                Text="Large Pitstop Fuel Adjustment Increment (Liters)" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                            <TextBlock Text="{Binding ElementName=LargeIncrementSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,0,0,0" Width="20" Height="20"/>
+                            <Slider x:Name="LargeIncrementSlider" Value="{Binding LargeFuelIncrement}" Width="600" HorizontalAlignment="Left" Maximum="50" Minimum="10" SmallChange="5" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" />
                             <TextBlock
                                 Text="Adjust remaining laps for pit stop duration:" Margin="10,0,0,23"/>
                             <styles:SHToggleButton

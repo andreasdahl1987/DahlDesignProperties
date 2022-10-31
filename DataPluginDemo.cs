@@ -538,6 +538,8 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("ShiftWarning", this.GetType(), Settings.ShiftWarning);
                 pluginManager.SetPropertyValue("ARBswapped", this.GetType(), Settings.SupercarSwapPosition);
                 pluginManager.SetPropertyValue("ARBstiffForward", this.GetType(), Settings.SupercarARBDirection);
+                pluginManager.SetPropertyValue("SmallFuelIncrement", this.GetType(), Settings.SmallFuelIncrement);
+                pluginManager.SetPropertyValue("LargeFuelIncrement", this.GetType(), Settings.LargeFuelIncrement);
             }
 
 
@@ -2011,11 +2013,11 @@ namespace User.PluginSdkDemo
                     }
                     else if (pitMenuRotary == 7 && isInPitMenu)
                     {
-                        PitCommands.iRacingChat("#fuel +2l$");
+                        PitCommands.iRacingChat("#fuel +" + Settings.SmallFuelIncrement + "l$");
                     }
                     else if (pitMenuRotary == 8 && isInPitMenu)
                     {
-                        PitCommands.iRacingChat("#fuel +10l$");
+                        PitCommands.iRacingChat("#fuel +" + Settings.LargeFuelIncrement + "l$");
                     }
                     else if (pitMenuRotary == 9 && isInPitMenu)
                     {
@@ -2095,11 +2097,11 @@ namespace User.PluginSdkDemo
                     }
                     else if (pitMenuRotary == 7 && isInPitMenu)
                     {
-                        PitCommands.iRacingChat("#fuel -2l$");
+                        PitCommands.iRacingChat("#fuel -" + Settings.SmallFuelIncrement + "l$");
                     }
                     else if (pitMenuRotary == 8 && isInPitMenu)
                     {
-                        PitCommands.iRacingChat("#fuel -10l$");
+                        PitCommands.iRacingChat("#fuel -" + Settings.LargeFuelIncrement + "l$");
                     }
 
                     else if (pitMenuRotary == 9 && isInPitMenu)
@@ -6919,6 +6921,8 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("ShiftWarning", this.GetType(), Settings.ShiftWarning);
             pluginManager.AddProperty("ARBswapped", this.GetType(), Settings.SupercarSwapPosition);
             pluginManager.AddProperty("ARBstiffForward", this.GetType(), Settings.SupercarARBDirection);
+            pluginManager.AddProperty("SmallFuelIncrement", this.GetType(), Settings.SmallFuelIncrement);
+            pluginManager.AddProperty("LargeFuelIncrement", this.GetType(), Settings.LargeFuelIncrement);
 
             pluginManager.AddProperty("Idle", this.GetType(), true);
             pluginManager.AddProperty("SmoothGear", this.GetType(), "");

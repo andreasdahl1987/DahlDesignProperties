@@ -21,6 +21,8 @@ namespace User.PluginSdkDemo
         public bool ShiftWarning { get; set; } = false;
         public bool WheelSlipLEDs { get; set; } = false;
 
+        public int SmallFuelIncrement { get; set; } = 2; //In Liters
+        public int LargeFuelIncrement { get; set; } = 10; //In Liters
         public bool ShiftTimingAssist { get; set; } = false;
 
         public string AheadPlayerText { get; set; } = "Blue flag";
