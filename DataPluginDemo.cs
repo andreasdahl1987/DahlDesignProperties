@@ -2017,12 +2017,12 @@ namespace User.PluginSdkDemo
                         PitCommands.iRacingChat("/" + data.NewData.OpponentsAheadOnTrack[0].CarNumber + " " + Settings.AheadPlayerText);
                     }
                     else if (pitMenuRotary == 7 && isInPitMenu)
-                    {
-                        PitCommands.iRacingChat("#fuel +2l$");
+                    {   
+                        PitCommands.iRacingChat("#fuel " + Settings.SmallPitstopFuelIncrement + "l$");
                     }
                     else if (pitMenuRotary == 8 && isInPitMenu)
                     {
-                        PitCommands.iRacingChat("#fuel +10l$");
+                        PitCommands.iRacingChat("#fuel " + Settings.LargePitstopFuelIncrement + "l$");
                     }
                     else if (pitMenuRotary == 9 && isInPitMenu)
                     {
@@ -2102,11 +2102,11 @@ namespace User.PluginSdkDemo
                     }
                     else if (pitMenuRotary == 7 && isInPitMenu)
                     {
-                        PitCommands.iRacingChat("#fuel -2l$");
+                        PitCommands.iRacingChat("#fuel -" + Settings.SmallPitstopFuelIncrement + "l$");
                     }
                     else if (pitMenuRotary == 8 && isInPitMenu)
                     {
-                        PitCommands.iRacingChat("#fuel -10l$");
+                        PitCommands.iRacingChat("#fuel -" + Settings.LargePitstopFuelIncrement + "l$");
                     }
 
                     else if (pitMenuRotary == 9 && isInPitMenu)

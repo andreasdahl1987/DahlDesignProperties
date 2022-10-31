@@ -21,6 +21,14 @@ namespace User.PluginSdkDemo
         public bool ShiftWarning { get; set; } = false;
         public bool WheelSlipLEDs { get; set; } = false;
 
+        //When we adjust the small fuel up/down, how much?  In Liters.
+        public int SmallPitstopFuelIncrement { get; set; } = 2;
+
+
+        //When we adjust the small fuel up/down, how much?  In Liters.
+        public int LargePitstopFuelIncrement { get; set; } = 2;
+
+
         public string AheadPlayerText { get; set; } = "Blue flag";
 
         public string BehindPlayerText { get; set; } = "Sorry!";

@@ -263,7 +263,19 @@
                                 Margin="10,-20,0,20"                        
                                 Text="{Binding fuelOffsetIncrement}"/>
                             <TextBlock
-                                Text="Swap RPM bar for LEDs:" Margin="10,0,0,23" RenderTransformOrigin="0.5,0.5" Height="18">
+                                Text="Small Pitstop Fuel Increment:" Grid.Row="1" Margin="10,0,0,23" Grid.RowSpan="2"/>
+                            <TextBox Text="{Binding ElementName=SmallFuelSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" HorizontalAlignment="Left" Margin="10,0,0,-1" />
+                            <Slider x:Name="SmallFuelSlider" Width="300" HorizontalAlignment="Left" Margin="10,0,0,0" Maximum="10" SmallChange="1" LargeChange="5" TickPlacement="Both" Value="{Binding SmallPitstopFuelIncrement}" IsSnapToTickEnabled="True" />
+
+                            <TextBlock
+                                Text="Large Pitstop Fuel Increment:" Grid.Row="1" Margin="10,10,0,23" Grid.RowSpan="2"/>
+                            <TextBox Text="{Binding ElementName=LargeFuelSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" HorizontalAlignment="Left" Margin="10,0,0,-1" />
+
+                            <Slider x:Name="LargeFuelSlider" Width="300" HorizontalAlignment="Left" Margin="10,0,0,0" Maximum="50" SmallChange="1" LargeChange="5" TickPlacement="Both" Value="{Binding LargePitstopFuelIncrement}" IsSnapToTickEnabled="True" Minimum="10" TickFrequency="5" />
+
+
+                            <TextBlock
+                                Text="Swap RPM bar for LEDs:" Margin="10,15,0,23" RenderTransformOrigin="0.5,0.5" Height="18">
                                 <TextBlock.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform/>
