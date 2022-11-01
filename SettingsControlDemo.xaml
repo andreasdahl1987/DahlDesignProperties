@@ -201,9 +201,9 @@
                 </Grid>
             </TabItem>
             <TabItem Header="DDC" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
-                <Grid Background="#FFDADADA" Margin="0,0,0,0">
+                <Grid Background="#FFDADADA" Margin="0,0,0,0" Width="806">
                     <styles:SHSection Title="Dahl Design Controller" Margin="0,0,0,0">
-                        <StackPanel>
+                        <StackPanel Margin="0,0,9,0">
                             <TextBlock
                                     Text="Name of your joystick controller. &quot;JoystickPlugin.Arduino_Leonardo_B01&quot; means you write &quot;Arduino_Leonardo&quot; here." Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
                             <TextBox
@@ -211,37 +211,15 @@
                                     Height="20"  
                                     Margin="10,-20,0,10"                        
                                     Text="{Binding DDC}"/>
+
+                            <TextBlock Grid.Row="0" Text="DDC Enabled"/>
+                            <styles:SHToggleButton  Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding Path=DDCEnabled}"/>
+                            <TextBlock Grid.Row="0" Text="DDS Enabled" />
+                            <styles:SHToggleButton  Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DDSEnabled}"/>
+                            <TextBlock Grid.Row="0" Text="DDC Clutch"/>
+                            <styles:SHToggleButton Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DDCclutchEnabled}"/>
                         </StackPanel>
                     </styles:SHSection>
-
-                    <TextBlock
-                        Grid.Row="0"
-                        Text="DDC Enabled" Margin="32,127,-32,895"/>
-                    <styles:SHToggleButton  
-                        Grid.Row="0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Height="20"
-                        IsChecked="{Binding Path=DDCEnabled}" Margin="115,126,0,0"/>
-                    <TextBlock
-                        Grid.Row="0"
-                        Text="DDS Enabled" Margin="32,166,-32,856"/>
-                    <styles:SHToggleButton  
-                        Grid.Row="0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Height="20"
-                        IsChecked="{Binding DDSEnabled}" Margin="115,165,0,0"/>
-                    <TextBlock
-                        Grid.Row="0"
-                        Text="DDC
- Clutch" Margin="32,204,-32,818"/>
-                    <styles:SHToggleButton  
-                        Grid.Row="0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Height="20"
-                        IsChecked="{Binding DDCclutchEnabled}" Margin="115,203,0,0"/>
                 </Grid>
             </TabItem>
             <TabItem Header="MISC" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
