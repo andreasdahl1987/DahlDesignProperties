@@ -315,6 +315,7 @@ namespace User.PluginSdkDemo
         bool pitHasWindscreen = false;
         AnimationType animaionType = AnimationType.Analog;
         double revSpeed = 1;
+        bool showMap = true;
 
         int ERSlapCounter = 0;
         int ERSreturnMode = 0;
@@ -1193,6 +1194,7 @@ namespace User.PluginSdkDemo
                     pitHasWindscreen = true;
                     animaionType = AnimationType.Analog;
                     revSpeed = 1;
+                    showMap = false;
 
 
                     for (int i = 0; i < carInfo.Count; i++)
@@ -1380,6 +1382,7 @@ namespace User.PluginSdkDemo
 
                     pluginManager.SetPropertyValue("CenterDashType", this.GetType(), dashType);
                     pluginManager.SetPropertyValue("MenuType", this.GetType(), rotaryType);
+                    pluginManager.SetPropertyValue("ShowMap", this.GetType(), showMap);
 
                 }
 
@@ -7644,6 +7647,8 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("SW1BitePoint", this.GetType(), 0);
             pluginManager.AddProperty("SW1Brake", this.GetType(), 0);
             pluginManager.AddProperty("SW1Throttle", this.GetType(), 0);
+
+            pluginManager.AddProperty("ShowMap", this.GetType(), false);
 
 
         }

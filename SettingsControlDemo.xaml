@@ -335,6 +335,23 @@
                                 VerticalAlignment="Top"
                                 Height="20"
                                 IsChecked="{Binding SupercarARBDirection}" Margin="14,-20,0,10"/>
+
+                            <TextBlock
+                                Text="Show Map instead of gear" Margin="10,0,0,23" RenderTransformOrigin="0.5,0.5" Height="18">
+                                <TextBlock.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform AngleX="3.18"/>
+                                        <RotateTransform/>
+                                        <TranslateTransform X="0.444"/>
+                                    </TransformGroup>
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <styles:SHToggleButton
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Height="20"
+                        IsChecked="{Binding ShowMap}" Margin="14,-20,0,10" RenderTransformOrigin="0.45,0.2"/>
                         </StackPanel>
                     </styles:SHSection>
 

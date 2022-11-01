@@ -47,6 +47,8 @@ namespace User.PluginSdkDemo
 
         public bool CorrectByPitstop { get; set; } = false;
 
+        public bool ShowMap { get; set; } = false;
+
         #region Property supporting UI refresh from code
         /*
         private string _FilePath;
