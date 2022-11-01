@@ -2485,7 +2485,7 @@ namespace User.PluginSdkDemo
                     }
 
                     //Running wheel slip through the filter
-                    if (!tcBump && TCreleaseCD == 0 && gear == TCgear && TCdropCD == 0 && (TCthrottle < throttle || TCthrottle == 100 && throttle == 100) && (throttle > 30 || trackLocation == 0))
+                    if (!tcBump && TCreleaseCD == 0 && gear == TCgear && TCdropCD == 0 && (((TCthrottle < throttle || TCthrottle == 100 && throttle == 100) && (throttle > 30 || trackLocation == 0)) || (slipLF == 100 || slipRF == 100)))
                     {
                         pluginManager.SetPropertyValue("SlipLF", this.GetType(), slipLF);
                         pluginManager.SetPropertyValue("SlipRF", this.GetType(), slipRF);
