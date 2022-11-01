@@ -48,6 +48,7 @@ namespace User.PluginSdkDemo
         public bool CorrectByPitstop { get; set; } = false;
 
         public bool ShowMap { get; set; } = false;
+        public string DashType { get; set; } = "Default";
 
         #region Property supporting UI refresh from code
         /*

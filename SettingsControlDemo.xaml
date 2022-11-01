@@ -286,6 +286,7 @@
                                     <RowDefinition Height="1*" MinHeight="30"/>
                                     <RowDefinition Height="1*" MinHeight="30"/>
                                     <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Row="1"
@@ -296,7 +297,7 @@
                                 VerticalAlignment="Top"
                                 Height="20"
                                 IsChecked="{Binding CorrectByPitstop}" />
-                                
+
                                 <TextBlock Grid.Row="2"
                                 Text="Swap RPM bar for LEDs:"    HorizontalAlignment="Left"
                                 VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
@@ -313,7 +314,7 @@
                                 VerticalAlignment="Top"
                                 Height="20"
                                 IsChecked="{Binding ShiftWarning}" />
-                                
+
                                 <TextBlock Grid.Row="4"
                                 Text="Shift timing assist active outside practice (purple and green line in RPM bar):" />
                                 <styles:SHToggleButton Grid.Column="1" Grid.Row="4"
@@ -321,7 +322,7 @@
                                 VerticalAlignment="Top"
                                 Height="20"
                                 IsChecked="{Binding ShiftTimingAssist}" />
-                                
+
                                 <TextBlock Grid.Row="5"
                                 Text="Lap info screen on new lap:"  />
                                 <styles:SHToggleButton Grid.Column="1" Grid.Row="5"
@@ -329,7 +330,7 @@
                                 VerticalAlignment="Top"
                                 Height="20"
                                 IsChecked="{Binding LapInfoScreen}"/>
-                                
+
                                 <TextBlock Grid.Row="6"
                                 Text="Activate wheel slip functions:" />
                                 <styles:SHToggleButton Grid.Column="1" Grid.Row="6"
@@ -337,7 +338,7 @@
                                 VerticalAlignment="Top"
                                 Height="20"
                                 IsChecked="{Binding WheelSlipLEDs}" />
-                                
+
                                 <TextBlock Grid.Row="7"
                                 Text="Swap ARB lever placement (Supercars):" />
                                 <styles:SHToggleButton Grid.Column="1" Grid.Row="7"
@@ -345,7 +346,7 @@
                                 VerticalAlignment="Top"
                                 Height="20"
                                 IsChecked="{Binding SupercarSwapPosition}" />
-                                
+
                                 <TextBlock Grid.Row="8"
                                 Text="Swap ARB lever direction (Supercars):" />
                                 <styles:SHToggleButton Grid.Column="1" Grid.Row="8"
@@ -362,8 +363,30 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             Height="20"
-                            IsChecked="{Binding ShowMap}" RenderTransformOrigin="0.45,0.2"/> 
+                            IsChecked="{Binding ShowMap}" RenderTransformOrigin="0.45,0.2"/>
+
+                                <TextBlock Grid.Row="10" Text="Override Dashboard Type"/>
+                                <ComboBox Grid.Row="10" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
+                                          SelectedValue="{Binding DashType}" SelectedValuePath="Content">
+                                <ComboBoxItem IsSelected="True">Automatic Selection</ComboBoxItem>
+                                
+                                <ComboBoxItem >Porsche GT3R</ComboBoxItem>
+                                <ComboBoxItem >Dallara LMP2</ComboBoxItem>
+                                <ComboBoxItem >Rally</ComboBoxItem>
+                                <ComboBoxItem >Supercar</ComboBoxItem>
+                                <ComboBoxItem >FR3.5</ComboBoxItem>
+                                <ComboBoxItem >Porsche 919</ComboBoxItem>
+                                <ComboBoxItem >Mercedes W12</ComboBoxItem>
+                                <ComboBoxItem >Mclaren F1</ComboBoxItem>
+                                <ComboBoxItem >Williams F1</ComboBoxItem>
+                                <ComboBoxItem >Indycar</ComboBoxItem>
+                                <ComboBoxItem >Williams F1</ComboBoxItem>
+                                <ComboBoxItem >GT3</ComboBoxItem>
+                                <ComboBoxItem >BiasOnly</ComboBoxItem>
+                                <ComboBoxItem>Default</ComboBoxItem>
+                            </ComboBox>
                             </Grid>
+
                         </StackPanel>
                     </styles:SHSection>
 
