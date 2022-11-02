@@ -75,7 +75,7 @@ namespace User.PluginSdkDemo
 
         int counter = 0;
 
-        bool isInPitMenu = false;
+        bool pitMenuRequirementMet = false;
 
         int roadOff = 0;
         bool outLap = false;
@@ -393,7 +393,7 @@ namespace User.PluginSdkDemo
         bool NBvalue = false;
 
         int fuelSaveDelta = 0;
-        bool plussButtonCheck = false;
+        bool plusButtonCheck = false;
         bool minusButtonCheck = false;
         bool OKButtonCheck = false;
         bool upshift = false;
@@ -540,6 +540,7 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("ARBstiffForward", this.GetType(), Settings.SupercarARBDirection);
                 pluginManager.SetPropertyValue("SmallFuelIncrement", this.GetType(), Settings.SmallFuelIncrement);
                 pluginManager.SetPropertyValue("LargeFuelIncrement", this.GetType(), Settings.LargeFuelIncrement);
+                pluginManager.SetPropertyValue("CoupleInCarToPit", this.GetType(), Settings.CoupleInCarToPit);
             }
 
 
@@ -1467,7 +1468,7 @@ namespace User.PluginSdkDemo
                 //-------SHIFT LIGHT/SHIFT POINT PER GEAR-------
                 //----------------------------------------------
 
-                
+
 
                 switch (gear)
                 {
@@ -1934,13 +1935,20 @@ namespace User.PluginSdkDemo
                 //----------------------------------------------------
 
                 //Pit commands
-                if (inCarRotary == 0 && pitMenuRotary != 0 || rotaryType == "Single" || (rotaryType != "Single" && rotaryType != "Default" && inCarRotary == 12))
+                if (!Settings.CoupleInCarToPit) // Ignore all of this if we explicitly state that coupling the InCar to Pit is off in settings)
                 {
-                    isInPitMenu = true;
+                    pitMenuRequirementMet = true;
+                }
+                else if (
+                    inCarRotary == 0 && pitMenuRotary != 0 || 
+                    rotaryType == "Single" ||
+                    (rotaryType != "Single" && rotaryType != "Default" && inCarRotary == 12))
+                {
+                    pitMenuRequirementMet = true;
                 }
                 else
                 {
-                    isInPitMenu = false;
+                    pitMenuRequirementMet = false;
                 }
 
                 bool aheadPlayerReady = false;
@@ -1960,9 +1968,9 @@ namespace User.PluginSdkDemo
                     pitMenuRotary = inCarRotary;
                 }
 
-                if (plussButtonCheck)
+                if (plusButtonCheck)
                 {
-                    if (pitMenuRotary == 1 && isInPitMenu)
+                    if (pitMenuRotary == 1 && pitMenuRequirementMet)
                     {
                         string pushPit = "";
 
@@ -1977,15 +1985,15 @@ namespace User.PluginSdkDemo
 
                         PitCommands.iRacingChat(pushPit);
                     }
-                    else if (pitMenuRotary == 2 && isInPitMenu)
+                    else if (pitMenuRotary == 2 && pitMenuRequirementMet)
                     {
                         launchActive = !launchActive;
                     }
-                    else if (pitMenuRotary == 3 && isInPitMenu)
+                    else if (pitMenuRotary == 3 && pitMenuRequirementMet)
                     {
                         PitCommands.iRacingChat("#lf +3kpa rf +3kpa lr +3kpa rr +3kpa$");
                     }
-                    else if (pitMenuRotary == 4 && isInPitMenu)
+                    else if (pitMenuRotary == 4 && pitMenuRequirementMet)
                     {
                         if (pitCrewType < CrewType.LeftRight || pitCrewType == CrewType.All)
                         {
@@ -1996,7 +2004,7 @@ namespace User.PluginSdkDemo
                             PitCommands.iRacingChat("#lf +3kpa lr +3kpa$");
                         }
                     }
-                    else if (pitMenuRotary == 5 && isInPitMenu)
+                    else if (pitMenuRotary == 5 && pitMenuRequirementMet)
                     {
                         if (pitCrewType < CrewType.LeftRight || pitCrewType == CrewType.All)
                         {
@@ -2007,47 +2015,47 @@ namespace User.PluginSdkDemo
                             PitCommands.iRacingChat("#rf +3kpa rr +3kpa$");
                         }
                     }
-                    else if (pitMenuRotary == 6 && isInPitMenu && aheadPlayerReady)
+                    else if (pitMenuRotary == 6 && pitMenuRequirementMet && aheadPlayerReady)
                     {
                         PitCommands.iRacingChat("/" + data.NewData.OpponentsAheadOnTrack[0].CarNumber + " " + Settings.AheadPlayerText);
                     }
-                    else if (pitMenuRotary == 7 && isInPitMenu)
+                    else if (pitMenuRotary == 7 && pitMenuRequirementMet)
                     {
                         PitCommands.iRacingChat("#fuel +" + Settings.SmallFuelIncrement + "l$");
                     }
-                    else if (pitMenuRotary == 8 && isInPitMenu)
+                    else if (pitMenuRotary == 8 && pitMenuRequirementMet)
                     {
                         PitCommands.iRacingChat("#fuel +" + Settings.LargeFuelIncrement + "l$");
                     }
-                    else if (pitMenuRotary == 9 && isInPitMenu)
+                    else if (pitMenuRotary == 9 && pitMenuRequirementMet)
                     {
                         watchSplit = true;
                     }
 
-                    else if (pitMenuRotary == 10 && isInPitMenu)
+                    else if (pitMenuRotary == 10 && pitMenuRequirementMet)
                     {
                         pluginManager.TriggerAction("DataCorePlugin.IncrementSystemVolume");
                     }
 
-                    else if (pitMenuRotary == 11 && isInPitMenu)
+                    else if (pitMenuRotary == 11 && pitMenuRequirementMet)
                     {
                         savePitTimerLock = true;
                         savePitTimerSnap = slowestLapTimeSpanCopy;
                     }
 
-                    else if (pitMenuRotary == 12 && isInPitMenu)
+                    else if (pitMenuRotary == 12 && pitMenuRequirementMet)
                     {
                         //pluginManager.TriggerAction("ShakeITBSV3Plugin.MainFeedbackLevelIncrement");
                         fuelPerLapOffset = fuelPerLapOffset + Settings.fuelOffsetIncrement;
                     }
 
 
-                    plussButtonCheck = false;
+                    plusButtonCheck = false;
                 }
 
                 if (minusButtonCheck)
                 {
-                    if (pitMenuRotary == 1 && isInPitMenu)
+                    if (pitMenuRotary == 1 && pitMenuRequirementMet)
                     {
                         string pushPit = "";
                         if (commandMinFuel == 0)
@@ -2060,15 +2068,15 @@ namespace User.PluginSdkDemo
                         }
                         PitCommands.iRacingChat(pushPit);
                     }
-                    else if (pitMenuRotary == 2 && isInPitMenu)
+                    else if (pitMenuRotary == 2 && pitMenuRequirementMet)
                     {
                         paceCheck = !paceCheck;
                     }
-                    else if (pitMenuRotary == 3 && isInPitMenu)
+                    else if (pitMenuRotary == 3 && pitMenuRequirementMet)
                     {
                         PitCommands.iRacingChat("#lf -3kpa rf -3kpa lr -3kpa rr -3kpa$");
                     }
-                    else if (pitMenuRotary == 4 && isInPitMenu)
+                    else if (pitMenuRotary == 4 && pitMenuRequirementMet)
                     {
                         if (pitCrewType < CrewType.LeftRight || pitCrewType == CrewType.All)
                         {
@@ -2079,7 +2087,7 @@ namespace User.PluginSdkDemo
                             PitCommands.iRacingChat("#lf -3kpa lr -3kpa$");
                         }
                     }
-                    else if (pitMenuRotary == 5 && isInPitMenu)
+                    else if (pitMenuRotary == 5 && pitMenuRequirementMet)
                     {
                         if (pitCrewType < CrewType.LeftRight || pitCrewType == CrewType.All)
                         {
@@ -2090,21 +2098,21 @@ namespace User.PluginSdkDemo
                             PitCommands.iRacingChat("#rf -3kpa rr -3kpa$");
                         }
                     }
-                    else if (pitMenuRotary == 6 && isInPitMenu && behindPlayerReady)
+                    else if (pitMenuRotary == 6 && pitMenuRequirementMet && behindPlayerReady)
                     {
                         string driverText = "/#" + data.NewData.OpponentsBehindOnTrack[0].CarNumber + " " + Settings.BehindPlayerText;
                         PitCommands.iRacingChat(driverText);
                     }
-                    else if (pitMenuRotary == 7 && isInPitMenu)
+                    else if (pitMenuRotary == 7 && pitMenuRequirementMet)
                     {
                         PitCommands.iRacingChat("#fuel -" + Settings.SmallFuelIncrement + "l$");
                     }
-                    else if (pitMenuRotary == 8 && isInPitMenu)
+                    else if (pitMenuRotary == 8 && pitMenuRequirementMet)
                     {
                         PitCommands.iRacingChat("#fuel -" + Settings.LargeFuelIncrement + "l$");
                     }
 
-                    else if (pitMenuRotary == 9 && isInPitMenu)
+                    else if (pitMenuRotary == 9 && pitMenuRequirementMet)
                     {
                         watchTimer = globalClock;
                         watchSnap = 0;
@@ -2113,18 +2121,18 @@ namespace User.PluginSdkDemo
                         watchSplit = false;
                     }
 
-                    else if (pitMenuRotary == 10 && isInPitMenu)
+                    else if (pitMenuRotary == 10 && pitMenuRequirementMet)
                     {
                         pluginManager.TriggerAction("DataCorePlugin.DecrementSystemVolume");
 
                     }
 
-                    else if (pitMenuRotary == 11 && isInPitMenu)
+                    else if (pitMenuRotary == 11 && pitMenuRequirementMet)
                     {
                         savePitTimerLock = false;
                     }
 
-                    else if (pitMenuRotary == 12 && isInPitMenu)
+                    else if (pitMenuRotary == 12 && pitMenuRequirementMet)
                     {
                         //pluginManager.TriggerAction("ShakeITBSV3Plugin.MainFeedbackLevelDecrement");
                         if ((fuelAvgLap + fuelPerLapOffset - Settings.fuelOffsetIncrement) > 0)
@@ -2142,20 +2150,20 @@ namespace User.PluginSdkDemo
 
                 if (OKButtonCheck)
                 {
-                    if (pitMenuRotary == 1 && isInPitMenu)
+                    if (pitMenuRotary == 1 && pitMenuRequirementMet)
                     {
                         PitCommands.iRacingChat("#clear$");
                         fuelPerLapOffset = 0;
                     }
-                    else if (pitMenuRotary == 2 && isInPitMenu)
+                    else if (pitMenuRotary == 2 && pitMenuRequirementMet)
                     {
                         PitCommands.iRacingChat("#!fr$");
                     }
-                    else if (pitMenuRotary == 3 && isInPitMenu)
+                    else if (pitMenuRotary == 3 && pitMenuRequirementMet)
                     {
                         PitCommands.iRacingChat("#!cleartires$");
                     }
-                    else if (pitMenuRotary == 4 && isInPitMenu)
+                    else if (pitMenuRotary == 4 && pitMenuRequirementMet)
                     {
                         if (pitCrewType < CrewType.LeftRight)
                         {
@@ -2170,7 +2178,7 @@ namespace User.PluginSdkDemo
                             PitCommands.iRacingChat("#!cleartires$");
                         }
                     }
-                    else if (pitMenuRotary == 5 && isInPitMenu)
+                    else if (pitMenuRotary == 5 && pitMenuRequirementMet)
                     {
                         if (pitCrewType < CrewType.LeftRight)
                         {
@@ -2185,27 +2193,27 @@ namespace User.PluginSdkDemo
                             PitCommands.iRacingChat("#!cleartires$");
                         }
                     }
-                    else if (pitMenuRotary == 6 && isInPitMenu)
+                    else if (pitMenuRotary == 6 && pitMenuRequirementMet)
                     {
                         PitCommands.iRacingChat("#!ws$");
                     }
-                    else if (pitMenuRotary == 7 && isInPitMenu)
+                    else if (pitMenuRotary == 7 && pitMenuRequirementMet)
                     {
                         PitCommands.iRacingChat("#!fuel$");
                     }
-                    else if (pitMenuRotary == 8 && isInPitMenu)
+                    else if (pitMenuRotary == 8 && pitMenuRequirementMet)
                     {
                         pitActive = !pitActive;
                     }
-                    else if (pitMenuRotary == 9 && isInPitMenu)
+                    else if (pitMenuRotary == 9 && pitMenuRequirementMet)
                     {
                         watchOn = !watchOn;
                     }
-                    else if (pitMenuRotary == 10 && isInPitMenu)
+                    else if (pitMenuRotary == 10 && pitMenuRequirementMet)
                     {
                         spotMode = !spotMode;
                     }
-                    else if (pitMenuRotary == 11 && isInPitMenu)
+                    else if (pitMenuRotary == 11 && pitMenuRequirementMet)
                     {
                         fuelSaveDelta++;
                         if (fuelSaveDelta > 4)
@@ -2213,7 +2221,7 @@ namespace User.PluginSdkDemo
                             fuelSaveDelta = 0;
                         }
                     }
-                    else if (pitMenuRotary == 12 && isInPitMenu)
+                    else if (pitMenuRotary == 12 && pitMenuRequirementMet)
                     {
                         Settings.fuelPerLapTarget = fuelAvgLap + fuelPerLapOffset;
                     }
@@ -6356,7 +6364,7 @@ namespace User.PluginSdkDemo
 
             //Update property
 
-            pluginManager.AddProperty("Version", this.GetType(), "1.8.0");
+            pluginManager.AddProperty("Version", this.GetType(), "1.8.1");
 
             //Key presses
             pluginManager.AddProperty("FuelSaveDelta", this.GetType(), 0);
@@ -6374,9 +6382,9 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("LEDWarnings", this.GetType(), false);
             pluginManager.AddProperty("SpotterMode", this.GetType(), false);
 
-            pluginManager.AddAction("PlussPressed", this.GetType(), (a, b) =>
+            pluginManager.AddAction("PlusPressed", this.GetType(), (a, b) =>
             {
-                plussButtonCheck = true;
+                plusButtonCheck = true;
             });
 
             pluginManager.AddAction("MinusPressed", this.GetType(), (a, b) =>
@@ -6923,6 +6931,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("ARBstiffForward", this.GetType(), Settings.SupercarARBDirection);
             pluginManager.AddProperty("SmallFuelIncrement", this.GetType(), Settings.SmallFuelIncrement);
             pluginManager.AddProperty("LargeFuelIncrement", this.GetType(), Settings.LargeFuelIncrement);
+            pluginManager.AddProperty("CoupleInCarToPit", this.GetType(), Settings.CoupleInCarToPit);
 
             pluginManager.AddProperty("Idle", this.GetType(), true);
             pluginManager.AddProperty("SmoothGear", this.GetType(), "");

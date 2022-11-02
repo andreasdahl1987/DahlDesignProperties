@@ -6,10 +6,10 @@
              xmlns:local="clr-namespace:User.PluginSdkDemo"
              xmlns:styles="clr-namespace:SimHub.Plugins.Styles;assembly=SimHub.Plugins" mc:Ignorable="d" 
              xmlns:ui="clr-namespace:SimHub.Plugins.UI;assembly=SimHub.Plugins"
-             d:DesignHeight="1200" Width="820" HorizontalAlignment="Left">
+             d:DesignHeight="1080" Width="820" HorizontalAlignment="Left">
 
     <Grid>
-        <TabControl HorizontalAlignment="Left" Height="1155" VerticalAlignment="Top" Width="820 " Margin="0,12,0,0">
+        <TabControl HorizontalAlignment="Left" Height="1080" VerticalAlignment="Top" Width="820 " Margin="0,12,0,0">
             <TabItem Header="PIT ROTARY" Foreground="#FF252525">
                 <Grid Background="#FFDADADA" Margin="0,0,0,0">
                     <ScrollViewer>
@@ -65,9 +65,9 @@
                             <StackPanel>
                                 <ui:ControlsEditor FriendlyName="Upshift (pressed)" ActionName="DahlDesign.Upshift" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Downshift (pressed)" ActionName="DahlDesign.Downshift" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Menu: +" ActionName="DahlDesign.PlussPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Menu: -" ActionName="DahlDesign.MinusPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Menu: OK" ActionName="DahlDesign.OKPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Pit Menu: +" ActionName="DahlDesign.PlusPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Pit Menu: -" ActionName="DahlDesign.MinusPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Pit Menu: OK" ActionName="DahlDesign.OKPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="TC Off (pressed)" ActionName="DahlDesign.TCPressed"  HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="TC Off (released)" ActionName="DahlDesign.TCReleased" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="ERS No Boost" ActionName="DahlDesign.NBPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
@@ -201,9 +201,9 @@
                 </Grid>
             </TabItem>
             <TabItem Header="DDC" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
-                <Grid Background="#FFDADADA" Margin="0,0,0,0">
+                <Grid Background="#FFDADADA" Margin="0,0,0,0" Width="806">
                     <styles:SHSection Title="Dahl Design Controller" Margin="0,0,0,0">
-                        <StackPanel>
+                        <StackPanel Margin="0,0,9,0">
                             <TextBlock
                                     Text="Name of your joystick controller. &quot;JoystickPlugin.Arduino_Leonardo_B01&quot; means you write &quot;Arduino_Leonardo&quot; here." Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
                             <TextBox
@@ -211,37 +211,15 @@
                                     Height="20"  
                                     Margin="10,-20,0,10"                        
                                     Text="{Binding DDC}"/>
+
+                            <TextBlock Grid.Row="0" Text="DDC Enabled"/>
+                            <styles:SHToggleButton  Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding Path=DDCEnabled}"/>
+                            <TextBlock Grid.Row="0" Text="DDS Enabled" />
+                            <styles:SHToggleButton  Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DDSEnabled}"/>
+                            <TextBlock Grid.Row="0" Text="DDC Clutch"/>
+                            <styles:SHToggleButton Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DDCclutchEnabled}"/>
                         </StackPanel>
                     </styles:SHSection>
-
-                    <TextBlock
-                        Grid.Row="0"
-                        Text="DDC Enabled" Margin="32,127,-32,895"/>
-                    <styles:SHToggleButton  
-                        Grid.Row="0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Height="20"
-                        IsChecked="{Binding Path=DDCEnabled}" Margin="115,126,0,0"/>
-                    <TextBlock
-                        Grid.Row="0"
-                        Text="DDS Enabled" Margin="32,166,-32,856"/>
-                    <styles:SHToggleButton  
-                        Grid.Row="0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Height="20"
-                        IsChecked="{Binding DDSEnabled}" Margin="115,165,0,0"/>
-                    <TextBlock
-                        Grid.Row="0"
-                        Text="DDC
- Clutch" Margin="32,204,-32,818"/>
-                    <styles:SHToggleButton  
-                        Grid.Row="0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Height="20"
-                        IsChecked="{Binding DDCclutchEnabled}" Margin="115,203,0,0"/>
                 </Grid>
             </TabItem>
             <TabItem Header="MISC" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
@@ -314,6 +292,13 @@
                                 VerticalAlignment="Top"
                                 Height="20"
                                 IsChecked="{Binding LapInfoScreen}" Margin="14,-20,0,10"/>
+                            <TextBlock
+                                Text="Disable PitMenu Controls unless In-Car Rotary unused or in 12th/Pit position" Margin="10,0,0,23"/>
+                            <styles:SHToggleButton
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Height="20"
+                                IsChecked="{Binding CoupleInCarToPit}" Margin="14,-20,0,10"/>
                             <TextBlock
                                 Text="Activate wheel slip functions:" Margin="10,0,0,23"/>
                             <styles:SHToggleButton
