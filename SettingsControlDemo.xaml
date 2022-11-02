@@ -248,78 +248,132 @@
                                 Text="Large Pitstop Fuel Adjustment Increment (Liters)" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
                             <TextBlock Text="{Binding ElementName=LargeIncrementSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,0,0,0" Width="20" Height="20"/>
                             <Slider x:Name="LargeIncrementSlider" Value="{Binding LargeFuelIncrement}" Width="600" HorizontalAlignment="Left" Maximum="50" Minimum="10" SmallChange="5" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" />
-                            <TextBlock
-                                Text="Adjust remaining laps for pit stop duration:" Margin="10,0,0,23"/>
-                            <styles:SHToggleButton
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*" MinHeight="20"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="1"
+                                           
+                                Text="Adjust remaining laps for pit stop duration:"  Grid.ColumnSpan="2"/>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="1"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Height="20"
-                                IsChecked="{Binding CorrectByPitstop}" Margin="14,-20,0,10"/>
-                            <TextBlock
-                                Text="Swap RPM bar for LEDs:" Margin="10,0,0,23" RenderTransformOrigin="0.5,0.5" Height="18">
-                                <TextBlock.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform AngleX="3.18"/>
-                                        <RotateTransform/>
-                                        <TranslateTransform X="0.444"/>
-                                    </TransformGroup>
-                                </TextBlock.RenderTransform>
-                            </TextBlock>
-                            <styles:SHToggleButton
+                                IsChecked="{Binding CorrectByPitstop}" />
+
+                                <TextBlock Grid.Row="2"
+                                Text="Swap RPM bar for LEDs:"    HorizontalAlignment="Left"
+                                VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
+                                </TextBlock>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="2"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Height="20"
-                        IsChecked="{Binding DashLEDEnabled}" Margin="14,-20,0,10" RenderTransformOrigin="0.45,0.2"/>
-                            <TextBlock
-                                Text="RPM bar shift warning:" Margin="10,0,0,23"/>
-                            <styles:SHToggleButton
+                        IsChecked="{Binding DashLEDEnabled}"  RenderTransformOrigin="0.45,0.2"/>
+                                <TextBlock Grid.Row="3"
+                                Text="RPM bar shift warning:"  />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="3"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Height="20"
-                                IsChecked="{Binding ShiftWarning}" Margin="14,-20,0,10"/>
-                            <TextBlock
-                                Text="Shift timing assist active outside practice (purple and green line in RPM bar):" Margin="10,0,0,23"/>
-                            <styles:SHToggleButton
+                                IsChecked="{Binding ShiftWarning}" />
+
+                                <TextBlock Grid.Row="4"
+                                Text="Shift timing assist active outside practice (purple and green line in RPM bar):" />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="4"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Height="20"
-                                IsChecked="{Binding ShiftTimingAssist}" Margin="14,-20,0,10"/>
-                            <TextBlock
-                                Text="Lap info screen on new lap:" Margin="10,0,0,23"/>
-                            <styles:SHToggleButton
+                                IsChecked="{Binding ShiftTimingAssist}" />
+
+                                <TextBlock Grid.Row="5"
+                                Text="Lap info screen on new lap:"  />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="5"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Height="20"
-                                IsChecked="{Binding LapInfoScreen}" Margin="14,-20,0,10"/>
-                            <TextBlock
-                                Text="Disable PitMenu Controls unless In-Car Rotary unused or in 12th/Pit position" Margin="10,0,0,23"/>
-                            <styles:SHToggleButton
+                                IsChecked="{Binding LapInfoScreen}"/>
+                                
+                                <TextBlock Grid.Row="6"
+                                Text="Disable PitMenu Controls unless In-Car Rotary unused or in 12th/Pit position"/>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="6"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Height="20"
-                                IsChecked="{Binding CoupleInCarToPit}" Margin="14,-20,0,10"/>
-                            <TextBlock
-                                Text="Activate wheel slip functions:" Margin="10,0,0,23"/>
-                            <styles:SHToggleButton
+                                IsChecked="{Binding CoupleInCarToPit}"/>
+
+                                <TextBlock Grid.Row="7"
+                                Text="Activate wheel slip functions:" />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="7"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Height="20"
-                                IsChecked="{Binding WheelSlipLEDs}" Margin="14,-20,0,10"/>
-                            <TextBlock
-                                Text="Swap ARB lever placement (Supercars):" Margin="10,0,0,23"/>
-                            <styles:SHToggleButton
+                                IsChecked="{Binding WheelSlipLEDs}" />
+
+                                <TextBlock Grid.Row="8"
+                                Text="Swap ARB lever placement (Supercars):" />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="8"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Height="20"
-                                IsChecked="{Binding SupercarSwapPosition}" Margin="14,-20,0,10"/>
-                            <TextBlock
-                                Text="Swap ARB lever direction (Supercars):" Margin="10,0,0,23"/>
-                            <styles:SHToggleButton
+                                IsChecked="{Binding SupercarSwapPosition}" />
+
+                                <TextBlock Grid.Row="9"
+                                Text="Swap ARB lever direction (Supercars):" />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="9"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Height="20"
-                                IsChecked="{Binding SupercarARBDirection}" Margin="14,-20,0,10"/>
+                                IsChecked="{Binding SupercarARBDirection}" />
+
+                                <TextBlock Grid.Row="10" 
+                                Text="Show Map instead of gear"    HorizontalAlignment="Left"
+                                VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18" >
+                                </TextBlock>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Height="20"
+                            IsChecked="{Binding ShowMapEnabled}" RenderTransformOrigin="0.45,0.2"/>
+
+                                <TextBlock Grid.Row="11" Text="Override Dashboard Type"/>
+                                <ComboBox Grid.Row="11" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
+                                          SelectedValue="{Binding DashType}" SelectedValuePath="Content">
+                                <ComboBoxItem IsSelected="True">Automatic Selection</ComboBoxItem>
+                                
+                                <ComboBoxItem >Porsche GT3R</ComboBoxItem>
+                                <ComboBoxItem >Dallara LMP2</ComboBoxItem>
+                                <ComboBoxItem >Rally</ComboBoxItem>
+                                <ComboBoxItem >Supercar</ComboBoxItem>
+                                <ComboBoxItem >FR3.5</ComboBoxItem>
+                                <ComboBoxItem >Porsche 919</ComboBoxItem>
+                                <ComboBoxItem >Mercedes W12</ComboBoxItem>
+                                <ComboBoxItem >Mclaren F1</ComboBoxItem>
+                                <ComboBoxItem >Williams F1</ComboBoxItem>
+                                <ComboBoxItem >Indycar</ComboBoxItem>
+                                <ComboBoxItem >Williams F1</ComboBoxItem>
+                                <ComboBoxItem >GT3</ComboBoxItem>
+                                <ComboBoxItem >BiasOnly</ComboBoxItem>
+                                <ComboBoxItem>Default</ComboBoxItem>
+                            </ComboBox>
+                            </Grid>
+
                         </StackPanel>
                     </styles:SHSection>
 

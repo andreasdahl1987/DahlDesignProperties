@@ -315,7 +315,7 @@ namespace User.PluginSdkDemo
         bool pitHasWindscreen = false;
         AnimationType animaionType = AnimationType.Analog;
         double revSpeed = 1;
-
+     
         int ERSlapCounter = 0;
         int ERSreturnMode = 0;
         bool ERSstartingLap = false;
@@ -533,6 +533,8 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("DDUEnabled", this.GetType(), Settings.DDUEnabled);
                 pluginManager.SetPropertyValue("SW1Enabled", this.GetType(), Settings.SW1Enabled);
                 pluginManager.SetPropertyValue("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
+                pluginManager.SetPropertyValue("ShowMapEnabled", this.GetType(), Settings.ShowMapEnabled);
+                pluginManager.SetPropertyValue("DashType", this.GetType(), Settings.DashType);
                 pluginManager.SetPropertyValue("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
                 pluginManager.SetPropertyValue("ShiftTimingAssist", this.GetType(), Settings.ShiftTimingAssist);
                 pluginManager.SetPropertyValue("ShiftWarning", this.GetType(), Settings.ShiftWarning);
@@ -1194,6 +1196,7 @@ namespace User.PluginSdkDemo
                     pitHasWindscreen = true;
                     animaionType = AnimationType.Analog;
                     revSpeed = 1;
+                    
 
 
                     for (int i = 0; i < carInfo.Count; i++)
@@ -1254,6 +1257,11 @@ namespace User.PluginSdkDemo
                         }
                     }
 
+                    if (Settings.DashType != "Automatic Selection")
+                    {
+                        dashType = Settings.DashType;
+                    }
+                    
                     if (p2pCount != null)
                     {
                         p2pCounter = ((int[])p2pCount)[myCarIdx];
@@ -6924,6 +6932,8 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("DDUEnabled", this.GetType(), Settings.DDUEnabled);
             pluginManager.AddProperty("SW1Enabled", this.GetType(), Settings.SW1Enabled);
             pluginManager.AddProperty("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
+            pluginManager.AddProperty("ShowMapEnabled", this.GetType(), Settings.ShowMapEnabled);
+            pluginManager.AddProperty("DashType", this.GetType(), Settings.DashType);
             pluginManager.AddProperty("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
             pluginManager.AddProperty("ShiftTimingAssist", this.GetType(), Settings.ShiftTimingAssist);
             pluginManager.AddProperty("ShiftWarning", this.GetType(), Settings.ShiftWarning);
@@ -7653,8 +7663,6 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("SW1BitePoint", this.GetType(), 0);
             pluginManager.AddProperty("SW1Brake", this.GetType(), 0);
             pluginManager.AddProperty("SW1Throttle", this.GetType(), 0);
-
-
         }
     }
 }
