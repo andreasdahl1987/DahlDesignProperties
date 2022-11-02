@@ -533,7 +533,6 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("DDUEnabled", this.GetType(), Settings.DDUEnabled);
                 pluginManager.SetPropertyValue("SW1Enabled", this.GetType(), Settings.SW1Enabled);
                 pluginManager.SetPropertyValue("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
-                pluginManager.SetPropertyValue("ShowMapEnabled", this.GetType(), Settings.ShowMapEnabled);
                 pluginManager.SetPropertyValue("DashType", this.GetType(), Settings.DashType);
                 pluginManager.SetPropertyValue("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
                 pluginManager.SetPropertyValue("ShiftTimingAssist", this.GetType(), Settings.ShiftTimingAssist);
@@ -1260,6 +1259,10 @@ namespace User.PluginSdkDemo
                     if (Settings.DashType != "Automatic Selection")
                     {
                         dashType = Settings.DashType;
+                    }
+                    if (Settings.ShowMapEnabled)
+                    {
+                        dashType = "Map";
                     }
                     
                     if (p2pCount != null)
@@ -6372,7 +6375,7 @@ namespace User.PluginSdkDemo
 
             //Update property
 
-            pluginManager.AddProperty("Version", this.GetType(), "1.8.1");
+            pluginManager.AddProperty("Version", this.GetType(), "1.9.0");
 
             //Key presses
             pluginManager.AddProperty("FuelSaveDelta", this.GetType(), 0);
@@ -6932,7 +6935,6 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("DDUEnabled", this.GetType(), Settings.DDUEnabled);
             pluginManager.AddProperty("SW1Enabled", this.GetType(), Settings.SW1Enabled);
             pluginManager.AddProperty("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
-            pluginManager.AddProperty("ShowMapEnabled", this.GetType(), Settings.ShowMapEnabled);
             pluginManager.AddProperty("DashType", this.GetType(), Settings.DashType);
             pluginManager.AddProperty("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
             pluginManager.AddProperty("ShiftTimingAssist", this.GetType(), Settings.ShiftTimingAssist);
