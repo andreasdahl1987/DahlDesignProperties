@@ -293,7 +293,7 @@
                                 Height="20"
                                 IsChecked="{Binding LapInfoScreen}" Margin="14,-20,0,10"/>
                             <TextBlock
-                                Text="Couple Pit Controls Enable to In-Car Rotary - Support mode fual dual 12-position switches" Margin="10,0,0,23"/>
+                                Text="Disable PitMenu Controls unless In-Car Rotary unused or in 12th/Pit position" Margin="10,0,0,23"/>
                             <styles:SHToggleButton
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
