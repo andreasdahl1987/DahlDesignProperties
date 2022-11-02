@@ -363,7 +363,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             Height="20"
-                            IsChecked="{Binding ShowMap}" RenderTransformOrigin="0.45,0.2"/>
+                            IsChecked="{Binding ShowMapEnabled}" RenderTransformOrigin="0.45,0.2"/>
 
                                 <TextBlock Grid.Row="10" Text="Override Dashboard Type"/>
                                 <ComboBox Grid.Row="10" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 

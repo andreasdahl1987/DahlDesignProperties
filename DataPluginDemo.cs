@@ -533,7 +533,7 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("DDUEnabled", this.GetType(), Settings.DDUEnabled);
                 pluginManager.SetPropertyValue("SW1Enabled", this.GetType(), Settings.SW1Enabled);
                 pluginManager.SetPropertyValue("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
-                pluginManager.SetPropertyValue("ShowMap", this.GetType(), Settings.ShowMap);
+                pluginManager.SetPropertyValue("ShowMapEnabled", this.GetType(), Settings.ShowMapEnabled);
                 pluginManager.SetPropertyValue("DashType", this.GetType(), Settings.DashType);
                 pluginManager.SetPropertyValue("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
                 pluginManager.SetPropertyValue("ShiftTimingAssist", this.GetType(), Settings.ShiftTimingAssist);
@@ -6924,7 +6924,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("DDUEnabled", this.GetType(), Settings.DDUEnabled);
             pluginManager.AddProperty("SW1Enabled", this.GetType(), Settings.SW1Enabled);
             pluginManager.AddProperty("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
-            pluginManager.AddProperty("ShowMap", this.GetType(), Settings.ShowMap);
+            pluginManager.AddProperty("ShowMapEnabled", this.GetType(), Settings.ShowMapEnabled);
             pluginManager.AddProperty("DashType", this.GetType(), Settings.DashType);
             pluginManager.AddProperty("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
             pluginManager.AddProperty("ShiftTimingAssist", this.GetType(), Settings.ShiftTimingAssist);
@@ -7653,7 +7653,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("SW1Clutch", this.GetType(), 0);
             pluginManager.AddProperty("SW1BitePoint", this.GetType(), 0);
             pluginManager.AddProperty("SW1Brake", this.GetType(), 0);
-            pluginManager.AddProperty("SW1Throttle", this.GetType(), 0);          
+            pluginManager.AddProperty("SW1Throttle", this.GetType(), 0);
         }
     }
 }
