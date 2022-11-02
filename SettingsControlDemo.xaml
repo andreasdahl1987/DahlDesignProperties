@@ -249,14 +249,14 @@
                     <styles:SHSection Title="Miscellaneous" Margin="0,0,0,0">
                         <StackPanel>
                             <TextBlock
-                                Text="Fuel per lap target:" Grid.Row="1" Margin="10,25,0,23"/>
+                                Text="Fuel per lap target:" Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
                             <TextBox
                                 VerticalAlignment="Top"
                                 Height="20"  
                                 Margin="10,-20,0,-20"                        
                                 Text="{Binding fuelPerLapTarget}"/>
                             <TextBlock
-                                Text="Fuel per lap offset increments:" Grid.Row="1" Margin="10,10,0,23" />
+                                Text="Fuel per lap offset increments:" Grid.Row="1" Margin="10,10,0,23" Grid.RowSpan="2"/>
                             <TextBox
                                 VerticalAlignment="Top"
                                 Height="20"  

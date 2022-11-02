@@ -1387,7 +1387,7 @@ namespace User.PluginSdkDemo
                     pluginManager.SetPropertyValue("IdleRPM", this.GetType(), idleRPM);
 
                     pluginManager.SetPropertyValue("CenterDashType", this.GetType(), dashType);
-                    pluginManager.SetPropertyValue("MenuType", this.GetType(), rotaryType);                    
+                    pluginManager.SetPropertyValue("MenuType", this.GetType(), rotaryType);
 
                 }
 
