@@ -23,6 +23,9 @@ namespace User.PluginSdkDemo
 
         public int SmallFuelIncrement { get; set; } = 2; //In Liters
         public int LargeFuelIncrement { get; set; } = 10; //In Liters
+
+        public bool CoupleInCarToPit { get; set; } = true; //Only allow pit commands when the in-car rotary is on Pit Mode.
+
         public bool ShiftTimingAssist { get; set; } = false;
 
         public string AheadPlayerText { get; set; } = "Blue flag";
