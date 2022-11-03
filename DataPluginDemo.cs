@@ -406,7 +406,7 @@ namespace User.PluginSdkDemo
         bool paceReleased = false;
         bool pitPressed = false;
         bool pitReleased = false;
-        bool pitActive = false;
+        bool pitScreenEnable = false;
         bool bitePointPressed = false;
         bool bitePointReleased = false;
         bool bitePointAdjust = false;
@@ -544,7 +544,7 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("CoupleInCarToPit", this.GetType(), Settings.CoupleInCarToPit);
             }
 
-
+            pluginManager.SetPropertyValue("ShowMapEnabled", this.GetType(), Settings.ShowMapEnabled); //Refreshing faster for better reponse time
 
             //---------------------------------------------------
             //----------------GETTING DATA------------------------
@@ -2045,7 +2045,7 @@ namespace User.PluginSdkDemo
 
                     else if (pitMenuRotary == 10 && pitMenuRequirementMet)
                     {
-                        pluginManager.TriggerAction("DataCorePlugin.IncrementSystemVolume");
+                        Settings.ShowMapEnabled = !Settings.ShowMapEnabled;
                     }
 
                     else if (pitMenuRotary == 11 && pitMenuRequirementMet)
@@ -2134,7 +2134,7 @@ namespace User.PluginSdkDemo
 
                     else if (pitMenuRotary == 10 && pitMenuRequirementMet)
                     {
-                        pluginManager.TriggerAction("DataCorePlugin.DecrementSystemVolume");
+                        pitScreenEnable = !pitScreenEnable;
 
                     }
 
@@ -2214,7 +2214,7 @@ namespace User.PluginSdkDemo
                     }
                     else if (pitMenuRotary == 8 && pitMenuRequirementMet)
                     {
-                        pitActive = !pitActive;
+                        PitCommands.iRacingChat("#!fuel$");
                     }
                     else if (pitMenuRotary == 9 && pitMenuRequirementMet)
                     {
@@ -2259,17 +2259,17 @@ namespace User.PluginSdkDemo
 
                 if (pitPressed)
                 {
-                    pitActive = !pitActive;
+                    pitScreenEnable = !pitScreenEnable;
                     pitPressed = false;
                 }
 
                 if (pitReleased)
                 {
-                    pitActive = false;
+                    pitScreenEnable = false;
                     pitPressed = false;
                     pitReleased = false;
                 }
-                pluginManager.SetPropertyValue("PitScreen", this.GetType(), pitActive);
+                pluginManager.SetPropertyValue("PitScreen", this.GetType(), pitScreenEnable);
 
 
                 //Pace screen
@@ -6935,6 +6935,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("DDUEnabled", this.GetType(), Settings.DDUEnabled);
             pluginManager.AddProperty("SW1Enabled", this.GetType(), Settings.SW1Enabled);
             pluginManager.AddProperty("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
+            pluginManager.AddProperty("ShowMapEnabled", this.GetType(), Settings.ShowMapEnabled);
             pluginManager.AddProperty("DashType", this.GetType(), Settings.DashType);
             pluginManager.AddProperty("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
             pluginManager.AddProperty("ShiftTimingAssist", this.GetType(), Settings.ShiftTimingAssist);
