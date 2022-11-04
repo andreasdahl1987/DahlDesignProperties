@@ -27,7 +27,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="images/blackLogo.png" alt="blackLogo" style="zoom:20%;" >
+    <img src="images/blackLogo.png" alt="blackLogo" height=150 >
   </a>
 
   <h3 align="center">DAHL DESIGN <br /> PROPERTIES</h3>
