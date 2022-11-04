@@ -31,7 +31,16 @@ jobs:
     - name: setup-msbuild
       uses: microsoft/setup-msbuild@v1.1
 
+    - uses: actions/cache@v3
+      id: cache
+      with:
+        path: |
+          innounp050.rar
+          SimHub.8.01.2.zip
+        key: SimHub.8.01.2
+
     - name: Get Requirements # Used to extract the SimHub DLLs
+      if: steps.cache.outputs.cache-hit != 'true'
       run: | 
         aria2c -j1 -o innounp050.rar "https://sourceforge.net/projects/innounp/files/innounp/innounp%200.50/innounp050.rar/download"
         aria2c -j1 -o SimHub.8.01.2.zip "https://github.com/SHWotever/SimHub/releases/download/8.1.2/SimHub.8.01.2.zip"
