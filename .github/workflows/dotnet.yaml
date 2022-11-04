@@ -39,11 +39,15 @@ jobs:
           SimHub.8.01.2.zip
         key: SimHub.8.01.2
 
-    - name: Get Requirements # Used to extract the SimHub DLLs
+    - name: Download Requirements # Used to download the SimHub DLLs - only if not in cache.
       if: steps.cache.outputs.cache-hit != 'true'
       run: | 
         aria2c -j1 -o innounp050.rar "https://sourceforge.net/projects/innounp/files/innounp/innounp%200.50/innounp050.rar/download"
         aria2c -j1 -o SimHub.8.01.2.zip "https://github.com/SHWotever/SimHub/releases/download/8.1.2/SimHub.8.01.2.zip"
+    
+    - name: Extract Requirements # Used to extract the SimHub DLLs
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: | 
         7z x innounp050.rar
         7z x SimHub.8.01.2.zip
         dir
