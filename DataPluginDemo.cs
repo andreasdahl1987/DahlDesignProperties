@@ -6375,7 +6375,7 @@ namespace User.PluginSdkDemo
 
             //Update property
 
-            pluginManager.AddProperty("Version", this.GetType(), "1.9.0");
+            pluginManager.AddProperty("Version", this.GetType(), "1.10.0");
 
             //Key presses
             pluginManager.AddProperty("FuelSaveDelta", this.GetType(), 0);
