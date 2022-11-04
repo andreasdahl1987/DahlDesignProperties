@@ -30,11 +30,11 @@
     <img src="images/blackLogo.png" alt="blackLogo" height=150 >
   </a>
 
-  <h3 align="center">DAHL DESIGN <br /> PROPERTIES</h3>
-    <br />
-  <h4 <p align="center"> SimHub plugin for iRacing.</h4>
-<h5 <p align="center"> 1/3 of the trifecta
-<h4 
+  <h2 align="center">DAHL DESIGN <br /> PROPERTIES</h2>
+
+
+  <h3 <p align="center"> SimHub plugin for iRacing.</h3>
+<h4 <p align="center"> 1/3 of the trifecta 
     <br />
     <a href="https://github.com/andreasdahl1987/DahlDesignProperties">Properties</a>
     ·
@@ -44,7 +44,6 @@
   </p>
 </div>
 
-<br />
 
 <!-- TABLE OF CONTENTS -->
   <ol>
