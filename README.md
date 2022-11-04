@@ -100,11 +100,11 @@
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/andreasdahl1987/DahlDesignDash.svg?style=for-the-badge
-[contributors-url]: https://github.com/andreasdahl1987/DahlDesignDash/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/andreasdahl1987/DahlDesignDash.svg?style=for-the-badge
-[forks-url]: https://github.com/andreasdahl1987/DahlDesignDash/network/members
-[stars-shield]: https://img.shields.io/github/stars/andreasdahl1987/DahlDesignDash.svg?style=for-the-badge
-[stars-url]: https://github.com/andreasdahl1987/DahlDesignDash/stargazers
-[issues-shield]: https://img.shields.io/github/issues/andreasdahl1987/DahlDesignDash.svg?style=for-the-badge
-[issues-url]: https://github.com/andreasdahl1987/DahlDesignDash/issues
+[contributors-shield]: https://img.shields.io/github/contributors/andreasdahl1987/DahlDesignProperties.svg?style=for-the-badge
+[contributors-url]: https://github.com/andreasdahl1987/DahlDesignProperties/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/andreasdahl1987/DahlDesignProperties.svg?style=for-the-badge
+[forks-url]: https://github.com/andreasdahl1987/DahlDesignProperties/network/members
+[stars-shield]: https://img.shields.io/github/stars/andreasdahl1987/DahlDesignProperties.svg?style=for-the-badge
+[stars-url]: https://github.com/andreasdahl1987/DahlDesignProperties/stargazers
+[issues-shield]: https://img.shields.io/github/issues/andreasdahl1987/DahlDesignProperties.svg?style=for-the-badge
+[issues-url]: https://github.com/andreasdahl1987/DahlDesignProperties/issues
