@@ -1,0 +1,76 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Create DahlDesignProperties DLL
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        description: What Properties version does this correspond to?
+        required: true
+      is-pre-release:
+        type: boolean
+        required: true
+        description: "is this a prerelease version?"
+
+jobs:
+  build:
+
+    runs-on: windows-2019
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+      
+    - name: Setup MS Build Systems
+      uses: microsoft/setup-msbuild@v1.1
+
+    - uses: actions/cache@v3
+      name: Restore Caches
+      id: cache
+      with:
+        path: |
+          innounp050.rar
+          SimHub.8.01.2.zip
+        key: SimHub.8.01.2
+
+    - name: Download Requirements # Used to download the SimHub DLLs - only if not in cache.
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: | 
+        aria2c -j1 -o innounp050.rar "https://sourceforge.net/projects/innounp/files/innounp/innounp%200.50/innounp050.rar/download"
+        aria2c -j1 -o SimHub.8.01.2.zip "https://github.com/SHWotever/SimHub/releases/download/8.1.2/SimHub.8.01.2.zip"
+    
+    - name: Extract Requirements # Used to extract the SimHub DLLs
+      run: | 
+        7z x innounp050.rar
+        7z x SimHub.8.01.2.zip
+        dir
+        mkdir D:\SimHub
+        D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\SimHub" SimHubSetup_8.1.2.exe GameReaderCommon.dll SimHub.plugins.dll
+        D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\a" SimHubSetup_8.1.2.exe ACSharedMemory.dll ACToolsUtilities.dll GameReaderCommon.dll ICarsReader.dll InputManagerCS.dll iRacingSDK.dll SimHub.logging.dll SimHub.plugins.dll log4net.dll
+        D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\Program Files (x86)\SimHub\" SimHubSetup_8.1.2.exe MahApps.*.dll
+
+    - name: Restore Packages
+      run: nuget restore "Dahl Design Properties.sln"
+
+    - name: Build solution
+      run: msbuild "Dahl Design Properties.sln" -t:rebuild -property:Configuration=Release
+
+    - name: Upload Artifact
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: 'D:\a\DahlDesignProperties\DahlDesignProperties\bin\Release\DahlDesign.dll'
+        prerelease: ${{ github.event.inputs.is-pre-release }}
+        replacesArtifacts: true
+        allowUpdates: true
+        name: ${{ github.event.inputs.version }}
+        tag: ${{ github.event.inputs.version }}
+      
+      
+    
