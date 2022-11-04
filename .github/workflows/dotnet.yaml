@@ -28,10 +28,11 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.5
       
-    - name: setup-msbuild
+    - name: Setup MS Build Systems
       uses: microsoft/setup-msbuild@v1.1
 
     - uses: actions/cache@v3
+      name: Restore Caches
       id: cache
       with:
         path: |
