@@ -1260,10 +1260,6 @@ namespace User.PluginSdkDemo
                     {
                         dashType = Settings.DashType;
                     }
-                    if (Settings.ShowMapEnabled)
-                    {
-                        dashType = "Map";
-                    }
                     
                     if (p2pCount != null)
                     {
