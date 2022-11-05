@@ -80,7 +80,7 @@
                                 <ui:ControlsEditor FriendlyName="Next delta screen" ActionName="DahlDesign.DeltaInc" HorizontalAlignment="Left" Width="750" Loaded="ControlsEditor_Loaded"/>
                                 <ui:ControlsEditor FriendlyName="Previous delta screen" ActionName="DahlDesign.DeltaDec" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Toggle map" ActionName="DahlDesign.MapToggle" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Toggle Brake and Throttle visibility" ActionName="DahlDesign.ShowBreakThrottleGaugesToggle" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Toggle Brake and Throttle visibility" ActionName="DahlDesign.ShowBrakeThrottleGaugesToggle" HorizontalAlignment="Left" Width="750"/>
                             </StackPanel>
                         </styles:SHSection>
                     </ScrollViewer>
@@ -383,7 +383,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             Height="20"
-                            IsChecked="{Binding ShowBreakThrottleGaugesEnabled}" RenderTransformOrigin="0.45,0.2"/>
+                            IsChecked="{Binding ShowBrakeThrottleGaugesEnabled}" RenderTransformOrigin="0.45,0.2"/>
                             </Grid>
 
                         </StackPanel>

@@ -51,7 +51,7 @@ namespace User.PluginSdkDemo
         public bool CorrectByPitstop { get; set; } = false;
 
         public bool ShowMapEnabled { get; set; } = false;
-        public bool ShowBreakThrottleGaugesEnabled { get; set; } = false;
+        public bool ShowBrakeThrottleGaugesEnabled { get; set; } = false;
         public string DashType { get; set; } = "Automatic Selection";
 
         #region Property supporting UI refresh from code
