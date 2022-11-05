@@ -6634,6 +6634,11 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("FuelSaveDelta", this.GetType(), fuelSaveDelta);
             });
 
+            pluginManager.AddAction("MapToggle", this.GetType(), (a, b) =>
+            {                               
+                Settings.ShowMapEnabled = !Settings.ShowMapEnabled;
+            });
+
             pluginManager.AddProperty("PitSavePaceLock", this.GetType(), false);
 
             pluginManager.AddProperty("InCarMenu", this.GetType(), 0);
