@@ -545,6 +545,7 @@ namespace User.PluginSdkDemo
             }
 
             pluginManager.SetPropertyValue("ShowMapEnabled", this.GetType(), Settings.ShowMapEnabled); //Refreshing faster for better reponse time
+            pluginManager.SetPropertyValue("ShowBreakThrottleGaugesEnabled", this.GetType(), Settings.ShowBreakThrottleGaugesEnabled);
 
             //---------------------------------------------------
             //----------------GETTING DATA------------------------
@@ -6634,6 +6635,11 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("FuelSaveDelta", this.GetType(), fuelSaveDelta);
             });
 
+            pluginManager.AddAction("ShowBreakThrottleGaugesToggle", this.GetType(), (a, b) =>
+            {                               
+                Settings.ShowBreakThrottleGaugesEnabled = !Settings.ShowBreakThrottleGaugesEnabled;
+            });
+
             pluginManager.AddAction("MapToggle", this.GetType(), (a, b) =>
             {                               
                 Settings.ShowMapEnabled = !Settings.ShowMapEnabled;
@@ -6939,6 +6945,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("SW1Enabled", this.GetType(), Settings.SW1Enabled);
             pluginManager.AddProperty("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
             pluginManager.AddProperty("ShowMapEnabled", this.GetType(), Settings.ShowMapEnabled);
+            pluginManager.AddProperty("ShowBreakThrottleGaugesEnabled", this.GetType(), Settings.ShowBreakThrottleGaugesEnabled);
             pluginManager.AddProperty("DashType", this.GetType(), Settings.DashType);
             pluginManager.AddProperty("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
             pluginManager.AddProperty("ShiftTimingAssist", this.GetType(), Settings.ShiftTimingAssist);

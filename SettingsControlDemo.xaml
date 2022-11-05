@@ -80,6 +80,7 @@
                                 <ui:ControlsEditor FriendlyName="Next delta screen" ActionName="DahlDesign.DeltaInc" HorizontalAlignment="Left" Width="750" Loaded="ControlsEditor_Loaded"/>
                                 <ui:ControlsEditor FriendlyName="Previous delta screen" ActionName="DahlDesign.DeltaDec" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Toggle map" ActionName="DahlDesign.MapToggle" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Toggle Brake and Throttle visibility" ActionName="DahlDesign.ShowBreakThrottleGaugesToggle" HorizontalAlignment="Left" Width="750"/>
                             </StackPanel>
                         </styles:SHSection>
                     </ScrollViewer>
@@ -267,6 +268,7 @@
                                     <RowDefinition Height="1*" MinHeight="30"/>
                                     <RowDefinition Height="1*" MinHeight="30"/>
                                     <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Row="1"
@@ -373,6 +375,15 @@
                                 <ComboBoxItem >BiasOnly</ComboBoxItem>
                                 <ComboBoxItem>Default</ComboBoxItem>
                             </ComboBox>
+                                <TextBlock Grid.Row="12" 
+                                Text="Show Brake and Throttle gauges"    HorizontalAlignment="Left"
+                                VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18" >
+                                </TextBlock>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="12"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Height="20"
+                            IsChecked="{Binding ShowBreakThrottleGaugesEnabled}" RenderTransformOrigin="0.45,0.2"/>
                             </Grid>
 
                         </StackPanel>
