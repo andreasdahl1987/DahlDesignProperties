@@ -46,10 +46,15 @@
   </p>
 </div>
 
+<br />
 
 <!-- TABLE OF CONTENTS -->
+
+#### Documentation
+
   <ol>
     <li><a href="#Introduction">Introduction</a></li>
+<li><a href="#Cars and tracks">Cars and tracks</a></li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
@@ -72,11 +77,40 @@
 <!-- ABOUT THE PROJECT -->
 ## Introduction
 
-This plugin gives you access to excisting raw data from iRacing, as well as computated and tracked data.
-Sadly, a lot of telemetry from iRacing isn't availbe live, or not at all i some cases. plugin offers a  serves as a center point for the [LED plugin](https://github.com/andreasdahl1987/DahlDesignLED) and 
-[DDC](https://github.com/andreasdahl1987/DahlDesignDDC)
+This plugin gives you the most out of the existing iRacing telemetry by creating new SimHub properties
+through complex algorithms, tracking data through your sessions, storing data and using mapped out data for
+specific cars and tracks. The list of features is too long to quickly summarize, but it is safe to say this 
+plugin will open a new world of possibilities for custom dashboard building for iRacing. 
+
+It is also a part of a complete dashboard/controller system, including:
+
+- [LED plugin](https://github.com/andreasdahl1987/DahlDesignLED) | LED control for Dahl Design DDU and SW1
+- [Dashboard](https://github.com/andreasdahl1987/DahlDesignDash) | iRacing specific dashboard template
+- [DDC](https://github.com/andreasdahl1987/DahlDesignDDC) | Universal controller firmware builder
+
+Allthough a part of a bigger system, the Properties plugin sists on top of the hierarchy and *does not have any dependencies*. 
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Cars and tracks
+
+Through manually maping out the specifics of various cars and tracks the plugin can offer extra properties for these, such as:
+
+- Launch bite point
+- Optimal shift RPM
+- Pit stop timing and predictions based on this
+- Traction control emulation
+- Properties used for car specific dashboard configuration and LED animations
+ 
+The list of supported cars and tracks will be ever growing, but the manual mapping is time consuming.
+Contributions are very welcome, either as PRs or by filling in details in the [community spreadsheet](https://docs.google.com/spreadsheets/d/1qfWFea4hHLUym3DeUvXeUEGuHvSiPWJE3HmdibiLCyk/edit).
+
+### Cars
+- GT3
+  - Ferrari 488 Evo 2020
+  - Audi R8
+  - Lamborghini Huracan
+  - 
 
 ## Getting started
 
