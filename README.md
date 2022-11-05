@@ -34,13 +34,15 @@
 
 
   <h3 <p align="center"> SimHub plugin for iRacing.</h3>
-<h4 <p align="center"> 1/3 of the trifecta 
+<h4 <p align="center"> A 1/4th and center point of the quadfecta 
     <br />
     <a href="https://github.com/andreasdahl1987/DahlDesignProperties">Properties</a>
     ·
     <a href="https://github.com/andreasdahl1987/DahlDesignLED">LED</a>
     ·
     <a href="https://github.com/andreasdahl1987/DahlDesignDash">Dashboard</a>
+    ·
+    <a href="https://github.com/andreasdahl1987/DahlDesignDDC">DDC</a>
   </p>
 </div>
 
@@ -70,7 +72,9 @@
 <!-- ABOUT THE PROJECT -->
 ## Introduction
 
-
+This plugin gives you access to excisting raw data from iRacing, as well as computated and tracked data.
+Sadly, a lot of telemetry from iRacing isn't availbe live, or not at all i some cases. plugin offers a  serves as a center point for the [LED plugin](https://github.com/andreasdahl1987/DahlDesignLED) and 
+[DDC](https://github.com/andreasdahl1987/DahlDesignDDC)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
