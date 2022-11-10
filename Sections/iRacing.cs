@@ -573,7 +573,8 @@ namespace User.PluginSdkDemo.Categories
             }
             #endregion
             #region SimHub Properties
-            
+
+            Base.AddProp("TestProperty", 0);
             Base.AddProp("Position",  0);
             Base.AddProp("HotLapPosition",  0);
             Base.AddProp("RaceFinished",  false);

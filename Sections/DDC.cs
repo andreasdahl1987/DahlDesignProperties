@@ -102,8 +102,7 @@ namespace User.PluginSdkDemo.Categories
             Base.AddProp("SW1BitePoint",  0);
             Base.AddProp("SW1Brake",  0);
             Base.AddProp("SW1Throttle",  0);
-            Base.AddProp("SW1Enabled", Base.Settings.SW1Enabled);
-
+            
             Base.AddProp("DDUstartLED",  Base.Settings.DDUstartLED);
             Base.AddProp("SW1startLED", Base.Settings.SW1startLED);
             Base.AddProp("DDUEnabled",  Base.Settings.DDUEnabled);

@@ -26,7 +26,6 @@ namespace User.PluginSdkDemo
         /// <summary>
         /// Instance of the current plugin manager
         /// </summary>
-
         public PluginManager PluginManager { get; set; }
 
         public Categories.Dashboard Dashboard;
@@ -38,8 +37,6 @@ namespace User.PluginSdkDemo
         public ImageSource PictureIcon => this.ToIcon(Properties.Resources.Dahl_icon);
 
         public string LeftMenuTitle => "Dahl Design";
-      
-        
 
         public bool gameRunning;
         public string gameName;
@@ -62,23 +59,24 @@ namespace User.PluginSdkDemo
             //----------------------------------------------------
             gameRunning = data.GameRunning;
             gameName = data.GameName;
-            gameData = data;  
+            gameData = data;
 
-    
+            Dashboard.DataUpdate();
+
             //FRAME COUNTER FOR CPU SAVING
             counter++;
             //Counters used: 1,2,3,4,5,6,7,8,9,10,11,14,15,17,20,22,24,25,27,30,33,35,36,38,39,40,43,45,47,50,51,52,53,54,55,59  
-
-            Dashboard.DataUpdate();
+        
             DDC.DataUpdate();
             iRacing.DataUpdate();
-            iRacing.DataUpdateIdle();
+            
 
             //Resetting counter
             if (counter > 59)
             {
                 counter = 0;
             }
+            iRacing.DataUpdateIdle();
         }
 
         public void End(PluginManager pluginManager)
@@ -112,10 +110,7 @@ namespace User.PluginSdkDemo
 
             Dashboard = new Categories.Dashboard(this);
             DDC = new Categories.DDC(this);
-            iRacing = new Categories.iRacing(this);         
-
-            //Test property
-            pluginManager.AddProperty("TestProperty", this.GetType(), 0);
+            iRacing = new Categories.iRacing(this);                   
 
             //Update property
             pluginManager.AddProperty("Version", this.GetType(), version);
@@ -123,8 +118,8 @@ namespace User.PluginSdkDemo
 
         public void AddProp(string PropertyName, dynamic defaultValue) => PluginManager.AddProperty(PropertyName, GetType(), defaultValue);
         public void SetProp(string PropertyName, dynamic value) => PluginManager.SetPropertyValue(PropertyName, GetType(), value);
-        public dynamic GetProp(string PropertyName) => PluginManager.GetPropertyValue("DataCorePlugin.GameRawData." + PropertyName);
-        public bool HasProp(string PropertyName) => PluginManager.GetAllPropertiesNames().Contains("DataCorePlugin.GameRawData." + PropertyName);
+        public dynamic GetProp(string PropertyName) => PluginManager.GetPropertyValue( PropertyName);
+        public bool HasProp(string PropertyName) => PluginManager.GetAllPropertiesNames().Contains( PropertyName);
         public void AddEvent(string EventName) => PluginManager.AddEvent(EventName, GetType());
         public void TriggerEvent(string EventName) => PluginManager.TriggerEvent(EventName, GetType());
         public void AddAction(string ActionName, Action<PluginManager, string> ActionBody) => PluginManager.AddAction(ActionName, GetType(), ActionBody);

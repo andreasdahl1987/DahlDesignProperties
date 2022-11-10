@@ -12,6 +12,7 @@ namespace User.PluginSdkDemo.Categories
             Base.AddProp("ShowMapEnabled", Base.Settings.ShowMapEnabled);
             Base.AddProp("ShowBrakeThrottleGaugesEnabled", Base.Settings.ShowBrakeThrottleGaugesEnabled);
 
+            Base.AddProp("SW1Enabled",  Base.Settings.SW1Enabled);
             Base.AddProp("DashLEDEnabled", Base.Settings.DashLEDEnabled);
             Base.AddProp("DashType", Base.Settings.DashType);
             Base.AddProp("LapInfoScreen", Base.Settings.LapInfoScreen);
