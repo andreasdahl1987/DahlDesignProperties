@@ -544,7 +544,6 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("CoupleInCarToPit", this.GetType(), Settings.CoupleInCarToPit);
             }
 
-            pluginManager.SetPropertyValue("ShowMapEnabled", this.GetType(), Settings.ShowMapEnabled); //Refreshing faster for better reponse time
             pluginManager.SetPropertyValue("ShowBrakeThrottleGaugesEnabled", this.GetType(), Settings.ShowBrakeThrottleGaugesEnabled);
 
             //---------------------------------------------------
@@ -6640,10 +6639,6 @@ namespace User.PluginSdkDemo
                 Settings.ShowBrakeThrottleGaugesEnabled = !Settings.ShowBrakeThrottleGaugesEnabled;
             });
 
-            pluginManager.AddAction("MapToggle", this.GetType(), (a, b) =>
-            {                               
-                Settings.ShowMapEnabled = !Settings.ShowMapEnabled;
-            });
 
             pluginManager.AddProperty("PitSavePaceLock", this.GetType(), false);
 
@@ -7677,5 +7672,13 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("SW1Brake", this.GetType(), 0);
             pluginManager.AddProperty("SW1Throttle", this.GetType(), 0);
         }
+        
+        public void AddProp(string PropertyName, dynamic defaultValue) => PluginManager.AddProperty(PropertyName, GetType(), defaultValue);
+        public void SetProp(string PropertyName, dynamic value) => PluginManager.SetPropertyValue(PropertyName, GetType(), value);
+        public dynamic GetProp(string PropertyName) => PluginManager.GetPropertyValue("DataCorePlugin.GameRawData." + PropertyName);
+        public bool HasProp(string PropertyName) => PluginManager.GetAllPropertiesNames().Contains("DataCorePlugin.GameRawData." + PropertyName);
+        public void AddEvent(string EventName) => PluginManager.AddEvent(EventName, GetType());
+        public void TriggerEvent(string EventName) => PluginManager.TriggerEvent(EventName, GetType());
+        public void AddAction(string ActionName, Action<PluginManager, string> ActionBody) => PluginManager.AddAction(ActionName, GetType(), ActionBody);
     }
 }
