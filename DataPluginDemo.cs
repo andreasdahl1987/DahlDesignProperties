@@ -31,7 +31,8 @@ namespace User.PluginSdkDemo
 
         public PluginManager PluginManager { get; set; }
 
-        public Categories.Switches Switches;
+        public Categories.Controls Controls;
+        public Categories.DDC DDC;
 
         public ImageSource PictureIcon => this.ToIcon(Properties.Resources.Dahl_icon);
 
@@ -473,35 +474,7 @@ namespace User.PluginSdkDemo
         bool RPMgearShift = false;
         double RPMlastGear = 0;
         string RPMgear = "";
-
-        //Switches
-        int encoder1Mode = 0;
-        int encoder2Mode = 0;
-        int encoder3Mode = 0;
-        int encoder4Mode = 0;
-        int encoder5Mode = 0;
-        int encoder6Mode = 0;
-        int encoder7Mode = 0;
-        int encoder8Mode = 0;
-        int DDSmode = 0;
-        int bitePointMode = 0;
-        int dualClutchesMode = 0;
-        int encoder15Mode = 0;
-
-        int button1Mode = 0;
-        int button2Mode = 0;
-        int button3Mode = 0;
-        int button4Mode = 0;
-        int button5Mode = 0;
-        int button6Mode = 0;
-        int button7Mode = 0;
-        int button8Mode = 0;
-        int button9Mode = 0;
-        int button10Mode = 0;
-        int button11Mode = 0;
-        int button15Mode = 0;
-        int button16Mode = 0;
-
+        
         List<string> classColors = new List<string> { "0xffda59", "0x33ceff", "0xff5888", "0xae6bff", "0x53ff77" };
         //1: light yellow
         //2: vivid cyan
@@ -525,7 +498,14 @@ namespace User.PluginSdkDemo
 
         public void DataUpdate(PluginManager pluginManager, ref GameData data)
         {
-            Switches.DataUpdate();
+
+            //---------------------------------------------------
+            //----------------GETTING DATA------------------------
+            //----------------------------------------------------
+            bool gameRunning = data.GameRunning;
+            string gameName = data.GameName;
+
+            Controls.DataUpdate();
 
             //SETTINGS
             if (counter == 2)
@@ -546,179 +526,12 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("CoupleInCarToPit", this.GetType(), Settings.CoupleInCarToPit);
             }          
 
-            //---------------------------------------------------
-            //----------------GETTING DATA------------------------
-            //----------------------------------------------------
-            bool gameRunning = data.GameRunning;
-            string gameName = data.GameName;
-
-
             //FRAME COUNTER FOR CPU SAVING
             counter++;
             //Counters used: 1,2,3,4,5,6,7,8,9,10,11,14,15,17,20,22,24,25,27,30,33,35,36,38,39,40,43,45,47,50,51,52,53,54,55,59  
 
-
-            //----------------------------------------------------------------------------
-            //----------------------------------------------------------------------------
-            //----------------------------------------------------------------------------
-            //--------------------DDC CALCULATIONS------------------------------------
-            //----------------------------------------------------------------------------
-            //----------------------------------------------------------------------------
-            //----------------------------------------------------------------------------
-
-            pluginManager.SetPropertyValue("DDCDDSEnabled", this.GetType(), false);
-            pluginManager.SetPropertyValue("DDCclutchEnabled", this.GetType(), false);
-
-            bool controllerEnabled = Settings.DDCEnabled;  
-
-            var controllerSearch = pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_Z");
-            if (controllerSearch == null)
-            {
-                controllerEnabled = false;
-            }
+            DDC.DataUpdate();
             
-            pluginManager.SetPropertyValue("DDCEnabled", this.GetType(), controllerEnabled);
-
-            if (Settings.SW1Enabled)
-            {
-                int encoderField = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_Z")); //Encoder field
-                encoder1Mode = (encoderField & 1);
-                encoder2Mode = (encoderField & 2) >> 1;
-                encoder3Mode = (encoderField & 4) >> 2;
-
-                string bitField = Convert.ToString(encoderField, 2).PadLeft(16, '0');
-
-                encoder5Mode = (encoderField & 768) >> 8;
-                encoder6Mode = (encoderField & 3072) >> 10;
-                encoder7Mode = (encoderField & 12288) >> 12;
-                encoder8Mode = (encoderField & 16384) >> 14;
-
-                pluginManager.SetPropertyValue("SW1HandbrakeActive", this.GetType(), encoder1Mode);
-                pluginManager.SetPropertyValue("SW1QuickSwitchMode", this.GetType(), encoder2Mode);
-                
-                pluginManager.SetPropertyValue("SW1DDSMode", this.GetType(), encoder5Mode);
-                pluginManager.SetPropertyValue("SW1ClutchMode", this.GetType(), encoder7Mode);
-                pluginManager.SetPropertyValue("SW1BiteSetting", this.GetType(), encoder6Mode);
-                pluginManager.SetPropertyValue("SW1QuickSwitchActive", this.GetType(), encoder8Mode);
-
-
-                int buttonField = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_Y")); //Buttonfield
-                button1Mode = buttonField & 1;
-                button2Mode = (buttonField & 2) >> 1;
-                button3Mode = (buttonField & 4) >> 2;
-                button4Mode = (buttonField & 8) >> 3;
-                button5Mode = (buttonField & 16) >> 4;
-                button6Mode = (buttonField & 32) >> 5;
-                button7Mode = (buttonField & 64) >> 6;
-                button8Mode = (buttonField & 128) >> 7;
-                button9Mode = (buttonField & 256) >> 8;
-                button10Mode = (buttonField & 512) >> 9;
-                button11Mode = (buttonField & 15360) >> 10;
-                button15Mode = (buttonField & 16384) >> 14;
-                button16Mode = (buttonField & 32768) >> 15;
-
-                double clutchValue = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_X")) / 655.35;
-                double bitePointValue = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_RY")) / 655.35;
-                double brakeValue = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_RZ")) / 655.35;
-                double throttleValue = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_Slider0")) / 655.35;
-
-                pluginManager.SetPropertyValue("SW1RadioButtonMode", this.GetType(), button1Mode);
-                pluginManager.SetPropertyValue("SW1RightRotaryMode", this.GetType(), button2Mode);
-                pluginManager.SetPropertyValue("SW1LeftRotaryMode", this.GetType(), button3Mode);
-                pluginManager.SetPropertyValue("SW1MagicToggleMode", this.GetType(), button4Mode);
-                pluginManager.SetPropertyValue("SW1RightToggleMode", this.GetType(), button5Mode);
-                pluginManager.SetPropertyValue("SW1LeftToggleMode", this.GetType(), button6Mode);
-                pluginManager.SetPropertyValue("SW1ShifterMode", this.GetType(), button7Mode);
-                pluginManager.SetPropertyValue("SW1NeutralActive", this.GetType(), button8Mode);
-                pluginManager.SetPropertyValue("SW1ThrottleHoldActive", this.GetType(), button9Mode);
-                pluginManager.SetPropertyValue("SW1MagicToggleActive", this.GetType(), button10Mode);
-                pluginManager.SetPropertyValue("SW1Preset", this.GetType(), button11Mode + 1);
-                pluginManager.SetPropertyValue("SW1NeutralMode", this.GetType(), button15Mode);
-
-                pluginManager.SetPropertyValue("SW1Clutch", this.GetType(), Math.Round(clutchValue, 1));
-                pluginManager.SetPropertyValue("SW1BitePoint", this.GetType(), Math.Round(bitePointValue, 1));
-                pluginManager.SetPropertyValue("SW1Brake", this.GetType(), Math.Round(brakeValue, 1));
-                pluginManager.SetPropertyValue("SW1Throttle", this.GetType(), Math.Round(throttleValue, 1));
-
-                pluginManager.SetPropertyValue("DDCDDSEnabled", this.GetType(), Settings.DDSEnabled);
-                pluginManager.SetPropertyValue("DDCclutchEnabled", this.GetType(), Settings.DDCclutchEnabled);
-            }
-
-            else if (controllerEnabled)
-            {
-                int encoderField = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_Z")); //Encoder field
-                encoder1Mode = encoderField & 1;
-                encoder2Mode = (encoderField & 2) >> 1;
-                encoder3Mode = (encoderField & 4) >> 2;
-                encoder4Mode = (encoderField & 8) >> 3;
-                encoder5Mode = (encoderField & 16) >> 4;
-                encoder6Mode = (encoderField & 32) >> 5;
-                encoder7Mode = (encoderField & 64) >> 6;
-                encoder8Mode = (encoderField & 128) >> 7;
-
-                DDSmode = (encoderField & 768) >> 8;
-                bitePointMode = (encoderField & 3072) >> 10;
-                dualClutchesMode = (encoderField & 12288) >> 12;
-                encoder15Mode = (encoderField & 16384) >> 14;
-
-
-                pluginManager.SetPropertyValue("DDCR1", this.GetType(), encoder1Mode);
-                pluginManager.SetPropertyValue("DDCR2", this.GetType(), encoder2Mode);
-                pluginManager.SetPropertyValue("DDCR3", this.GetType(), encoder3Mode);
-                pluginManager.SetPropertyValue("DDCR4", this.GetType(), encoder4Mode);
-                pluginManager.SetPropertyValue("DDCR5", this.GetType(), encoder5Mode);
-                pluginManager.SetPropertyValue("DDCR6", this.GetType(), encoder6Mode);
-                pluginManager.SetPropertyValue("DDCR7", this.GetType(), encoder7Mode);
-                pluginManager.SetPropertyValue("DDCR8", this.GetType(), encoder8Mode);
-                pluginManager.SetPropertyValue("DDCR15", this.GetType(), encoder15Mode);
-
-
-                pluginManager.SetPropertyValue("DDCDDSMode", this.GetType(), DDSmode);
-                pluginManager.SetPropertyValue("DDCclutchMode", this.GetType(), dualClutchesMode);
-                pluginManager.SetPropertyValue("DDCbiteSetting", this.GetType(), bitePointMode); 
-
-                int buttonField = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_Y")); //Buttonfield
-                button1Mode = buttonField & 1;
-                button2Mode = (buttonField & 2) >> 1;
-                button3Mode = (buttonField & 4) >> 2;
-                button4Mode = (buttonField & 8) >> 3;
-                button5Mode = (buttonField & 16) >> 4;
-                button6Mode = (buttonField & 32) >> 5;
-                button7Mode = (buttonField & 64) >> 6;
-                button8Mode = (buttonField & 128) >> 7;
-                button9Mode = (buttonField & 256) >> 8;
-                button10Mode = (buttonField & 512) >> 9;
-                button11Mode = (buttonField & 15360) >> 10;
-                button15Mode = (buttonField & 16384) >> 14;
-                button16Mode = (buttonField & 32768) >> 15;
-
-                double clutchValue = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_X")) / 655.35;
-                double bitePointValue = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_RY")) / 655.35;
-                double brakeValue = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_RZ")) / 655.35;
-                double throttleValue = Convert.ToInt32(pluginManager.GetPropertyValue("JoystickPlugin." + Settings.DDC + "_Slider0")) / 655.35;
-
-                pluginManager.SetPropertyValue("DDCB1", this.GetType(), button1Mode);
-                pluginManager.SetPropertyValue("DDCB2", this.GetType(), button2Mode);
-                pluginManager.SetPropertyValue("DDCB3", this.GetType(), button3Mode);
-                pluginManager.SetPropertyValue("DDCB4", this.GetType(), button4Mode);
-
-                pluginManager.SetPropertyValue("DDCthrottleHoldActive", this.GetType(), button6Mode);
-                pluginManager.SetPropertyValue("DDCmagicActive", this.GetType(), button7Mode);
-                pluginManager.SetPropertyValue("DDCquickSwitchMode", this.GetType(), button8Mode);
-                pluginManager.SetPropertyValue("DDCquickSwitchActive", this.GetType(), button9Mode);
-                pluginManager.SetPropertyValue("DDChandbrakeActive", this.GetType(), button10Mode);
-                pluginManager.SetPropertyValue("DDCPreset", this.GetType(), button11Mode+1);
-                pluginManager.SetPropertyValue("DDCneutralMode", this.GetType(), button15Mode);
-                pluginManager.SetPropertyValue("DDCneutralActive", this.GetType(), button5Mode);
-
-                pluginManager.SetPropertyValue("DDCclutch", this.GetType(), Math.Round(clutchValue, 1));
-                pluginManager.SetPropertyValue("DDCbitePoint", this.GetType(), Math.Round(bitePointValue, 1));
-                pluginManager.SetPropertyValue("DDCbrake", this.GetType(), Math.Round(brakeValue, 1));
-                pluginManager.SetPropertyValue("DDCthrottle", this.GetType(), Math.Round(throttleValue, 1));
-
-                pluginManager.SetPropertyValue("DDCDDSEnabled", this.GetType(), Settings.DDSEnabled);
-                pluginManager.SetPropertyValue("DDCclutchEnabled", this.GetType(), Settings.DDCclutchEnabled);
-            }
 
 
             //----------------------------------------------------------------------------
@@ -958,7 +771,7 @@ namespace User.PluginSdkDemo
                     smoothGear = "N";
                     neutralCounter = 0;
                 }
-                if (button8Mode == 1)
+                if (DDC.button8Mode == 1)
                 {
                     smoothGear = "N";
                 }
@@ -6315,7 +6128,8 @@ namespace User.PluginSdkDemo
             // Load settings
             Settings = this.ReadCommonSettings<DataPluginDemoSettings>("GeneralSettings", () => new DataPluginDemoSettings());
 
-            Switches = new Categories.Switches(this);
+            Controls = new Categories.Controls(this);
+            DDC = new Categories.DDC(this);
 
             //Find the lap records file
             LapRecords.findCSV(ref csvAdress);
@@ -7605,67 +7419,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("PitExitCar14IsAhead", this.GetType(), false);
             pluginManager.AddProperty("PitExitCar14IsFaster", this.GetType(), false);
 
-            pluginManager.AddProperty("DDCclutch", this.GetType(), 0);
-            pluginManager.AddProperty("DDCbitePoint", this.GetType(), 0);
-            pluginManager.AddProperty("DDCbrake", this.GetType(), 0);
-            pluginManager.AddProperty("DDCthrottle", this.GetType(), 0);
-
-            pluginManager.AddProperty("DDCR1", this.GetType(), -1);
-            pluginManager.AddProperty("DDCR2", this.GetType(), -1);
-            pluginManager.AddProperty("DDCR3", this.GetType(), -1);
-            pluginManager.AddProperty("DDCR4", this.GetType(), -1);
-            pluginManager.AddProperty("DDCR5", this.GetType(), -1);
-            pluginManager.AddProperty("DDCR6", this.GetType(), -1);
-            pluginManager.AddProperty("DDCR7", this.GetType(), -1);
-            pluginManager.AddProperty("DDCR8", this.GetType(), -1);
-            pluginManager.AddProperty("DDCR15", this.GetType(), -1);
-            pluginManager.AddProperty("DDCDDSMode", this.GetType(), -1);
-            pluginManager.AddProperty("DDCDDSEnabled", this.GetType(), false);
-            pluginManager.AddProperty("DDCEnabled", this.GetType(), false);
-            pluginManager.AddProperty("DDCclutchEnabled", this.GetType(), false);
-            pluginManager.AddProperty("DDCclutchMode", this.GetType(), -1);
-            pluginManager.AddProperty("DDCbiteSetting", this.GetType(), -1);
-
-
-            pluginManager.AddProperty("DDCB1", this.GetType(), -1);
-            pluginManager.AddProperty("DDCB2", this.GetType(), -1);
-            pluginManager.AddProperty("DDCB3", this.GetType(), -1);
-            pluginManager.AddProperty("DDCB4", this.GetType(), -1);
-
-            pluginManager.AddProperty("DDCthrottleHoldActive", this.GetType(), -1);
-            pluginManager.AddProperty("DDCmagicActive", this.GetType(), -1);
-            pluginManager.AddProperty("DDCquickSwitchMode", this.GetType(), -1);
-            pluginManager.AddProperty("DDCquickSwitchActive", this.GetType(), -1);
-            pluginManager.AddProperty("DDChandbrakeActive", this.GetType(), -1);
-
-            pluginManager.AddProperty("DDCneutralMode", this.GetType(), -1);
-            pluginManager.AddProperty("DDCneutralActive", this.GetType(), false);
-            pluginManager.AddProperty("DDCPreset", this.GetType(), -1);
-
-            pluginManager.AddProperty("SW1DDSMode", this.GetType(), -1);
-            pluginManager.AddProperty("SW1ClutchMode", this.GetType(), -1);
-            pluginManager.AddProperty("SW1BiteSetting", this.GetType(), -1);
-
-            pluginManager.AddProperty("SW1QuickSwitchMode", this.GetType(), -1);
-            pluginManager.AddProperty("SW1HandbrakeActive", this.GetType(), -1);
-            pluginManager.AddProperty("SW1RadioButtonMode", this.GetType(), -1);
-            pluginManager.AddProperty("SW1RightRotaryMode", this.GetType(), -1);
-            pluginManager.AddProperty("SW1LeftRotaryMode", this.GetType(), -1);
-            pluginManager.AddProperty("SW1MagicToggleMode", this.GetType(), -1);
-            pluginManager.AddProperty("SW1RightToggleMode", this.GetType(), -1);
-            pluginManager.AddProperty("SW1LeftToggleMode", this.GetType(), -1);
-            pluginManager.AddProperty("SW1ShifterMode", this.GetType(), -1);
-            pluginManager.AddProperty("SW1QuickSwitchActive", this.GetType(), false);
-            pluginManager.AddProperty("SW1ThrottleHoldActive", this.GetType(), false);
-            pluginManager.AddProperty("SW1MagicToggleActive", this.GetType(), false);
-            pluginManager.AddProperty("SW1Preset", this.GetType(), -1);
-            pluginManager.AddProperty("SW1NeutralMode", this.GetType(), -1);
-            pluginManager.AddProperty("SW1NeutralActive", this.GetType(), false);
-
-            pluginManager.AddProperty("SW1Clutch", this.GetType(), 0);
-            pluginManager.AddProperty("SW1BitePoint", this.GetType(), 0);
-            pluginManager.AddProperty("SW1Brake", this.GetType(), 0);
-            pluginManager.AddProperty("SW1Throttle", this.GetType(), 0);
+           
         }
         
         public void AddProp(string PropertyName, dynamic defaultValue) => PluginManager.AddProperty(PropertyName, GetType(), defaultValue);

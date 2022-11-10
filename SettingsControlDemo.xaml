@@ -79,8 +79,8 @@
                                 <ui:ControlsEditor FriendlyName="Bite Point Adjust (released)" ActionName="DahlDesign.BitePointReleased" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Next delta screen" ActionName="DahlDesign.DeltaInc" HorizontalAlignment="Left" Width="750" Loaded="ControlsEditor_Loaded"/>
                                 <ui:ControlsEditor FriendlyName="Previous delta screen" ActionName="DahlDesign.DeltaDec" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Toggle map" ActionName="DahlDesign.MapToggle" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Toggle Brake and Throttle visibility" ActionName="DahlDesign.ShowBrakeThrottleGaugesToggle" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Toggle map" ActionName="DahlDesign.Controls.MapToggle" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Toggle Brake and Throttle visibility" ActionName="DahlDesign.Controls.ShowBrakeThrottleGaugesToggle" HorizontalAlignment="Left" Width="750"/>
                             </StackPanel>
                         </styles:SHSection>
                     </ScrollViewer>

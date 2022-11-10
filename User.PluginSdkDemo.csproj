@@ -140,9 +140,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Sections\DDC.cs" />
     <Compile Include="SettingsControlDemo.xaml.cs">
       <DependentUpon>SettingsControlDemo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Sections\Controls.cs" />
     <Compile Include="Tracks.cs" />
   </ItemGroup>
   <ItemGroup>
