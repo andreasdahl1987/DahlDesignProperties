@@ -31,6 +31,8 @@ namespace User.PluginSdkDemo
 
         public PluginManager PluginManager { get; set; }
 
+        public Categories.Switches Switches;
+
         public ImageSource PictureIcon => this.ToIcon(Properties.Resources.Dahl_icon);
 
         public string LeftMenuTitle => "Dahl Design";
@@ -523,7 +525,7 @@ namespace User.PluginSdkDemo
 
         public void DataUpdate(PluginManager pluginManager, ref GameData data)
         {
-
+            Switches.DataUpdate();
 
             //SETTINGS
             if (counter == 2)
@@ -542,9 +544,7 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("SmallFuelIncrement", this.GetType(), Settings.SmallFuelIncrement);
                 pluginManager.SetPropertyValue("LargeFuelIncrement", this.GetType(), Settings.LargeFuelIncrement);
                 pluginManager.SetPropertyValue("CoupleInCarToPit", this.GetType(), Settings.CoupleInCarToPit);
-            }
-
-            pluginManager.SetPropertyValue("ShowBrakeThrottleGaugesEnabled", this.GetType(), Settings.ShowBrakeThrottleGaugesEnabled);
+            }          
 
             //---------------------------------------------------
             //----------------GETTING DATA------------------------
@@ -6315,6 +6315,8 @@ namespace User.PluginSdkDemo
             // Load settings
             Settings = this.ReadCommonSettings<DataPluginDemoSettings>("GeneralSettings", () => new DataPluginDemoSettings());
 
+            Switches = new Categories.Switches(this);
+
             //Find the lap records file
             LapRecords.findCSV(ref csvAdress);
 
@@ -6634,12 +6636,6 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("FuelSaveDelta", this.GetType(), fuelSaveDelta);
             });
 
-            pluginManager.AddAction("ShowBrakeThrottleGaugesEnabled", this.GetType(), (a, b) =>
-            {                               
-                Settings.ShowBrakeThrottleGaugesEnabled = !Settings.ShowBrakeThrottleGaugesEnabled;
-            });
-
-
             pluginManager.AddProperty("PitSavePaceLock", this.GetType(), false);
 
             pluginManager.AddProperty("InCarMenu", this.GetType(), 0);
@@ -6939,8 +6935,7 @@ namespace User.PluginSdkDemo
             pluginManager.AddProperty("DDUEnabled", this.GetType(), Settings.DDUEnabled);
             pluginManager.AddProperty("SW1Enabled", this.GetType(), Settings.SW1Enabled);
             pluginManager.AddProperty("DashLEDEnabled", this.GetType(), Settings.DashLEDEnabled);
-            pluginManager.AddProperty("ShowMapEnabled", this.GetType(), Settings.ShowMapEnabled);
-            pluginManager.AddProperty("ShowBrakeThrottleGaugesEnabled", this.GetType(), Settings.ShowBrakeThrottleGaugesEnabled);
+
             pluginManager.AddProperty("DashType", this.GetType(), Settings.DashType);
             pluginManager.AddProperty("LapInfoScreen", this.GetType(), Settings.LapInfoScreen);
             pluginManager.AddProperty("ShiftTimingAssist", this.GetType(), Settings.ShiftTimingAssist);
