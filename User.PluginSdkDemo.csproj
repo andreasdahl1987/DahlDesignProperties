@@ -141,10 +141,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Sections\DDC.cs" />
+    <Compile Include="Sections\iRacing.cs" />
     <Compile Include="SettingsControlDemo.xaml.cs">
       <DependentUpon>SettingsControlDemo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Sections\Controls.cs" />
+    <Compile Include="Sections\Dashboard.cs" />
     <Compile Include="Tracks.cs" />
   </ItemGroup>
   <ItemGroup>

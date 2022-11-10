@@ -95,13 +95,18 @@ namespace User.PluginSdkDemo.Categories
             Base.AddProp("SW1ThrottleHoldActive",  false);
             Base.AddProp("SW1MagicToggleActive",  false);
             Base.AddProp("SW1Preset",  -1);
-            Base.AddProp("SW1NeutralMode",  -1);
+            Base.AddProp("SW1NeutralMode", -1);
             Base.AddProp("SW1NeutralActive",  false);
 
             Base.AddProp("SW1Clutch",  0);
             Base.AddProp("SW1BitePoint",  0);
             Base.AddProp("SW1Brake",  0);
             Base.AddProp("SW1Throttle",  0);
+            Base.AddProp("SW1Enabled", Base.Settings.SW1Enabled);
+
+            Base.AddProp("DDUstartLED",  Base.Settings.DDUstartLED);
+            Base.AddProp("SW1startLED", Base.Settings.SW1startLED);
+            Base.AddProp("DDUEnabled",  Base.Settings.DDUEnabled);
         }
 
         public void DataUpdate()
