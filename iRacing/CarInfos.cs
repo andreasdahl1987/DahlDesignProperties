@@ -3,11 +3,10 @@ using System.Collections.Generic;
 namespace User.PluginSdkDemo.Categories
 {
 
-
     public class CarInfo
     {
         public List<Cars> carInfo;
-        
+
         public CarInfo() {
             carInfo = new List<Cars>{};
             
@@ -32,7 +31,6 @@ namespace User.PluginSdkDemo.Categories
             carInfo.Add(new Cars("Supercars Ford Mustang GT", false, false, false, false, -1, false, false, false, -1, -1, -1, false, false, "Single", "Supercar", 7470, 7470, 7470, 7480, 7480, 0, 0, 7490, 1205, 29.5, 29.0, 29.6, 33.0, 1, 50, 1, 100, true, 0, 1.15, 0.7, 0.7, 0.9, 2.36, false, 0, 0, 6.7, 0.9, CrewType.All, true, true, AnimationType.Supercar, 0.35));
             carInfo.Add(new Cars("Supercars Holden ZB Commodore", false, false, false, false, -1, false, false, false, -1, -1, -1, false, false, "Single", "Supercar", 7470, 7470, 7470, 7480, 7480, 0, 0, 7490, 1205, 29.5, 29.0, 29.6, 33.0, 1, 50, 1, 100, true, 0, 1.15, 0.7, 0.7, 0.9, 2.36, false, 0, 0, 6.7, 0.9, CrewType.All, true, true, AnimationType.Supercar, 0.35));
             carInfo.Add(new Cars("iRacing Formula IR-04", false, false, false, false, -1, false, false, false, -1, -1, -1, false, false, "Single", "BiasOnly", 7150, 7100, 7090, 7090, 7090, 0, 0, 7270, 1200, 33.8, 24.5, 25, 37, 1, 100, 1, 100, false, 0, 0.9, 1, 1, 0.9, 6.25, false, 0, 0, 6.11, 0, CrewType.All, true, false, AnimationType.F4, 0.35));            
-        }
-        
+        }        
     }
 }
