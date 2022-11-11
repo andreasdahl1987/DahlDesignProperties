@@ -5,8 +5,6 @@ namespace User.PluginSdkDemo.Categories
     public class DDC
     {
         private readonly DahlDesign Base;
-
-
         public bool controllerEnabled;
 
         //Switches
@@ -102,7 +100,7 @@ namespace User.PluginSdkDemo.Categories
             Base.AddProp("SW1BitePoint",  0);
             Base.AddProp("SW1Brake",  0);
             Base.AddProp("SW1Throttle",  0);
-            
+
             Base.AddProp("DDUstartLED",  Base.Settings.DDUstartLED);
             Base.AddProp("SW1startLED", Base.Settings.SW1startLED);
             Base.AddProp("DDUEnabled",  Base.Settings.DDUEnabled);
@@ -110,7 +108,6 @@ namespace User.PluginSdkDemo.Categories
 
         public void DataUpdate()
         {
-   
             Base.SetProp("DDCDDSEnabled",  false);
             Base.SetProp("DDCclutchEnabled",  false);
 
