@@ -2,9 +2,7 @@
 using SimHub.Plugins;
 using System;
 using System.Windows.Media;
-using System.Linq;
-using IRacingReader;
-using ACSharedMemory;
+//using ACSharedMemory;
 
 namespace User.PluginSdkDemo
 {

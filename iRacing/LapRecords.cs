@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CsvHelper;
 using System.IO;
-using System.Globalization;
 using System.Reflection;
 
 namespace User.PluginSdkDemo
@@ -18,36 +13,34 @@ namespace User.PluginSdkDemo
             findCSV = findCSV.Substring(0, findCSV.Length - 14);
             path = findCSV + "DahlDesignLapRecords.csv";
 
-        if (!File.Exists(path))
-        {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(path, true))
+            if (!File.Exists(path))
             {
-                file.WriteLine("\nLap records: \n\nThe record time is the 3rd item, listed after track and car model. \nThe value is lap time in milliseconds, it can be edited. \nThe remaining 121 numbers are for delta calculations. \nYou may also sort the lap times in Excel. \n\nEditing the lap time will make the delta calculations bug out, I suggest replacing all values after the lap time with '-1'\n\n");
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(path, true))
+                {
+                    file.WriteLine("\nLap records: \n\nThe record time is the 3rd item, listed after track and car model. \nThe value is lap time in milliseconds, it can be edited. \nThe remaining 121 numbers are for delta calculations. \nYou may also sort the lap times in Excel. \n\nEditing the lap time will make the delta calculations bug out, I suggest replacing all values after the lap time with '-1'\n\n");
+                }
             }
         }
-    }
-
         public static void addLapRecord(string track, string car, double lapTime, List<double> deltas, string path, ref int index)
         {
             {
-                string [] allLines = File.ReadAllLines(path);
+                string[] allLines = File.ReadAllLines(path);
                 string allText = File.ReadAllText(path);
                 index = allLines.Length - 1;
                 allText = allText + track + "," + car + "," + Convert.ToString(lapTime) + "," + string.Join(",", deltas) + "\n";
                 File.WriteAllText(path, allText);
             }
-            
+
         }
 
         public static void replaceLapRecord(string track, string car, double lapTime, List<double> deltas, string path, int index)
         {
-                string[] allLines = File.ReadAllLines(path);
-                allLines[index] = track + "," + car + "," + Convert.ToString(lapTime) + "," + string.Join(",", deltas);
-                File.WriteAllLines(path,allLines);
+            string[] allLines = File.ReadAllLines(path);
+            allLines[index] = track + "," + car + "," + Convert.ToString(lapTime) + "," + string.Join(",", deltas);
+            File.WriteAllLines(path, allLines);
         }
 
-
-        public static void lapFetch (ref bool initiate, string path, ref int index, string track, string car, ref TimeSpan lapTime, ref List<double> deltas, int deltaSections)
+        public static void lapFetch(ref bool initiate, string path, ref int index, string track, string car, ref TimeSpan lapTime, ref List<double> deltas, int deltaSections)
         {
             if (initiate)
             {
@@ -56,22 +49,21 @@ namespace User.PluginSdkDemo
 
                 for (int i = 0; i < allLines.Length; i++)
                 {
-                    string [] line = allLines[i].Split(',');
+                    string[] line = allLines[i].Split(',');
                     if (line[0] == track && line[1] == car)
                     {
                         index = i;
                         lapTime = TimeSpan.FromMilliseconds(Convert.ToDouble(line[2]));
-                        for (int j = 0; j < deltaSections+1; j ++)
+                        for (int j = 0; j < deltaSections + 1; j++)
                         {
                             deltas[j] = Convert.ToDouble(line[j + 3]);
-                    }
+                        }
 
                         break;
-                    
-                    }   
+
+                    }
                 }
             }
         }
     }
-        
 }
