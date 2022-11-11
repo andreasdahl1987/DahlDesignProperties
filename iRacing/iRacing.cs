@@ -451,12 +451,12 @@ namespace User.PluginSdkDemo.Categories
         //4: very light violet
         //5: light lime green
 
-        
+
         TrackInfo trackInfoClass = new TrackInfo();
         List<Tracks> trackInfo;
-        
+
         CarInfo carInfoClass = new CarInfo();
-        List<Cars> carInfo; 
+        List<Cars> carInfo;
 
         DataSampleEx irData;
         #endregion
@@ -467,13 +467,13 @@ namespace User.PluginSdkDemo.Categories
 
             //Find the lap records file
             LapRecords.findCSV(ref csvAdress);
-            
+
             carInfo = carInfoClass.carInfo;
             trackInfo = trackInfoClass.trackInfo;
 
-                   
+
             #region lists
-            
+
 
             for (int u = 0; u < trackSections; u++)
             {
@@ -522,675 +522,675 @@ namespace User.PluginSdkDemo.Categories
             #region SimHub Properties
 
             Base.AddProp("TestProperty", 0);
-            Base.AddProp("Position",  0);
-            Base.AddProp("HotLapPosition",  0);
-            Base.AddProp("RaceFinished",  false);
-            Base.AddProp("SoF",  0);
-            Base.AddProp("IRchange",  0);
-            Base.AddProp("MyClassColor",  "");
+            Base.AddProp("Position", 0);
+            Base.AddProp("HotLapPosition", 0);
+            Base.AddProp("RaceFinished", false);
+            Base.AddProp("SoF", 0);
+            Base.AddProp("IRchange", 0);
+            Base.AddProp("MyClassColor", "");
 
 
-            Base.AddProp("OptimalShiftGear1",  0);
-            Base.AddProp("OptimalShiftGear2",  0);
-            Base.AddProp("OptimalShiftGear3",  0);
-            Base.AddProp("OptimalShiftGear4",  0);
-            Base.AddProp("OptimalShiftGear5",  0);
-            Base.AddProp("OptimalShiftGear6",  0);
-            Base.AddProp("OptimalShiftGear7",  0);
-            Base.AddProp("OptimalShiftCurrentGear",  0);
-            Base.AddProp("OptimalShiftLastGear",  0);
+            Base.AddProp("OptimalShiftGear1", 0);
+            Base.AddProp("OptimalShiftGear2", 0);
+            Base.AddProp("OptimalShiftGear3", 0);
+            Base.AddProp("OptimalShiftGear4", 0);
+            Base.AddProp("OptimalShiftGear5", 0);
+            Base.AddProp("OptimalShiftGear6", 0);
+            Base.AddProp("OptimalShiftGear7", 0);
+            Base.AddProp("OptimalShiftCurrentGear", 0);
+            Base.AddProp("OptimalShiftLastGear", 0);
 
-            Base.AddProp("TrueRevLimiter",  0);
-            Base.AddProp("IdleRPM",  0);
+            Base.AddProp("TrueRevLimiter", 0);
+            Base.AddProp("IdleRPM", 0);
 
-            Base.AddProp("Lap01Time",  new TimeSpan(0));
-            Base.AddProp("Lap02Time",  new TimeSpan(0));
-            Base.AddProp("Lap03Time",  new TimeSpan(0));
-            Base.AddProp("Lap04Time",  new TimeSpan(0));
-            Base.AddProp("Lap05Time",  new TimeSpan(0));
-            Base.AddProp("Lap06Time",  new TimeSpan(0));
-            Base.AddProp("Lap07Time",  new TimeSpan(0));
-            Base.AddProp("Lap08Time",  new TimeSpan(0));
+            Base.AddProp("Lap01Time", new TimeSpan(0));
+            Base.AddProp("Lap02Time", new TimeSpan(0));
+            Base.AddProp("Lap03Time", new TimeSpan(0));
+            Base.AddProp("Lap04Time", new TimeSpan(0));
+            Base.AddProp("Lap05Time", new TimeSpan(0));
+            Base.AddProp("Lap06Time", new TimeSpan(0));
+            Base.AddProp("Lap07Time", new TimeSpan(0));
+            Base.AddProp("Lap08Time", new TimeSpan(0));
 
-            Base.AddProp("Lap01Status",  0);
-            Base.AddProp("Lap02Status",  0);
-            Base.AddProp("Lap03Status",  0);
-            Base.AddProp("Lap04Status",  0);
-            Base.AddProp("Lap05Status",  0);
-            Base.AddProp("Lap06Status",  0);
-            Base.AddProp("Lap07Status",  0);
-            Base.AddProp("Lap08Status",  0);
+            Base.AddProp("Lap01Status", 0);
+            Base.AddProp("Lap02Status", 0);
+            Base.AddProp("Lap03Status", 0);
+            Base.AddProp("Lap04Status", 0);
+            Base.AddProp("Lap05Status", 0);
+            Base.AddProp("Lap06Status", 0);
+            Base.AddProp("Lap07Status", 0);
+            Base.AddProp("Lap08Status", 0);
 
-            Base.AddProp("Lap01Delta",  0);
-            Base.AddProp("Lap02Delta",  0);
-            Base.AddProp("Lap03Delta",  0);
-            Base.AddProp("Lap04Delta",  0);
-            Base.AddProp("Lap05Delta",  0);
-            Base.AddProp("Lap06Delta",  0);
-            Base.AddProp("Lap07Delta",  0);
-            Base.AddProp("Lap08Delta",  0);
+            Base.AddProp("Lap01Delta", 0);
+            Base.AddProp("Lap02Delta", 0);
+            Base.AddProp("Lap03Delta", 0);
+            Base.AddProp("Lap04Delta", 0);
+            Base.AddProp("Lap05Delta", 0);
+            Base.AddProp("Lap06Delta", 0);
+            Base.AddProp("Lap07Delta", 0);
+            Base.AddProp("Lap08Delta", 0);
 
-            Base.AddProp("SmallFuelIncrement",  Base.Settings.SmallFuelIncrement);
-            Base.AddProp("LargeFuelIncrement",  Base.Settings.LargeFuelIncrement);
-            Base.AddProp("CoupleInCarToPit",  Base.Settings.CoupleInCarToPit);
+            Base.AddProp("SmallFuelIncrement", Base.Settings.SmallFuelIncrement);
+            Base.AddProp("LargeFuelIncrement", Base.Settings.LargeFuelIncrement);
+            Base.AddProp("CoupleInCarToPit", Base.Settings.CoupleInCarToPit);
 
-            Base.AddProp("Idle",  true);
-            Base.AddProp("SmoothGear",  "");
-            Base.AddProp("TrackEntry",  false);
-            Base.AddProp("LastGearMaxRPM",  0);
-            Base.AddProp("LastGear",  0);
-            Base.AddProp("OvertakeMode",  false);
+            Base.AddProp("Idle", true);
+            Base.AddProp("SmoothGear", "");
+            Base.AddProp("TrackEntry", false);
+            Base.AddProp("LastGearMaxRPM", 0);
+            Base.AddProp("LastGear", 0);
+            Base.AddProp("OvertakeMode", false);
 
-            Base.AddProp("StopWatch",  TimeSpan.FromSeconds(0));
-            Base.AddProp("StopWatchSplit",  TimeSpan.FromSeconds(0));
+            Base.AddProp("StopWatch", TimeSpan.FromSeconds(0));
+            Base.AddProp("StopWatchSplit", TimeSpan.FromSeconds(0));
 
-            Base.AddProp("AccelerationTo100KPH",  0);
-            Base.AddProp("AccelerationTo200KPH",  0);
-            Base.AddProp("BrakeCurveValues",  "");
-            Base.AddProp("BrakeCurvePeak",  0);
-            Base.AddProp("BrakeCurveAUC",  0);
-            Base.AddProp("ThrottleCurveValues",  "");
-            Base.AddProp("ThrottleAgro",  0);
+            Base.AddProp("AccelerationTo100KPH", 0);
+            Base.AddProp("AccelerationTo200KPH", 0);
+            Base.AddProp("BrakeCurveValues", "");
+            Base.AddProp("BrakeCurvePeak", 0);
+            Base.AddProp("BrakeCurveAUC", 0);
+            Base.AddProp("ThrottleCurveValues", "");
+            Base.AddProp("ThrottleAgro", 0);
 
-            Base.AddProp("ERSTarget",  0);
-            Base.AddProp("ERSCharges",  0);
-            Base.AddProp("TCActive",  false);
-            Base.AddProp("TCToggle",  false);
-            Base.AddProp("ABSToggle",  false);
-            Base.AddProp("HasTC",  false);
-            Base.AddProp("HasABS",  false);
-            Base.AddProp("HasDRS",  false);
-            Base.AddProp("DRSState",  "");
-            Base.AddProp("HasAntiStall",  false);
-            Base.AddProp("HasOvertake",  false);
-            Base.AddProp("MapHigh",  mapHigh);
-            Base.AddProp("MapLow",  mapLow);
-            Base.AddProp("P2PCount",  -1);
-            Base.AddProp("P2PStatus",  false);
-            Base.AddProp("DRSCount",  -1);
+            Base.AddProp("ERSTarget", 0);
+            Base.AddProp("ERSCharges", 0);
+            Base.AddProp("TCActive", false);
+            Base.AddProp("TCToggle", false);
+            Base.AddProp("ABSToggle", false);
+            Base.AddProp("HasTC", false);
+            Base.AddProp("HasABS", false);
+            Base.AddProp("HasDRS", false);
+            Base.AddProp("DRSState", "");
+            Base.AddProp("HasAntiStall", false);
+            Base.AddProp("HasOvertake", false);
+            Base.AddProp("MapHigh", mapHigh);
+            Base.AddProp("MapLow", mapLow);
+            Base.AddProp("P2PCount", -1);
+            Base.AddProp("P2PStatus", false);
+            Base.AddProp("DRSCount", -1);
 
-            Base.AddProp("SlipLF",  0);
-            Base.AddProp("SlipRF",  0);
-            Base.AddProp("SlipLR",  0);
-            Base.AddProp("SlipRR",  0);
+            Base.AddProp("SlipLF", 0);
+            Base.AddProp("SlipRF", 0);
+            Base.AddProp("SlipLR", 0);
+            Base.AddProp("SlipRR", 0);
 
 
-            Base.AddProp("AnimationType",  1);
-            Base.AddProp("ShiftLightRPM",  0);
-            Base.AddProp("ReactionTime",  0);
+            Base.AddProp("AnimationType", 1);
+            Base.AddProp("ShiftLightRPM", 0);
+            Base.AddProp("ReactionTime", 0);
             Base.AddProp("LEDWarnings", false);
 
-            Base.AddProp("LaunchBitePoint",  0);
-            Base.AddProp("LaunchSpin",  0);
-            Base.AddProp("LaunchIdealRangeStart",  0);
-            Base.AddProp("LaunchIdealRangeStop",  0);
-            Base.AddProp("LaunchGearRelease",  0);
-            Base.AddProp("LaunchGearReleased",  0);
-            Base.AddProp("LaunchTimeRelease",  0);
-            Base.AddProp("LaunchTimeReleased",  0);
-            Base.AddProp("HighPower",  false);
-            Base.AddProp("LaunchThrottle",  0);
+            Base.AddProp("LaunchBitePoint", 0);
+            Base.AddProp("LaunchSpin", 0);
+            Base.AddProp("LaunchIdealRangeStart", 0);
+            Base.AddProp("LaunchIdealRangeStop", 0);
+            Base.AddProp("LaunchGearRelease", 0);
+            Base.AddProp("LaunchGearReleased", 0);
+            Base.AddProp("LaunchTimeRelease", 0);
+            Base.AddProp("LaunchTimeReleased", 0);
+            Base.AddProp("HighPower", false);
+            Base.AddProp("LaunchThrottle", 0);
 
 
-            Base.AddProp("ApproximateCalculations",  false);
-            Base.AddProp("LapsRemaining",  0);
-            Base.AddProp("LapBalance",  0);
+            Base.AddProp("ApproximateCalculations", false);
+            Base.AddProp("LapsRemaining", 0);
+            Base.AddProp("LapBalance", 0);
 
-            Base.AddProp("LapStatus",  0);
+            Base.AddProp("LapStatus", 0);
 
-            Base.AddProp("StintTimer",  new TimeSpan(0));
-            Base.AddProp("StintTotalTime",  new TimeSpan(0));
-            Base.AddProp("StintTotalHotlaps",  0);
-            Base.AddProp("StintCurrentHotlap",  0);
-            Base.AddProp("StintValidLaps",  0);
-            Base.AddProp("StintInvalidLaps",  0);
+            Base.AddProp("StintTimer", new TimeSpan(0));
+            Base.AddProp("StintTotalTime", new TimeSpan(0));
+            Base.AddProp("StintTotalHotlaps", 0);
+            Base.AddProp("StintCurrentHotlap", 0);
+            Base.AddProp("StintValidLaps", 0);
+            Base.AddProp("StintInvalidLaps", 0);
 
-            Base.AddProp("Pace",  new TimeSpan(0));
+            Base.AddProp("Pace", new TimeSpan(0));
 
-            Base.AddProp("PitBoxPosition",  1);
-            Base.AddProp("PitBoxApproach",  false);
-            Base.AddProp("PitEntry",  false);
-            Base.AddProp("PitSpeeding",  false);
+            Base.AddProp("PitBoxPosition", 1);
+            Base.AddProp("PitBoxApproach", false);
+            Base.AddProp("PitEntry", false);
+            Base.AddProp("PitSpeeding", false);
 
-            Base.AddProp("SessionBestLap",  new TimeSpan(0));
+            Base.AddProp("SessionBestLap", new TimeSpan(0));
 
-            Base.AddProp("HotlapLivePosition",  0);
+            Base.AddProp("HotlapLivePosition", 0);
 
-            Base.AddProp("QualyWarmUpLap",  false);
-            Base.AddProp("QualyLap1Status",  0);
-            Base.AddProp("QualyLap2Status",  0);
-            Base.AddProp("QualyLap1Time",  new TimeSpan(0));
-            Base.AddProp("QualyLap2Time",  new TimeSpan(0));
-
-
-
-            Base.AddProp("CurrentSector",  0);
-            Base.AddProp("CurrentSector1Time",  new TimeSpan(0));
-            Base.AddProp("CurrentSector2Time",  new TimeSpan(0));
-            Base.AddProp("CurrentSector3Time",  new TimeSpan(0));
-            Base.AddProp("CurrentSector1Delta",  0);
-            Base.AddProp("CurrentSector2Delta",  0);
-            Base.AddProp("CurrentSector3Delta",  0);
-            Base.AddProp("CurrentSector1Status",  0);
-            Base.AddProp("CurrentSector2Status",  0);
-            Base.AddProp("CurrentSector3Status",  0);
-            Base.AddProp("SessionBestSector1",  new TimeSpan(0));
-            Base.AddProp("SessionBestSector2",  new TimeSpan(0));
-            Base.AddProp("SessionBestSector3",  new TimeSpan(0));
-            Base.AddProp("Sector1Pace",  new TimeSpan(0));
-            Base.AddProp("Sector2Pace",  new TimeSpan(0));
-            Base.AddProp("Sector3Pace",  new TimeSpan(0));
-            Base.AddProp("Sector1Score",  0);
-            Base.AddProp("Sector2Score",  0);
-            Base.AddProp("Sector3Score",  0);
-
-            Base.AddProp("OptimalLapTime",  new TimeSpan(0));
-
-            Base.AddProp("Lap01Sector1Time",  new TimeSpan(0));
-            Base.AddProp("Lap01Sector2Time",  new TimeSpan(0));
-            Base.AddProp("Lap01Sector3Time",  new TimeSpan(0));
-            Base.AddProp("Lap01Sector1Delta",  0);
-            Base.AddProp("Lap01Sector2Delta",  0);
-            Base.AddProp("Lap01Sector3Delta",  0);
-            Base.AddProp("Lap01Sector1Status",  0);
-            Base.AddProp("Lap01Sector2Status",  0);
-            Base.AddProp("Lap01Sector3Status",  0);
-            Base.AddProp("Lap01FuelTargetDelta",  0);
-
-            Base.AddProp("Lap02Sector1Time",  new TimeSpan(0));
-            Base.AddProp("Lap02Sector2Time",  new TimeSpan(0));
-            Base.AddProp("Lap02Sector3Time",  new TimeSpan(0));
-            Base.AddProp("Lap02Sector1Delta",  0);
-            Base.AddProp("Lap02Sector2Delta",  0);
-            Base.AddProp("Lap02Sector3Delta",  0);
-            Base.AddProp("Lap02Sector1Status",  0);
-            Base.AddProp("Lap02Sector2Status",  0);
-            Base.AddProp("Lap02Sector3Status",  0);
-            Base.AddProp("Lap02FuelTargetDelta",  0);
-
-            Base.AddProp("Lap03Sector1Time",  new TimeSpan(0));
-            Base.AddProp("Lap03Sector2Time",  new TimeSpan(0));
-            Base.AddProp("Lap03Sector3Time",  new TimeSpan(0));
-            Base.AddProp("Lap03Sector1Delta",  0);
-            Base.AddProp("Lap03Sector2Delta",  0);
-            Base.AddProp("Lap03Sector3Delta",  0);
-            Base.AddProp("Lap03Sector1Status",  0);
-            Base.AddProp("Lap03Sector2Status",  0);
-            Base.AddProp("Lap03Sector3Status",  0);
-            Base.AddProp("Lap03FuelTargetDelta",  0);
-
-            Base.AddProp("Lap04Sector1Time",  new TimeSpan(0));
-            Base.AddProp("Lap04Sector2Time",  new TimeSpan(0));
-            Base.AddProp("Lap04Sector3Time",  new TimeSpan(0));
-            Base.AddProp("Lap04Sector1Delta",  0);
-            Base.AddProp("Lap04Sector2Delta",  0);
-            Base.AddProp("Lap04Sector3Delta",  0);
-            Base.AddProp("Lap04Sector1Status",  0);
-            Base.AddProp("Lap04Sector2Status",  0);
-            Base.AddProp("Lap04Sector3Status",  0);
-            Base.AddProp("Lap04FuelTargetDelta",  0);
-
-            Base.AddProp("Lap05Sector1Time",  new TimeSpan(0));
-            Base.AddProp("Lap05Sector2Time",  new TimeSpan(0));
-            Base.AddProp("Lap05Sector3Time",  new TimeSpan(0));
-            Base.AddProp("Lap05Sector1Delta",  0);
-            Base.AddProp("Lap05Sector2Delta",  0);
-            Base.AddProp("Lap05Sector3Delta",  0);
-            Base.AddProp("Lap05Sector1Status",  0);
-            Base.AddProp("Lap05Sector2Status",  0);
-            Base.AddProp("Lap05Sector3Status",  0);
-            Base.AddProp("Lap05FuelTargetDelta",  0);
-
-            Base.AddProp("Lap06Sector1Time",  new TimeSpan(0));
-            Base.AddProp("Lap06Sector2Time",  new TimeSpan(0));
-            Base.AddProp("Lap06Sector3Time",  new TimeSpan(0));
-            Base.AddProp("Lap06Sector1Delta",  0);
-            Base.AddProp("Lap06Sector2Delta",  0);
-            Base.AddProp("Lap06Sector3Delta",  0);
-            Base.AddProp("Lap06Sector1Status",  0);
-            Base.AddProp("Lap06Sector2Status",  0);
-            Base.AddProp("Lap06Sector3Status",  0);
-            Base.AddProp("Lap06FuelTargetDelta",  0);
-
-            Base.AddProp("Lap07Sector1Time",  new TimeSpan(0));
-            Base.AddProp("Lap07Sector2Time",  new TimeSpan(0));
-            Base.AddProp("Lap07Sector3Time",  new TimeSpan(0));
-            Base.AddProp("Lap07Sector1Delta",  0);
-            Base.AddProp("Lap07Sector2Delta",  0);
-            Base.AddProp("Lap07Sector3Delta",  0);
-            Base.AddProp("Lap07Sector1Status",  0);
-            Base.AddProp("Lap07Sector2Status",  0);
-            Base.AddProp("Lap07Sector3Status",  0);
-            Base.AddProp("Lap07FuelTargetDelta",  0);
-
-            Base.AddProp("Lap08Sector1Time",  new TimeSpan(0));
-            Base.AddProp("Lap08Sector2Time",  new TimeSpan(0));
-            Base.AddProp("Lap08Sector3Time",  new TimeSpan(0));
-            Base.AddProp("Lap08Sector1Delta",  0);
-            Base.AddProp("Lap08Sector2Delta",  0);
-            Base.AddProp("Lap08Sector3Delta",  0);
-            Base.AddProp("Lap08Sector1Status",  0);
-            Base.AddProp("Lap08Sector2Status",  0);
-            Base.AddProp("Lap08Sector3Status",  0);
-            Base.AddProp("Lap08FuelTargetDelta",  0);
-
-            Base.AddProp("LapRecord",  new TimeSpan(0));
-            Base.AddProp("DeltaLastLap",  0);
-            Base.AddProp("DeltaSessionBest",  0);
-            Base.AddProp("DeltaLapRecord",  0);
-            Base.AddProp("DeltaLastLapChange",  "");
-            Base.AddProp("DeltaSessionBestChange",  "");
-            Base.AddProp("DeltaLapRecordChange",  "");
-
-            Base.AddProp("P1Gap",  0);
-            Base.AddProp("P1Name",  "");
-            Base.AddProp("P1Pace",  new TimeSpan(0));
-            Base.AddProp("P1Finished",  false);
-            Base.AddProp("P1LapBalance",  0);
-
-            Base.AddProp("ClassP1Gap",  0);
-            Base.AddProp("ClassP1Name",  "");
-            Base.AddProp("ClassP1Pace",  new TimeSpan(0));
-            Base.AddProp("ClassP1RealGap",  0);
-
-            Base.AddProp("LuckyDogGap",  0);
-            Base.AddProp("LuckyDogRealGap",  0);
-            Base.AddProp("LuckyDogName",  "");
-            Base.AddProp("LuckyDogPositionsAhead",  0);
-
-            Base.AddProp("AheadName",  "");
-            Base.AddProp("AheadGap",  0);
-            Base.AddProp("AheadPace",  new TimeSpan(0));
-            Base.AddProp("AheadBestLap",  new TimeSpan(0));
-            Base.AddProp("AheadIsConnected",  false);
-            Base.AddProp("AheadIsInPit",  false);
-            Base.AddProp("AheadSlowLap",  false);
-            Base.AddProp("AheadPrognosis",  0);
-            Base.AddProp("AheadLapsToOvertake",  0);
-            Base.AddProp("AheadLapsSincePit",  -1);
-            Base.AddProp("AheadP2PStatus",  false);
-            Base.AddProp("AheadP2PCount",  -1);
-            Base.AddProp("AheadRealGap",  0);
-
-            Base.AddProp("BehindName",  "");
-            Base.AddProp("BehindGap",  0);
-            Base.AddProp("BehindPace",  new TimeSpan(0));
-            Base.AddProp("BehindBestLap",  new TimeSpan(0));
-            Base.AddProp("BehindIsConnected",  false);
-            Base.AddProp("BehindIsInPit",  false);
-            Base.AddProp("BehindSlowLap",  false);
-            Base.AddProp("BehindPrognosis",  0);
-            Base.AddProp("BehindLapsToOvertake",  0);
-            Base.AddProp("BehindLapsSincePit",  -1);
-            Base.AddProp("BehindP2PStatus",  false);
-            Base.AddProp("BehindP2PCount",  -1);
-            Base.AddProp("BehindRealGap",  0);
-
-            Base.AddProp("LeftCarGap",  0);
-            Base.AddProp("LeftCarName",  "");
-            Base.AddProp("RightCarGap",  0);
-            Base.AddProp("RightCarName",  "");
-
-            Base.AddProp("CarAhead01Gap",  0);
-            Base.AddProp("CarAhead01RaceGap",  0);
-            Base.AddProp("CarAhead01BestLap",  new TimeSpan(0));
-            Base.AddProp("CarAhead01Name",  "");
-            Base.AddProp("CarAhead01Position",  0);
-            Base.AddProp("CarAhead01IRating",  0);
-            Base.AddProp("CarAhead01Licence",  "");
-            Base.AddProp("CarAhead01IsAhead",  false);
-            Base.AddProp("CarAhead01IsClassLeader",  false);
-            Base.AddProp("CarAhead01IsInPit",  false);
-            Base.AddProp("CarAhead01ClassColor",  "");
-            Base.AddProp("CarAhead01ClassDifference",  0);
-            Base.AddProp("CarAhead01JokerLaps",  0);
-            Base.AddProp("CarAhead01LapsSincePit",  -1);
-            Base.AddProp("CarAhead01P2PCount",  -1);
-            Base.AddProp("CarAhead01P2PStatus",  false);
-            Base.AddProp("CarAhead01RealGap",  0);
-            Base.AddProp("CarAhead01RealRelative",  0);
-
-            Base.AddProp("CarAhead02Gap",  0);
-            Base.AddProp("CarAhead02RaceGap",  0);
-            Base.AddProp("CarAhead02BestLap",  new TimeSpan(0));
-            Base.AddProp("CarAhead02Name",  "");
-            Base.AddProp("CarAhead02Position",  0);
-            Base.AddProp("CarAhead02IRating",  0);
-            Base.AddProp("CarAhead02Licence",  "");
-            Base.AddProp("CarAhead02IsAhead",  false);
-            Base.AddProp("CarAhead02IsClassLeader",  false);
-            Base.AddProp("CarAhead02IsInPit",  false);
-            Base.AddProp("CarAhead02ClassColor",  "");
-            Base.AddProp("CarAhead02ClassDifference",  0);
-            Base.AddProp("CarAhead02JokerLaps",  0);
-            Base.AddProp("CarAhead02LapsSincePit",  -1);
-            Base.AddProp("CarAhead02P2PCount",  -1);
-            Base.AddProp("CarAhead02P2PStatus",  false);
-            Base.AddProp("CarAhead02RealGap",  0);
-            Base.AddProp("CarAhead02RealRelative",  0);
-
-            Base.AddProp("CarAhead03Gap",  0);
-            Base.AddProp("CarAhead03RaceGap",  0);
-            Base.AddProp("CarAhead03BestLap",  new TimeSpan(0));
-            Base.AddProp("CarAhead03Name",  "");
-            Base.AddProp("CarAhead03Position",  0);
-            Base.AddProp("CarAhead03IRating",  0);
-            Base.AddProp("CarAhead03Licence",  "");
-            Base.AddProp("CarAhead03IsAhead",  false);
-            Base.AddProp("CarAhead03IsClassLeader",  false);
-            Base.AddProp("CarAhead03IsInPit",  false);
-            Base.AddProp("CarAhead03ClassColor",  "");
-            Base.AddProp("CarAhead03ClassDifference",  0);
-            Base.AddProp("CarAhead03JokerLaps",  0);
-            Base.AddProp("CarAhead03LapsSincePit",  -1);
-            Base.AddProp("CarAhead03P2PCount",  -1);
-            Base.AddProp("CarAhead03P2PStatus",  false);
-            Base.AddProp("CarAhead03RealGap",  0);
-            Base.AddProp("CarAhead03RealRelative",  0);
-
-            Base.AddProp("CarAhead04Gap",  0);
-            Base.AddProp("CarAhead04RaceGap",  0);
-            Base.AddProp("CarAhead04BestLap",  new TimeSpan(0));
-            Base.AddProp("CarAhead04Name",  "");
-            Base.AddProp("CarAhead04Position",  0);
-            Base.AddProp("CarAhead04IRating",  0);
-            Base.AddProp("CarAhead04Licence",  "");
-            Base.AddProp("CarAhead04IsAhead",  false);
-            Base.AddProp("CarAhead04IsClassLeader",  false);
-            Base.AddProp("CarAhead04IsInPit",  false);
-            Base.AddProp("CarAhead04ClassColor",  "");
-            Base.AddProp("CarAhead04ClassDifference",  0);
-            Base.AddProp("CarAhead04JokerLaps",  0);
-            Base.AddProp("CarAhead04LapsSincePit",  -1);
-            Base.AddProp("CarAhead04P2PCount",  -1);
-            Base.AddProp("CarAhead04P2PStatus",  false);
-            Base.AddProp("CarAhead04RealGap",  0);
-            Base.AddProp("CarAhead04RealRelative",  0);
-
-            Base.AddProp("CarAhead05Gap",  0);
-            Base.AddProp("CarAhead05RaceGap",  0);
-            Base.AddProp("CarAhead05BestLap",  new TimeSpan(0));
-            Base.AddProp("CarAhead05Name",  "");
-            Base.AddProp("CarAhead05Position",  0);
-            Base.AddProp("CarAhead05IRating",  0);
-            Base.AddProp("CarAhead05Licence",  "");
-            Base.AddProp("CarAhead05IsAhead",  false);
-            Base.AddProp("CarAhead05IsClassLeader",  false);
-            Base.AddProp("CarAhead05IsInPit",  false);
-            Base.AddProp("CarAhead05ClassColor",  "");
-            Base.AddProp("CarAhead05ClassDifference",  0);
-            Base.AddProp("CarAhead05JokerLaps",  0);
-            Base.AddProp("CarAhead05LapsSincePit",  -1);
-            Base.AddProp("CarAhead05P2PCount",  -1);
-            Base.AddProp("CarAhead05P2PStatus",  false);
-            Base.AddProp("CarAhead05RealGap",  0);
-            Base.AddProp("CarAhead05RealRelative",  0);
-
-            Base.AddProp("CarBehind01Gap",  0);
-            Base.AddProp("CarBehind01RaceGap",  0);
-            Base.AddProp("CarBehind01BestLap",  new TimeSpan(0));
-            Base.AddProp("CarBehind01Name",  "");
-            Base.AddProp("CarBehind01Position",  0);
-            Base.AddProp("CarBehind01IRating",  0);
-            Base.AddProp("CarBehind01Licence",  "");
-            Base.AddProp("CarBehind01IsAhead",  false);
-            Base.AddProp("CarBehind01IsClassLeader",  false);
-            Base.AddProp("CarBehind01IsInPit",  false);
-            Base.AddProp("CarBehind01ClassColor",  "");
-            Base.AddProp("CarBehind01ClassDifference",  0);
-            Base.AddProp("CarBehind01JokerLaps",  0);
-            Base.AddProp("CarBehind01LapsSincePit",  -1);
-            Base.AddProp("CarBehind01P2PCount",  -1);
-            Base.AddProp("CarBehind01P2PStatus",  false);
-            Base.AddProp("CarBehind01RealGap",  0);
-            Base.AddProp("CarBehind01RealRelative",  0);
-
-            Base.AddProp("CarBehind02Gap",  0);
-            Base.AddProp("CarBehind02RaceGap",  0);
-            Base.AddProp("CarBehind02BestLap",  new TimeSpan(0));
-            Base.AddProp("CarBehind02Name",  "");
-            Base.AddProp("CarBehind02Position",  0);
-            Base.AddProp("CarBehind02IRating",  0);
-            Base.AddProp("CarBehind02Licence",  "");
-            Base.AddProp("CarBehind02IsAhead",  false);
-            Base.AddProp("CarBehind02IsClassLeader",  false);
-            Base.AddProp("CarBehind02IsInPit",  false);
-            Base.AddProp("CarBehind02ClassColor",  "");
-            Base.AddProp("CarBehind02ClassDifference",  0);
-            Base.AddProp("CarBehind02JokerLaps",  0);
-            Base.AddProp("CarBehind02LapsSincePit",  -1);
-            Base.AddProp("CarBehind02P2PCount",  -1);
-            Base.AddProp("CarBehind02P2PStatus",  false);
-            Base.AddProp("CarBehind02RealGap",  0);
-            Base.AddProp("CarBehind02RealRelative",  0);
-
-            Base.AddProp("CarBehind03Gap",  0);
-            Base.AddProp("CarBehind03RaceGap",  0);
-            Base.AddProp("CarBehind03BestLap",  new TimeSpan(0));
-            Base.AddProp("CarBehind03Name",  "");
-            Base.AddProp("CarBehind03Position",  0);
-            Base.AddProp("CarBehind03IRating",  0);
-            Base.AddProp("CarBehind03Licence",  "");
-            Base.AddProp("CarBehind03IsAhead",  false);
-            Base.AddProp("CarBehind03IsClassLeader",  false);
-            Base.AddProp("CarBehind03IsInPit",  false);
-            Base.AddProp("CarBehind03ClassColor",  "");
-            Base.AddProp("CarBehind03ClassDifference",  0);
-            Base.AddProp("CarBehind03JokerLaps",  0);
-            Base.AddProp("CarBehind03LapsSincePit",  -1);
-            Base.AddProp("CarBehind03P2PCount",  -1);
-            Base.AddProp("CarBehind03P2PStatus",  false);
-            Base.AddProp("CarBehind03RealGap",  0);
-            Base.AddProp("CarBehind03RealRelative",  0);
-
-            Base.AddProp("CarBehind04Gap",  0);
-            Base.AddProp("CarBehind04RaceGap",  0);
-            Base.AddProp("CarBehind04BestLap",  new TimeSpan(0));
-            Base.AddProp("CarBehind04Name",  "");
-            Base.AddProp("CarBehind04Position",  0);
-            Base.AddProp("CarBehind04IRating",  0);
-            Base.AddProp("CarBehind04Licence",  "");
-            Base.AddProp("CarBehind04IsAhead",  false);
-            Base.AddProp("CarBehind04IsClassLeader",  false);
-            Base.AddProp("CarBehind04IsInPit",  false);
-            Base.AddProp("CarBehind04ClassColor",  "");
-            Base.AddProp("CarBehind04ClassDifference",  0);
-            Base.AddProp("CarBehind04JokerLaps",  0);
-            Base.AddProp("CarBehind04LapsSincePit",  -1);
-            Base.AddProp("CarBehind04P2PCount",  -1);
-            Base.AddProp("CarBehind04P2PStatus",  false);
-            Base.AddProp("CarBehind04RealGap",  0);
-            Base.AddProp("CarBehind04RealRelative",  0);
-
-            Base.AddProp("CarBehind05Gap",  0);
-            Base.AddProp("CarBehind05RaceGap",  0);
-            Base.AddProp("CarBehind05BestLap",  new TimeSpan(0));
-            Base.AddProp("CarBehind05Name",  "");
-            Base.AddProp("CarBehind05Position",  0);
-            Base.AddProp("CarBehind05IRating",  0);
-            Base.AddProp("CarBehind05Licence",  "");
-            Base.AddProp("CarBehind05IsAhead",  false);
-            Base.AddProp("CarBehind05IsClassLeader",  false);
-            Base.AddProp("CarBehind05IsInPit",  false);
-            Base.AddProp("CarBehind05ClassColor",  "");
-            Base.AddProp("CarBehind05ClassDifference",  0);
-            Base.AddProp("CarBehind05JokerLaps",  0);
-            Base.AddProp("CarBehind05LapsSincePit",  -1);
-            Base.AddProp("CarBehind05P2PCount",  -1);
-            Base.AddProp("CarBehind05P2PStatus",  false);
-            Base.AddProp("CarBehind05RealGap",  0);
-            Base.AddProp("CarBehind05RealRelative",  0);
-
-            Base.AddProp("FuelDelta",  0);
-            Base.AddProp("FuelPitWindowFirst",  0);
-            Base.AddProp("FuelPitWindowLast",  0);
-            Base.AddProp("FuelMinimumFuelFill",  0);
-            Base.AddProp("FuelMaximumFuelFill",  0);
-            Base.AddProp("FuelPitStops",  0);
-            Base.AddProp("FuelConserveToSaveAStop",  0);
-            Base.AddProp("FuelAlert",  false);
-
-            Base.AddProp("FuelDeltaLL",  0);
-            Base.AddProp("FuelPitWindowFirstLL",  0);
-            Base.AddProp("FuelPitWindowLastLL",  0);
-            Base.AddProp("FuelMinimumFuelFillLL",  0);
-            Base.AddProp("FuelMaximumFuelFillLL",  0);
-            Base.AddProp("FuelPitStopsLL",  0);
-            Base.AddProp("FuelConserveToSaveAStopLL",  0);
-
-            Base.AddProp("FuelSlowestFuelSavePace",  new TimeSpan(0));
-            Base.AddProp("FuelSaveDeltaValue",  0);
-            Base.AddProp("FuelPerLapOffset",  0);
-            Base.AddProp("FuelPerLapTarget",  0);
-            Base.AddProp("FuelPerLapTargetLastLapDelta",  0);
-            Base.AddProp("FuelTargetDeltaCumulative",  0);
-
-            Base.AddProp("TrackType",  0);
-            Base.AddProp("JokerThisLap",  false);
-            Base.AddProp("JokerCount",  0);
-
-            Base.AddProp("MinimumCornerSpeed",  0);
-            Base.AddProp("StraightLineSpeed",  0);
-
-            Base.AddProp("PitToggleLF",  false);
-            Base.AddProp("PitToggleRF",  false);
-            Base.AddProp("PitToggleLR",  false);
-            Base.AddProp("PitToggleRR",  false);
-            Base.AddProp("PitToggleFuel",  false);
-            Base.AddProp("PitToggleWindscreen",  false);
-            Base.AddProp("PitToggleRepair",  false);
-
-            Base.AddProp("PitServiceFuelTarget",  0);
-            Base.AddProp("PitServiceLFPSet",  0);
-            Base.AddProp("PitServiceRFPSet",  0);
-            Base.AddProp("PitServiceLRPSet",  0);
-            Base.AddProp("PitServiceRRPSet",  0);
-            Base.AddProp("PitServiceLFPCold",  0);
-            Base.AddProp("PitServiceRFPCold",  0);
-            Base.AddProp("PitServiceLRPCold",  0);
-            Base.AddProp("PitServiceRRPCold",  0);
-
-            Base.AddProp("CurrentFrontWing",  0);
-            Base.AddProp("CurrentRearWing",  0);
-            Base.AddProp("CurrentPowersteer",  0);
-            Base.AddProp("CurrentTape",  0);
-
-            Base.AddProp("PitCrewType",  0);
-            Base.AddProp("PitTimeTires",  0);
-            Base.AddProp("PitTimeFuel",  0);
-            Base.AddProp("PitTimeWindscreen",  0);
-            Base.AddProp("PitTimeAdjustment",  0);
-            Base.AddProp("PitTimeDriveThrough",  0);
-            Base.AddProp("PitTimeService",  0);
-            Base.AddProp("PitTimeTotal",  0);
+            Base.AddProp("QualyWarmUpLap", false);
+            Base.AddProp("QualyLap1Status", 0);
+            Base.AddProp("QualyLap2Status", 0);
+            Base.AddProp("QualyLap1Time", new TimeSpan(0));
+            Base.AddProp("QualyLap2Time", new TimeSpan(0));
 
 
-            Base.AddProp("PitExitPosition",  0);
 
-            Base.AddProp("PitExitCar1Name",  "");
-            Base.AddProp("PitExitCar1Gap",  0);
-            Base.AddProp("PitExitCar1Position",  0);
-            Base.AddProp("PitExitCar1ClassDifference",  0);
-            Base.AddProp("PitExitCar1IsAhead",  false);
-            Base.AddProp("PitExitCar1IsFaster",  false);
+            Base.AddProp("CurrentSector", 0);
+            Base.AddProp("CurrentSector1Time", new TimeSpan(0));
+            Base.AddProp("CurrentSector2Time", new TimeSpan(0));
+            Base.AddProp("CurrentSector3Time", new TimeSpan(0));
+            Base.AddProp("CurrentSector1Delta", 0);
+            Base.AddProp("CurrentSector2Delta", 0);
+            Base.AddProp("CurrentSector3Delta", 0);
+            Base.AddProp("CurrentSector1Status", 0);
+            Base.AddProp("CurrentSector2Status", 0);
+            Base.AddProp("CurrentSector3Status", 0);
+            Base.AddProp("SessionBestSector1", new TimeSpan(0));
+            Base.AddProp("SessionBestSector2", new TimeSpan(0));
+            Base.AddProp("SessionBestSector3", new TimeSpan(0));
+            Base.AddProp("Sector1Pace", new TimeSpan(0));
+            Base.AddProp("Sector2Pace", new TimeSpan(0));
+            Base.AddProp("Sector3Pace", new TimeSpan(0));
+            Base.AddProp("Sector1Score", 0);
+            Base.AddProp("Sector2Score", 0);
+            Base.AddProp("Sector3Score", 0);
 
-            Base.AddProp("PitExitCar2Name",  "");
-            Base.AddProp("PitExitCar2Gap",  0);
-            Base.AddProp("PitExitCar2Position",  0);
-            Base.AddProp("PitExitCar2ClassDifference",  0);
-            Base.AddProp("PitExitCar2IsAhead",  false);
-            Base.AddProp("PitExitCar2IsFaster",  false);
+            Base.AddProp("OptimalLapTime", new TimeSpan(0));
 
-            Base.AddProp("PitExitCar3Name",  "");
-            Base.AddProp("PitExitCar3Gap",  0);
-            Base.AddProp("PitExitCar3Position",  0);
-            Base.AddProp("PitExitCar3ClassDifference",  0);
-            Base.AddProp("PitExitCar3IsAhead",  false);
-            Base.AddProp("PitExitCar3IsFaster",  false);
+            Base.AddProp("Lap01Sector1Time", new TimeSpan(0));
+            Base.AddProp("Lap01Sector2Time", new TimeSpan(0));
+            Base.AddProp("Lap01Sector3Time", new TimeSpan(0));
+            Base.AddProp("Lap01Sector1Delta", 0);
+            Base.AddProp("Lap01Sector2Delta", 0);
+            Base.AddProp("Lap01Sector3Delta", 0);
+            Base.AddProp("Lap01Sector1Status", 0);
+            Base.AddProp("Lap01Sector2Status", 0);
+            Base.AddProp("Lap01Sector3Status", 0);
+            Base.AddProp("Lap01FuelTargetDelta", 0);
 
-            Base.AddProp("PitExitCar4Name",  "");
-            Base.AddProp("PitExitCar4Gap",  0);
-            Base.AddProp("PitExitCar4Position",  0);
-            Base.AddProp("PitExitCar4ClassDifference",  0);
-            Base.AddProp("PitExitCar4IsAhead",  false);
-            Base.AddProp("PitExitCar4IsFaster",  false);
+            Base.AddProp("Lap02Sector1Time", new TimeSpan(0));
+            Base.AddProp("Lap02Sector2Time", new TimeSpan(0));
+            Base.AddProp("Lap02Sector3Time", new TimeSpan(0));
+            Base.AddProp("Lap02Sector1Delta", 0);
+            Base.AddProp("Lap02Sector2Delta", 0);
+            Base.AddProp("Lap02Sector3Delta", 0);
+            Base.AddProp("Lap02Sector1Status", 0);
+            Base.AddProp("Lap02Sector2Status", 0);
+            Base.AddProp("Lap02Sector3Status", 0);
+            Base.AddProp("Lap02FuelTargetDelta", 0);
 
-            Base.AddProp("PitExitCar5Name",  "");
-            Base.AddProp("PitExitCar5Gap",  0);
-            Base.AddProp("PitExitCar5Position",  0);
-            Base.AddProp("PitExitCar5ClassDifference",  0);
-            Base.AddProp("PitExitCar5IsAhead",  false);
-            Base.AddProp("PitExitCar5IsFaster",  false);
+            Base.AddProp("Lap03Sector1Time", new TimeSpan(0));
+            Base.AddProp("Lap03Sector2Time", new TimeSpan(0));
+            Base.AddProp("Lap03Sector3Time", new TimeSpan(0));
+            Base.AddProp("Lap03Sector1Delta", 0);
+            Base.AddProp("Lap03Sector2Delta", 0);
+            Base.AddProp("Lap03Sector3Delta", 0);
+            Base.AddProp("Lap03Sector1Status", 0);
+            Base.AddProp("Lap03Sector2Status", 0);
+            Base.AddProp("Lap03Sector3Status", 0);
+            Base.AddProp("Lap03FuelTargetDelta", 0);
 
-            Base.AddProp("PitExitCar6Name",  "");
-            Base.AddProp("PitExitCar6Gap",  0);
-            Base.AddProp("PitExitCar6Position",  0);
-            Base.AddProp("PitExitCar6ClassDifference",  0);
-            Base.AddProp("PitExitCar6IsAhead",  false);
-            Base.AddProp("PitExitCar6IsFaster",  false);
+            Base.AddProp("Lap04Sector1Time", new TimeSpan(0));
+            Base.AddProp("Lap04Sector2Time", new TimeSpan(0));
+            Base.AddProp("Lap04Sector3Time", new TimeSpan(0));
+            Base.AddProp("Lap04Sector1Delta", 0);
+            Base.AddProp("Lap04Sector2Delta", 0);
+            Base.AddProp("Lap04Sector3Delta", 0);
+            Base.AddProp("Lap04Sector1Status", 0);
+            Base.AddProp("Lap04Sector2Status", 0);
+            Base.AddProp("Lap04Sector3Status", 0);
+            Base.AddProp("Lap04FuelTargetDelta", 0);
 
-            Base.AddProp("PitExitCar7Name",  "");
-            Base.AddProp("PitExitCar7Gap",  0);
-            Base.AddProp("PitExitCar7Position",  0);
-            Base.AddProp("PitExitCar7ClassDifference",  0);
-            Base.AddProp("PitExitCar7IsAhead",  false);
-            Base.AddProp("PitExitCar7IsFaster",  false);
+            Base.AddProp("Lap05Sector1Time", new TimeSpan(0));
+            Base.AddProp("Lap05Sector2Time", new TimeSpan(0));
+            Base.AddProp("Lap05Sector3Time", new TimeSpan(0));
+            Base.AddProp("Lap05Sector1Delta", 0);
+            Base.AddProp("Lap05Sector2Delta", 0);
+            Base.AddProp("Lap05Sector3Delta", 0);
+            Base.AddProp("Lap05Sector1Status", 0);
+            Base.AddProp("Lap05Sector2Status", 0);
+            Base.AddProp("Lap05Sector3Status", 0);
+            Base.AddProp("Lap05FuelTargetDelta", 0);
 
-            Base.AddProp("PitExitCar8Name",  "");
-            Base.AddProp("PitExitCar8Gap",  0);
-            Base.AddProp("PitExitCar8Position",  0);
-            Base.AddProp("PitExitCar8ClassDifference",  0);
-            Base.AddProp("PitExitCar8IsAhead",  false);
-            Base.AddProp("PitExitCar8IsFaster",  false);
+            Base.AddProp("Lap06Sector1Time", new TimeSpan(0));
+            Base.AddProp("Lap06Sector2Time", new TimeSpan(0));
+            Base.AddProp("Lap06Sector3Time", new TimeSpan(0));
+            Base.AddProp("Lap06Sector1Delta", 0);
+            Base.AddProp("Lap06Sector2Delta", 0);
+            Base.AddProp("Lap06Sector3Delta", 0);
+            Base.AddProp("Lap06Sector1Status", 0);
+            Base.AddProp("Lap06Sector2Status", 0);
+            Base.AddProp("Lap06Sector3Status", 0);
+            Base.AddProp("Lap06FuelTargetDelta", 0);
 
-            Base.AddProp("PitExitCar9Name",  "");
-            Base.AddProp("PitExitCar9Gap",  0);
-            Base.AddProp("PitExitCar9Position",  0);
-            Base.AddProp("PitExitCar9ClassDifference",  0);
-            Base.AddProp("PitExitCar9IsAhead",  false);
-            Base.AddProp("PitExitCar9IsFaster",  false);
+            Base.AddProp("Lap07Sector1Time", new TimeSpan(0));
+            Base.AddProp("Lap07Sector2Time", new TimeSpan(0));
+            Base.AddProp("Lap07Sector3Time", new TimeSpan(0));
+            Base.AddProp("Lap07Sector1Delta", 0);
+            Base.AddProp("Lap07Sector2Delta", 0);
+            Base.AddProp("Lap07Sector3Delta", 0);
+            Base.AddProp("Lap07Sector1Status", 0);
+            Base.AddProp("Lap07Sector2Status", 0);
+            Base.AddProp("Lap07Sector3Status", 0);
+            Base.AddProp("Lap07FuelTargetDelta", 0);
 
-            Base.AddProp("PitExitCar10Name",  "");
-            Base.AddProp("PitExitCar10Gap",  0);
-            Base.AddProp("PitExitCar10Position",  0);
-            Base.AddProp("PitExitCar10ClassDifference",  0);
-            Base.AddProp("PitExitCar10IsAhead",  false);
-            Base.AddProp("PitExitCar10IsFaster",  false);
+            Base.AddProp("Lap08Sector1Time", new TimeSpan(0));
+            Base.AddProp("Lap08Sector2Time", new TimeSpan(0));
+            Base.AddProp("Lap08Sector3Time", new TimeSpan(0));
+            Base.AddProp("Lap08Sector1Delta", 0);
+            Base.AddProp("Lap08Sector2Delta", 0);
+            Base.AddProp("Lap08Sector3Delta", 0);
+            Base.AddProp("Lap08Sector1Status", 0);
+            Base.AddProp("Lap08Sector2Status", 0);
+            Base.AddProp("Lap08Sector3Status", 0);
+            Base.AddProp("Lap08FuelTargetDelta", 0);
 
-            Base.AddProp("PitExitCar11Name",  "");
-            Base.AddProp("PitExitCar11Gap",  0);
-            Base.AddProp("PitExitCar11Position",  0);
-            Base.AddProp("PitExitCar11ClassDifference",  0);
-            Base.AddProp("PitExitCar11IsAhead",  false);
-            Base.AddProp("PitExitCar11IsFaster",  false);
+            Base.AddProp("LapRecord", new TimeSpan(0));
+            Base.AddProp("DeltaLastLap", 0);
+            Base.AddProp("DeltaSessionBest", 0);
+            Base.AddProp("DeltaLapRecord", 0);
+            Base.AddProp("DeltaLastLapChange", "");
+            Base.AddProp("DeltaSessionBestChange", "");
+            Base.AddProp("DeltaLapRecordChange", "");
 
-            Base.AddProp("PitExitCar12Name",  "");
-            Base.AddProp("PitExitCar12Gap",  0);
-            Base.AddProp("PitExitCar12Position",  0);
-            Base.AddProp("PitExitCar12ClassDifference",  0);
-            Base.AddProp("PitExitCar12IsAhead",  false);
-            Base.AddProp("PitExitCar12IsFaster",  false);
+            Base.AddProp("P1Gap", 0);
+            Base.AddProp("P1Name", "");
+            Base.AddProp("P1Pace", new TimeSpan(0));
+            Base.AddProp("P1Finished", false);
+            Base.AddProp("P1LapBalance", 0);
 
-            Base.AddProp("PitExitCar13Name",  "");
-            Base.AddProp("PitExitCar13Gap",  0);
-            Base.AddProp("PitExitCar13Position",  0);
-            Base.AddProp("PitExitCar13ClassDifference",  0);
-            Base.AddProp("PitExitCar13IsAhead",  false);
-            Base.AddProp("PitExitCar13IsFaster",  false);
+            Base.AddProp("ClassP1Gap", 0);
+            Base.AddProp("ClassP1Name", "");
+            Base.AddProp("ClassP1Pace", new TimeSpan(0));
+            Base.AddProp("ClassP1RealGap", 0);
 
-            Base.AddProp("PitExitCar14Name",  "");
-            Base.AddProp("PitExitCar14Gap",  0);
-            Base.AddProp("PitExitCar14Position",  0);
-            Base.AddProp("PitExitCar14ClassDifference",  0);
-            Base.AddProp("PitExitCar14IsAhead",  false);
-            Base.AddProp("PitExitCar14IsFaster",  false);
+            Base.AddProp("LuckyDogGap", 0);
+            Base.AddProp("LuckyDogRealGap", 0);
+            Base.AddProp("LuckyDogName", "");
+            Base.AddProp("LuckyDogPositionsAhead", 0);
+
+            Base.AddProp("AheadName", "");
+            Base.AddProp("AheadGap", 0);
+            Base.AddProp("AheadPace", new TimeSpan(0));
+            Base.AddProp("AheadBestLap", new TimeSpan(0));
+            Base.AddProp("AheadIsConnected", false);
+            Base.AddProp("AheadIsInPit", false);
+            Base.AddProp("AheadSlowLap", false);
+            Base.AddProp("AheadPrognosis", 0);
+            Base.AddProp("AheadLapsToOvertake", 0);
+            Base.AddProp("AheadLapsSincePit", -1);
+            Base.AddProp("AheadP2PStatus", false);
+            Base.AddProp("AheadP2PCount", -1);
+            Base.AddProp("AheadRealGap", 0);
+
+            Base.AddProp("BehindName", "");
+            Base.AddProp("BehindGap", 0);
+            Base.AddProp("BehindPace", new TimeSpan(0));
+            Base.AddProp("BehindBestLap", new TimeSpan(0));
+            Base.AddProp("BehindIsConnected", false);
+            Base.AddProp("BehindIsInPit", false);
+            Base.AddProp("BehindSlowLap", false);
+            Base.AddProp("BehindPrognosis", 0);
+            Base.AddProp("BehindLapsToOvertake", 0);
+            Base.AddProp("BehindLapsSincePit", -1);
+            Base.AddProp("BehindP2PStatus", false);
+            Base.AddProp("BehindP2PCount", -1);
+            Base.AddProp("BehindRealGap", 0);
+
+            Base.AddProp("LeftCarGap", 0);
+            Base.AddProp("LeftCarName", "");
+            Base.AddProp("RightCarGap", 0);
+            Base.AddProp("RightCarName", "");
+
+            Base.AddProp("CarAhead01Gap", 0);
+            Base.AddProp("CarAhead01RaceGap", 0);
+            Base.AddProp("CarAhead01BestLap", new TimeSpan(0));
+            Base.AddProp("CarAhead01Name", "");
+            Base.AddProp("CarAhead01Position", 0);
+            Base.AddProp("CarAhead01IRating", 0);
+            Base.AddProp("CarAhead01Licence", "");
+            Base.AddProp("CarAhead01IsAhead", false);
+            Base.AddProp("CarAhead01IsClassLeader", false);
+            Base.AddProp("CarAhead01IsInPit", false);
+            Base.AddProp("CarAhead01ClassColor", "");
+            Base.AddProp("CarAhead01ClassDifference", 0);
+            Base.AddProp("CarAhead01JokerLaps", 0);
+            Base.AddProp("CarAhead01LapsSincePit", -1);
+            Base.AddProp("CarAhead01P2PCount", -1);
+            Base.AddProp("CarAhead01P2PStatus", false);
+            Base.AddProp("CarAhead01RealGap", 0);
+            Base.AddProp("CarAhead01RealRelative", 0);
+
+            Base.AddProp("CarAhead02Gap", 0);
+            Base.AddProp("CarAhead02RaceGap", 0);
+            Base.AddProp("CarAhead02BestLap", new TimeSpan(0));
+            Base.AddProp("CarAhead02Name", "");
+            Base.AddProp("CarAhead02Position", 0);
+            Base.AddProp("CarAhead02IRating", 0);
+            Base.AddProp("CarAhead02Licence", "");
+            Base.AddProp("CarAhead02IsAhead", false);
+            Base.AddProp("CarAhead02IsClassLeader", false);
+            Base.AddProp("CarAhead02IsInPit", false);
+            Base.AddProp("CarAhead02ClassColor", "");
+            Base.AddProp("CarAhead02ClassDifference", 0);
+            Base.AddProp("CarAhead02JokerLaps", 0);
+            Base.AddProp("CarAhead02LapsSincePit", -1);
+            Base.AddProp("CarAhead02P2PCount", -1);
+            Base.AddProp("CarAhead02P2PStatus", false);
+            Base.AddProp("CarAhead02RealGap", 0);
+            Base.AddProp("CarAhead02RealRelative", 0);
+
+            Base.AddProp("CarAhead03Gap", 0);
+            Base.AddProp("CarAhead03RaceGap", 0);
+            Base.AddProp("CarAhead03BestLap", new TimeSpan(0));
+            Base.AddProp("CarAhead03Name", "");
+            Base.AddProp("CarAhead03Position", 0);
+            Base.AddProp("CarAhead03IRating", 0);
+            Base.AddProp("CarAhead03Licence", "");
+            Base.AddProp("CarAhead03IsAhead", false);
+            Base.AddProp("CarAhead03IsClassLeader", false);
+            Base.AddProp("CarAhead03IsInPit", false);
+            Base.AddProp("CarAhead03ClassColor", "");
+            Base.AddProp("CarAhead03ClassDifference", 0);
+            Base.AddProp("CarAhead03JokerLaps", 0);
+            Base.AddProp("CarAhead03LapsSincePit", -1);
+            Base.AddProp("CarAhead03P2PCount", -1);
+            Base.AddProp("CarAhead03P2PStatus", false);
+            Base.AddProp("CarAhead03RealGap", 0);
+            Base.AddProp("CarAhead03RealRelative", 0);
+
+            Base.AddProp("CarAhead04Gap", 0);
+            Base.AddProp("CarAhead04RaceGap", 0);
+            Base.AddProp("CarAhead04BestLap", new TimeSpan(0));
+            Base.AddProp("CarAhead04Name", "");
+            Base.AddProp("CarAhead04Position", 0);
+            Base.AddProp("CarAhead04IRating", 0);
+            Base.AddProp("CarAhead04Licence", "");
+            Base.AddProp("CarAhead04IsAhead", false);
+            Base.AddProp("CarAhead04IsClassLeader", false);
+            Base.AddProp("CarAhead04IsInPit", false);
+            Base.AddProp("CarAhead04ClassColor", "");
+            Base.AddProp("CarAhead04ClassDifference", 0);
+            Base.AddProp("CarAhead04JokerLaps", 0);
+            Base.AddProp("CarAhead04LapsSincePit", -1);
+            Base.AddProp("CarAhead04P2PCount", -1);
+            Base.AddProp("CarAhead04P2PStatus", false);
+            Base.AddProp("CarAhead04RealGap", 0);
+            Base.AddProp("CarAhead04RealRelative", 0);
+
+            Base.AddProp("CarAhead05Gap", 0);
+            Base.AddProp("CarAhead05RaceGap", 0);
+            Base.AddProp("CarAhead05BestLap", new TimeSpan(0));
+            Base.AddProp("CarAhead05Name", "");
+            Base.AddProp("CarAhead05Position", 0);
+            Base.AddProp("CarAhead05IRating", 0);
+            Base.AddProp("CarAhead05Licence", "");
+            Base.AddProp("CarAhead05IsAhead", false);
+            Base.AddProp("CarAhead05IsClassLeader", false);
+            Base.AddProp("CarAhead05IsInPit", false);
+            Base.AddProp("CarAhead05ClassColor", "");
+            Base.AddProp("CarAhead05ClassDifference", 0);
+            Base.AddProp("CarAhead05JokerLaps", 0);
+            Base.AddProp("CarAhead05LapsSincePit", -1);
+            Base.AddProp("CarAhead05P2PCount", -1);
+            Base.AddProp("CarAhead05P2PStatus", false);
+            Base.AddProp("CarAhead05RealGap", 0);
+            Base.AddProp("CarAhead05RealRelative", 0);
+
+            Base.AddProp("CarBehind01Gap", 0);
+            Base.AddProp("CarBehind01RaceGap", 0);
+            Base.AddProp("CarBehind01BestLap", new TimeSpan(0));
+            Base.AddProp("CarBehind01Name", "");
+            Base.AddProp("CarBehind01Position", 0);
+            Base.AddProp("CarBehind01IRating", 0);
+            Base.AddProp("CarBehind01Licence", "");
+            Base.AddProp("CarBehind01IsAhead", false);
+            Base.AddProp("CarBehind01IsClassLeader", false);
+            Base.AddProp("CarBehind01IsInPit", false);
+            Base.AddProp("CarBehind01ClassColor", "");
+            Base.AddProp("CarBehind01ClassDifference", 0);
+            Base.AddProp("CarBehind01JokerLaps", 0);
+            Base.AddProp("CarBehind01LapsSincePit", -1);
+            Base.AddProp("CarBehind01P2PCount", -1);
+            Base.AddProp("CarBehind01P2PStatus", false);
+            Base.AddProp("CarBehind01RealGap", 0);
+            Base.AddProp("CarBehind01RealRelative", 0);
+
+            Base.AddProp("CarBehind02Gap", 0);
+            Base.AddProp("CarBehind02RaceGap", 0);
+            Base.AddProp("CarBehind02BestLap", new TimeSpan(0));
+            Base.AddProp("CarBehind02Name", "");
+            Base.AddProp("CarBehind02Position", 0);
+            Base.AddProp("CarBehind02IRating", 0);
+            Base.AddProp("CarBehind02Licence", "");
+            Base.AddProp("CarBehind02IsAhead", false);
+            Base.AddProp("CarBehind02IsClassLeader", false);
+            Base.AddProp("CarBehind02IsInPit", false);
+            Base.AddProp("CarBehind02ClassColor", "");
+            Base.AddProp("CarBehind02ClassDifference", 0);
+            Base.AddProp("CarBehind02JokerLaps", 0);
+            Base.AddProp("CarBehind02LapsSincePit", -1);
+            Base.AddProp("CarBehind02P2PCount", -1);
+            Base.AddProp("CarBehind02P2PStatus", false);
+            Base.AddProp("CarBehind02RealGap", 0);
+            Base.AddProp("CarBehind02RealRelative", 0);
+
+            Base.AddProp("CarBehind03Gap", 0);
+            Base.AddProp("CarBehind03RaceGap", 0);
+            Base.AddProp("CarBehind03BestLap", new TimeSpan(0));
+            Base.AddProp("CarBehind03Name", "");
+            Base.AddProp("CarBehind03Position", 0);
+            Base.AddProp("CarBehind03IRating", 0);
+            Base.AddProp("CarBehind03Licence", "");
+            Base.AddProp("CarBehind03IsAhead", false);
+            Base.AddProp("CarBehind03IsClassLeader", false);
+            Base.AddProp("CarBehind03IsInPit", false);
+            Base.AddProp("CarBehind03ClassColor", "");
+            Base.AddProp("CarBehind03ClassDifference", 0);
+            Base.AddProp("CarBehind03JokerLaps", 0);
+            Base.AddProp("CarBehind03LapsSincePit", -1);
+            Base.AddProp("CarBehind03P2PCount", -1);
+            Base.AddProp("CarBehind03P2PStatus", false);
+            Base.AddProp("CarBehind03RealGap", 0);
+            Base.AddProp("CarBehind03RealRelative", 0);
+
+            Base.AddProp("CarBehind04Gap", 0);
+            Base.AddProp("CarBehind04RaceGap", 0);
+            Base.AddProp("CarBehind04BestLap", new TimeSpan(0));
+            Base.AddProp("CarBehind04Name", "");
+            Base.AddProp("CarBehind04Position", 0);
+            Base.AddProp("CarBehind04IRating", 0);
+            Base.AddProp("CarBehind04Licence", "");
+            Base.AddProp("CarBehind04IsAhead", false);
+            Base.AddProp("CarBehind04IsClassLeader", false);
+            Base.AddProp("CarBehind04IsInPit", false);
+            Base.AddProp("CarBehind04ClassColor", "");
+            Base.AddProp("CarBehind04ClassDifference", 0);
+            Base.AddProp("CarBehind04JokerLaps", 0);
+            Base.AddProp("CarBehind04LapsSincePit", -1);
+            Base.AddProp("CarBehind04P2PCount", -1);
+            Base.AddProp("CarBehind04P2PStatus", false);
+            Base.AddProp("CarBehind04RealGap", 0);
+            Base.AddProp("CarBehind04RealRelative", 0);
+
+            Base.AddProp("CarBehind05Gap", 0);
+            Base.AddProp("CarBehind05RaceGap", 0);
+            Base.AddProp("CarBehind05BestLap", new TimeSpan(0));
+            Base.AddProp("CarBehind05Name", "");
+            Base.AddProp("CarBehind05Position", 0);
+            Base.AddProp("CarBehind05IRating", 0);
+            Base.AddProp("CarBehind05Licence", "");
+            Base.AddProp("CarBehind05IsAhead", false);
+            Base.AddProp("CarBehind05IsClassLeader", false);
+            Base.AddProp("CarBehind05IsInPit", false);
+            Base.AddProp("CarBehind05ClassColor", "");
+            Base.AddProp("CarBehind05ClassDifference", 0);
+            Base.AddProp("CarBehind05JokerLaps", 0);
+            Base.AddProp("CarBehind05LapsSincePit", -1);
+            Base.AddProp("CarBehind05P2PCount", -1);
+            Base.AddProp("CarBehind05P2PStatus", false);
+            Base.AddProp("CarBehind05RealGap", 0);
+            Base.AddProp("CarBehind05RealRelative", 0);
+
+            Base.AddProp("FuelDelta", 0);
+            Base.AddProp("FuelPitWindowFirst", 0);
+            Base.AddProp("FuelPitWindowLast", 0);
+            Base.AddProp("FuelMinimumFuelFill", 0);
+            Base.AddProp("FuelMaximumFuelFill", 0);
+            Base.AddProp("FuelPitStops", 0);
+            Base.AddProp("FuelConserveToSaveAStop", 0);
+            Base.AddProp("FuelAlert", false);
+
+            Base.AddProp("FuelDeltaLL", 0);
+            Base.AddProp("FuelPitWindowFirstLL", 0);
+            Base.AddProp("FuelPitWindowLastLL", 0);
+            Base.AddProp("FuelMinimumFuelFillLL", 0);
+            Base.AddProp("FuelMaximumFuelFillLL", 0);
+            Base.AddProp("FuelPitStopsLL", 0);
+            Base.AddProp("FuelConserveToSaveAStopLL", 0);
+
+            Base.AddProp("FuelSlowestFuelSavePace", new TimeSpan(0));
+            Base.AddProp("FuelSaveDeltaValue", 0);
+            Base.AddProp("FuelPerLapOffset", 0);
+            Base.AddProp("FuelPerLapTarget", 0);
+            Base.AddProp("FuelPerLapTargetLastLapDelta", 0);
+            Base.AddProp("FuelTargetDeltaCumulative", 0);
+
+            Base.AddProp("TrackType", 0);
+            Base.AddProp("JokerThisLap", false);
+            Base.AddProp("JokerCount", 0);
+
+            Base.AddProp("MinimumCornerSpeed", 0);
+            Base.AddProp("StraightLineSpeed", 0);
+
+            Base.AddProp("PitToggleLF", false);
+            Base.AddProp("PitToggleRF", false);
+            Base.AddProp("PitToggleLR", false);
+            Base.AddProp("PitToggleRR", false);
+            Base.AddProp("PitToggleFuel", false);
+            Base.AddProp("PitToggleWindscreen", false);
+            Base.AddProp("PitToggleRepair", false);
+
+            Base.AddProp("PitServiceFuelTarget", 0);
+            Base.AddProp("PitServiceLFPSet", 0);
+            Base.AddProp("PitServiceRFPSet", 0);
+            Base.AddProp("PitServiceLRPSet", 0);
+            Base.AddProp("PitServiceRRPSet", 0);
+            Base.AddProp("PitServiceLFPCold", 0);
+            Base.AddProp("PitServiceRFPCold", 0);
+            Base.AddProp("PitServiceLRPCold", 0);
+            Base.AddProp("PitServiceRRPCold", 0);
+
+            Base.AddProp("CurrentFrontWing", 0);
+            Base.AddProp("CurrentRearWing", 0);
+            Base.AddProp("CurrentPowersteer", 0);
+            Base.AddProp("CurrentTape", 0);
+
+            Base.AddProp("PitCrewType", 0);
+            Base.AddProp("PitTimeTires", 0);
+            Base.AddProp("PitTimeFuel", 0);
+            Base.AddProp("PitTimeWindscreen", 0);
+            Base.AddProp("PitTimeAdjustment", 0);
+            Base.AddProp("PitTimeDriveThrough", 0);
+            Base.AddProp("PitTimeService", 0);
+            Base.AddProp("PitTimeTotal", 0);
+
+
+            Base.AddProp("PitExitPosition", 0);
+
+            Base.AddProp("PitExitCar1Name", "");
+            Base.AddProp("PitExitCar1Gap", 0);
+            Base.AddProp("PitExitCar1Position", 0);
+            Base.AddProp("PitExitCar1ClassDifference", 0);
+            Base.AddProp("PitExitCar1IsAhead", false);
+            Base.AddProp("PitExitCar1IsFaster", false);
+
+            Base.AddProp("PitExitCar2Name", "");
+            Base.AddProp("PitExitCar2Gap", 0);
+            Base.AddProp("PitExitCar2Position", 0);
+            Base.AddProp("PitExitCar2ClassDifference", 0);
+            Base.AddProp("PitExitCar2IsAhead", false);
+            Base.AddProp("PitExitCar2IsFaster", false);
+
+            Base.AddProp("PitExitCar3Name", "");
+            Base.AddProp("PitExitCar3Gap", 0);
+            Base.AddProp("PitExitCar3Position", 0);
+            Base.AddProp("PitExitCar3ClassDifference", 0);
+            Base.AddProp("PitExitCar3IsAhead", false);
+            Base.AddProp("PitExitCar3IsFaster", false);
+
+            Base.AddProp("PitExitCar4Name", "");
+            Base.AddProp("PitExitCar4Gap", 0);
+            Base.AddProp("PitExitCar4Position", 0);
+            Base.AddProp("PitExitCar4ClassDifference", 0);
+            Base.AddProp("PitExitCar4IsAhead", false);
+            Base.AddProp("PitExitCar4IsFaster", false);
+
+            Base.AddProp("PitExitCar5Name", "");
+            Base.AddProp("PitExitCar5Gap", 0);
+            Base.AddProp("PitExitCar5Position", 0);
+            Base.AddProp("PitExitCar5ClassDifference", 0);
+            Base.AddProp("PitExitCar5IsAhead", false);
+            Base.AddProp("PitExitCar5IsFaster", false);
+
+            Base.AddProp("PitExitCar6Name", "");
+            Base.AddProp("PitExitCar6Gap", 0);
+            Base.AddProp("PitExitCar6Position", 0);
+            Base.AddProp("PitExitCar6ClassDifference", 0);
+            Base.AddProp("PitExitCar6IsAhead", false);
+            Base.AddProp("PitExitCar6IsFaster", false);
+
+            Base.AddProp("PitExitCar7Name", "");
+            Base.AddProp("PitExitCar7Gap", 0);
+            Base.AddProp("PitExitCar7Position", 0);
+            Base.AddProp("PitExitCar7ClassDifference", 0);
+            Base.AddProp("PitExitCar7IsAhead", false);
+            Base.AddProp("PitExitCar7IsFaster", false);
+
+            Base.AddProp("PitExitCar8Name", "");
+            Base.AddProp("PitExitCar8Gap", 0);
+            Base.AddProp("PitExitCar8Position", 0);
+            Base.AddProp("PitExitCar8ClassDifference", 0);
+            Base.AddProp("PitExitCar8IsAhead", false);
+            Base.AddProp("PitExitCar8IsFaster", false);
+
+            Base.AddProp("PitExitCar9Name", "");
+            Base.AddProp("PitExitCar9Gap", 0);
+            Base.AddProp("PitExitCar9Position", 0);
+            Base.AddProp("PitExitCar9ClassDifference", 0);
+            Base.AddProp("PitExitCar9IsAhead", false);
+            Base.AddProp("PitExitCar9IsFaster", false);
+
+            Base.AddProp("PitExitCar10Name", "");
+            Base.AddProp("PitExitCar10Gap", 0);
+            Base.AddProp("PitExitCar10Position", 0);
+            Base.AddProp("PitExitCar10ClassDifference", 0);
+            Base.AddProp("PitExitCar10IsAhead", false);
+            Base.AddProp("PitExitCar10IsFaster", false);
+
+            Base.AddProp("PitExitCar11Name", "");
+            Base.AddProp("PitExitCar11Gap", 0);
+            Base.AddProp("PitExitCar11Position", 0);
+            Base.AddProp("PitExitCar11ClassDifference", 0);
+            Base.AddProp("PitExitCar11IsAhead", false);
+            Base.AddProp("PitExitCar11IsFaster", false);
+
+            Base.AddProp("PitExitCar12Name", "");
+            Base.AddProp("PitExitCar12Gap", 0);
+            Base.AddProp("PitExitCar12Position", 0);
+            Base.AddProp("PitExitCar12ClassDifference", 0);
+            Base.AddProp("PitExitCar12IsAhead", false);
+            Base.AddProp("PitExitCar12IsFaster", false);
+
+            Base.AddProp("PitExitCar13Name", "");
+            Base.AddProp("PitExitCar13Gap", 0);
+            Base.AddProp("PitExitCar13Position", 0);
+            Base.AddProp("PitExitCar13ClassDifference", 0);
+            Base.AddProp("PitExitCar13IsAhead", false);
+            Base.AddProp("PitExitCar13IsFaster", false);
+
+            Base.AddProp("PitExitCar14Name", "");
+            Base.AddProp("PitExitCar14Gap", 0);
+            Base.AddProp("PitExitCar14Position", 0);
+            Base.AddProp("PitExitCar14ClassDifference", 0);
+            Base.AddProp("PitExitCar14IsAhead", false);
+            Base.AddProp("PitExitCar14IsFaster", false);
 
             /*
              * Hardware buttons
              */
-            Base.AddProp("FuelSaveDelta",  0);
+            Base.AddProp("FuelSaveDelta", 0);
 
-            Base.AddProp("BitePointAdjust",  false);
+            Base.AddProp("BitePointAdjust", false);
             Base.AddAction("BitePointPressed", (a, b) => bitePointPressed = true);
             Base.AddAction("BitePointReleased", (a, b) => bitePointReleased = true);
             Base.AddAction("PlusPressed", (a, b) => plusButtonCheck = true);
@@ -1203,420 +1203,420 @@ namespace User.PluginSdkDemo.Categories
 
             Base.AddAction("Downshift", (a, b) => downshift = true);
 
-            Base.AddProp("LaunchScreen",  false);
+            Base.AddProp("LaunchScreen", false);
             Base.AddAction("LaunchPressed", (a, b) => launchPressed = true);
             Base.AddAction("LaunchReleased", (a, b) => launchReleased = true);
 
-            Base.AddProp("NoBoost",  false);
+            Base.AddProp("NoBoost", false);
             Base.AddAction("NBPressed", (a, b) => NBpressed = true);
-            Base.AddProp("SpotterMode",  false);
+            Base.AddProp("SpotterMode", false);
 
 
 
-            Base.AddProp("Radio",  false);
-            Base.AddProp("RadioName",  "");
-            Base.AddProp("RadioPosition",  0);
-            Base.AddProp("RadioIsSpectator",  false);
+            Base.AddProp("Radio", false);
+            Base.AddProp("RadioName", "");
+            Base.AddProp("RadioPosition", 0);
+            Base.AddProp("RadioIsSpectator", false);
 
             Base.AddAction("RadioPressed", (a, b) => radio = true);
             Base.AddAction("RadioReleased", (a, b) => radio = false);
 
-            Base.AddProp("PaceCheck",  false);
+            Base.AddProp("PaceCheck", false);
             Base.AddAction("PacePressed", (a, b) => pacePressed = true);
             Base.AddAction("PaceReleased", (a, b) => paceReleased = true);
 
-            Base.AddProp("PitScreen",  false);
+            Base.AddProp("PitScreen", false);
             Base.AddAction("PitPressed", (a, b) => pitPressed = true);
             Base.AddAction("PitReleased", (a, b) => pitReleased = true);
 
-            Base.AddProp("TCOffTimer",  new TimeSpan(0));
+            Base.AddProp("TCOffTimer", new TimeSpan(0));
             Base.AddAction("TCPressed", (a, b) => TCactive = true);
             Base.AddAction("TCReleased", (a, b) => TCactive = false);
 
-            Base.AddProp("PitMenu",  1);
-            Base.AddAction("L1",  (a, b) =>
+            Base.AddProp("PitMenu", 1);
+            Base.AddAction("L1", (a, b) =>
             {
                 pitMenuRotary = 1;
-                Base.SetProp("PitMenu",  pitMenuRotary);
+                Base.SetProp("PitMenu", pitMenuRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     inCarRotary = 0;
-                    Base.SetProp("InCarMenu",  inCarRotary);
+                    Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L2",  (a, b) =>
+            Base.AddAction("L2", (a, b) =>
             {
                 pitMenuRotary = 2;
-                Base.SetProp("PitMenu",  pitMenuRotary);
+                Base.SetProp("PitMenu", pitMenuRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     inCarRotary = 0;
-                    Base.SetProp("InCarMenu",  inCarRotary);
+                    Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L3",  (a, b) =>
+            Base.AddAction("L3", (a, b) =>
             {
                 pitMenuRotary = 3;
-                Base.SetProp("PitMenu",  pitMenuRotary);
+                Base.SetProp("PitMenu", pitMenuRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     inCarRotary = 0;
-                    Base.SetProp("InCarMenu",  inCarRotary);
+                    Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L4",  (a, b) =>
+            Base.AddAction("L4", (a, b) =>
             {
                 pitMenuRotary = 4;
-                Base.SetProp("PitMenu",  pitMenuRotary);
+                Base.SetProp("PitMenu", pitMenuRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     inCarRotary = 0;
-                    Base.SetProp("InCarMenu",  inCarRotary);
+                    Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L5",  (a, b) =>
+            Base.AddAction("L5", (a, b) =>
             {
                 pitMenuRotary = 5;
-                Base.SetProp("PitMenu",  pitMenuRotary);
+                Base.SetProp("PitMenu", pitMenuRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     inCarRotary = 0;
-                    Base.SetProp("InCarMenu",  inCarRotary);
+                    Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L6",  (a, b) =>
+            Base.AddAction("L6", (a, b) =>
             {
                 pitMenuRotary = 6;
-                Base.SetProp("PitMenu",  pitMenuRotary);
+                Base.SetProp("PitMenu", pitMenuRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     inCarRotary = 0;
-                    Base.SetProp("InCarMenu",  inCarRotary);
+                    Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L7",  (a, b) =>
+            Base.AddAction("L7", (a, b) =>
             {
                 pitMenuRotary = 7;
-                Base.SetProp("PitMenu",  pitMenuRotary);
+                Base.SetProp("PitMenu", pitMenuRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     inCarRotary = 0;
-                    Base.SetProp("InCarMenu",  inCarRotary);
+                    Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L8",  (a, b) =>
+            Base.AddAction("L8", (a, b) =>
             {
                 pitMenuRotary = 8;
-                Base.SetProp("PitMenu",  pitMenuRotary);
+                Base.SetProp("PitMenu", pitMenuRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     inCarRotary = 0;
-                    Base.SetProp("InCarMenu",  inCarRotary);
+                    Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L9",  (a, b) =>
+            Base.AddAction("L9", (a, b) =>
             {
                 pitMenuRotary = 9;
-                Base.SetProp("PitMenu",  pitMenuRotary);
+                Base.SetProp("PitMenu", pitMenuRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     inCarRotary = 0;
-                    Base.SetProp("InCarMenu",  inCarRotary);
+                    Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L10",  (a, b) =>
+            Base.AddAction("L10", (a, b) =>
             {
                 pitMenuRotary = 10;
-                Base.SetProp("PitMenu",  pitMenuRotary);
+                Base.SetProp("PitMenu", pitMenuRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     inCarRotary = 0;
-                    Base.SetProp("InCarMenu",  inCarRotary);
+                    Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L11",  (a, b) =>
+            Base.AddAction("L11", (a, b) =>
             {
                 pitMenuRotary = 11;
-                Base.SetProp("PitMenu",  pitMenuRotary);
+                Base.SetProp("PitMenu", pitMenuRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     inCarRotary = 0;
-                    Base.SetProp("InCarMenu",  inCarRotary);
+                    Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L12",  (a, b) =>
+            Base.AddAction("L12", (a, b) =>
             {
                 pitMenuRotary = 12;
-                Base.SetProp("PitMenu",  pitMenuRotary);
+                Base.SetProp("PitMenu", pitMenuRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     inCarRotary = 0;
-                    Base.SetProp("InCarMenu",  inCarRotary);
+                    Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("LInc",  (a, b) =>
+            Base.AddAction("LInc", (a, b) =>
             {
                 pitMenuRotary++;
                 if (pitMenuRotary > 12)
                 {
                     pitMenuRotary = 1;
                 }
-                Base.SetProp("PitMenu",  pitMenuRotary);
+                Base.SetProp("PitMenu", pitMenuRotary);
             });
-            Base.AddAction("LDec",  (a, b) =>
+            Base.AddAction("LDec", (a, b) =>
             {
                 pitMenuRotary--;
                 if (pitMenuRotary < 1)
                 {
                     pitMenuRotary = 12;
                 }
-                Base.SetProp("PitMenu",  pitMenuRotary);
+                Base.SetProp("PitMenu", pitMenuRotary);
             });
 
-            Base.AddAction("DeltaInc",  (a, b) =>
+            Base.AddAction("DeltaInc", (a, b) =>
             {
                 fuelSaveDelta++;
                 if (fuelSaveDelta > 4)
                 {
                     fuelSaveDelta = 0;
                 }
-                Base.SetProp("FuelSaveDelta",  fuelSaveDelta);
+                Base.SetProp("FuelSaveDelta", fuelSaveDelta);
             });
 
-            Base.AddAction("DeltaDec",  (a, b) =>
+            Base.AddAction("DeltaDec", (a, b) =>
             {
                 fuelSaveDelta--;
                 if (fuelSaveDelta < 0)
                 {
                     fuelSaveDelta = 4;
                 }
-                Base.SetProp("FuelSaveDelta",  fuelSaveDelta);
+                Base.SetProp("FuelSaveDelta", fuelSaveDelta);
             });
 
-            Base.AddProp("PitSavePaceLock",  false);
+            Base.AddProp("PitSavePaceLock", false);
 
-            Base.AddProp("InCarMenu",  0);
-            Base.AddAction("R1",  (a, b) =>
+            Base.AddProp("InCarMenu", 0);
+            Base.AddAction("R1", (a, b) =>
             {
                 inCarRotary = 1;
-                Base.SetProp("InCarMenu",  inCarRotary);
+                Base.SetProp("InCarMenu", inCarRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
                         pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu",  inCarRotary);
+                        Base.SetProp("PitMenu", inCarRotary);
                     }
                     else
                     {
-                        Base.SetProp("PitMenu",  0);
+                        Base.SetProp("PitMenu", 0);
                     }
                 }
             });
-            Base.AddAction("R2",  (a, b) =>
+            Base.AddAction("R2", (a, b) =>
             {
                 inCarRotary = 2;
-                Base.SetProp("InCarMenu",  inCarRotary);
+                Base.SetProp("InCarMenu", inCarRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
                         pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu",  inCarRotary);
+                        Base.SetProp("PitMenu", inCarRotary);
                     }
                     else
                     {
-                        Base.SetProp("PitMenu",  0);
+                        Base.SetProp("PitMenu", 0);
                     }
                 }
             });
-            Base.AddAction("R3",  (a, b) =>
+            Base.AddAction("R3", (a, b) =>
             {
                 inCarRotary = 3;
-                Base.SetProp("InCarMenu",  inCarRotary);
+                Base.SetProp("InCarMenu", inCarRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
                         pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu",  inCarRotary);
+                        Base.SetProp("PitMenu", inCarRotary);
                     }
                     else
                     {
-                        Base.SetProp("PitMenu",  0);
+                        Base.SetProp("PitMenu", 0);
                     }
                 }
             });
-            Base.AddAction("R4",  (a, b) =>
+            Base.AddAction("R4", (a, b) =>
             {
                 inCarRotary = 4;
-                Base.SetProp("InCarMenu",  inCarRotary);
+                Base.SetProp("InCarMenu", inCarRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
                         pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu",  inCarRotary);
+                        Base.SetProp("PitMenu", inCarRotary);
                     }
                     else
                     {
-                        Base.SetProp("PitMenu",  0);
+                        Base.SetProp("PitMenu", 0);
                     }
                 }
             });
-            Base.AddAction("R5",  (a, b) =>
+            Base.AddAction("R5", (a, b) =>
             {
                 inCarRotary = 5;
-                Base.SetProp("InCarMenu",  inCarRotary);
+                Base.SetProp("InCarMenu", inCarRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
                         pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu",  inCarRotary);
+                        Base.SetProp("PitMenu", inCarRotary);
                     }
                     else
                     {
-                        Base.SetProp("PitMenu",  0);
+                        Base.SetProp("PitMenu", 0);
                     }
                 }
             });
-            Base.AddAction("R6",  (a, b) =>
+            Base.AddAction("R6", (a, b) =>
             {
                 inCarRotary = 6;
-                Base.SetProp("InCarMenu",  inCarRotary);
+                Base.SetProp("InCarMenu", inCarRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
                         pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu",  inCarRotary);
+                        Base.SetProp("PitMenu", inCarRotary);
                     }
                     else
                     {
-                        Base.SetProp("PitMenu",  0);
+                        Base.SetProp("PitMenu", 0);
                     }
                 }
             });
-            Base.AddAction("R7",  (a, b) =>
+            Base.AddAction("R7", (a, b) =>
             {
                 inCarRotary = 7;
-                Base.SetProp("InCarMenu",  inCarRotary);
+                Base.SetProp("InCarMenu", inCarRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
                         pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu",  inCarRotary);
+                        Base.SetProp("PitMenu", inCarRotary);
                     }
                     else
                     {
-                        Base.SetProp("PitMenu",  0);
+                        Base.SetProp("PitMenu", 0);
                     }
                 }
             });
-            Base.AddAction("R8",  (a, b) =>
+            Base.AddAction("R8", (a, b) =>
             {
                 inCarRotary = 8;
-                Base.SetProp("InCarMenu",  inCarRotary);
+                Base.SetProp("InCarMenu", inCarRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
                         pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu",  inCarRotary);
+                        Base.SetProp("PitMenu", inCarRotary);
                     }
                     else
                     {
-                        Base.SetProp("PitMenu",  0);
+                        Base.SetProp("PitMenu", 0);
                     }
                 }
             });
-            Base.AddAction("R9",  (a, b) =>
+            Base.AddAction("R9", (a, b) =>
             {
                 inCarRotary = 9;
-                Base.SetProp("InCarMenu",  inCarRotary);
+                Base.SetProp("InCarMenu", inCarRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
                         pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu",  inCarRotary);
+                        Base.SetProp("PitMenu", inCarRotary);
                     }
                     else
                     {
-                        Base.SetProp("PitMenu",  0);
+                        Base.SetProp("PitMenu", 0);
                     }
                 }
             });
-            Base.AddAction("R10",  (a, b) =>
+            Base.AddAction("R10", (a, b) =>
             {
                 inCarRotary = 10;
-                Base.SetProp("InCarMenu",  inCarRotary);
+                Base.SetProp("InCarMenu", inCarRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
                         pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu",  inCarRotary);
+                        Base.SetProp("PitMenu", inCarRotary);
                     }
                     else
                     {
-                        Base.SetProp("PitMenu",  0);
+                        Base.SetProp("PitMenu", 0);
                     }
                 }
             });
-            Base.AddAction("R11",  (a, b) =>
+            Base.AddAction("R11", (a, b) =>
             {
                 inCarRotary = 11;
-                Base.SetProp("InCarMenu",  inCarRotary);
+                Base.SetProp("InCarMenu", inCarRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
                         pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu",  inCarRotary);
+                        Base.SetProp("PitMenu", inCarRotary);
                     }
                     else
                     {
-                        Base.SetProp("PitMenu",  0);
+                        Base.SetProp("PitMenu", 0);
                     }
                 }
             });
-            Base.AddAction("R12",  (a, b) =>
+            Base.AddAction("R12", (a, b) =>
             {
                 inCarRotary = 12;
-                Base.SetProp("InCarMenu",  inCarRotary);
+                Base.SetProp("InCarMenu", inCarRotary);
                 if (Base.Settings.DDSEnabled)
                 {
                     if (rotaryType == "Single")
                     {
                         pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu",  inCarRotary);
+                        Base.SetProp("PitMenu", inCarRotary);
                     }
                     else
                     {
-                        Base.SetProp("PitMenu",  0);
+                        Base.SetProp("PitMenu", 0);
                     }
                 }
             });
-            Base.AddAction("RInc",  (a, b) =>
+            Base.AddAction("RInc", (a, b) =>
             {
                 inCarRotary++;
                 if (inCarRotary > 12)
                 {
                     inCarRotary = 1;
                 }
-                Base.SetProp("InCarMenu",  inCarRotary);
+                Base.SetProp("InCarMenu", inCarRotary);
             });
-            Base.AddAction("RDec",  (a, b) =>
+            Base.AddAction("RDec", (a, b) =>
             {
                 inCarRotary--;
                 if (inCarRotary < 1)
                 {
                     inCarRotary = 12;
                 }
-                Base.SetProp("InCarMenu",  inCarRotary);
+                Base.SetProp("InCarMenu", inCarRotary);
             });
             #endregion
 
@@ -1655,7 +1655,7 @@ namespace User.PluginSdkDemo.Categories
             IRchange = 0;
 
             //Props that need refresh
-            Base.SetProp("TCActive",  false);
+            Base.SetProp("TCActive", false);
 
             //Refreshing some lists
             if (Base.counter == 59)
@@ -1969,16 +1969,14 @@ namespace User.PluginSdkDemo.Categories
                 double weight = 1600 / Math.Log(2);
                 double posCorr = (classOpponents / 2 - realPosition) / 100;
 
-                for (int i = 0; i < opponents; i++)
+                GameReaderCommon.Opponent opponent = Base.gameData.NewData.Opponents.FirstOrDefault(x => x.CarClass == myClass);
+                if (opponent != null)
                 {
-                    if (Base.gameData.NewData.Opponents[i].CarClass == myClass)
-                    {
-                        iratings.Add(Base.gameData.NewData.Opponents[i].IRacing_IRating);
-                    }
-                    else
-                    {
-                        iratings.Add(0);
-                    }
+                    iratings.Add(opponent.IRacing_IRating);
+                }
+                else
+                {
+                    iratings.Add(0);
                 }
 
                 List<double> filtered = new List<double> { };
@@ -2073,29 +2071,26 @@ namespace User.PluginSdkDemo.Categories
 
                 //Extracting info from track list
 
-                for (int i = 0; i < trackInfo.Count; i++)
+                Tracks _trackInfo = trackInfo.FirstOrDefault(x => x.Id == track);
+                if (_trackInfo != null)
                 {
-                    if (track == trackInfo[i].Id)
-                    {
-                        trackType = trackInfo[i].TrackType;
-                        hasExempt = trackInfo[i].HasExempt;
-                        exemptOne = trackInfo[i].ExemptOne;
-                        exemptOneMargin = trackInfo[i].ExemptOneMargin;
-                        exemptTwo = trackInfo[i].ExemptTwo;
-                        exemptTwoMargin = trackInfo[i].ExemptTwoMargin;
-                        hasCutOff = trackInfo[i].HasCutOff;
-                        cutoffValue = trackInfo[i].CutOff;
-                        pitStopBase = trackInfo[i].PitStopBase;
-                        pitStopMaxSpeed = trackInfo[i].PitStopMaxSpeed;
-                        pitStopCornerSpeed = trackInfo[i].PitStopCornerSpeed;
-                        pitStopBrakeDistance = trackInfo[i].PitStopBrakeDistance;
-                        pitStopAcceleration = trackInfo[i].PitStopAcceleration;
-                        trackHasAnimatedCrew = trackInfo[i].HasAnimatedCrew;
-                        pitFastSide = trackInfo[i].PitFastSide;
-
-                        break;
-                    }
+                    trackType = _trackInfo.TrackType;
+                    hasExempt = _trackInfo.HasExempt;
+                    exemptOne = _trackInfo.ExemptOne;
+                    exemptOneMargin = _trackInfo.ExemptOneMargin;
+                    exemptTwo = _trackInfo.ExemptTwo;
+                    exemptTwoMargin = _trackInfo.ExemptTwoMargin;
+                    hasCutOff = _trackInfo.HasCutOff;
+                    cutoffValue = _trackInfo.CutOff;
+                    pitStopBase = _trackInfo.PitStopBase;
+                    pitStopMaxSpeed = _trackInfo.PitStopMaxSpeed;
+                    pitStopCornerSpeed = _trackInfo.PitStopCornerSpeed;
+                    pitStopBrakeDistance = _trackInfo.PitStopBrakeDistance;
+                    pitStopAcceleration = _trackInfo.PitStopAcceleration;
+                    trackHasAnimatedCrew = _trackInfo.HasAnimatedCrew;
+                    pitFastSide = _trackInfo.PitFastSide;
                 }
+
 
                 if (hasCutOff)
                 {
@@ -2193,63 +2188,60 @@ namespace User.PluginSdkDemo.Categories
                 revSpeed = 1;
 
 
-
-                for (int i = 0; i < carInfo.Count; i++)
-                {
-                    if (carModel == carInfo[i].Id)
+                Cars _carInfo = carInfo.FirstOrDefault(x => x.Id == carModel);
+                if (_carInfo != null)           
                     {
-                        carId = carInfo[i].Id;
-                        hasAntiStall = carInfo[i].HasAntiStall;
-                        hasDRS = carInfo[i].HasDRS;
-                        hasTCtog = carInfo[i].HasTCtog;
-                        hasTCtimer = carInfo[i].HasTCtimer;
-                        TCoffPosition = carInfo[i].TCOffPosition;
-                        hasABStog = carInfo[i].HasABStog;
-                        hasABS = carInfo[i].HasABS;
-                        hasTC = carInfo[i].HasTC;
-                        ABSoffPosition = carInfo[i].ABSOffPosition;
-                        mapHigh = carInfo[i].MapHigh;
-                        mapLow = carInfo[i].MapLow;
-                        hasNoBoost = carInfo[i].HasNoBoost;
-                        hasOvertake = carInfo[i].HasOvertake;
-                        rotaryType = carInfo[i].RotaryType;
-                        dashType = carInfo[i].DashType;
-                        shiftPoint1 = carInfo[i].ShiftPoint1;
-                        shiftPoint2 = carInfo[i].ShiftPoint2;
-                        shiftPoint3 = carInfo[i].ShiftPoint3;
-                        shiftPoint4 = carInfo[i].ShiftPoint4;
-                        shiftPoint5 = carInfo[i].ShiftPoint5;
-                        shiftPoint6 = carInfo[i].ShiftPoint6;
-                        shiftPoint7 = carInfo[i].ShiftPoint7;
-                        revLim = carInfo[i].RevLim;
-                        idleRPM = carInfo[i].IdleRPM;
-                        clutchBitePoint = carInfo[i].ClutchBitePoint;
-                        clutchSpin = carInfo[i].ClutchSpin;
-                        clutchIdealRangeStart = carInfo[i].ClutchIdealRangeStart;
-                        clutchIdealRangeStop = carInfo[i].ClutchIdealRangeStop;
-                        clutchGearRelease = carInfo[i].ClutchGearRelease;
-                        clutchTimeRelease = carInfo[i].ClutchTimeRelease;
-                        clutchGearReleased = carInfo[i].ClutchGearReleased;
-                        clutchTimeReleased = carInfo[i].ClutchTimeReleased;
-                        highPower = carInfo[i].HighPower;
-                        launchThrottle = carInfo[i].LaunchThrottle;
-                        pitMaxSpeed = carInfo[i].PitMaxSpeed;
-                        pitCornerSpeed = carInfo[i].PitCornerSpeed;
-                        pitBrakeDistance = carInfo[i].PitBrakeDistance;
-                        pitAcceleration = carInfo[i].PitAcceleration;
-                        pitFuelFillRate = carInfo[i].PitFuelFillRate;
-                        carHasAnimatedCrew = carInfo[i].PitHasAnimatedCrew;
-                        pitAniBaseTime = carInfo[i].PitAniBaseTime;
-                        pitAniSlowAdd = carInfo[i].PitAniSlowAdd;
-                        pitBaseTime = carInfo[i].PitBaseTime;
-                        pitSlowAdd = carInfo[i].PitSlowAdd;
-                        pitCrewType = carInfo[i].CrewType;
-                        pitMultitask = carInfo[i].PitMultitask;
-                        pitHasWindscreen = carInfo[i].PitHasWindscreen;
-                        animaionType = carInfo[i].AnimationType;
-                        revSpeed = carInfo[i].RevSpeed;
-                        break;
-                    }
+                        carId = _carInfo.Id;
+                        hasAntiStall = _carInfo.HasAntiStall;
+                        hasDRS = _carInfo.HasDRS;
+                        hasTCtog = _carInfo.HasTCtog;
+                        hasTCtimer = _carInfo.HasTCtimer;
+                        TCoffPosition = _carInfo.TCOffPosition;
+                        hasABStog = _carInfo.HasABStog;
+                        hasABS = _carInfo.HasABS;
+                        hasTC = _carInfo.HasTC;
+                        ABSoffPosition = _carInfo.ABSOffPosition;
+                        mapHigh = _carInfo.MapHigh;
+                        mapLow = _carInfo.MapLow;
+                        hasNoBoost = _carInfo.HasNoBoost;
+                        hasOvertake = _carInfo.HasOvertake;
+                        rotaryType = _carInfo.RotaryType;
+                        dashType = _carInfo.DashType;
+                        shiftPoint1 = _carInfo.ShiftPoint1;
+                        shiftPoint2 = _carInfo.ShiftPoint2;
+                        shiftPoint3 = _carInfo.ShiftPoint3;
+                        shiftPoint4 = _carInfo.ShiftPoint4;
+                        shiftPoint5 = _carInfo.ShiftPoint5;
+                        shiftPoint6 = _carInfo.ShiftPoint6;
+                        shiftPoint7 = _carInfo.ShiftPoint7;
+                        revLim = _carInfo.RevLim;
+                        idleRPM = _carInfo.IdleRPM;
+                        clutchBitePoint = _carInfo.ClutchBitePoint;
+                        clutchSpin = _carInfo.ClutchSpin;
+                        clutchIdealRangeStart = _carInfo.ClutchIdealRangeStart;
+                        clutchIdealRangeStop = _carInfo.ClutchIdealRangeStop;
+                        clutchGearRelease = _carInfo.ClutchGearRelease;
+                        clutchTimeRelease = _carInfo.ClutchTimeRelease;
+                        clutchGearReleased = _carInfo.ClutchGearReleased;
+                        clutchTimeReleased = _carInfo.ClutchTimeReleased;
+                        highPower = _carInfo.HighPower;
+                        launchThrottle = _carInfo.LaunchThrottle;
+                        pitMaxSpeed = _carInfo.PitMaxSpeed;
+                        pitCornerSpeed = _carInfo.PitCornerSpeed;
+                        pitBrakeDistance = _carInfo.PitBrakeDistance;
+                        pitAcceleration = _carInfo.PitAcceleration;
+                        pitFuelFillRate = _carInfo.PitFuelFillRate;
+                        carHasAnimatedCrew = _carInfo.PitHasAnimatedCrew;
+                        pitAniBaseTime = _carInfo.PitAniBaseTime;
+                        pitAniSlowAdd = _carInfo.PitAniSlowAdd;
+                        pitBaseTime = _carInfo.PitBaseTime;
+                        pitSlowAdd = _carInfo.PitSlowAdd;
+                        pitCrewType = _carInfo.CrewType;
+                        pitMultitask = _carInfo.PitMultitask;
+                        pitHasWindscreen = _carInfo.PitHasWindscreen;
+                        animaionType = _carInfo.AnimationType;
+                        revSpeed = _carInfo.RevSpeed;
+             
                 }
 
                 if (Base.Settings.DashType != "Automatic Selection")
@@ -2909,7 +2901,7 @@ namespace User.PluginSdkDemo.Categories
 
             //Identifying my class color and iRating
             if (Base.counter == 2)
-            {
+            {                
                 for (int i = 0; i < irData.SessionData.DriverInfo.CompetingDrivers.Length; i++)
                 {
                     if (Base.gameData.NewData.PlayerName == irData.SessionData.DriverInfo.CompetingDrivers[i].UserName)
