@@ -127,9 +127,9 @@
   <ItemGroup>
     <Compile Include="iRacing\LapRecords.cs" />
     <Compile Include="iRacing\Enums.cs" />
-    <Compile Include="iRacing\Cars.cs" />
+    <Compile Include="iRacing\Models\Cars.cs" />
     <Compile Include="iRacing\PitCommands.cs" />
-    <Compile Include="iRacing\PitOpponents.cs" />
+    <Compile Include="iRacing\Models\PitOpponents.cs" />
     <Compile Include="DataPluginDemo.cs" />
     <Compile Include="DataPluginDemoSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -144,7 +144,7 @@
       <DependentUpon>SettingsControlDemo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Sections\Dashboard.cs" />
-    <Compile Include="iRacing\Tracks.cs" />
+    <Compile Include="iRacing\Models\Tracks.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Properties\DesignTimeResources.xaml" Condition="'$(DesignTime)'=='true' OR ('$(SolutionPath)'!='' AND Exists('$(SolutionPath)') AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true')">
