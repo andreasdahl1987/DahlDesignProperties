@@ -42,14 +42,6 @@ namespace User.PluginSdkDemo
         public string gameName;
         public GameData gameData;
 
-        //----------------------------------------------------------------------------
-        //----------------------------------------------------------------------------
-        //----------------------------------------------------------------------------
-        //--------------------DATA FLOW STARTS HERE-----------------------------------
-        //----------------------------------------------------------------------------
-        //----------------------------------------------------------------------------
-        //----------------------------------------------------------------------------
-
 
         public void DataUpdate(PluginManager pluginManager, ref GameData data)
         {
@@ -66,10 +58,10 @@ namespace User.PluginSdkDemo
             //FRAME COUNTER FOR CPU SAVING
             counter++;
             //Counters used: 1,2,3,4,5,6,7,8,9,10,11,14,15,17,20,22,24,25,27,30,33,35,36,38,39,40,43,45,47,50,51,52,53,54,55,59  
-        
+
             DDC.DataUpdate();
             iRacing.DataUpdate();
-            
+
 
             //Resetting counter
             if (counter > 59)
@@ -110,7 +102,7 @@ namespace User.PluginSdkDemo
 
             Dashboard = new Categories.Dashboard(this);
             DDC = new Categories.DDC(this);
-            iRacing = new Categories.iRacing(this);                   
+            iRacing = new Categories.iRacing(this);
 
             //Update property
             pluginManager.AddProperty("Version", this.GetType(), version);
@@ -118,8 +110,8 @@ namespace User.PluginSdkDemo
 
         public void AddProp(string PropertyName, dynamic defaultValue) => PluginManager.AddProperty(PropertyName, GetType(), defaultValue);
         public void SetProp(string PropertyName, dynamic value) => PluginManager.SetPropertyValue(PropertyName, GetType(), value);
-        public dynamic GetProp(string PropertyName) => PluginManager.GetPropertyValue( PropertyName);
-        public bool HasProp(string PropertyName) => PluginManager.GetAllPropertiesNames().Contains( PropertyName);
+        public dynamic GetProp(string PropertyName) => PluginManager.GetPropertyValue(PropertyName);
+        public bool HasProp(string PropertyName) => PluginManager.GetAllPropertiesNames().Contains(PropertyName);
         public void AddEvent(string EventName) => PluginManager.AddEvent(EventName, GetType());
         public void TriggerEvent(string EventName) => PluginManager.TriggerEvent(EventName, GetType());
         public void AddAction(string ActionName, Action<PluginManager, string> ActionBody) => PluginManager.AddAction(ActionName, GetType(), ActionBody);
