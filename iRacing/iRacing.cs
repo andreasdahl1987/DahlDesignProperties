@@ -8,9 +8,9 @@ namespace User.PluginSdkDemo.Categories
     public class iRacing
     {
         private readonly DahlDesign Base;
-
-        #region Variables
         iRacingSpotter iRacingSpotter = new iRacingSpotter();
+        #region Variables
+
         //CSV file adress
         string csvAdress = "";
         int csvIndex = 0;
@@ -2677,7 +2677,7 @@ namespace User.PluginSdkDemo.Categories
             //----------------------------------------------------
             //------------Spotter calculations--------------------
             //----------------------------------------------------
-            
+
 
             iRacingSpotter.Spotter(Base.gameData, trackLength);
 
@@ -7038,6 +7038,6 @@ namespace User.PluginSdkDemo.Categories
             }
         }
 
-      
+
     }
 }
