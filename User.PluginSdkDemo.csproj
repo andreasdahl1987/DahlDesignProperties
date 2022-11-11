@@ -128,6 +128,7 @@
     <Compile Include="iRacing\LapRecords.cs" />
     <Compile Include="iRacing\Enums.cs" />
     <Compile Include="iRacing\Models\Cars.cs" />
+    <Compile Include="iRacing\CarInfos.cs" />
     <Compile Include="iRacing\PitCommands.cs" />
     <Compile Include="iRacing\Models\PitOpponents.cs" />
     <Compile Include="DataPluginDemo.cs" />
