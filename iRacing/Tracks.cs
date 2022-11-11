@@ -152,10 +152,5 @@ namespace User.PluginSdkDemo
             get { return pitFastSide; }
             set { pitFastSide = value; }
         }
-
-
     }
-
-
-
 }

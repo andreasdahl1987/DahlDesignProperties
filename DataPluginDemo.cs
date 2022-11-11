@@ -1,31 +1,25 @@
 ﻿using GameReaderCommon;
 using SimHub.Plugins;
 using System;
-using System.Collections.Generic;
 using System.Windows.Media;
 using System.Linq;
-using System.Reflection;
 using IRacingReader;
-using System.Windows.Forms;
 using ACSharedMemory;
 
 
 namespace User.PluginSdkDemo
 {
-
     [PluginDescription("Dahl Design DDU Properties")]
     [PluginAuthor("Andreas Dahl")]
     [PluginName("DahlDesign")]
 
     public class DahlDesign : IPlugin, IDataPlugin, IWPFSettingsV2
     {
-        static string version = "1.10.1";
+        static readonly string version = "1.10.1";
 
         public DataPluginDemoSettings Settings;
 
-        /// <summary>
-        /// Instance of the current plugin manager
-        /// </summary>
+        /// <summary>Instance of the current plugin manager</summary>
         public PluginManager PluginManager { get; set; }
 
         public Categories.Dashboard Dashboard;
@@ -68,6 +62,7 @@ namespace User.PluginSdkDemo
             {
                 counter = 0;
             }
+
             iRacing.DataUpdateIdle();
         }
 
@@ -77,9 +72,7 @@ namespace User.PluginSdkDemo
             this.SaveCommonSettings("GeneralSettings", Settings);
         }
 
-        /// <summary>
-        /// Returns the settings control, return null if no settings control is required
-        /// </summary>
+        /// <summary>Returns the settings control, return null if no settings control is required</summary>
         /// <param name="pluginManager"></param>
         /// <returns></returns>
         public System.Windows.Controls.Control GetWPFSettingsControl(PluginManager pluginManager)
@@ -92,7 +85,6 @@ namespace User.PluginSdkDemo
         /// Plugins are rebuilt at game change
         /// </summary>
         /// <param name="pluginManager"></param>
-        /// 
         public void Init(PluginManager pluginManager)
         {
             SimHub.Logging.Current.Info("Starting plugin");
