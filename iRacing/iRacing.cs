@@ -1244,54 +1244,24 @@ namespace User.PluginSdkDemo.Categories
             Base.AddProp("FuelSaveDelta",  0);
 
             Base.AddProp("BitePointAdjust",  false);
-            Base.AddAction("BitePointPressed",  (a, b) =>
-            {
-                bitePointPressed = true;
-            });
-            Base.AddAction("BitePointReleased",  (a, b) =>
-            {
-                bitePointReleased = true;
-            });
-            Base.AddAction("PlusPressed",  (a, b) =>
-            {
-                plusButtonCheck = true;
-            });
+            Base.AddAction("BitePointPressed", (a, b) => bitePointPressed = true);
+            Base.AddAction("BitePointReleased", (a, b) => bitePointReleased = true);
+            Base.AddAction("PlusPressed", (a, b) => plusButtonCheck = true);
 
-            Base.AddAction("MinusPressed",  (a, b) =>
-            {
-                minusButtonCheck = true;
-            });
+            Base.AddAction("MinusPressed", (a, b) => minusButtonCheck = true);
 
-            Base.AddAction("OKPressed",  (a, b) =>
-            {
-                OKButtonCheck = true;
-            });
+            Base.AddAction("OKPressed", (a, b) => OKButtonCheck = true);
 
-            Base.AddAction("Upshift",  (a, b) =>
-            {
-                upshift = true;
-            });
+            Base.AddAction("Upshift", (a, b) => upshift = true);
 
-            Base.AddAction("Downshift",  (a, b) =>
-            {
-                downshift = true;
-            });
+            Base.AddAction("Downshift", (a, b) => downshift = true);
 
             Base.AddProp("LaunchScreen",  false);
-            Base.AddAction("LaunchPressed",  (a, b) =>
-            {
-                launchPressed = true;
-            });
-            Base.AddAction("LaunchReleased",  (a, b) =>
-            {
-                launchReleased = true;
-            });
+            Base.AddAction("LaunchPressed", (a, b) => launchPressed = true);
+            Base.AddAction("LaunchReleased", (a, b) => launchReleased = true);
 
             Base.AddProp("NoBoost",  false);
-            Base.AddAction("NBPressed",  (a, b) =>
-            {
-                NBpressed = true;
-            });
+            Base.AddAction("NBPressed", (a, b) => NBpressed = true);
             Base.AddProp("SpotterMode",  false);
 
 
@@ -1301,44 +1271,20 @@ namespace User.PluginSdkDemo.Categories
             Base.AddProp("RadioPosition",  0);
             Base.AddProp("RadioIsSpectator",  false);
 
-            Base.AddAction("RadioPressed",  (a, b) =>
-            {
-                radio = true;
-            });
-            Base.AddAction("RadioReleased",  (a, b) =>
-            {
-                radio = false;
-            });
+            Base.AddAction("RadioPressed", (a, b) => radio = true);
+            Base.AddAction("RadioReleased", (a, b) => radio = false);
 
             Base.AddProp("PaceCheck",  false);
-            Base.AddAction("PacePressed",  (a, b) =>
-            {
-                pacePressed = true;
-            });
-            Base.AddAction("PaceReleased",  (a, b) =>
-            {
-                paceReleased = true;
-            });
+            Base.AddAction("PacePressed", (a, b) => pacePressed = true);
+            Base.AddAction("PaceReleased", (a, b) => paceReleased = true);
 
             Base.AddProp("PitScreen",  false);
-            Base.AddAction("PitPressed",  (a, b) =>
-            {
-                pitPressed = true;
-            });
-            Base.AddAction("PitReleased",  (a, b) =>
-            {
-                pitReleased = true;
-            });
+            Base.AddAction("PitPressed", (a, b) => pitPressed = true);
+            Base.AddAction("PitReleased", (a, b) => pitReleased = true);
 
             Base.AddProp("TCOffTimer",  new TimeSpan(0));
-            Base.AddAction("TCPressed",  (a, b) =>
-            {
-                TCactive = true;
-            });
-            Base.AddAction("TCReleased",  (a, b) =>
-            {
-                TCactive = false;
-            });
+            Base.AddAction("TCPressed", (a, b) => TCactive = true);
+            Base.AddAction("TCReleased", (a, b) => TCactive = false);
 
             Base.AddProp("PitMenu",  1);
             Base.AddAction("L1",  (a, b) =>
