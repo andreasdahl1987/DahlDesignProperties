@@ -131,6 +131,7 @@
     <Compile Include="iRacing\CarInfos.cs" />
     <Compile Include="iRacing\PitCommands.cs" />
     <Compile Include="iRacing\Models\PitOpponents.cs" />
+    <Compile Include="iRacing\iRacingSpotter.cs" />
     <Compile Include="DataPluginDemo.cs" />
     <Compile Include="DataPluginDemoSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

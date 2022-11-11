@@ -10,6 +10,7 @@ namespace User.PluginSdkDemo.Categories
         private readonly DahlDesign Base;
 
         #region Variables
+        iRacingSpotter iRacingSpotter = new iRacingSpotter();
         //CSV file adress
         string csvAdress = "";
         int csvIndex = 0;
@@ -431,13 +432,6 @@ namespace User.PluginSdkDemo.Categories
         TimeSpan watchTimer = new TimeSpan(0);
         double watchResult = 0;
         double watchSnap = 0;
-
-        string carNameLeft = "";
-        string carNameRight = "";
-        double? carPositionLeft = 0;
-        double? carPositionRight = 0;
-        bool leftTaken = false;
-        bool rightTaken = false;
 
         double RPMtracker = 0;
         bool RPMgearShift = false;
@@ -1759,8 +1753,6 @@ namespace User.PluginSdkDemo.Categories
             double slipRR = Convert.ToDouble(Base.GetProp("ShakeITMotorsV3Plugin.Export.WheelSlip.RearRight"));  //Wheel slip
 
             double trackPosition = irData.Telemetry.LapDistPct;                                     //Lap distance
-            bool spotLeft = Convert.ToBoolean(Base.gameData.NewData.SpotterCarLeft);                         //Spotter call left
-            bool spotRight = Convert.ToBoolean(Base.gameData.NewData.SpotterCarRight);                       //Spotter call left
             int completedLaps = Base.gameData.NewData.CompletedLaps;                                         //Completed laps
             int currentLap = Base.gameData.NewData.CurrentLap;                                               //Current lap
             int totalLaps = Base.gameData.NewData.TotalLaps;                                                 //Total laps
@@ -2189,59 +2181,59 @@ namespace User.PluginSdkDemo.Categories
 
 
                 Cars _carInfo = carInfo.FirstOrDefault(x => x.Id == carModel);
-                if (_carInfo != null)           
-                    {
-                        carId = _carInfo.Id;
-                        hasAntiStall = _carInfo.HasAntiStall;
-                        hasDRS = _carInfo.HasDRS;
-                        hasTCtog = _carInfo.HasTCtog;
-                        hasTCtimer = _carInfo.HasTCtimer;
-                        TCoffPosition = _carInfo.TCOffPosition;
-                        hasABStog = _carInfo.HasABStog;
-                        hasABS = _carInfo.HasABS;
-                        hasTC = _carInfo.HasTC;
-                        ABSoffPosition = _carInfo.ABSOffPosition;
-                        mapHigh = _carInfo.MapHigh;
-                        mapLow = _carInfo.MapLow;
-                        hasNoBoost = _carInfo.HasNoBoost;
-                        hasOvertake = _carInfo.HasOvertake;
-                        rotaryType = _carInfo.RotaryType;
-                        dashType = _carInfo.DashType;
-                        shiftPoint1 = _carInfo.ShiftPoint1;
-                        shiftPoint2 = _carInfo.ShiftPoint2;
-                        shiftPoint3 = _carInfo.ShiftPoint3;
-                        shiftPoint4 = _carInfo.ShiftPoint4;
-                        shiftPoint5 = _carInfo.ShiftPoint5;
-                        shiftPoint6 = _carInfo.ShiftPoint6;
-                        shiftPoint7 = _carInfo.ShiftPoint7;
-                        revLim = _carInfo.RevLim;
-                        idleRPM = _carInfo.IdleRPM;
-                        clutchBitePoint = _carInfo.ClutchBitePoint;
-                        clutchSpin = _carInfo.ClutchSpin;
-                        clutchIdealRangeStart = _carInfo.ClutchIdealRangeStart;
-                        clutchIdealRangeStop = _carInfo.ClutchIdealRangeStop;
-                        clutchGearRelease = _carInfo.ClutchGearRelease;
-                        clutchTimeRelease = _carInfo.ClutchTimeRelease;
-                        clutchGearReleased = _carInfo.ClutchGearReleased;
-                        clutchTimeReleased = _carInfo.ClutchTimeReleased;
-                        highPower = _carInfo.HighPower;
-                        launchThrottle = _carInfo.LaunchThrottle;
-                        pitMaxSpeed = _carInfo.PitMaxSpeed;
-                        pitCornerSpeed = _carInfo.PitCornerSpeed;
-                        pitBrakeDistance = _carInfo.PitBrakeDistance;
-                        pitAcceleration = _carInfo.PitAcceleration;
-                        pitFuelFillRate = _carInfo.PitFuelFillRate;
-                        carHasAnimatedCrew = _carInfo.PitHasAnimatedCrew;
-                        pitAniBaseTime = _carInfo.PitAniBaseTime;
-                        pitAniSlowAdd = _carInfo.PitAniSlowAdd;
-                        pitBaseTime = _carInfo.PitBaseTime;
-                        pitSlowAdd = _carInfo.PitSlowAdd;
-                        pitCrewType = _carInfo.CrewType;
-                        pitMultitask = _carInfo.PitMultitask;
-                        pitHasWindscreen = _carInfo.PitHasWindscreen;
-                        animaionType = _carInfo.AnimationType;
-                        revSpeed = _carInfo.RevSpeed;
-             
+                if (_carInfo != null)
+                {
+                    carId = _carInfo.Id;
+                    hasAntiStall = _carInfo.HasAntiStall;
+                    hasDRS = _carInfo.HasDRS;
+                    hasTCtog = _carInfo.HasTCtog;
+                    hasTCtimer = _carInfo.HasTCtimer;
+                    TCoffPosition = _carInfo.TCOffPosition;
+                    hasABStog = _carInfo.HasABStog;
+                    hasABS = _carInfo.HasABS;
+                    hasTC = _carInfo.HasTC;
+                    ABSoffPosition = _carInfo.ABSOffPosition;
+                    mapHigh = _carInfo.MapHigh;
+                    mapLow = _carInfo.MapLow;
+                    hasNoBoost = _carInfo.HasNoBoost;
+                    hasOvertake = _carInfo.HasOvertake;
+                    rotaryType = _carInfo.RotaryType;
+                    dashType = _carInfo.DashType;
+                    shiftPoint1 = _carInfo.ShiftPoint1;
+                    shiftPoint2 = _carInfo.ShiftPoint2;
+                    shiftPoint3 = _carInfo.ShiftPoint3;
+                    shiftPoint4 = _carInfo.ShiftPoint4;
+                    shiftPoint5 = _carInfo.ShiftPoint5;
+                    shiftPoint6 = _carInfo.ShiftPoint6;
+                    shiftPoint7 = _carInfo.ShiftPoint7;
+                    revLim = _carInfo.RevLim;
+                    idleRPM = _carInfo.IdleRPM;
+                    clutchBitePoint = _carInfo.ClutchBitePoint;
+                    clutchSpin = _carInfo.ClutchSpin;
+                    clutchIdealRangeStart = _carInfo.ClutchIdealRangeStart;
+                    clutchIdealRangeStop = _carInfo.ClutchIdealRangeStop;
+                    clutchGearRelease = _carInfo.ClutchGearRelease;
+                    clutchTimeRelease = _carInfo.ClutchTimeRelease;
+                    clutchGearReleased = _carInfo.ClutchGearReleased;
+                    clutchTimeReleased = _carInfo.ClutchTimeReleased;
+                    highPower = _carInfo.HighPower;
+                    launchThrottle = _carInfo.LaunchThrottle;
+                    pitMaxSpeed = _carInfo.PitMaxSpeed;
+                    pitCornerSpeed = _carInfo.PitCornerSpeed;
+                    pitBrakeDistance = _carInfo.PitBrakeDistance;
+                    pitAcceleration = _carInfo.PitAcceleration;
+                    pitFuelFillRate = _carInfo.PitFuelFillRate;
+                    carHasAnimatedCrew = _carInfo.PitHasAnimatedCrew;
+                    pitAniBaseTime = _carInfo.PitAniBaseTime;
+                    pitAniSlowAdd = _carInfo.PitAniSlowAdd;
+                    pitBaseTime = _carInfo.PitBaseTime;
+                    pitSlowAdd = _carInfo.PitSlowAdd;
+                    pitCrewType = _carInfo.CrewType;
+                    pitMultitask = _carInfo.PitMultitask;
+                    pitHasWindscreen = _carInfo.PitHasWindscreen;
+                    animaionType = _carInfo.AnimationType;
+                    revSpeed = _carInfo.RevSpeed;
+
                 }
 
                 if (Base.Settings.DashType != "Automatic Selection")
@@ -2685,119 +2677,14 @@ namespace User.PluginSdkDemo.Categories
             //----------------------------------------------------
             //------------Spotter calculations--------------------
             //----------------------------------------------------
+            
 
-            //LEFT SIDE
+            iRacingSpotter.Spotter(Base.gameData, trackLength);
 
-            if (spotLeft && !leftTaken) //Catch and lock
-            {
-                leftTaken = true;
-                double? gap = 0;
-                for (int i = 0; i < Base.gameData.NewData.OpponentsAheadOnTrack.Count; i++)
-                {
-                    if (((Base.gameData.NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer != 0 && gap == 0) || Base.gameData.NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength < gap) && Base.gameData.NewData.OpponentsAheadOnTrack[i].Name != carNameRight)
-                    {
-                        carNameLeft = Base.gameData.NewData.OpponentsAheadOnTrack[i].Name;
-                        carPositionLeft = Base.gameData.NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength;
-                        gap = carPositionLeft;
-                    }
-                }
-                for (int i = 0; i < Base.gameData.NewData.OpponentsBehindOnTrack.Count; i++)
-                {
-                    if (((Base.gameData.NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer != 0 && gap == 0) || -1 * Base.gameData.NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength < gap) && Base.gameData.NewData.OpponentsBehindOnTrack[i].Name != carNameRight)
-                    {
-                        carNameLeft = Base.gameData.NewData.OpponentsBehindOnTrack[i].Name;
-                        carPositionLeft = Base.gameData.NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength;
-                        gap = carPositionLeft;
-                    }
-                }
-            }
-
-            if (leftTaken) //Read
-            {
-                for (int i = 0; i < Base.gameData.NewData.OpponentsAheadOnTrack.Count; i++)
-                {
-                    if (Base.gameData.NewData.OpponentsAheadOnTrack[i].Name == carNameLeft)
-                    {
-                        carPositionLeft = Base.gameData.NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength;
-                        break;
-                    }
-                }
-                for (int i = 0; i < Base.gameData.NewData.OpponentsBehindOnTrack.Count; i++)
-                {
-                    if (Base.gameData.NewData.OpponentsBehindOnTrack[i].Name == carNameLeft)
-                    {
-                        carPositionLeft = Base.gameData.NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength;
-                        break;
-                    }
-                }
-            }
-
-
-            if (!spotLeft) //Release
-            {
-                leftTaken = false;
-                carNameLeft = "";
-                carPositionLeft = 0;
-            }
-
-
-            //RIGHT SIDE
-
-            if (spotRight && !rightTaken) //Catch and lock
-            {
-                rightTaken = true;
-                double? gap = 0;
-                for (int i = 0; i < Base.gameData.NewData.OpponentsAheadOnTrack.Count; i++)
-                {
-                    if (((Base.gameData.NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer != 0 && gap == 0) || Base.gameData.NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength < gap) && Base.gameData.NewData.OpponentsAheadOnTrack[i].Name != carNameLeft)
-                    {
-                        carNameRight = Base.gameData.NewData.OpponentsAheadOnTrack[i].Name;
-                        carPositionRight = Base.gameData.NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength;
-                        gap = carPositionRight;
-                    }
-                }
-                for (int i = 0; i < Base.gameData.NewData.OpponentsBehindOnTrack.Count; i++)
-                {
-                    if (((Base.gameData.NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer != 0 && gap == 0) || -1 * Base.gameData.NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength < gap) && Base.gameData.NewData.OpponentsBehindOnTrack[i].Name != carNameLeft)
-                    {
-                        carNameRight = Base.gameData.NewData.OpponentsBehindOnTrack[i].Name;
-                        carPositionRight = Base.gameData.NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength;
-                        gap = carPositionRight;
-                    }
-                }
-            }
-
-            if (rightTaken) //Read
-            {
-                for (int i = 0; i < Base.gameData.NewData.OpponentsAheadOnTrack.Count; i++)
-                {
-                    if (Base.gameData.NewData.OpponentsAheadOnTrack[i].Name == carNameRight)
-                    {
-                        carPositionRight = Base.gameData.NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength;
-                        break;
-                    }
-                }
-                for (int i = 0; i < Base.gameData.NewData.OpponentsBehindOnTrack.Count; i++)
-                {
-                    if (Base.gameData.NewData.OpponentsBehindOnTrack[i].Name == carNameRight)
-                    {
-                        carPositionRight = Base.gameData.NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength;
-                        break;
-                    }
-                }
-            }
-
-            if (!spotRight) //Release
-            {
-                rightTaken = false;
-                carNameRight = "";
-                carPositionRight = 0;
-            }
-
-            Base.SetProp("LeftCarGap", carPositionLeft);
-            Base.SetProp("LeftCarName", carNameLeft);
-            Base.SetProp("RightCarGap", carPositionRight);
-            Base.SetProp("RightCarName", carNameRight);
+            Base.SetProp("LeftCarGap", iRacingSpotter.carPositionLeft);
+            Base.SetProp("LeftCarName", iRacingSpotter.carNameLeft);
+            Base.SetProp("RightCarGap", iRacingSpotter.carPositionRight);
+            Base.SetProp("RightCarName", iRacingSpotter.carNameRight);
 
 
             //----------------------------------
@@ -2901,7 +2788,7 @@ namespace User.PluginSdkDemo.Categories
 
             //Identifying my class color and iRating
             if (Base.counter == 2)
-            {                
+            {
                 for (int i = 0; i < irData.SessionData.DriverInfo.CompetingDrivers.Length; i++)
                 {
                     if (Base.gameData.NewData.PlayerName == irData.SessionData.DriverInfo.CompetingDrivers[i].UserName)
@@ -7150,5 +7037,7 @@ namespace User.PluginSdkDemo.Categories
 
             }
         }
+
+      
     }
 }
