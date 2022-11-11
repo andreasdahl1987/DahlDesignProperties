@@ -125,13 +125,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LapRecords.cs" />
-    <Compile Include="Methods.cs" />
-    <Compile Include="Models.cs" />
-    <Compile Include="Enums.cs" />
-    <Compile Include="Cars.cs" />
-    <Compile Include="PitCommands.cs" />
-    <Compile Include="PitOpponents.cs" />
+    <Compile Include="iRacing\LapRecords.cs" />
+    <Compile Include="iRacing\Methods.cs" />
+    <Compile Include="iRacing\Models.cs" />
+    <Compile Include="iRacing\Enums.cs" />
+    <Compile Include="iRacing\Cars.cs" />
+    <Compile Include="iRacing\PitCommands.cs" />
+    <Compile Include="iRacing\PitOpponents.cs" />
     <Compile Include="DataPluginDemo.cs" />
     <Compile Include="DataPluginDemoSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -141,7 +141,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Sections\DDC.cs" />
-    <Compile Include="Sections\iRacing.cs" />
+    <Compile Include="iRacing\iRacing.cs" />
     <Compile Include="SettingsControlDemo.xaml.cs">
       <DependentUpon>SettingsControlDemo.xaml</DependentUpon>
     </Compile>
