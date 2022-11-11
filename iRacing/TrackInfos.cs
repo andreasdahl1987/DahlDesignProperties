@@ -4,8 +4,7 @@ namespace User.PluginSdkDemo.Categories
 {
 
     public class TrackInfo
-    {
-        public List<Cars> carInfo;
+    {        
         public List<Tracks> trackInfo;
 
         public TrackInfo() {
@@ -45,6 +44,11 @@ namespace User.PluginSdkDemo.Categories
             trackInfo.Add(new Tracks("bathurst", 0, false, 0, 0, 0, 0, false, 0, 19.5, 0.7, 0.2, 0.0, 0.2, false, "Left"));
             trackInfo.Add(new Tracks("snetterton 300", 0, false, 0, 0, 0, 0, true, 0.005, 20, 0, 0, 0, 0, false, "Right")); //base || other
             trackInfo.Add(new Tracks("virginia east", 0, false, 0, 0, 0, 0, true, 0.005, 20, 0, 0, 0, 0, false, "Right")); //base || other            
+        }
+
+        public Tracks GetTrackByID(string id)
+        {
+            return trackInfo.Find(x => x.Id == id);
         }
     }
 }
