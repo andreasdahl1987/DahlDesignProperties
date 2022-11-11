@@ -10,21 +10,22 @@ namespace User.PluginSdkDemo
 
     public class Tracks
     {
-        private int trackType;
-        private bool hasExempt;
-        private double exemptOne;
-        private double exemptOneMargin;
-        private double exemptTwo;
-        private double exemptTwoMargin;
-        private bool hasCutOff;
-        private double cutOff;
-        private double pitStopBase;
-        private double pitStopMaxSpeed;
-        private double pitStopCornerSpeed;
-        private double pitStopBrakeDistance;
-        private double pitStopAcceleration;
-        private bool hasAnimatedCrew;
-        private string pitFastSide;
+        public string Id {get; set;}
+        public int TrackType {get; set;}
+        public bool HasExempt {get; set;}
+        public double ExemptOne {get; set;}
+        public double ExemptOneMargin {get; set;}
+        public double ExemptTwo {get; set;}
+        public double ExemptTwoMargin {get; set;}
+        public bool HasCutOff {get; set;}
+        public double CutOff {get; set;}
+        public double PitStopBase {get; set;}
+        public double PitStopMaxSpeed {get; set;}
+        public double PitStopCornerSpeed {get; set;}
+        public double PitStopBrakeDistance {get; set;}
+        public double PitStopAcceleration {get; set;}
+        public bool HasAnimatedCrew {get; set;}
+        public string PitFastSide {get; set;}
 
 
 
@@ -46,111 +47,23 @@ namespace User.PluginSdkDemo
             bool hasAnimatedCrew,
             string pitFastSide)
         {
-            this.trackType = trackType;
-            this.hasExempt = hasExempt;
-            this.exemptOne = exemptOne;
-            this.exemptOneMargin = exemptOneMargin;
-            this.exemptTwo = exemptTwo;
-            this.exemptTwoMargin = exemptTwoMargin;
-            this.hasCutOff = hasCutOff;
-            this.cutOff = cutOff;
-            this.pitStopBase = pitStopBase;
-            this.pitStopMaxSpeed = pitStopMaxSpeed;
-            this.pitStopCornerSpeed = pitStopCornerSpeed;
-            this.pitStopBrakeDistance = pitStopBrakeDistance;
-            this.pitStopAcceleration = pitStopAcceleration;
-            this.hasAnimatedCrew = hasAnimatedCrew;
-            this.pitFastSide = pitFastSide;
-            Id = id;
+            this.TrackType = trackType;
+            this.HasExempt = hasExempt;
+            this.ExemptOne = exemptOne;
+            this.ExemptOneMargin = exemptOneMargin;
+            this.ExemptTwo = exemptTwo;
+            this.ExemptTwoMargin = exemptTwoMargin;
+            this.HasCutOff = hasCutOff;
+            this.CutOff = cutOff;
+            this.PitStopBase = pitStopBase;
+            this.PitStopMaxSpeed = pitStopMaxSpeed;
+            this.PitStopCornerSpeed = pitStopCornerSpeed;
+            this.PitStopBrakeDistance = pitStopBrakeDistance;
+            this.PitStopAcceleration = pitStopAcceleration;
+            this.HasAnimatedCrew = hasAnimatedCrew;
+            this.PitFastSide = pitFastSide;
+            this.Id = id;
         }
 
-        public string Id;
-
-        public int TrackType
-        {
-            get { return trackType; }
-            set { trackType = value; }
-        }
-
-
-        public bool HasExempt
-        {
-            get { return hasExempt; }
-            set { hasExempt = value; }
-        }
-        public double ExemptOne
-        {
-            get { return exemptOne; }
-            set { exemptOne = value; }
-        }
-        public double ExemptOneMargin
-        {
-            get { return exemptOneMargin; }
-            set { exemptOneMargin = value; }
-        }
-
-        public double ExemptTwo
-        {
-            get { return exemptTwo; }
-            set { exemptTwo = value; }
-        }
-
-        public double ExemptTwoMargin
-        {
-            get { return exemptTwoMargin; }
-            set { exemptTwoMargin = value; }
-        }
-
-        public bool HasCutOff
-        {
-            get { return hasCutOff; }
-            set { hasCutOff = value; }
-        }
-
-        public double CutOff
-        {
-            get { return cutOff; }
-            set { cutOff = value; }
-        }
-        public double PitStopBase
-        {
-            get { return pitStopBase; }
-            set { pitStopBase = value; }
-        }
-
-        public double PitStopMaxSpeed
-        {
-            get { return pitStopMaxSpeed; }
-            set { pitStopMaxSpeed = value; }
-        }
-        public double PitStopCornerSpeed
-        {
-            get { return pitStopCornerSpeed; }
-            set { pitStopCornerSpeed = value; }
-        }
-
-        public double PitStopBrakeDistance
-        {
-            get { return pitStopBrakeDistance; }
-            set { pitStopBrakeDistance = value; }
-        }
-
-        public double PitStopAcceleration
-        {
-            get { return pitStopAcceleration; }
-            set { pitStopAcceleration = value; }
-        }
-
-        public bool HasAnimatedCrew
-        {
-            get { return hasAnimatedCrew; }
-            set { hasAnimatedCrew = value; }
-        }
-
-        public string PitFastSide
-        {
-            get { return pitFastSide; }
-            set { pitFastSide = value; }
-        }
     }
 }
