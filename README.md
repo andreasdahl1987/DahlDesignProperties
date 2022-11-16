@@ -48,7 +48,7 @@
 
  <br />
 
-  <h5 <p align="center">  Plese have a look at the </h5>
+
  <h3 <p align="center"> <a href="https://github.com/andreasdahl1987/DahlDesignProperties">MANUAL</a>
 </h3>
 
