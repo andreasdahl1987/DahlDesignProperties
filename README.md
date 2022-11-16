@@ -46,7 +46,7 @@
   </p>
 </div>
 
- <h3 <p align="center"> <a href="https://github.com/andreasdahl1987/DahlDesignProperties">MANUAL</a>
+ <h3 <p align="center"> <a href="https://dahl-design.gitbook.io/dahl-design-properties/">MANUAL</a>
 </h3>
 
 
