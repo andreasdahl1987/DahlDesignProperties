@@ -46,9 +46,6 @@
   </p>
 </div>
 
- <br />
-
-
  <h3 <p align="center"> <a href="https://github.com/andreasdahl1987/DahlDesignProperties">MANUAL</a>
 </h3>
 
