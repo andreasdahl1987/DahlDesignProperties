@@ -6,14 +6,6 @@ This plugin gives you the most out of the existing iRacing telemetry by creating
 
 If not building your own dashboard, the Dahl Design Dashboard is built using these properties; or the other way around -> the property plugin was been made to enable the great features of this dashboard.&#x20;
 
-It is also a part of a complete dashboard/controller system, including:
-
-* [LED plugin](https://github.com/andreasdahl1987/DahlDesignLED) | LED control for Dahl Design DDU and SW1
-* [Dashboard](https://github.com/andreasdahl1987/DahlDesignDash) | iRacing specific dashboard template
-* [DDC](https://github.com/andreasdahl1987/DahlDesignDDC) | Universal controller firmware builder
-
-
-
 ### Dependencies
 
 The plugin is 1/4th of a complete dashboard/controller system, including RGB LED control and controller firmware. All though a part of a bigger system, the Properties plugin sits on top of the hierarchy and _does not have any dependencies_.
