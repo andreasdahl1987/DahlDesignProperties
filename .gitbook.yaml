@@ -1,0 +1,5 @@
+root: ./gitbook/
+
+​structure:  
+    readme: FRONTPAGE.md  
+    summary: TOC.md​
