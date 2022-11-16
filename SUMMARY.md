@@ -1,5 +1,5 @@
 # Table of contents
 
-* [Dahl Design Properties](README.md)
+* [GitHub](README.md)
 * [Introduction](introduction.md)
 * [Cars](cars.md)
