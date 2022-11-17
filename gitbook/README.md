@@ -1,8 +1,8 @@
 # Welcome
 
-<figure><img src=".gitbook/assets/spaces_jbYAjQCk3opS973PPvtm_uploads_git-blob-ab398c7e23d1ea0e86e9ecdaa50f57e756ab5314_blackLogo (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/spaces_jbYAjQCk3opS973PPvtm_uploads_git-blob-ab398c7e23d1ea0e86e9ecdaa50f57e756ab5314_blackLogo (3).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src=".gitbook/assets/Dahl design text.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/Dahl design text.PNG" alt=""><figcaption></figcaption></figure>
 
 ### Dahl Design Properties manual
 
