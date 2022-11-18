@@ -27,7 +27,7 @@ namespace User.PluginSdkDemo.iRacing
             gear = Base.gameData.NewData.Gear;
             gearRatio = Convert.ToDouble(Base.GetProp("GameRawData.SessionData.CarSetup.Chassis.Rear.DropGearARatio")); //Gear ratio
 
-                        //----------------------------------------------
+            //----------------------------------------------
             //--------SMOOTH GEAR---------------------------
             //----------------------------------------------
 

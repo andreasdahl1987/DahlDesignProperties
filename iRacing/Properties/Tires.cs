@@ -1,3 +1,4 @@
+using System;
 using IRacingReader;
 
 namespace User.PluginSdkDemo.iRacing
@@ -7,6 +8,11 @@ namespace User.PluginSdkDemo.iRacing
         private readonly DahlDesign Base;
 
         private readonly DataSampleEx irData;
+
+        public double slipLF;
+        public double slipRF;
+        public double slipLR;
+        public double slipRR;
 
         float LFCold = 0;
         float RFCold = 0;
@@ -22,19 +28,60 @@ namespace User.PluginSdkDemo.iRacing
             Base.AddProp("PitServiceRFPCold", 0);
             Base.AddProp("PitServiceLRPCold", 0);
             Base.AddProp("PitServiceRRPCold", 0);
+
+            Base.AddProp("SlipLF", 0);
+            Base.AddProp("SlipRF", 0);
+            Base.AddProp("SlipLR", 0);
+            Base.AddProp("SlipRR", 0);
         }
 
         public void DataUpdate()
         {
-            LFCold = irData.Telemetry.LFcoldPressure;
-            RFCold = irData.Telemetry.RFcoldPressure;
-            LRCold = irData.Telemetry.LRcoldPressure;
-            RRCold = irData.Telemetry.RRcoldPressure;
+            slipLF = Convert.ToDouble(Base.GetProp("ShakeITMotorsV3Plugin.Export.WheelSlip.FrontLeft"));  //Wheel slip
+            slipRF = Convert.ToDouble(Base.GetProp("ShakeITMotorsV3Plugin.Export.WheelSlip.FrontRight"));  //Wheel slip
+            slipLR = Convert.ToDouble(Base.GetProp("ShakeITMotorsV3Plugin.Export.WheelSlip.RearLeft"));  //Wheel slip
+            slipRR = Convert.ToDouble(Base.GetProp("ShakeITMotorsV3Plugin.Export.WheelSlip.RearRight"));  //Wheel slip
 
-            Base.SetProp("PitServiceLFPCold", LFCold);
-            Base.SetProp("PitServiceRFPCold", RFCold);
-            Base.SetProp("PitServiceLRPCold", LRCold);
-            Base.SetProp("PitServiceRRPCold", RRCold);
+            //Wheel slip
+            if (!Base.Settings.WheelSlipLEDs || slipLF < 25 || slipRF < 25)
+            {
+                slipLF = 0;
+                slipLR = 0;
+                slipRF = 0;
+                slipRR = 0;
+            }
+
+            if (slipLF < 40 && slipLF > slipRF)
+            {
+                slipRF = 0;
+                slipRR = 0;
+            }
+            else if (slipRF < 40 && slipRF > slipLF)
+            {
+                slipLF = 0;
+                slipLR = 0;
+            }
+
+            if (slipLF == 0 && slipLR == 0)
+            {
+                Base.SetProp("SlipLF", 0);
+                Base.SetProp("SlipRF", 0);
+                Base.SetProp("SlipLR", 0);
+                Base.SetProp("SlipRR", 0);
+            }
+
+            if (Base.counter == 47)
+            {
+                LFCold = irData.Telemetry.LFcoldPressure;
+                RFCold = irData.Telemetry.RFcoldPressure;
+                LRCold = irData.Telemetry.LRcoldPressure;
+                RRCold = irData.Telemetry.RRcoldPressure;
+
+                Base.SetProp("PitServiceLFPCold", LFCold);
+                Base.SetProp("PitServiceRFPCold", RFCold);
+                Base.SetProp("PitServiceLRPCold", LRCold);
+                Base.SetProp("PitServiceRRPCold", RRCold);
+            }
         }
     }
 }
