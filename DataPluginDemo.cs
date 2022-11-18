@@ -6028,7 +6028,7 @@ namespace User.PluginSdkDemo
                 pluginManager.SetPropertyValue("SpotterMode", this.GetType(), spotMode);
                 pluginManager.SetPropertyValue("PitSavePaceLock", this.GetType(), savePitTimerLock);
                 pluginManager.SetPropertyValue("OvertakeMode", this.GetType(), overtakeMode);
-                pluginManager.AddProperty("FuelPerLapOffset", this.GetType(), Math.Round(fuelPerLapOffset,2));
+                pluginManager.SetPropertyValue("FuelPerLapOffset", this.GetType(), Math.Round(fuelPerLapOffset,2));
 
                 pluginManager.SetPropertyValue("LapStatus", this.GetType(), lapStatus);
                 pluginManager.SetPropertyValue("StintValidLaps", this.GetType(), validStintLaps);
