@@ -2,16 +2,5 @@
 
 Properties describing the use of the car, not car spesific
 
-| Name                 | Description                                                                                                   | Type    |
-| -------------------- | ------------------------------------------------------------------------------------------------------------- | ------- |
-| Idle                 | Wether you're in the cockpit and can control the car, or not.                                                 | boolnea |
-| AccelerationTo100KPH | Time from standstill to 100 KPH                                                                               | seconds |
-| AccelerationTo200KPH | Time from standstill to 200 KPH                                                                               | seconds |
-| BrakeCurveValues     | A string of values representing a 4-second recording of your previous brake pedal input.                      | string  |
-| BrakeCurvePeak       | The highest input during your previous brake application                                                      | integer |
-| BrakeCurveAUC        | Area under the brake curve (the BrakeCurveValues plotter over 4 seconds). Reflects the total brake work done. | decimal |
-| ThrottleCurveValues  | A string of values representing a 3-second recording of your previous throttle pedal input.                   | string  |
-| ThrottleAgro         | The time it took from initial throttle application to full throttle on your previous throttle press.          | decimal |
-| MinimumCornerSpeed   | Slower speed between last throttle release and throttle re-application                                        | integer |
-| StraightLineSpeed    | Highest speed reached before previous brake application                                                       | integer |
+<table data-view="cards"><thead><tr><th>Name</th><th>Description</th><th>Type</th></tr></thead><tbody><tr><td>Idle</td><td>Wether you're in the cockpit and can control the car, or not.</td><td>boolean</td></tr><tr><td>AccelerationTo100KPH</td><td>Time from standstill to 100 KPH</td><td>seconds</td></tr><tr><td>AccelerationTo200KPH</td><td>Time from standstill to 200 KPH</td><td>seconds</td></tr><tr><td>BrakeCurveValues</td><td>A string of values representing a 4-second recording of your previous brake pedal input.</td><td>string</td></tr><tr><td>BrakeCurvePeak</td><td>The highest input during your previous brake application</td><td>integer</td></tr><tr><td>BrakeCurveAUC</td><td>Area under the brake curve (the BrakeCurveValues plotter over 4 seconds). Reflects the total brake work done.</td><td>decimal</td></tr><tr><td>ThrottleCurveValues</td><td>A string of values representing a 3-second recording of your previous throttle pedal input.</td><td>string</td></tr><tr><td>ThrottleAgro</td><td>The time it took from initial throttle application to full throttle on your previous throttle press. </td><td>decimal</td></tr><tr><td>MinimumCornerSpeed</td><td>Slower speed between last throttle release and throttle re-application</td><td>integer</td></tr><tr><td>StraightLineSpeed</td><td>Highest speed reached before previous brake application</td><td>integer</td></tr></tbody></table>
 

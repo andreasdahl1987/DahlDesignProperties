@@ -16,3 +16,5 @@
   * [Dashboard settings](Properties/dashboard-settings.md)
   * [Dashboard control](Properties/dashboard-control.md)
   * [LED control](Properties/led-control.md)
+  * [DDC](Properties/ddc.md)
+  * [SW1](Properties/sw1.md)
