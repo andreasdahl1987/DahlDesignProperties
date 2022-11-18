@@ -9,7 +9,7 @@ namespace User.PluginSdkDemo.iRacing
     {
         private readonly DahlDesign Base;
         iRacingSpotter iRacingSpotter = new iRacingSpotter();
-        iRacing.Properties p;
+        iRacing.Properties iRacingProperties;
         
         #region Variables
 
@@ -456,7 +456,7 @@ namespace User.PluginSdkDemo.iRacing
         {
             Base = dahlDesign;
 
-            p = new iRacing.Properties(Base);
+            iRacingProperties = new iRacing.Properties(Base);
 
             //Find the lap records file
             LapRecords.findCSV(ref csvAdress);
@@ -1718,6 +1718,7 @@ namespace User.PluginSdkDemo.iRacing
             if (Base.gameName != "IRacing" || !Base.gameRunning)
                 return;
 
+            iRacingProperties.DataUpdate();
             //Gaining access to raw data
             if (Base.gameData?.NewData?.GetRawDataObject() is DataSampleEx) { irData = Base.gameData.NewData.GetRawDataObject() as DataSampleEx; }
 
@@ -1729,15 +1730,6 @@ namespace User.PluginSdkDemo.iRacing
 
             irData.Telemetry.TryGetValue("PlayerCarInPitStall", out object rawStall);
             int pitStall = Convert.ToInt32(rawStall);                                               //Pit Stall
-
-            irData.Telemetry.TryGetValue("ManualBoost", out object rawBoost);
-            bool boost = Convert.ToBoolean(rawBoost);                                               //Boost
-
-            irData.Telemetry.TryGetValue("PowerMGU_K", out object rawMGU);
-            int MGU = Convert.ToInt32(rawMGU);                                                      //MGU-K current
-
-            irData.Telemetry.TryGetValue("EnergyERSBatteryPct", out object rawBattery);
-            double battery = Convert.ToDouble(rawBattery);                                          //Battery
 
             irData.Telemetry.TryGetValue("DRS_Status", out object rawDRS);
             int DRSState = Convert.ToInt32(rawDRS);                                                 //DRS state
@@ -2482,7 +2474,7 @@ namespace User.PluginSdkDemo.iRacing
                 shiftPointAdjustment = 0;
             }
 
-            if (boost || MGU > 200000)
+            if ( iRacingProperties.engine.boost || iRacingProperties.engine.MGU > 200000)
             {
                 amplifier = amplifier + 0.3;
             }
@@ -3209,7 +3201,7 @@ namespace User.PluginSdkDemo.iRacing
                     NBvalue = true;
                 }
 
-                if (speed < 80 && NBspeedLim || boost || !NBactive || MGU > 0 || battery == 1)
+                if (speed < 80 && NBspeedLim || iRacingProperties.engine.boost || !NBactive || iRacingProperties.engine.MGU > 0 || iRacingProperties.engine.battery == 1)
                 {
                     NBvalue = false;
                     NBspeedLim = false;

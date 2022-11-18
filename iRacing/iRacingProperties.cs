@@ -9,11 +9,13 @@ namespace User.PluginSdkDemo.iRacing
         DataSampleEx irData;
 
         readonly Tires tires;
+        public Engine engine;
 
         public Properties(DahlDesign dahlDesign)
         {
             Base = dahlDesign;
             tires = new Tires(Base, irData);
+            engine = new Engine(Base, irData);
         }
 
         public void DataUpdate()
@@ -22,6 +24,8 @@ namespace User.PluginSdkDemo.iRacing
             { 
                 irData = Base.gameData.NewData.GetRawDataObject() as DataSampleEx; 
             }
+
+            engine.DataUpdate();
 
             if (Base.counter == 47)
             {
