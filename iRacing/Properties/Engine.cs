@@ -5,12 +5,14 @@ namespace User.PluginSdkDemo.iRacing
 {
     public class Engine
     {
-        private readonly DahlDesign Base;
-        private readonly DataSampleEx irData;
+
 
         public bool boost;
         public int MGU;
         public double battery;
+
+        private readonly DahlDesign Base;
+        private readonly DataSampleEx irData;
 
         public Engine(DahlDesign dahlDesign, DataSampleEx irdata)
         {

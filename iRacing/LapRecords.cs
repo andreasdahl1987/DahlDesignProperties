@@ -5,9 +5,22 @@ using System.Reflection;
 
 namespace User.PluginSdkDemo.iRacing
 {
-    class LapRecords
+    public class LapRecords
     {
-        public static void findCSV(ref string path)
+
+        //CSV file adress
+        string csvAdress = "";
+        string path;
+        public int csvIndex = 0;
+        public int lapDeltaSections = 120;
+
+        public LapRecords()
+        {
+            findCSV();
+        }
+
+
+        public void findCSV()
         {
             string findCSV = Assembly.GetExecutingAssembly().Location;
             findCSV = findCSV.Substring(0, findCSV.Length - 14);
@@ -21,26 +34,26 @@ namespace User.PluginSdkDemo.iRacing
                 }
             }
         }
-        public static void addLapRecord(string track, string car, double lapTime, List<double> deltas, string path, ref int index)
+        public void addLapRecord(string track, string car, double lapTime, List<double> deltas)
         {
             {
                 string[] allLines = File.ReadAllLines(path);
                 string allText = File.ReadAllText(path);
-                index = allLines.Length - 1;
+                lapDeltaSections = allLines.Length - 1;
                 allText = allText + track + "," + car + "," + Convert.ToString(lapTime) + "," + string.Join(",", deltas) + "\n";
                 File.WriteAllText(path, allText);
             }
 
         }
 
-        public static void replaceLapRecord(string track, string car, double lapTime, List<double> deltas, string path, int index)
+        public void replaceLapRecord(string track, string car, double lapTime, List<double> deltas)
         {
             string[] allLines = File.ReadAllLines(path);
-            allLines[index] = track + "," + car + "," + Convert.ToString(lapTime) + "," + string.Join(",", deltas);
+            allLines[csvIndex] = track + "," + car + "," + Convert.ToString(lapTime) + "," + string.Join(",", deltas);
             File.WriteAllLines(path, allLines);
         }
 
-        public static void lapFetch(ref bool initiate, string path, ref int index, string track, string car, ref TimeSpan lapTime, ref List<double> deltas, int deltaSections)
+        public void lapFetch(ref bool initiate, string track, string car, ref TimeSpan lapTime, ref List<double> deltas, int deltaSections)
         {
             if (initiate)
             {
@@ -52,7 +65,7 @@ namespace User.PluginSdkDemo.iRacing
                     string[] line = allLines[i].Split(',');
                     if (line[0] == track && line[1] == car)
                     {
-                        index = i;
+                        csvIndex = i;
                         lapTime = TimeSpan.FromMilliseconds(Convert.ToDouble(line[2]));
                         for (int j = 0; j < deltaSections + 1; j++)
                         {

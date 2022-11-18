@@ -5,15 +5,16 @@ namespace User.PluginSdkDemo.iRacing
 {
     public class Drivetrain
     {
-        private readonly DahlDesign Base;
-        private readonly DataSampleEx irData;
+
 
         public string gear;
         public double gearRatio;
         public string smoothGear = "";
         int neutralCounter = 0;
 
-
+        private readonly DahlDesign Base;
+        private readonly DataSampleEx irData;
+        
         public Drivetrain(DahlDesign dahlDesign, DataSampleEx irdata)
         {
             Base = dahlDesign;

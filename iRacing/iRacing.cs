@@ -13,9 +13,6 @@ namespace User.PluginSdkDemo.iRacing
         
         #region Variables
 
-        //CSV file adress
-        string csvAdress = "";
-        int csvIndex = 0;
 
         //Declaring global variables
 
@@ -25,7 +22,7 @@ namespace User.PluginSdkDemo.iRacing
         List<pitOpponents> pitStopOpponents = new List<pitOpponents> { };
         List<pitOpponents> finalList = new List<pitOpponents> { };
 
-        int trackSections = 60;
+        
         List<double> realGapOpponentDelta = new List<double> { };
         List<double> realGapOpponentRelative = new List<double> { };
 
@@ -33,25 +30,9 @@ namespace User.PluginSdkDemo.iRacing
         List<List<bool>> realGapLocks = new List<List<bool>> { };
         List<List<bool>> realGapChecks = new List<List<bool>> { };
 
-        List<double> lapDeltaCurrent = new List<double> { };
-        List<double> lapDeltaLast = new List<double> { };
-        List<double> lapDeltaSessionBest = new List<double> { };
-        List<double> lapDeltaRecord = new List<double> { };
-
-        List<double> lapDeltaLastChange = new List<double> { };
-        List<double> lapDeltaSessionBestChange = new List<double> { };
-        List<double> lapDeltaLapRecordChange = new List<double> { };
-        List<double> lastChunks = new List<double> { };
-        List<double> SBChunks = new List<double> { };
-        List<double> LRChunks = new List<double> { };
-        bool findLapRecord = true;
-
-        int myDeltaIndexOld = -1;
-        int lapDeltaSections = 120;
-        int deltaChangeChunks = 20;
-
+      
         bool pitMenuRequirementMet = false;
-
+        public int pit;
         int roadOff = 0;
         bool outLap = false;
         double cutoff = 0.02;
@@ -214,10 +195,7 @@ namespace User.PluginSdkDemo.iRacing
         int myIR = 0;
         double IRchange = 0;
 
-        bool jokerThisLap = false;
-        int jokerLapCount = 0;
-        bool jokerLapChecker = false;
-
+        
         //Track parameters
         int trackType = 0; //Track type: 0 = Road, 1-3 = RX, 4 = Dirt road w/o joker, 5 = Dirt Oval, 6 = Short oval, 7 = oval, 8 = super speedway
         bool hasExempt = false;
@@ -456,11 +434,9 @@ namespace User.PluginSdkDemo.iRacing
         {
             Base = dahlDesign;
 
-            iRacingProperties = new iRacing.Properties(Base);
+            iRacingProperties = new iRacing.Properties(Base, this);
 
-            //Find the lap records file
-            LapRecords.findCSV(ref csvAdress);
-
+          
             carInfo = carInfoClass.carInfo;
             trackInfo = trackInfoClass.trackInfo;
 
@@ -468,7 +444,7 @@ namespace User.PluginSdkDemo.iRacing
             #region lists
 
 
-            for (int u = 0; u < trackSections; u++)
+            for (int u = 0; u < iRacingProperties.laps.trackSections; u++)
             {
                 List<bool> locks = new List<bool> { };
                 List<bool> checks = new List<bool> { };
@@ -494,23 +470,7 @@ namespace User.PluginSdkDemo.iRacing
                 sessionCarsLap.Add(-1);
             }
 
-            for (int i = 0; i < lapDeltaSections + 1; i++)
-            {
-                lapDeltaCurrent.Add(-1);
-                lapDeltaSessionBest.Add(-1);
-                lapDeltaLast.Add(-1);
-                lapDeltaRecord.Add(-1);
-                lapDeltaLastChange.Add(0);
-                lapDeltaSessionBestChange.Add(0);
-                lapDeltaLapRecordChange.Add(0);
-            }
-
-            for (int i = 0; i < deltaChangeChunks; i++)
-            {
-                lastChunks.Add(0);
-                SBChunks.Add(0);
-                LRChunks.Add(0);
-            }
+         
             #endregion
             #region SimHub Properties
 
@@ -763,9 +723,7 @@ namespace User.PluginSdkDemo.iRacing
             Base.AddProp("DeltaLastLap", 0);
             Base.AddProp("DeltaSessionBest", 0);
             Base.AddProp("DeltaLapRecord", 0);
-            Base.AddProp("DeltaLastLapChange", "");
-            Base.AddProp("DeltaSessionBestChange", "");
-            Base.AddProp("DeltaLapRecordChange", "");
+
 
             Base.AddProp("P1Gap", 0);
             Base.AddProp("P1Name", "");
@@ -1031,8 +989,7 @@ namespace User.PluginSdkDemo.iRacing
             Base.AddProp("FuelTargetDeltaCumulative", 0);
 
             Base.AddProp("TrackType", 0);
-            Base.AddProp("JokerThisLap", false);
-            Base.AddProp("JokerCount", 0);
+     
 
             Base.AddProp("MinimumCornerSpeed", 0);
             Base.AddProp("StraightLineSpeed", 0);
@@ -1620,8 +1577,7 @@ namespace User.PluginSdkDemo.iRacing
             invalidStintLaps = 0;
             fuelTargetDeltaCumulative = 0;
             raceFinished = false;
-            jokerThisLap = false;
-            jokerLapChecker = false;
+
             finishedCars = new List<string> { };
             fuelTargetCheck = false;
             oldFuelValue = 0;
@@ -1649,18 +1605,9 @@ namespace User.PluginSdkDemo.iRacing
                 sessionCarsLapsSincePit.Clear();
                 sessionCarsLap.Clear();
 
-                lapDeltaCurrent.Clear();
-                lapDeltaSessionBest.Clear();
-                lapDeltaLast.Clear();
-                lapDeltaRecord.Clear();
-                lapDeltaLastChange.Clear();
-                lapDeltaSessionBestChange.Clear();
-                lapDeltaLapRecordChange.Clear();
-                lastChunks.Clear();
-                SBChunks.Clear();
-                LRChunks.Clear();
 
-                for (int u = 0; u < trackSections; u++)
+
+                for (int u = 0; u < iRacingProperties.laps.trackSections; u++)
                 {
                     List<bool> locks = new List<bool> { };
                     List<bool> checks = new List<bool> { };
@@ -1686,22 +1633,6 @@ namespace User.PluginSdkDemo.iRacing
                     sessionCarsLap.Add(-1);
                 }
 
-                for (int i = 0; i < lapDeltaSections + 1; i++)
-                {
-                    lapDeltaCurrent.Add(-1);
-                    lapDeltaSessionBest.Add(-1);
-                    lapDeltaLast.Add(-1);
-                    lapDeltaRecord.Add(-1);
-                    lapDeltaLastChange.Add(0);
-                    lapDeltaSessionBestChange.Add(0);
-                    lapDeltaLapRecordChange.Add(0);
-                }
-                for (int i = 0; i < deltaChangeChunks; i++)
-                {
-                    lastChunks.Add(0);
-                    SBChunks.Add(0);
-                    LRChunks.Add(0);
-                }
             }
         }
 
@@ -1727,19 +1658,14 @@ namespace User.PluginSdkDemo.iRacing
             int DRSState = Convert.ToInt32(rawDRS);                                                 //DRS state
 
      
-            double trackPosition = irData.Telemetry.LapDistPct;                                     //Lap distance
-            int completedLaps = Base.gameData.NewData.CompletedLaps;                                         //Completed laps
-            int currentLap = Base.gameData.NewData.CurrentLap;                                               //Current lap
-            int totalLaps = Base.gameData.NewData.TotalLaps;                                                 //Total laps
-            TimeSpan currentLapTime = Base.gameData.NewData.CurrentLapTime;                                  //Current lap time
-            int pit = Base.gameData.NewData.IsInPit;                                                         //Pit
+            pit = Base.gameData.NewData.IsInPit;                                                         //Pit
             int pitLimiter = Base.gameData.NewData.PitLimiterOn;                                             //Pit limiter on/off
             
             double fuelAvgLap = Convert.ToDouble(Base.GetProp("DataCorePlugin.Computed.Fuel_LitersPerLap")); //Fuel avg lap
             int black = Base.gameData.NewData.Flag_Black;                                                    //Black flag
             int white = Base.gameData.NewData.Flag_White;                                                    //White flag
             int checkered = Base.gameData.NewData.Flag_Checkered;                                            //Checkered flag
-            TimeSpan lastLapTime = Base.gameData.NewData.LastLapTime;                                        //Last Lap Time 
+            
             string carModel = Base.gameData.NewData.CarModel;                                                //Car model
             string track = Base.gameData.NewData.TrackName;                                                  //Track name
             string session = Base.gameData.NewData.SessionTypeName;                                          //Session type
@@ -1806,10 +1732,6 @@ namespace User.PluginSdkDemo.iRacing
 
             irData.Telemetry.TryGetValue("dpPowerSteering", out object rawPWS);                     //Powersteering
             int PWS = Convert.ToInt16(rawPWS);
-
-
-            irData.Telemetry.TryGetValue("SessionOnJokerLap", out object rawisOnJoker);             //Joker lap
-            bool onJokerLap = Convert.ToBoolean(rawisOnJoker);
 
             irData.Telemetry.TryGetValue("PlayerCarIdx", out object rawPlayerIdx);                  //My CarIdx
             int myCarIdx = Convert.ToInt32(rawPlayerIdx);
@@ -1954,7 +1876,7 @@ namespace User.PluginSdkDemo.iRacing
             //----------------------------------------------
             if ((session == "Race" || session == "Practice" || session == "Open Qualify") && sessionState > 3)
             {
-                if ((trackLocation != 0 && !(pit != 1 && speed < 10) && !(awayFromPits > 2 && stintLength < 400 && stintLength > 20)) || ((currentLap == 1 || currentLap == 0) && stintLength < 400 && session == "Race"))
+                if ((trackLocation != 0 && !(pit != 1 && speed < 10) && !(awayFromPits > 2 && stintLength < 400 && stintLength > 20)) || ((iRacingProperties.laps.currentLap == 1 || iRacingProperties.laps.currentLap == 0) && stintLength < 400 && session == "Race"))
                 {
                     offTrackTimer = globalClock;
                 }
@@ -2304,12 +2226,7 @@ namespace User.PluginSdkDemo.iRacing
             }
 
 
-            //----------------------------------------------------
-            //--------CHECK FOR BEST LAP--------------------------
-            //----------------------------------------------------
-
-            LapRecords.lapFetch(ref findLapRecord, csvAdress, ref csvIndex, track, carModel, ref lapRecord, ref lapDeltaRecord, lapDeltaSections);
-
+           
             //----------------------------------------------------
             //--------F3.5 DRS COUNT------------------------------
             //----------------------------------------------------
@@ -2515,9 +2432,9 @@ namespace User.PluginSdkDemo.iRacing
                     ERSreturnMode = ERSstartMode;
                 }
 
-                if (currentLap != ERSlapCounter)
+                if (iRacingProperties.laps.currentLap != ERSlapCounter)
                 {
-                    ERSlapCounter = currentLap;
+                    ERSlapCounter = iRacingProperties.laps.currentLap;
                     ERSreturnMode = ERSselectedMode;
                     ERSstartingLap = false;
                 }
@@ -2532,15 +2449,7 @@ namespace User.PluginSdkDemo.iRacing
             }
 
 
-            //-------------------------------------
-            //-------RX JOKER DETECTION------------
-            //-------------------------------------
-
-            if (onJokerLap)
-            {
-                jokerThisLap = true;
-            }
-
+           
             //----------------------------------
             //----ACCELERATION STOPWATCH--------
             //----------------------------------
@@ -2709,7 +2618,8 @@ namespace User.PluginSdkDemo.iRacing
             }
 
             //Looking for exempt sector
-            if (hasExempt && ((trackPosition > exemptOne && trackPosition < (exemptOne + exemptOneMargin)) || (trackPosition > exemptTwo && trackPosition < (exemptTwo + exemptTwoMargin))))
+            if (hasExempt && ((iRacingProperties.laps.trackPosition > exemptOne && iRacingProperties.laps.trackPosition < 
+            (exemptOne + exemptOneMargin)) || (iRacingProperties.laps.trackPosition > exemptTwo && iRacingProperties.laps.trackPosition < (exemptTwo + exemptTwoMargin))))
             {
                 sectorExempt = true;
             }
@@ -3395,11 +3305,12 @@ namespace User.PluginSdkDemo.iRacing
             //-----------------------------------------
             stintLapsCheck = false;
 
-            if ((currentLapTime.TotalSeconds > 6 && trackPosition > 0.15 && trackPosition < twoThirds) || pit == 1)
+            if ((iRacingProperties.laps.currentLapTime.TotalSeconds > 6 && iRacingProperties.laps.trackPosition > 0.15 && 
+            iRacingProperties.laps.trackPosition < twoThirds) || pit == 1)
             {
                 currentLapTimeStarted = true;
             }
-            if (trackPosition > twoThirds)
+            if (iRacingProperties.laps.trackPosition > twoThirds)
             {
                 currentLapTimeStarted = false;
             }
@@ -3421,32 +3332,32 @@ namespace User.PluginSdkDemo.iRacing
                 lapStatus = 2;
             }
 
-            if (trackPosition > (1 - cutoff)) //Approaching start/finish line
+            if (iRacingProperties.laps.trackPosition > (1 - cutoff)) //Approaching start/finish line
             {
                 sector1StatusHolder = currentSector1Status;
                 sector1TimeHolder = currentSector1Time;
                 statusReadyToFetch = true;
-                jokerLapChecker = false;
-                lastLapChecker = lastLapTime;
+                iRacingProperties.laps.jokerLapChecker = false;
+                lastLapChecker = iRacingProperties.laps.lastLapTime;
             }
 
-            if (trackPosition < cutoff) //Crossing start/finish line
+            if (iRacingProperties.laps.trackPosition < cutoff) //Crossing start/finish line
             {
                 roadOff = incidents;
                 outLap = false;
                 lineCross = true;
-                if (jokerThisLap)
+                if (iRacingProperties.laps.jokerThisLap)
                 {
-                    jokerLapChecker = true;
-                    jokerThisLap = false;
+                    iRacingProperties.laps.jokerLapChecker = true;
+                    iRacingProperties.laps.jokerThisLap = false;
                 }
 
             }
             if (Base.counter == 11)
             {
-                if (currentLapTime.TotalSeconds > 6 && trackPosition > 0.1 && trackPosition < 0.3333) //Stuf that happens a bit into lap
+                if (iRacingProperties.laps.currentLapTime.TotalSeconds > 6 && iRacingProperties.laps.trackPosition > 0.1 && iRacingProperties.laps.trackPosition < 0.3333) //Stuf that happens a bit into lap
                 {
-                    if (lastLapChecker.TotalSeconds == lastLapTime.TotalSeconds)
+                    if (lastLapChecker.TotalSeconds == iRacingProperties.laps.lastLapTime.TotalSeconds)
                     {
                         Base.SetProp("CurrentSector3Time", new TimeSpan(0));
                         Base.SetProp("CurrentSector3Delta", 0);
@@ -3454,7 +3365,7 @@ namespace User.PluginSdkDemo.iRacing
                 }
             }
 
-            if (trackPosition > 0.5) //Getting halfways
+            if (iRacingProperties.laps.trackPosition > 0.5) //Getting halfways
             {
                 lineCross = false;
             }
@@ -3469,13 +3380,13 @@ namespace User.PluginSdkDemo.iRacing
             {
                 lapStatus = 4;
             }
-            if (jokerThisLap || jokerLapChecker)
+            if (iRacingProperties.laps.jokerThisLap || iRacingProperties.laps.jokerLapChecker)
             {
                 lapStatus = 6;
             }
 
             //Sector calculations
-            if (trackPosition > twoThirds)
+            if (iRacingProperties.laps.trackPosition > twoThirds)
             {
                 if (!(sectorExempt) && !(currentSector == 1 && lapStatus != 5)) //Not update sector if jump to exempt area of track or in driving backwards.
                 {
@@ -3483,7 +3394,7 @@ namespace User.PluginSdkDemo.iRacing
                     sector1to2 = false;
                 }
             }
-            else if (trackPosition > oneThird && trackPosition < twoThirds)
+            else if (iRacingProperties.laps.trackPosition > oneThird && iRacingProperties.laps.trackPosition < twoThirds)
             {
                 if (!(sectorExempt) && !(currentSector == 3 && lapStatus != 5))
                 {
@@ -3503,7 +3414,7 @@ namespace User.PluginSdkDemo.iRacing
 
             if (currentSector == 3) //Updating lap time and status
             {
-                currentSector3Time = currentLapTime.TotalSeconds - currentSector2Time - currentSector1Time;
+                currentSector3Time = iRacingProperties.laps.currentLapTime.TotalSeconds - currentSector2Time - currentSector1Time;
                 if (currentSector3Time < 0 || currentSector1Time == 0 || currentSector2Time == 0)
                 {
                     currentSector3Time = 0;
@@ -3555,7 +3466,7 @@ namespace User.PluginSdkDemo.iRacing
 
             else if (currentSector == 2)
             {
-                currentSector2Time = currentLapTime.TotalSeconds - currentSector1Time;
+                currentSector2Time = iRacingProperties.laps.currentLapTime.TotalSeconds - currentSector1Time;
                 if (currentSector2Time < 0 || currentSector1Time == 0)
                 {
                     currentSector2Time = 0;
@@ -3605,7 +3516,7 @@ namespace User.PluginSdkDemo.iRacing
             }
             else if (currentLapTimeStarted) //sector 1
             {
-                currentSector1Time = currentLapTime.TotalSeconds;
+                currentSector1Time = iRacingProperties.laps.currentLapTime.TotalSeconds;
                 currentSector1Status = lapStatus;
 
                 Base.SetProp("CurrentSector1Time", TimeSpan.FromSeconds(currentSector1Time));
@@ -3617,7 +3528,7 @@ namespace User.PluginSdkDemo.iRacing
 
             if (pitBox > 0 && !hasApproached) //If jumped to pit box, not taking a proper inlap
             {
-                if (trackPosition > 0.5)
+                if (iRacingProperties.laps.trackPosition > 0.5)
                 {
                     currentSector = 3;
                 }
@@ -3663,7 +3574,7 @@ namespace User.PluginSdkDemo.iRacing
 
             }
 
-            if (lastLapHolder != lastLapTime && (lastLapTime != new TimeSpan(0)))  //New lap time arrives, update certain lists and values
+            if (lastLapHolder != iRacingProperties.laps.lastLapTime && (iRacingProperties.laps.lastLapTime != new TimeSpan(0)))  //New lap time arrives, update certain lists and values
             {
                 ERSChangeCount = 4;
                 lapStatusList.Insert(0, lastStatusHolder);
@@ -3678,44 +3589,44 @@ namespace User.PluginSdkDemo.iRacing
                 }
                 if (lastStatusHolder == 6)
                 {
-                    jokerLapCount++;
-                    jokerLapChecker = false;
+                    iRacingProperties.laps.jokerLapCount++;
+                    iRacingProperties.laps.jokerLapChecker = false;
                 }
 
                 lapStatusList.RemoveAt(8); //Making sure list doesnt grow untill infility
                 if (lapStatusList[0] != 0)
                 {
-                    lapTimeList.Insert(0, lastLapTime);
+                    lapTimeList.Insert(0, iRacingProperties.laps.lastLapTime);
 
                     //Checking for session best lap
                     if ((lapTimeList[0].TotalSeconds < sessionBestLap.TotalSeconds || sessionBestLap.TotalSeconds == 0) && lapStatusList[0] == 1)
                     {
                         sessionBestLap = lapTimeList[0];
-                        for (int i = 0; i < lapDeltaSections + 1; i++) //Keep hold of the timings on that lap
+                        for (int i = 0; i < iRacingProperties.laps.lapRecords.lapDeltaSections + 1; i++) //Keep hold of the timings on that lap
                         {
-                            lapDeltaSessionBest[i] = lapDeltaLast[i];
+                            iRacingProperties.laps.lapDeltaSessionBest[i] = iRacingProperties.laps.lapDeltaLast[i];
                         }
                     }
 
                     //Checking for lap record
                     if (lapRecord.TotalSeconds == 0 && lapStatusList[0] == 1)
-                    {
-                        LapRecords.addLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, ref csvIndex);
-                        for (int i = 0; i < lapDeltaSections + 1; i++) //Keep hold of the timings on that lap
+                    {                        
+                        iRacingProperties.laps.lapRecords.addLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, iRacingProperties.laps.lapDeltaLast);
+                        for (int i = 0; i < iRacingProperties.laps.lapRecords.lapDeltaSections + 1; i++) //Keep hold of the timings on that lap
                         {
-                            lapDeltaRecord[i] = lapDeltaLast[i];
+                            iRacingProperties.laps.lapDeltaRecord[i] = iRacingProperties.laps.lapDeltaLast[i];
                         }
-                        findLapRecord = true;
+                        iRacingProperties.laps.findLapRecord = true;
                     }
                     else if (lapTimeList[0].TotalSeconds < lapRecord.TotalSeconds && lapStatusList[0] == 1)
                     {
-                        LapRecords.replaceLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, csvIndex);
-                        findLapRecord = true;
+                        iRacingProperties.laps.lapRecords.addLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, iRacingProperties.laps.lapDeltaLast);
+                        iRacingProperties.laps.findLapRecord = true;
                     }
 
                     lapTimeList.RemoveAt(8); //Making sure list doesnt grow untill infinity
                 }
-                lastLapHolder = lastLapTime;
+                lastLapHolder = iRacingProperties.laps.lastLapTime;
 
                 //Sectors
                 sector1StatusList.Insert(0, sector1StatusHolder);
@@ -3784,7 +3695,7 @@ namespace User.PluginSdkDemo.iRacing
                     }
 
                 }
-                if (opponents > 1 && !(session == "Race" && currentLap == 1))
+                if (opponents > 1 && !(session == "Race" && iRacingProperties.laps.currentLap == 1))
                 {
                     position++;
                 }
@@ -3804,14 +3715,14 @@ namespace User.PluginSdkDemo.iRacing
 
             bool boxApproach = false;
 
-            pitBox = (pitLocation - trackPosition) * trackLength;
-            if (pitLocation < 0.2 && trackPosition > 0.8)
+            pitBox = (pitLocation - iRacingProperties.laps.trackPosition) * trackLength;
+            if (pitLocation < 0.2 && iRacingProperties.laps.trackPosition > 0.8)
             {
-                pitBox = (pitLocation + (1 - trackPosition)) * trackLength;
+                pitBox = (pitLocation + (1 - iRacingProperties.laps.trackPosition)) * trackLength;
             }
-            else if (pitLocation > 0.8 && trackPosition < 0.2)
+            else if (pitLocation > 0.8 && iRacingProperties.laps.trackPosition < 0.2)
             {
-                pitBox = -((1 - pitLocation) + trackPosition) * trackLength;
+                pitBox = -((1 - pitLocation) + iRacingProperties.laps.trackPosition) * trackLength;
             }
 
             awayFromPits = -pitBox;
@@ -4302,20 +4213,20 @@ namespace User.PluginSdkDemo.iRacing
                             realPosition = myPosition;
                         }
                     }
-                    if (currentLapTime.TotalSeconds == 0 && qualyPosition > 0)
+                    if (iRacingProperties.laps.currentLapTime.TotalSeconds == 0 && qualyPosition > 0)
                     {
                         realPosition = qualyPosition;
                     }
-                    if (currentLapTime.TotalSeconds == 0 && qualyPosition == 0)
+                    if (iRacingProperties.laps.currentLapTime.TotalSeconds == 0 && qualyPosition == 0)
                     {
                         realPosition = myPosition;
                     }
-                    if (currentLapTime.TotalSeconds > 0)
+                    if (iRacingProperties.laps.currentLapTime.TotalSeconds > 0)
                     {
                         qualyPosition = 0;
                     }
 
-                    if (checkered == 1 && ((trackPosition > 0.1 && trackPosition < 0.15) || (currentLapTime.TotalSeconds > 5 && currentLapTime.TotalSeconds < 10)))
+                    if (checkered == 1 && ((iRacingProperties.laps.trackPosition > 0.1 && iRacingProperties.laps.trackPosition < 0.15) || (iRacingProperties.laps.currentLapTime.TotalSeconds > 5 && iRacingProperties.laps.currentLapTime.TotalSeconds < 10)))
                     {
                         raceFinished = true;
                     }
@@ -4325,12 +4236,12 @@ namespace User.PluginSdkDemo.iRacing
 
                         for (int i = 0; i < opponents; i++)
                         {
-                            if (finishedCars.IndexOf(Base.gameData.NewData.Opponents[i].CarNumber) < 0 && Base.gameData.NewData.Opponents[i].CurrentLap > currentLap && myClass == Base.gameData.NewData.Opponents[i].CarClass)
+                            if (finishedCars.IndexOf(Base.gameData.NewData.Opponents[i].CarNumber) < 0 && Base.gameData.NewData.Opponents[i].CurrentLap > iRacingProperties.laps.currentLap && myClass == Base.gameData.NewData.Opponents[i].CarClass)
                             {
                                 finishedCars.Add(Base.gameData.NewData.Opponents[i].CarNumber);
                             }
 
-                            if (Base.gameData.NewData.Opponents[i].CurrentLap == currentLap && Base.gameData.NewData.Opponents[i].GaptoPlayer < 0 && myClass == Base.gameData.NewData.Opponents[i].CarClass)
+                            if (Base.gameData.NewData.Opponents[i].CurrentLap == iRacingProperties.laps.currentLap && Base.gameData.NewData.Opponents[i].GaptoPlayer < 0 && myClass == Base.gameData.NewData.Opponents[i].CarClass)
                             {
                                 position++;
                             }
@@ -4338,7 +4249,7 @@ namespace User.PluginSdkDemo.iRacing
 
                         realPosition = position + finishedCars.Count;
                     }
-                    if ((lapRaceFinished || timeRaceFinished) && trackPosition < 0.1 && checkered == 1)
+                    if ((lapRaceFinished || timeRaceFinished) && iRacingProperties.laps.trackPosition < 0.1 && checkered == 1)
                     {
                         realPosition = 1 + finishedCars.Count;
                     }
@@ -4485,7 +4396,7 @@ namespace User.PluginSdkDemo.iRacing
                     {
                         luckyDogPositionsAhead++;
                     }
-                    if ((leaderCurrentLap + leaderTrackPosition) - (currentLap + trackPosition) > 1 && luckyDogGap > 0)
+                    if ((leaderCurrentLap + leaderTrackPosition) - (iRacingProperties.laps.currentLap + iRacingProperties.laps.trackPosition) > 1 && luckyDogGap > 0)
                     {
                         luckyDogGap = 0;
                         luckyDogName = Base.gameData.NewData.PlayerName;
@@ -4514,8 +4425,8 @@ namespace User.PluginSdkDemo.iRacing
                     inaccurateCalculations = true;
                 }
 
-                lapLapsRemaining = totalLaps - currentLap;
-                timeLapsRemaining = timeLeftSeconds / myExpectedLapTime + trackPosition - 1;
+                lapLapsRemaining = iRacingProperties.laps.totalLaps - iRacingProperties.laps.currentLap;
+                timeLapsRemaining = timeLeftSeconds / myExpectedLapTime + iRacingProperties.laps.trackPosition - 1;
 
                 Base.SetProp("ApproximateCalculations", inaccurateCalculations);
 
@@ -4565,13 +4476,13 @@ namespace User.PluginSdkDemo.iRacing
                         offTrack = false;
                         offTrackTimer = globalClock;
                         timeLeftSeconds = totalSessionTime;
-                        if (trackPosition > 0.5 || trackPosition == 0)
+                        if (iRacingProperties.laps.trackPosition > 0.5 || iRacingProperties.laps.trackPosition == 0)
                         {
                             gridSubtract = 1;
                         }
                     }
 
-                    if (timeLeft.TotalSeconds == 0 && completedLaps > 0)
+                    if (timeLeft.TotalSeconds == 0 && iRacingProperties.laps.completedLaps > 0)
                     {
                         timedOut = true;
                     }
@@ -4581,7 +4492,7 @@ namespace User.PluginSdkDemo.iRacing
                     }
 
                     //Leader finishing race in lap based race
-                    if (completedRaceLaps == totalLaps)
+                    if (completedRaceLaps == iRacingProperties.laps.totalLaps)
                     {
                         lapRaceFinished = true;
                     }
@@ -4599,7 +4510,7 @@ namespace User.PluginSdkDemo.iRacing
 
                     if (leaderExpectedLapTime == 0)
                     {
-                        timeLapsRemaining = (timeLeftSeconds / myExpectedLapTime) + trackPosition - 1; //No grid subtract
+                        timeLapsRemaining = (timeLeftSeconds / myExpectedLapTime) + iRacingProperties.laps.trackPosition - 1; //No grid subtract
                         lapLapsRemaining = lapLapsRemaining + gridSubtract;
                     }
 
@@ -4608,15 +4519,15 @@ namespace User.PluginSdkDemo.iRacing
                     {
                         //Lap limited session calculations
 
-                        double? leaderRaceTime = leaderExpectedLapTime * (totalLaps - leaderCurrentLap + 1 - leaderTrackPosition);
+                        double? leaderRaceTime = leaderExpectedLapTime * (iRacingProperties.laps.totalLaps - leaderCurrentLap + 1 - leaderTrackPosition);
                         double? lapsWhileLeaderRace = leaderRaceTime / myExpectedLapTime;
-                        lapLapsRemaining = lapsWhileLeaderRace + trackPosition;
+                        lapLapsRemaining = lapsWhileLeaderRace + iRacingProperties.laps.trackPosition;
 
                         //Time limited session calculations
                         double? leaderTimeOut = (timeLeftSeconds / leaderExpectedLapTime) + leaderTrackPosition;
                         leaderDecimal = leaderTimeOut - ((int)(leaderTimeOut * 100)) / 100;
                         double? timeUntillLeaderCheckered = leaderExpectedLapTime * (leaderTimeOut + (1 - leaderDecimal) - leaderTrackPosition);
-                        timeLapsRemaining = (timeUntillLeaderCheckered / myExpectedLapTime) + trackPosition;
+                        timeLapsRemaining = (timeUntillLeaderCheckered / myExpectedLapTime) + iRacingProperties.laps.trackPosition;
                         if (isTimeLimited)
                         {
                             Base.SetProp("P1LapBalance", leaderDecimal);
@@ -4662,13 +4573,13 @@ namespace User.PluginSdkDemo.iRacing
                 else if (session == "Lone Qualify") //Qlap status: 1 - Waiting, 2 - Valid lap, not completed. 3 - Ruined lap, completed or not. 4 - Finished valid lap
                 {
 
-                    if (((timeLeftSeconds / myExpectedLapTime) + trackPosition - 1) > lapLapsRemaining + 1)
+                    if (((timeLeftSeconds / myExpectedLapTime) + iRacingProperties.laps.trackPosition - 1) > lapLapsRemaining + 1)
                     {
                         remainingLaps = lapLapsRemaining + 0.99;
                     }
                     else
                     {
-                        remainingLaps = (timeLeftSeconds / myExpectedLapTime) + trackPosition - 1;
+                        remainingLaps = (timeLeftSeconds / myExpectedLapTime) + iRacingProperties.laps.trackPosition - 1;
                     }
 
                 }
@@ -4826,7 +4737,7 @@ namespace User.PluginSdkDemo.iRacing
 
                         }
                     }
-                    if ((leaderCurrentLap + leaderTrackPosition) - (currentLap + trackPosition) > 1 && luckyDogGap > 0)
+                    if ((leaderCurrentLap + leaderTrackPosition) - (iRacingProperties.laps.currentLap + iRacingProperties.laps.trackPosition) > 1 && luckyDogGap > 0)
                     {
                         luckyDogRealGap = 0;
                     }
@@ -4884,7 +4795,7 @@ namespace User.PluginSdkDemo.iRacing
                             aheadSlowLap = true;
                         }
 
-                        double distanceLeft = truncRemainingLaps + (1 - trackPosition);
+                        double distanceLeft = truncRemainingLaps + (1 - iRacingProperties.laps.trackPosition);
                         double paceDifference = aheadPace - pace;
                         double? gapOnFinish = overtakeGap + (paceDifference * distanceLeft);
                         double? marginPerLap = gapOnFinish / distanceLeft;
@@ -4910,7 +4821,7 @@ namespace User.PluginSdkDemo.iRacing
                             aheadOvertakePrediction = 5;
                         }
 
-                        int aheadLapsToOvertake = ((int)(((-overtakeGap / paceDifference) + trackPosition) * 100)) / 100;
+                        int aheadLapsToOvertake = ((int)(((-overtakeGap / paceDifference) + iRacingProperties.laps.trackPosition) * 100)) / 100;
 
                         if (paceDifference < 0 || overtakeGap > -0.5)
                         {
@@ -4948,7 +4859,7 @@ namespace User.PluginSdkDemo.iRacing
                             behindSlowLap = true;
                         }
 
-                        double distanceLeft = truncRemainingLaps + (1 - trackPosition);
+                        double distanceLeft = truncRemainingLaps + (1 - iRacingProperties.laps.trackPosition);
                         double paceDifference = behindPace - pace;
                         double? gapOnFinish = overtakeGap + (paceDifference * distanceLeft);
                         double? marginPerLap = gapOnFinish / distanceLeft;
@@ -4974,7 +4885,7 @@ namespace User.PluginSdkDemo.iRacing
                             behindOvertakePrediction = 5;
                         }
 
-                        int behindLapsToOvertake = ((int)(((-overtakeGap / paceDifference) + trackPosition) * 100)) / 100;
+                        int behindLapsToOvertake = ((int)(((-overtakeGap / paceDifference) + iRacingProperties.laps.trackPosition) * 100)) / 100;
                         if (paceDifference > 0 || overtakeGap < 0.5)
                         {
                             behindLapsToOvertake = -1;
@@ -5002,7 +4913,7 @@ namespace User.PluginSdkDemo.iRacing
 
             if (session == "Lone Qualify")
             {
-                if (currentLapTime.TotalSeconds == 0) //Warmup lap
+                if (iRacingProperties.laps.currentLapTime.TotalSeconds == 0) //Warmup lap
                 {
                     warmup = true;
                     lapLapsRemaining = 2;
@@ -5013,11 +4924,11 @@ namespace User.PluginSdkDemo.iRacing
                     qLap1Status = 1;
                     qLap2Status = 1;
                 }
-                else if (completedLaps == 0) //1st Q lap
+                else if (iRacingProperties.laps.completedLaps == 0) //1st Q lap
                 {
                     lapLapsRemaining = 1;
                     qLap1Status = 2;
-                    qLap1Time = currentLapTime;
+                    qLap1Time = iRacingProperties.laps.currentLapTime;
                     if (lapStatus > 1)
                     {
                         qLap1Status = 3;
@@ -5025,7 +4936,7 @@ namespace User.PluginSdkDemo.iRacing
                     }
                     qLapStarted2 = false;
                 }
-                else if (completedLaps == 1) //2nd Q lap
+                else if (iRacingProperties.laps.completedLaps == 1) //2nd Q lap
                 {
                     if (lapTimeList.Count > 0)
                     {
@@ -5035,13 +4946,13 @@ namespace User.PluginSdkDemo.iRacing
                     {
                         qLap1Status = 4;
                     }
-                    if (currentLapTime.TotalSeconds < 5 || (trackPosition > 0.1 && trackPosition < 0.11))
+                    if (iRacingProperties.laps.currentLapTime.TotalSeconds < 5 || (iRacingProperties.laps.trackPosition > 0.1 && iRacingProperties.laps.trackPosition < 0.11))
                     {
                         qLapStarted2 = true;
                     }
                     if (qLapStarted2)
                     {
-                        qLap2Time = currentLapTime;
+                        qLap2Time = iRacingProperties.laps.currentLapTime;
                     }
                     lapLapsRemaining = 0;
                     qLap2Status = 2;
@@ -5051,7 +4962,7 @@ namespace User.PluginSdkDemo.iRacing
                         qLap2Time = TimeSpan.FromSeconds(0);
                     }
                 }
-                else if (completedLaps == 2) //Completed qualy
+                else if (iRacingProperties.laps.completedLaps == 2) //Completed qualy
                 {
                     lapLapsRemaining = 0;
                     if (lapTimeList.Count > 0 && qLap1Time != lapTimeList[0])
@@ -5436,7 +5347,7 @@ namespace User.PluginSdkDemo.iRacing
 
                 int truncRemainingLaps = ((int)(remainingLaps * 100)) / 100;
 
-                if (sessionState < 4 && trackPosition == 0 && isLapLimited && !isTimeLimited) //When standing on grid and track position is not updated yet. 
+                if (sessionState < 4 && iRacingProperties.laps.trackPosition == 0 && isLapLimited && !isTimeLimited) //When standing on grid and track position is not updated yet. 
                 {
                     truncRemainingLaps--;
                 }
@@ -5478,7 +5389,7 @@ namespace User.PluginSdkDemo.iRacing
 
                 if (fuelPerLap > 0)
                 {
-                    double distanceLeft = truncRemainingLaps + 1 - trackPosition;
+                    double distanceLeft = truncRemainingLaps + 1 - iRacingProperties.laps.trackPosition;
                     double fuelDelta = fuel - (fuelPerLap * distanceLeft);
 
                     //Calculating pit window
@@ -5488,7 +5399,7 @@ namespace User.PluginSdkDemo.iRacing
                     double roomAfterDelta = roomForFuel + fuelDelta;
 
                     //Where will I get to with current fuel load
-                    double dryPosition = (fuel / fuelPerLap) + currentLap + trackPosition;
+                    double dryPosition = (fuel / fuelPerLap) + iRacingProperties.laps.currentLap + iRacingProperties.laps.trackPosition;
                     //Latest possible pit stop on lap:
                     int latestPitLap = ((int)((dryPosition - 1.1) * 100)) / 100;
                     if (fuelDelta > 0 && session != "Offline Testing")
@@ -5498,7 +5409,7 @@ namespace User.PluginSdkDemo.iRacing
 
                     //Fuel alert
                     bool fuelAlert = false;
-                    if (latestPitLap != 0 && latestPitLap <= currentLap)
+                    if (latestPitLap != 0 && latestPitLap <= iRacingProperties.laps.currentLap)
                     {
                         fuelAlert = true;
                     }
@@ -5572,14 +5483,14 @@ namespace User.PluginSdkDemo.iRacing
 
                     }
 
-                    int earliestLap = ((int)((currentLap + trackPosition - (roomAfterDelta / fuelPerLap)) * 100)) / 100;
+                    int earliestLap = ((int)((iRacingProperties.laps.currentLap + iRacingProperties.laps.trackPosition - (roomAfterDelta / fuelPerLap)) * 100)) / 100;
                     if (pitStops > 2)
                     {
-                        earliestLap = ((int)((currentLap + trackPosition - (roomAfterMinFueling / fuelPerLap)) * 100)) / 100;
+                        earliestLap = ((int)((iRacingProperties.laps.currentLap + iRacingProperties.laps.trackPosition - (roomAfterMinFueling / fuelPerLap)) * 100)) / 100;
                     }
-                    if (earliestLap <= currentLap || pitStops > 2 && roomAfterMinFueling > 0)
+                    if (earliestLap <= iRacingProperties.laps.currentLap || pitStops > 2 && roomAfterMinFueling > 0)
                     {
-                        earliestLap = currentLap;
+                        earliestLap = iRacingProperties.laps.currentLap;
                     }
                     if (fuelDelta > 0)
                     {
@@ -5619,7 +5530,7 @@ namespace User.PluginSdkDemo.iRacing
                         pitStops = 0;
                         if (roomForFuel > fuelPerLap)
                         {
-                            earliestLap = currentLap;
+                            earliestLap = iRacingProperties.laps.currentLap;
                         }
                         else
                         {
@@ -5665,7 +5576,7 @@ namespace User.PluginSdkDemo.iRacing
 
                         if ((lapTimeList[0].TotalSeconds == 0 && pit == 0) || pitBox > 0 || (session == "Race" && sessionState == 2) || (session == "Lone Qualify" && pit == 1)) //Update values only when in box, on grid or at end of pit lane for qualy laps. 
                         {
-                            stintLapsTotal = latestPitLap - currentLap - 1; //Laps remaining of the stint
+                            stintLapsTotal = latestPitLap - iRacingProperties.laps.currentLap - 1; //Laps remaining of the stint
                             if ((session == "Race" && sessionState == 2) || (session == "Lone Qualify" && pit == 1) || (lapTimeList[0].TotalSeconds == 0 && pit == 0))
                             {
                                 stintLapsTotal++;
@@ -5692,7 +5603,7 @@ namespace User.PluginSdkDemo.iRacing
                                 }
                                 else
                                 {
-                                    double posWhenZero = timeLeft.TotalSeconds / myExpectedLapTime + trackPosition;
+                                    double posWhenZero = timeLeft.TotalSeconds / myExpectedLapTime + iRacingProperties.laps.trackPosition;
                                     int truncPos = ((int)(posWhenZero * 100)) / 100;
 
                                     stintTimeTotal = TimeSpan.FromSeconds(timeLeft.TotalSeconds + (1 - (posWhenZero - truncPos)) * myExpectedLapTime);
@@ -6009,7 +5920,7 @@ namespace User.PluginSdkDemo.iRacing
                     {
                         double? posOnExit = pitStopOpponents[i].TrackPosition + (pitStopDuration / bestLap); //Updating the gap to show relative gap on exit
                         posOnExit = posOnExit % 1;
-                        pitStopOpponents[i].Gap = -1 * ((posOnExit - trackPosition) % 1) * sessionBestLap.TotalSeconds;
+                        pitStopOpponents[i].Gap = -1 * ((posOnExit - iRacingProperties.laps.trackPosition) % 1) * sessionBestLap.TotalSeconds;
                     }
 
                     if (pitStopOpponents[i].IsSameClass) //Give position to same class cars
@@ -6316,206 +6227,22 @@ namespace User.PluginSdkDemo.iRacing
 
             }
 
-            //-----------------------------------------------------------------------------
-            //----------------------LAP DELTA TIMING---------------------------------------
-            //-----------------------------------------------------------------------------
-
-
-            int myDeltaIndex = ((int)((trackPosition * lapDeltaSections) * 100)) / 100;
-
-            if (myDeltaIndex >= lapDeltaSections)
-            {
-                myDeltaIndex = trackSections - 1;
-            }
-            if (myDeltaIndex < 0)
-            {
-                myDeltaIndex = 0;
-                myDeltaIndexOld = 0;
-            }
-
-            double deltaLastLap = 0;
-            double deltaSessionBest = 0;
-            double deltaLapRecord = 0;
-
-
-            if (myDeltaIndex != myDeltaIndexOld)
-            {
-                myDeltaIndexOld = myDeltaIndex;
-
-                lapDeltaCurrent[myDeltaIndex + 1] = currentLapTime.TotalMilliseconds;
-
-                if (currentLapTime.TotalSeconds < 2 && lapDeltaCurrent[0] != 1)
-                {
-                    lapDeltaCurrent[0] = 1; //This lap recording checked for full-length
-                }
-
-                bool passCheck = (pit == 0 && (myDeltaIndex > 5 || (myDeltaIndex > 3 && lapDeltaLast[myDeltaIndex + 1] < 10000 && lapDeltaCurrent[myDeltaIndex + 1] < 10000)));
-
-                //Setting last lap delta
-                if (passCheck && lapDeltaLast[myDeltaIndex + 1] > 0 && lapDeltaCurrent[myDeltaIndex + 1] > 0)
-                {
-                    deltaLastLap = (lapDeltaCurrent[myDeltaIndex + 1] - lapDeltaLast[myDeltaIndex + 1]) / 1000;
-                    lapDeltaLastChange[myDeltaIndex] = deltaLastLap;
-                    Base.SetProp("DeltaLastLap", deltaLastLap);
-                }
-
-                if (lapDeltaLast[myDeltaIndex + 1] == -1)
-                {
-                    Base.SetProp("DeltaLastLap", 0);
-                }
-
-                if (myDeltaIndex > 5 && lapDeltaSessionBest[myDeltaIndex + 1] < 10000)
-                {
-                    passCheck = false;
-                }
-
-                //Setting session best lap delta
-                if (passCheck && lapDeltaSessionBest[myDeltaIndex + 1] > 0 && lapDeltaCurrent[myDeltaIndex + 1] > 0)
-                {
-                    deltaSessionBest = (lapDeltaCurrent[myDeltaIndex + 1] - lapDeltaSessionBest[myDeltaIndex + 1]) / 1000;
-                    lapDeltaSessionBestChange[myDeltaIndex] = deltaSessionBest;
-                    Base.SetProp("DeltaSessionBest", deltaSessionBest);
-                }
-                if (lapDeltaSessionBest[myDeltaIndex + 1] == -1)
-                {
-                    Base.SetProp("DeltaSessionBest", 0);
-                }
-
-
-                //Setting lap record delta
-                bool recordCheck = (pit == 0 && (myDeltaIndex > 5 || (myDeltaIndex > 3 && lapDeltaRecord[myDeltaIndex + 1] < 10000 && lapDeltaCurrent[myDeltaIndex + 1] < 10000)));
-                if (recordCheck && lapDeltaRecord[myDeltaIndex + 1] > 0 && lapDeltaCurrent[myDeltaIndex + 1] > 0)
-                {
-                    deltaLapRecord = (lapDeltaCurrent[myDeltaIndex + 1] - lapDeltaRecord[myDeltaIndex + 1]) / 1000;
-                    lapDeltaLapRecordChange[myDeltaIndex] = deltaLapRecord;
-                    Base.SetProp("DeltaLapRecord", deltaLapRecord);
-                }
-                if (lapDeltaRecord[myDeltaIndex + 1] == -1)
-                {
-                    Base.SetProp("DeltaLapRecord", 0);
-                }
-
-
-                if (myDeltaIndex == 0) //last section, copy to last lap. Further copy to session/ATB on lap changes. (from last lap)
-                {
-                    for (int i = 0; i < lapDeltaSections + 1; i++)
-                    {
-                        lapDeltaLast[i] = lapDeltaCurrent[i];
-                        lapDeltaCurrent[i] = -1;
-                    }
-                }
-            }
-
-            int chunkSize = lapDeltaSections / deltaChangeChunks;
-            int currentChunk = myDeltaIndex / chunkSize;
-            bool changeStarted = false;
-            double changeSum = 0;
-            double firstOfChunk = 0;
-            double lastOfChunk = 0;
-
-            if (lapDeltaLast[myDeltaIndex + 1] > 0)
-            {
-                for (int i = currentChunk * chunkSize; i < myDeltaIndex + 1; i++)
-                {
-                    if (!changeStarted)
-                    {
-                        firstOfChunk = lapDeltaLastChange[i];
-                    }
-                    changeStarted = true;
-
-                    if (i == myDeltaIndex)
-                    {
-                        lastOfChunk = lapDeltaLastChange[i];
-                    }
-                }
-            }
-
-            if (changeStarted)
-            {
-                changeSum = lastOfChunk - firstOfChunk;
-            }
-
-            lastChunks[currentChunk] = changeSum;
-
-            string lastResult = string.Join(",", lastChunks); //push result as string
-
-            changeStarted = false;
-            changeSum = 0;
-            firstOfChunk = 0;
-            lastOfChunk = 0;
-
-            for (int i = currentChunk * chunkSize; i < myDeltaIndex + 1; i++)
-            {
-                if (!changeStarted)
-                {
-                    firstOfChunk = lapDeltaSessionBestChange[i];
-                }
-                changeStarted = true;
-
-                if (i == myDeltaIndex)
-                {
-                    lastOfChunk = lapDeltaSessionBestChange[i];
-                }
-            }
-
-            if (changeStarted)
-            {
-                changeSum = lastOfChunk - firstOfChunk;
-            }
-
-            SBChunks[currentChunk] = changeSum;
-
-            string SBResult = string.Join(",", SBChunks); //push result as string
-
-            changeStarted = false;
-            changeSum = 0;
-            firstOfChunk = 0;
-            lastOfChunk = 0;
-
-            for (int i = currentChunk * chunkSize; i < myDeltaIndex + 1; i++)
-            {
-                if (!changeStarted)
-                {
-                    firstOfChunk = lapDeltaLapRecordChange[i];
-                }
-                changeStarted = true;
-
-                if (i == myDeltaIndex)
-                {
-                    lastOfChunk = lapDeltaLapRecordChange[i];
-                }
-            }
-
-            if (changeStarted)
-            {
-                changeSum = lastOfChunk - firstOfChunk;
-            }
-
-            LRChunks[currentChunk] = changeSum;
-
-            string LRResult = string.Join(",", LRChunks); //push result as string
-
-
-
-            Base.SetProp("DeltaLastLapChange", lastResult);
-            Base.SetProp("DeltaSessionBestChange", SBResult);
-            Base.SetProp("DeltaLapRecordChange", LRResult);
-
+            
             //-----------------------------------------------------------------------------
             //----------------------REAL GAPS----------------------------------------------
             //-----------------------------------------------------------------------------
 
             int myLap = irData.Telemetry.CarIdxLap[myCarIdx]; //My lap count
             double myLoc = irData.Telemetry.CarIdxLapDistPct[myCarIdx]; //My current track position
-            int myDistIndex = ((int)((myLoc * trackSections) * 100)) / 100; //Distance index, dividing track position into sections
-            if (myDistIndex >= trackSections)
+            int myDistIndex = ((int)((myLoc * iRacingProperties.laps.trackSections) * 100)) / 100; //Distance index, dividing track position into sections
+            if (myDistIndex >= iRacingProperties.laps.trackSections)
             {
-                myDistIndex = trackSections - 1;
+                myDistIndex = iRacingProperties.laps.trackSections - 1;
             }
             int myPrevIndex = myDistIndex - 1;
             if (myPrevIndex == -1)
             {
-                myPrevIndex = trackSections - 1;
+                myPrevIndex = iRacingProperties.laps.trackSections - 1;
             }
             if (myDistIndex < 0)
             {
@@ -6529,15 +6256,15 @@ namespace User.PluginSdkDemo.iRacing
                 {
                     if ((int)irData.Telemetry.CarIdxTrackSurface[i] != -1 && irData.Telemetry.CarIdxLap[i] > 0) //Checking if this CarID is in world
                     {
-                        int distIndex = ((int)((irData.Telemetry.CarIdxLapDistPct[i] * trackSections) * 100)) / 100;
-                        if (distIndex >= trackSections)
+                        int distIndex = ((int)((irData.Telemetry.CarIdxLapDistPct[i] * iRacingProperties.laps.trackSections) * 100)) / 100;
+                        if (distIndex >= iRacingProperties.laps.trackSections)
                         {
-                            distIndex = trackSections - 1;
+                            distIndex = iRacingProperties.laps.trackSections - 1;
                         }
                         int distPrevIndex = distIndex - 1;
                         if (distPrevIndex == -1)
                         {
-                            distPrevIndex = trackSections - 1;
+                            distPrevIndex = iRacingProperties.laps.trackSections - 1;
                         }
 
                         if (distIndex < 0)
@@ -6639,8 +6366,8 @@ namespace User.PluginSdkDemo.iRacing
             //Stuf that happens when idle
             if (iRIdle)
             {
-                findLapRecord = true;
-                csvIndex = 0;
+                iRacingProperties.laps.findLapRecord = true;
+                iRacingProperties.laps.lapRecords.csvIndex = 0;
                 currentFrontWing = 0;
                 currentRearWing = 0;
                 currentPWS = 0;
@@ -6651,15 +6378,15 @@ namespace User.PluginSdkDemo.iRacing
                 invalidStintLaps = 0;
                 fuelTargetDeltaCumulative = 0;
                 raceFinished = false;
-                jokerThisLap = false;
-                jokerLapChecker = false;
+                iRacingProperties.laps.jokerThisLap = false;
+                iRacingProperties.laps.jokerLapChecker = false;
                 finishedCars = new List<string> { };
                 fuelTargetCheck = false;
                 oldFuelValue = 0;
                 NBactive = false;
                 NBvalue = false;
                 NBspeedLim = false;
-                ERSlapCounter = currentLap;
+                ERSlapCounter = iRacingProperties.laps.currentLap;
                 ERSstartingLap = true;
                 TCon = false;
                 TCduration = 0;
@@ -6677,8 +6404,8 @@ namespace User.PluginSdkDemo.iRacing
                 //Session or car or track change
                 if (carModelHolder != carModel || trackHolder != track || sessionHolder != session)
                 {
-                    findLapRecord = true;
-                    csvIndex = 0;
+                    iRacingProperties.laps.findLapRecord = true;
+                    iRacingProperties.laps.lapRecords.csvIndex = 0;
                     IRchange = 0;
                     ERSChangeCount = 4;
                     savePitTimerLock = false;
@@ -6708,7 +6435,7 @@ namespace User.PluginSdkDemo.iRacing
                     isRaceLeader = false;
                     isLapLimited = false;
                     isTimeLimited = false;
-                    jokerLapCount = 0;
+                    iRacingProperties.laps.jokerLapCount = 0;
                     Base.SetProp("P1Finished", false);
                     minFuelPush = 0;
                     maxFuelPush = 0;
@@ -6728,18 +6455,9 @@ namespace User.PluginSdkDemo.iRacing
                         sessionCarsLapsSincePit.Clear();
                         sessionCarsLap.Clear();
 
-                        lapDeltaCurrent.Clear();
-                        lapDeltaSessionBest.Clear();
-                        lapDeltaLast.Clear();
-                        lapDeltaRecord.Clear();
-                        lapDeltaLastChange.Clear();
-                        lapDeltaSessionBestChange.Clear();
-                        lapDeltaLapRecordChange.Clear();
-                        lastChunks.Clear();
-                        SBChunks.Clear();
-                        LRChunks.Clear();
 
-                        for (int u = 0; u < trackSections; u++)
+
+                        for (int u = 0; u < iRacingProperties.laps.trackSections; u++)
                         {
                             List<bool> locks = new List<bool> { };
                             List<bool> checks = new List<bool> { };
@@ -6765,22 +6483,6 @@ namespace User.PluginSdkDemo.iRacing
                             sessionCarsLap.Add(-1);
                         }
 
-                        for (int i = 0; i < lapDeltaSections + 1; i++)
-                        {
-                            lapDeltaCurrent.Add(-1);
-                            lapDeltaSessionBest.Add(-1);
-                            lapDeltaLast.Add(-1);
-                            lapDeltaRecord.Add(-1);
-                            lapDeltaLastChange.Add(0);
-                            lapDeltaSessionBestChange.Add(0);
-                            lapDeltaLapRecordChange.Add(0);
-                        }
-                        for (int i = 0; i < deltaChangeChunks; i++)
-                        {
-                            lastChunks.Add(0);
-                            SBChunks.Add(0);
-                            LRChunks.Add(0);
-                        }
                     }
 
                 }
@@ -6828,8 +6530,7 @@ namespace User.PluginSdkDemo.iRacing
                 Base.SetProp("OptimalLapTime", new TimeSpan(0));
             }
 
-            Base.SetProp("JokerThisLap", jokerThisLap);
-            Base.SetProp("JokerCount", jokerLapCount);
+  
 
             Base.SetProp("PitBoxPosition", pitBox);
             Base.SetProp("PitBoxApproach", boxApproach);
