@@ -5,15 +5,15 @@ namespace User.PluginSdkDemo.iRacing
 {
     public class Tires
     {
+        private readonly DahlDesign Base;
 
+        private readonly DataSampleEx irData;
 
         public double slipLF;
         public double slipRF;
         public double slipLR;
         public double slipRR;
-        private readonly DahlDesign Base;
 
-        private readonly DataSampleEx irData;
         float LFCold = 0;
         float RFCold = 0;
         float LRCold = 0;
