@@ -18,3 +18,4 @@
   * [LED control](Properties/led-control.md)
   * [DDC](Properties/ddc.md)
   * [SW1](Properties/sw1.md)
+  * [Fuel and strategy](Properties/fuel-and-strategy.md)

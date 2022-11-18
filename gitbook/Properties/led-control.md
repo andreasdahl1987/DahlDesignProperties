@@ -1,10 +1,4 @@
 # LED control
 
-| Name        | Description                                                                                                                         | Type    |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| DDUstartLED | Looking at the collective LED chain in SimHub's RGB setup, this is the first LED number that has been assigned your DahlDesign DDU. | integer |
-| DDUEnabled  | On/Off                                                                                                                              | boolean |
-| SW1startLED | Looking at the collective LED chain in SimHub's RGB setup, this is the first LED number that has been assigned your DahlDesign SW1. | integer |
-| SW1Enabled  | On/Off. This does not only enable physical LEDs, but also enable SW1 specific features in Dashboard.                                | boolean |
-|             |                                                                                                                                     |         |
+<table data-view="cards"><thead><tr><th>Name</th><th>Description</th><th>Type</th></tr></thead><tbody><tr><td>DDUstartLED</td><td>Looking at the collective LED chain in SimHub's RGB setup, this is the first LED number that has been assigned your DahlDesign DDU.</td><td>integer</td></tr><tr><td>DDUEnabled</td><td>On/Off</td><td>boolean</td></tr><tr><td>SW1startLED</td><td>Looking at the collective LED chain in SimHub's RGB setup, this is the first LED number that has been assigned your DahlDesign SW1.</td><td>integer</td></tr><tr><td>SW1Enabled</td><td>On/Off. This does not only enable physical LEDs, but also enable SW1 specific features in Dashboard.</td><td>boolean</td></tr><tr><td></td><td></td><td></td></tr></tbody></table>
 
