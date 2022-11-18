@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace User.PluginSdkDemo
+namespace User.PluginSdkDemo.iRacing
 {
     class LapRecords
     {

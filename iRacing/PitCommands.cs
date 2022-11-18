@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace User.PluginSdkDemo
+namespace User.PluginSdkDemo.iRacing
 {
     class PitCommands
     {

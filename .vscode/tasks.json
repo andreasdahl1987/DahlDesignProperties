@@ -5,8 +5,8 @@
     "tasks": [
         {
             "label": "build",
-            "type": "shell",
-            "command": "msbuild",
+            "type": "shell",            
+            "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\Msbuild\\Current\\Bin\\msbuild",
             "args": [
                 "Dahl Design Properties.sln",
                 // Ask msbuild to generate full paths for file names.

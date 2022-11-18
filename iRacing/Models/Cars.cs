@@ -1,4 +1,4 @@
-﻿namespace User.PluginSdkDemo
+﻿namespace User.PluginSdkDemo.iRacing
 {
     public class Cars
     {

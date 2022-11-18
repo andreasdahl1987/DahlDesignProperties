@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using IRacingReader;
 
-namespace User.PluginSdkDemo.Categories
+namespace User.PluginSdkDemo.iRacing
 {
-    public class iRacing
+    public class Data
     {
         private readonly DahlDesign Base;
         iRacingSpotter iRacingSpotter = new iRacingSpotter();
+        iRacing.Properties p;
+        
         #region Variables
 
         //CSV file adress
@@ -455,9 +457,11 @@ namespace User.PluginSdkDemo.Categories
         DataSampleEx irData;
         #endregion
 
-        public iRacing(DahlDesign dahlDesign)
+        public Data(DahlDesign dahlDesign)
         {
             Base = dahlDesign;
+
+            p = new iRacing.Properties(Base);
 
             //Find the lap records file
             LapRecords.findCSV(ref csvAdress);
@@ -1059,11 +1063,7 @@ namespace User.PluginSdkDemo.Categories
             Base.AddProp("PitServiceRFPSet", 0);
             Base.AddProp("PitServiceLRPSet", 0);
             Base.AddProp("PitServiceRRPSet", 0);
-            Base.AddProp("PitServiceLFPCold", 0);
-            Base.AddProp("PitServiceRFPCold", 0);
-            Base.AddProp("PitServiceLRPCold", 0);
-            Base.AddProp("PitServiceRRPCold", 0);
-
+            
             Base.AddProp("CurrentFrontWing", 0);
             Base.AddProp("CurrentRearWing", 0);
             Base.AddProp("CurrentPowersteer", 0);
@@ -1906,25 +1906,6 @@ namespace User.PluginSdkDemo.Categories
             WSTog = Convert.ToBoolean(pitInfo & 32);
             repairTog = Convert.ToBoolean(pitInfo & 64);
 
-
-
-
-            //-----------------------------------------------
-            //--------TIRE ATTRIBUTES------------------------
-            //-----------------------------------------------
-
-            if (Base.counter == 47)
-            {
-                LFCold = irData.Telemetry.LFcoldPressure;
-                RFCold = irData.Telemetry.RFcoldPressure;
-                LRCold = irData.Telemetry.LRcoldPressure;
-                RRCold = irData.Telemetry.RRcoldPressure;
-
-                Base.SetProp("PitServiceLFPCold", LFCold);
-                Base.SetProp("PitServiceRFPCold", RFCold);
-                Base.SetProp("PitServiceLRPCold", LRCold);
-                Base.SetProp("PitServiceRRPCold", RRCold);
-            }
 
             //----------------------------------------------
             //--------SMOOTH GEAR---------------------------

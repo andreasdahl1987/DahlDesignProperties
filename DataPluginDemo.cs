@@ -18,7 +18,7 @@ namespace User.PluginSdkDemo
         public PluginManager PluginManager { get; set; }
         public Categories.Dashboard Dashboard;
         public Categories.DDC DDC;
-        public Categories.iRacing iRacing;
+        public iRacing.Data iRacing;
         public int counter = 0;
         public ImageSource PictureIcon => this.ToIcon(Properties.Resources.Dahl_icon);
         public string LeftMenuTitle => "Dahl Design";
@@ -40,7 +40,7 @@ namespace User.PluginSdkDemo
 
             Dashboard = new Categories.Dashboard(this);
             DDC = new Categories.DDC(this);
-            iRacing = new Categories.iRacing(this);
+            iRacing = new iRacing.Data(this);
 
             //Update property
             pluginManager.AddProperty("Version", this.GetType(), version);
