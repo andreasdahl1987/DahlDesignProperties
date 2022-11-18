@@ -10,12 +10,14 @@ namespace User.PluginSdkDemo.iRacing
 
         readonly Tires tires;
         public Engine engine;
+        public Drivetrain drivetrain;
 
         public Properties(DahlDesign dahlDesign)
         {
             Base = dahlDesign;
             tires = new Tires(Base, irData);
             engine = new Engine(Base, irData);
+            drivetrain = new Drivetrain(Base, irData);
         }
 
         public void DataUpdate()
@@ -26,6 +28,7 @@ namespace User.PluginSdkDemo.iRacing
             }
 
             engine.DataUpdate();
+            drivetrain.DataUpdate();
 
             if (Base.counter == 47)
             {
