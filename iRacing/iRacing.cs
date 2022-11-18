@@ -330,11 +330,6 @@ namespace User.PluginSdkDemo.iRacing
         double commandMinFuel = 0;
         double commandMaxFuel = 500;
 
-        float LFCold = 0;
-        float RFCold = 0;
-        float LRCold = 0;
-        float RRCold = 0;
-
         double minimumCornerSpeed = 0;
         double straightLineSpeed = 0;
         double highestThrottle = 0;
