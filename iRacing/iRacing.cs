@@ -335,8 +335,8 @@ namespace User.PluginSdkDemo.iRacing
         double highestThrottle = 0;
         bool throttleLift = false;
 
-        
-        
+        string smoothGear = "";
+        int neutralCounter = 0;
 
         //Buttons
         int pitMenuRotary = 12; //Starting on strat page
@@ -568,7 +568,7 @@ namespace User.PluginSdkDemo.iRacing
             Base.AddProp("CoupleInCarToPit", Base.Settings.CoupleInCarToPit);
 
             Base.AddProp("Idle", true);
-            
+            Base.AddProp("SmoothGear", "");
             Base.AddProp("TrackEntry", false);
             Base.AddProp("LastGearMaxRPM", 0);
             Base.AddProp("LastGear", 0);
@@ -1746,7 +1746,7 @@ namespace User.PluginSdkDemo.iRacing
             TimeSpan currentLapTime = Base.gameData.NewData.CurrentLapTime;                                  //Current lap time
             int pit = Base.gameData.NewData.IsInPit;                                                         //Pit
             int pitLimiter = Base.gameData.NewData.PitLimiterOn;                                             //Pit limiter on/off
-            
+            string gear = Base.gameData.NewData.Gear;                                                        //Gear
             double fuelAvgLap = Convert.ToDouble(Base.GetProp("DataCorePlugin.Computed.Fuel_LitersPerLap")); //Fuel avg lap
             int black = Base.gameData.NewData.Flag_Black;                                                    //Black flag
             int white = Base.gameData.NewData.Flag_White;                                                    //White flag
@@ -1819,6 +1819,7 @@ namespace User.PluginSdkDemo.iRacing
             irData.Telemetry.TryGetValue("dpPowerSteering", out object rawPWS);                     //Powersteering
             int PWS = Convert.ToInt16(rawPWS);
 
+            double gearRatio = Convert.ToDouble(Base.GetProp("GameRawData.SessionData.CarSetup.Chassis.Rear.DropGearARatio")); //Gear ratio
 
             irData.Telemetry.TryGetValue("SessionOnJokerLap", out object rawisOnJoker);             //Joker lap
             bool onJokerLap = Convert.ToBoolean(rawisOnJoker);
@@ -1893,7 +1894,30 @@ namespace User.PluginSdkDemo.iRacing
             repairTog = Convert.ToBoolean(pitInfo & 64);
 
 
+            //----------------------------------------------
+            //--------SMOOTH GEAR---------------------------
+            //----------------------------------------------
 
+            if (gear != "N")
+            {
+                smoothGear = gear;
+                neutralCounter = 0;
+            }
+
+            if (gear == "N")
+            {
+                neutralCounter++;
+            }
+
+            if (neutralCounter > 6)
+            {
+                smoothGear = "N";
+                neutralCounter = 0;
+            }
+            if (Base.DDC.button8Mode == 1)
+            {
+                smoothGear = "N";
+            }
 
             //----------------------------------------------
             //--------SoF AND IR LOSS/GAIN------------------
@@ -2221,7 +2245,7 @@ namespace User.PluginSdkDemo.iRacing
                 //Supercar gear ratio bite point setting
                 if (dashType == "Supercar")
                 {
-                    switch (iRacingProperties.drivetrain.gearRatio)
+                    switch (gearRatio)
                     {
                         case 0.85:
                             clutchBitePoint = 28;
@@ -2401,7 +2425,7 @@ namespace User.PluginSdkDemo.iRacing
 
 
 
-            switch (iRacingProperties.drivetrain.gear)
+            switch (gear)
             {
                 case "1":
                     currentShiftPoint = shiftPoint1;
@@ -2444,7 +2468,7 @@ namespace User.PluginSdkDemo.iRacing
             }
             double amplifier = 1;
 
-            if (iRacingProperties.drivetrain.gear == "N" && iRacingProperties.drivetrain.smoothGear == "N")
+            if (gear == "N" && smoothGear == "N")
             {
                 currentShiftPoint = shiftPoint1;
                 shiftPointAdjustment = 0;
@@ -2478,13 +2502,13 @@ namespace User.PluginSdkDemo.iRacing
             if (rpm < shiftLightRPM)
             {
                 reactionTime = globalClock;
-                reactionGear = iRacingProperties.drivetrain.gear;
+                reactionGear = gear;
             }
 
-            if (iRacingProperties.drivetrain.gear != reactionGear && iRacingProperties.drivetrain.gear == "N")
+            if (gear != reactionGear && gear == "N")
             {
                 reactionPush = globalClock.TotalMilliseconds - reactionTime.TotalMilliseconds - 40;
-                reactionGear = iRacingProperties.drivetrain.gear;
+                reactionGear = gear;
             }
 
             Base.SetProp("OptimalShiftCurrentGear", currentShiftPoint);
@@ -2557,7 +2581,7 @@ namespace User.PluginSdkDemo.iRacing
             //----ACCELERATION STOPWATCH--------
             //----------------------------------
 
-            if (iRacingProperties.drivetrain.gear != "N" && speed < 0.5 && rpm > 300)
+            if (gear != "N" && speed < 0.5 && rpm > 300)
             {
                 accelerationStart = true;
             }
@@ -3245,7 +3269,7 @@ namespace User.PluginSdkDemo.iRacing
                 if (TCrpm * 0.998 > rpm || TCdropCD > 0)  //Main filter
                 {
                     TCdropCD++;
-                    if (TCdropCD > 3 && iRacingProperties.drivetrain.gear == TCgear)
+                    if (TCdropCD > 3 && gear == TCgear)
                     {
                         TCdropCD = 0;
                     }
@@ -3265,7 +3289,7 @@ namespace User.PluginSdkDemo.iRacing
                 if (TCgearCD > TCgearLimit)
                 {
                     TCgearCD = 0;
-                    TCgear = iRacingProperties.drivetrain.gear;
+                    TCgear = gear;
                     TCthrottle = throttle;
                     TCrpm = rpm;
                 }
@@ -3296,7 +3320,7 @@ namespace User.PluginSdkDemo.iRacing
                 }
 
 
-                if (!tcBump && TCreleaseCD == 0 && iRacingProperties.drivetrain.gear == TCgear && TCdropCD == 0 && (TCthrottle < throttle || TCthrottle == 100 && throttle == 100) && (throttle > 30 || trackLocation == 0) && TCrpm * 0.995 > rpm && rpm < 0.98 * revLim && speed < 200 && rpm > idleRPM * 1.3)
+                if (!tcBump && TCreleaseCD == 0 && gear == TCgear && TCdropCD == 0 && (TCthrottle < throttle || TCthrottle == 100 && throttle == 100) && (throttle > 30 || trackLocation == 0) && TCrpm * 0.995 > rpm && rpm < 0.98 * revLim && speed < 200 && rpm > idleRPM * 1.3)
                 {
                     TCon = true;
                     TCthrottle = throttle;
@@ -3319,7 +3343,7 @@ namespace User.PluginSdkDemo.iRacing
                 }
 
                 //Running wheel slip through the filter
-                if (!tcBump && TCreleaseCD == 0 && iRacingProperties.drivetrain.gear == TCgear && TCdropCD == 0 && (((TCthrottle < throttle || TCthrottle == 100 && throttle == 100) && (throttle > 30 || trackLocation == 0)) || (slipLF == 100 || slipRF == 100)))
+                if (!tcBump && TCreleaseCD == 0 && gear == TCgear && TCdropCD == 0 && (((TCthrottle < throttle || TCthrottle == 100 && throttle == 100) && (throttle > 30 || trackLocation == 0)) || (slipLF == 100 || slipRF == 100)))
                 {
                     Base.SetProp("SlipLF", slipLF);
                     Base.SetProp("SlipRF", slipRF);
@@ -3373,7 +3397,7 @@ namespace User.PluginSdkDemo.iRacing
                 RPMtracker = rpm;
             }
 
-            if (RPMgear != iRacingProperties.drivetrain.gear && iRacingProperties.drivetrain.gear != "N")
+            if (RPMgear != gear && gear != "N")
             {
                 RPMlastGear = RPMtracker;
                 RPMgearShift = true;
@@ -3411,7 +3435,7 @@ namespace User.PluginSdkDemo.iRacing
                         break;
                 }
 
-                RPMgear = iRacingProperties.drivetrain.gear;
+                RPMgear = gear;
                 RPMtracker = 0;
                 upshift = false;
                 downshift = false;
@@ -6839,7 +6863,7 @@ namespace User.PluginSdkDemo.iRacing
 
             Base.SetProp("TestProperty", TCreleaseCD != 0);
             Base.SetProp("Idle", iRIdle);
-            
+            Base.SetProp("SmoothGear", smoothGear);
             Base.SetProp("TrackEntry", offTrack);
             Base.SetProp("FuelSaveDelta", fuelSaveDelta);
             Base.SetProp("LEDWarnings", LEDwarningActive);

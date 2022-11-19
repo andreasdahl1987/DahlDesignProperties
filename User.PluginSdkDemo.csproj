@@ -131,7 +131,6 @@
     <Compile Include="iRacing\iRacingProperties.cs" />
     <Compile Include="iRacing\Properties\Tires.cs" />
     <Compile Include="iRacing\Properties\Engine.cs" />
-    <Compile Include="iRacing\Properties\Drivetrain.cs" />
     <Compile Include="iRacing\Models\Cars.cs" />
     <Compile Include="iRacing\CarInfos.cs" />
     <Compile Include="iRacing\PitCommands.cs" />
