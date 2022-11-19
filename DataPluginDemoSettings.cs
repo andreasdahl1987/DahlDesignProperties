@@ -9,7 +9,6 @@ namespace User.PluginSdkDemo
     /// </summary>
     public class DataPluginDemoSettings : INotifyPropertyChanged
     {
-
         public int ReactionTime { get; set; } = 300;
         public bool DDUEnabled { get; set; } = false;
         public int DDUstartLED { get; set; } = 1;
