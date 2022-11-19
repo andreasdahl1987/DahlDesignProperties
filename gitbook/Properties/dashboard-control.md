@@ -1,4 +1,4 @@
-# Dashboard control
+# 🎛 Dashboard control
 
 These properties are used to control visibility of elements in Dashboard. They all require a button mapping to be toggled. _**If you're not using Dashboard, you can still use these button mappings and these properties to control visibility of elements in your own dashboard template.**_&#x20;
 

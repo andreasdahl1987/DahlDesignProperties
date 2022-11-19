@@ -28,4 +28,4 @@ You'll have to activate the slip effects in the ShakeIT Motors plugin page and e
 
 Tell the plugin what buttons you use for gear shifting. A few properties, such as traction control emulation, is dependent on this. Use the "Pressed" press type.&#x20;
 
-<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>

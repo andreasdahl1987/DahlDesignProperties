@@ -1,4 +1,4 @@
-# DDC
+# 🎮 DDC
 
 Properties read from a DDC device
 

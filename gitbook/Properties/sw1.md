@@ -1,4 +1,4 @@
-# SW1
+# 🕹 SW1
 
 Properties read a Dahl Design SW1 steering wheel
 
