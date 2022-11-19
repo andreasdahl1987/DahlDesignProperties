@@ -6878,7 +6878,7 @@ namespace User.PluginSdkDemo.iRacing
             Base.SetProp("SpotterMode", spotMode);
             Base.SetProp("PitSavePaceLock", savePitTimerLock);
             Base.SetProp("OvertakeMode", overtakeMode);
-            Base.AddProp("FuelPerLapOffset", Math.Round(fuelPerLapOffset, 2));
+            Base.SetProp("FuelPerLapOffset", Math.Round(fuelPerLapOffset, 2));
 
             Base.SetProp("LapStatus", lapStatus);
             Base.SetProp("StintValidLaps", validStintLaps);
