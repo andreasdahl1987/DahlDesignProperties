@@ -1,20 +1,20 @@
 ﻿using System.Windows.Controls;
 
-namespace User.PluginSdkDemo
+namespace DahlDesign.Plugin
 {
     /// <summary>
     /// Logique d'interaction pour SettingsControlDemo.xaml
     /// </summary>
-    public partial class SettingsControlDemo : UserControl
+    public partial class SettingsControl : UserControl
     {
         public DahlDesign Plugin { get; }
 
-        public SettingsControlDemo()
+        public SettingsControl()
         {
             InitializeComponent();
         }
 
-        public SettingsControlDemo(DahlDesign plugin) : this()
+        public SettingsControl(DahlDesign plugin) : this()
         {
             this.Plugin = plugin;
         }

@@ -1,4 +1,4 @@
-﻿namespace User.PluginSdkDemo
+﻿namespace DahlDesign.Plugin
 {
 
 

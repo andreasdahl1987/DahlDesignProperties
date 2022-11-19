@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace User.PluginSdkDemo.iRacing
+namespace DahlDesign.Plugin.iRacing
 {
 
     public class CarInfo

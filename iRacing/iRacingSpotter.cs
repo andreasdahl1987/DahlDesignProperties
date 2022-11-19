@@ -1,7 +1,7 @@
 using System;
 using GameReaderCommon;
 
-namespace User.PluginSdkDemo.iRacing
+namespace DahlDesign.Plugin.iRacing
 {
     class iRacingSpotter
     {

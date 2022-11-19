@@ -1,4 +1,4 @@
-namespace User.PluginSdkDemo.Categories
+namespace DahlDesign.Plugin.Categories
 {
     public class Dashboard
     {

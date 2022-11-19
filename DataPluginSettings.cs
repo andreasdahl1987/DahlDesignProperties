@@ -2,12 +2,12 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace User.PluginSdkDemo
+namespace DahlDesign.Plugin
 {
     /// <summary>
     /// Settings class, make sure it can be correctly serialized using JSON.net
     /// </summary>
-    public class DataPluginDemoSettings : INotifyPropertyChanged
+    public class DataPluginSettings : INotifyPropertyChanged
     {
         public int ReactionTime { get; set; } = 300;
         public bool DDUEnabled { get; set; } = false;
