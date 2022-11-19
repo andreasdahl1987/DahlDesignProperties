@@ -1,4 +1,4 @@
-# 🗃 Dashboard settings
+# ⚙ Dashboard settings
 
 These properties reflect settings in the plugin menu
 
