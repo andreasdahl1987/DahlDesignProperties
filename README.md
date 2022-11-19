@@ -46,9 +46,9 @@
   </p>
 </div>
 
- <h3 <p align="center"> <a href="https://dahl-design.gitbook.io/dahl-design-properties/">MANUAL</a>
-</h3>
-
+  <h5 align="center">Welcome to the repository!  <br />  To get the most out of this plugin, I highly recommend checking out the manual.</h5>
+ <h2 <p align="center"> <a href="https://dahl-design.gitbook.io/dahl-design-properties/">MANUAL</a>
+</h2>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
