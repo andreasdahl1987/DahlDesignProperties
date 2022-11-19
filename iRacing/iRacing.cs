@@ -602,6 +602,12 @@ namespace User.PluginSdkDemo.iRacing
             Base.AddProp("P2PStatus", false);
             Base.AddProp("DRSCount", -1);
 
+            Base.AddProp("SlipLF", 0);
+            Base.AddProp("SlipRF", 0);
+            Base.AddProp("SlipLR", 0);
+            Base.AddProp("SlipRR", 0);
+
+
             Base.AddProp("AnimationType", 1);
             Base.AddProp("ShiftLightRPM", 0);
             Base.AddProp("ReactionTime", 0);
@@ -648,6 +654,8 @@ namespace User.PluginSdkDemo.iRacing
             Base.AddProp("QualyLap2Status", 0);
             Base.AddProp("QualyLap1Time", new TimeSpan(0));
             Base.AddProp("QualyLap2Time", new TimeSpan(0));
+
+
 
             Base.AddProp("CurrentSector", 0);
             Base.AddProp("CurrentSector1Time", new TimeSpan(0));
@@ -1726,7 +1734,11 @@ namespace User.PluginSdkDemo.iRacing
             irData.Telemetry.TryGetValue("DRS_Status", out object rawDRS);
             int DRSState = Convert.ToInt32(rawDRS);                                                 //DRS state
 
-     
+            double slipLF = Convert.ToDouble(Base.GetProp("ShakeITMotorsV3Plugin.Export.WheelSlip.FrontLeft"));  //Wheel slip
+            double slipRF = Convert.ToDouble(Base.GetProp("ShakeITMotorsV3Plugin.Export.WheelSlip.FrontRight"));  //Wheel slip
+            double slipLR = Convert.ToDouble(Base.GetProp("ShakeITMotorsV3Plugin.Export.WheelSlip.RearLeft"));  //Wheel slip
+            double slipRR = Convert.ToDouble(Base.GetProp("ShakeITMotorsV3Plugin.Export.WheelSlip.RearRight"));  //Wheel slip
+
             double trackPosition = irData.Telemetry.LapDistPct;                                     //Lap distance
             int completedLaps = Base.gameData.NewData.CompletedLaps;                                         //Completed laps
             int currentLap = Base.gameData.NewData.CurrentLap;                                               //Current lap
@@ -2670,7 +2682,33 @@ namespace User.PluginSdkDemo.iRacing
             //----------MISC--------------------
             //----------------------------------
 
-           
+            //Wheel slip
+            if (!Base.Settings.WheelSlipLEDs || slipLF < 25 || slipRF < 25)
+            {
+                slipLF = 0;
+                slipLR = 0;
+                slipRF = 0;
+                slipRR = 0;
+            }
+
+            if (slipLF < 40 && slipLF > slipRF)
+            {
+                slipRF = 0;
+                slipRR = 0;
+            }
+            else if (slipRF < 40 && slipRF > slipLF)
+            {
+                slipLF = 0;
+                slipLR = 0;
+            }
+
+            if (slipLF == 0 && slipLR == 0)
+            {
+                Base.SetProp("SlipLF", 0);
+                Base.SetProp("SlipRF", 0);
+                Base.SetProp("SlipLR", 0);
+                Base.SetProp("SlipRR", 0);
+            }
 
 
             //OvertakeMode
@@ -3281,12 +3319,12 @@ namespace User.PluginSdkDemo.iRacing
                 }
 
                 //Running wheel slip through the filter
-                if (!tcBump && TCreleaseCD == 0 && iRacingProperties.drivetrain.gear == TCgear && TCdropCD == 0 && (((TCthrottle < throttle || TCthrottle == 100 && throttle == 100) && (throttle > 30 || trackLocation == 0)) || (iRacingProperties.tires.slipLF == 100 || iRacingProperties.tires.slipRF == 100)))
+                if (!tcBump && TCreleaseCD == 0 && iRacingProperties.drivetrain.gear == TCgear && TCdropCD == 0 && (((TCthrottle < throttle || TCthrottle == 100 && throttle == 100) && (throttle > 30 || trackLocation == 0)) || (slipLF == 100 || slipRF == 100)))
                 {
-                    Base.SetProp("SlipLF", iRacingProperties.tires.slipLF);
-                    Base.SetProp("SlipRF", iRacingProperties.tires.slipRF);
-                    Base.SetProp("SlipLR", iRacingProperties.tires.slipLR);
-                    Base.SetProp("SlipRR", iRacingProperties.tires.slipRR);
+                    Base.SetProp("SlipLF", slipLF);
+                    Base.SetProp("SlipRF", slipRF);
+                    Base.SetProp("SlipLR", slipLR);
+                    Base.SetProp("SlipRR", slipRR);
                 }
 
                 if ((hasTCtog && TCswitch) || (hasTCtimer && TCPushTimer == 0)) //Push active TC, check again that calculations has been done because of TC, and not because of wheel slip calc

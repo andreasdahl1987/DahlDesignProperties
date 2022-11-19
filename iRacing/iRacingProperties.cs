@@ -8,7 +8,7 @@ namespace User.PluginSdkDemo.iRacing
 
         DataSampleEx irData;
 
-        public Tires tires;
+        readonly Tires tires;
         public Engine engine;
         public Drivetrain drivetrain;
 
@@ -22,14 +22,18 @@ namespace User.PluginSdkDemo.iRacing
 
         public void DataUpdate()
         {
-            if (Base.gameData?.NewData?.GetRawDataObject() is DataSampleEx)
-            {
-                irData = Base.gameData.NewData.GetRawDataObject() as DataSampleEx;
+            if (Base.gameData?.NewData?.GetRawDataObject() is DataSampleEx) 
+            { 
+                irData = Base.gameData.NewData.GetRawDataObject() as DataSampleEx; 
             }
 
             engine.DataUpdate();
             drivetrain.DataUpdate();
-            tires.DataUpdate();
+
+            if (Base.counter == 47)
+            {
+                tires.DataUpdate();
+            }
 
         }
     }
