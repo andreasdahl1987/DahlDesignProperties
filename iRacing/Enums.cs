@@ -1,4 +1,4 @@
-﻿namespace User.PluginSdkDemo.iRacing
+﻿namespace DahlDesign.Plugin.iRacing
 {
     public enum AnimationType
     {

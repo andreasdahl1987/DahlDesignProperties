@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace User.PluginSdkDemo.iRacing
+namespace DahlDesign.Plugin.iRacing
 {
     class LapRecords
     {

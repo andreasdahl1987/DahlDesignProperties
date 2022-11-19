@@ -7,7 +7,7 @@
     <ProjectGuid>{833040C9-FE5E-4CCF-B21D-71979E049B6B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>User.PluginSdkDemo</RootNamespace>
+    <RootNamespace>DahlDesign.Plugin</RootNamespace>
     <AssemblyName>DahlDesign</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -135,8 +135,8 @@
     <Compile Include="iRacing\PitCommands.cs" />
     <Compile Include="iRacing\Models\PitOpponents.cs" />
     <Compile Include="iRacing\iRacingSpotter.cs" />
-    <Compile Include="DataPluginDemo.cs" />
-    <Compile Include="DataPluginDemoSettings.cs" />
+    <Compile Include="DataPlugin.cs" />
+    <Compile Include="DataPluginSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -145,12 +145,12 @@
     </Compile>
     <Compile Include="Sections\DDC.cs" />
     <Compile Include="iRacing\iRacing.cs" />
-    <Compile Include="SettingsControlDemo.xaml.cs">
-      <DependentUpon>SettingsControlDemo.xaml</DependentUpon>
+    <Compile Include="SettingsControl.xaml.cs">
+      <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Sections\Dashboard.cs" />
     <Compile Include="iRacing\Models\Tracks.cs" />
-    <Compile Include="iRacing\TrackInfos.cs" />    
+    <Compile Include="iRacing\TrackInfos.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Properties\DesignTimeResources.xaml" Condition="'$(DesignTime)'=='true' OR ('$(SolutionPath)'!='' AND Exists('$(SolutionPath)') AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true')">
@@ -158,7 +158,7 @@
       <Generator>MSBuild:Compile</Generator>
       <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
     </Page>
-    <Page Include="SettingsControlDemo.xaml">
+    <Page Include="SettingsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

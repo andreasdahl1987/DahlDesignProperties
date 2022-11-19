@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using IRacingReader;
 
-namespace User.PluginSdkDemo.iRacing
+namespace DahlDesign.Plugin.iRacing
 {
     public class Data
     {

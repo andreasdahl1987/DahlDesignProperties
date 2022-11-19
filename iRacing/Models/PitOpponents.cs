@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace User.PluginSdkDemo
+namespace DahlDesign.Plugin
 {
     public class pitOpponents
     {

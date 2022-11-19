@@ -1,6 +1,6 @@
 using IRacingReader;
 
-namespace User.PluginSdkDemo.iRacing
+namespace DahlDesign.Plugin.iRacing
 {
     public class Tires
     {

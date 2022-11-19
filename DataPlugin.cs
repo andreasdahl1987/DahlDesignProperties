@@ -4,16 +4,16 @@ using System;
 using System.Windows.Media;
 //using ACSharedMemory;
 
-namespace User.PluginSdkDemo
+namespace DahlDesign.Plugin
 {
-    [PluginDescription("Dahl Design DDU Properties")]
+    [PluginDescription("Dahl Design Properties")]
     [PluginAuthor("Andreas Dahl")]
     [PluginName("DahlDesign")]
 
     public class DahlDesign : IPlugin, IDataPlugin, IWPFSettingsV2
     {
         const string version = "1.10.1";
-        public DataPluginDemoSettings Settings;
+        public DataPluginSettings Settings;
         /// <summary>Instance of the current plugin manager</summary>
         public PluginManager PluginManager { get; set; }
         public Categories.Dashboard Dashboard;
@@ -36,7 +36,7 @@ namespace User.PluginSdkDemo
             SimHub.Logging.Current.Info("Starting plugin");
 
             // Load settings
-            Settings = this.ReadCommonSettings<DataPluginDemoSettings>("GeneralSettings", () => new DataPluginDemoSettings());
+            Settings = this.ReadCommonSettings<DataPluginSettings>("GeneralSettings", () => new DataPluginSettings());
 
             Dashboard = new Categories.Dashboard(this);
             DDC = new Categories.DDC(this);
@@ -83,7 +83,7 @@ namespace User.PluginSdkDemo
         /// <returns></returns>
         public System.Windows.Controls.Control GetWPFSettingsControl(PluginManager pluginManager)
         {
-            return new SettingsControlDemo(this) { DataContext = Settings }; ;
+            return new SettingsControl(this) { DataContext = Settings }; ;
         }
 
         public void AddProp(string PropertyName, dynamic defaultValue) => PluginManager.AddProperty(PropertyName, GetType(), defaultValue);

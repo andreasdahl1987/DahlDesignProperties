@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace User.PluginSdkDemo.Categories
+namespace DahlDesign.Plugin.Categories
 {
     public class DDC
     {
