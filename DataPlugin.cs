@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace DahlDesign.Plugin
 {
-    [PluginDescription("Dahl Design DDU Properties")]
+    [PluginDescription("Dahl Design Properties")]
     [PluginAuthor("Andreas Dahl")]
     [PluginName("DahlDesign")]
 

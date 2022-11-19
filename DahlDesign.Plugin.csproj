@@ -150,7 +150,7 @@
     </Compile>
     <Compile Include="Sections\Dashboard.cs" />
     <Compile Include="iRacing\Models\Tracks.cs" />
-    <Compile Include="iRacing\TrackInfos.cs" />    
+    <Compile Include="iRacing\TrackInfos.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Properties\DesignTimeResources.xaml" Condition="'$(DesignTime)'=='true' OR ('$(SolutionPath)'!='' AND Exists('$(SolutionPath)') AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true')">
