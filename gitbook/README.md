@@ -2,15 +2,15 @@
 
 <figure><img src="../.gitbook/assets/spaces_jbYAjQCk3opS973PPvtm_uploads_git-blob-ab398c7e23d1ea0e86e9ecdaa50f57e756ab5314_blackLogo (3).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/Dahl design text.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/Dahl design text.PNG" alt=""><figcaption></figcaption></figure>
 
 ### Dahl Design Properties manual
 
-Welcome to the manual!&#x20;
+Welcome to the manual!
 
-Here you'll find the information you'll need to get the most out of this mammoth of a SimHub plugin for iRacing.&#x20;
+Here you'll find the information you'll need to get the most out of this mammoth of a SimHub plugin for iRacing.
 
-The topics that naturally fall into the manual for the [Dashboard](https://github.com/andreasdahl1987/DahlDesignDash), [LED plugin](https://github.com/andreasdahl1987/DahlDesignLED) and [DDC](https://github.com/andreasdahl1987/DahlDesignDDC) will not be covered here.&#x20;
+The topics that naturally fall into the manual for the [Dashboard](https://github.com/andreasdahl1987/DahlDesignDash), [LED plugin](https://github.com/andreasdahl1987/DahlDesignLED) and [DDC](https://github.com/andreasdahl1987/DahlDesignDDC) will not be covered here.
 
 ### More content
 
