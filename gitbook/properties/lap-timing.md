@@ -6,14 +6,23 @@ The plugin also features a **lap time delta system**, completely indenpentent fr
 
 The downside of this delta system is that the 60 Hz data flow limits the resolution of lap timing. So the delta values produced are not accurate to the 0.001s. They are very accurate to 0.1s, and fairly accurate to the 0.01s.&#x20;
 
-| Name           | Description                                                                                                                                                   | Type     |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| JokerThisLap   | Whether current lap is a joker lap or not                                                                                                                     | boolean  |
-| JokerCount     | Number of joker laps this stint                                                                                                                               | integer  |
-| LapsRemaining  | Complex algorithm that calculates the remaining laps of the race, based on time left, your pace, leaders pace and track position, amongst other things.       | integer  |
-| LapBalance     | Your position on track when session finishes; how close you are to having a 1 lap shorter/longer session.                                                     | decimal  |
-| Pace           | Dynamic estimation of race pace, adjusts to sudden changes in pace (damage, new tires) and excludes outlaps, inlaps and laps with time lost to crash/road-off | timespan |
-| SessionBestLap | Session best valid lap time.                                                                                                                                  | timespan |
-| LapRecord      | All time best valid lap time. Stored in the LapRecords.csv file in SimHub folder                                                                              | timespan |
-| OptimalLapTime | Fastest lap this session based on your fastest valid sector times                                                                                             | timespan |
-|                |                                                                                                                                                               |          |
+The **delta change** properties are strings of several values that represent delta changes over a given number of mini sectors (20). This is to avoid having to make 60 properties for delta change. You can extract the sector you want using the the javascript split() command in the dashboard editor; see how I did it in Dashboard.
+
+| Name                   | Description                                                                                                                                                   | Type     |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Pace                   | Dynamic estimation of race pace, adjusts to sudden changes in pace (damage, new tires) and excludes outlaps, inlaps and laps with time lost to crash/road-off | timespan |
+| SessionBestLap         | Session best valid lap time.                                                                                                                                  | timespan |
+| LapRecord              | All time best valid lap time. Stored in the LapRecords.csv file in SimHub folder                                                                              | timespan |
+| OptimalLapTime         | Fastest lap this session based on your fastest valid sector times                                                                                             | timespan |
+| QualyWarmUpLap         | Whether you're on warmup lap or not                                                                                                                           | boolean  |
+| QualyLap1Status        | Lone qualify lap 1 status: 1 - Waiting, 2 - Lap started, 3 - Lap ruined, 4 - Lap finished and valid                                                           | 1-4      |
+| QualyLap2Status        | Lone qualify lap 2 status: 1 - Waiting, 2 - Lap started, 3 - Lap ruined, 4 - Lap finished and valid                                                           | 1-4      |
+| QualyLap1Time          | Lap time on 1st qualy lap, will show live lap time when you're on lap 1                                                                                       | timespan |
+| QualyLap2Time          | Lap time on 2nd qualy lap, will show live lap time when you're on lap 2                                                                                       | timespan |
+| DeltaLastLap           | Delta to last lap time                                                                                                                                        | seconds  |
+| DeltaSessionBest       | Delta to session best lap time                                                                                                                                | seconds  |
+| DeltaLapRecord         | Delta to record lap time                                                                                                                                      | seconds  |
+| DeltaLastLapChange     | String containing the change in delta to last lap time over 20 mini sectors, separated by a comma.                                                            | string   |
+| DeltaSessionBestChange | String containing the change in delta to session best lap time over 20 mini sectors, separated by a comma.                                                    | string   |
+| DeltaLapRecordChange   | String containing the change in delta to the record lap time over 20 mini sectors, separated by a comma.                                                      | string   |
+
