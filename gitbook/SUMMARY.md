@@ -15,6 +15,7 @@
   * [🏎 Driving](Properties/car-info-2.md)
   * [🔄 Stint](properties/stint.md)
   * [🏁 Race](properties/race.md)
+  * [🧍♂ Opponents](properties/opponents.md)
   * [⏱ Lap timing](properties/lap-timing.md)
   * [📊 Lap sectors](properties/lap-sectors.md)
   * [🚀 Launch](Properties/launch.md)

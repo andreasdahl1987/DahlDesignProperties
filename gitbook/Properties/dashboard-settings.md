@@ -1,6 +1,8 @@
-# 🖥 Dashboard settings
+# ⚙ Dashboard settings
 
 These properties reflect settings in the plugin menu
+
+
 
 | Name                           | Description                                                                                                                                                            | Type    |
 | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
@@ -16,3 +18,4 @@ These properties reflect settings in the plugin menu
 | SmallFuelIncrement             | Current selected fuel increment for small adjustments (with the PitMenu system).                                                                                       | integer |
 | LargeFuelIncrement             | Current selected fuel increment for large adjustments (with the PitMenu system).                                                                                       | integer |
 | CoupleInCarToPit               | Couples InCarMenu and PitMenu, meaning PitMenu is disabled untill InCarMenu is in position 12. This allows you to use the same buttons for `+`, `-` and `OK` for both. | boolean |
+
