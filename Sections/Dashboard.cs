@@ -13,7 +13,7 @@ namespace DahlDesign.Plugin.Categories
         {
             Base = dahlDesign;
 
-            LeftScreen = new Screen(new string[] { "Time1", "Time2", "Time3", "Qualy", "Race1", "Race2", "Race3", "Practice1", "Practic2" });
+            LeftScreen = new Screen(new string[] { "Time1", "Time2", "Time3", "Qualy", "Race1", "Race2", "Race3", "Practice1", "Practice2" });
             RightScreen = new Screen(new string[] { "Stint1", "Stint2", "Qualy1", "Qualy2", "Race1", "Race2", "Race3", "Track" });
 
             Base.AddProp("ShowMapEnabled", Base.Settings.ShowMapEnabled);
