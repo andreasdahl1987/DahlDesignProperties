@@ -9,6 +9,9 @@ namespace DahlDesign.Plugin.Categories
 
         public Screen LeftScreen;
         public Screen RightScreen;
+
+       
+
         public Dashboard(DahlDesign dahlDesign)
         {
             Base = dahlDesign;
@@ -84,10 +87,48 @@ namespace DahlDesign.Plugin.Categories
             Base.SetProp("Dashboard.LeftScreen", LeftScreen.screenID);
             Base.SetProp("Dashboard.RightScreen", RightScreen.screenID);
 
+            string session = Base.gameData.NewData.SessionTypeName;
+
+            if (Base.iRacing.sessionHolder != session)
+            {
+                if (session == "Practice" || session == "Warmup")
+                {
+                    if (Base.Settings.LeftPracticeScreen != "None")
+                    {
+                        LeftScreen.screenID = System.Convert.ToInt32(Base.Settings.LeftPracticeScreen);
+                    }
+                    if (Base.Settings.RightPracticeScreen != "None")
+                    {
+                        RightScreen.screenID = System.Convert.ToInt32(Base.Settings.RightPracticeScreen);
+                    }
+                }
+                else if (session == "Race")
+                {
+                    if (Base.Settings.LeftRaceScreen != "None")
+                    {
+                        LeftScreen.screenID = System.Convert.ToInt32(Base.Settings.LeftRaceScreen);
+                    }
+                    if (Base.Settings.RightRaceScreen != "None")
+                    {
+                        RightScreen.screenID = System.Convert.ToInt32(Base.Settings.RightRaceScreen);
+                    }
+                }
+                else if (session == "Lone Qualify" || session == "Open Qualify")
+                {
+                    if (Base.Settings.LeftQualyScreen != "None")
+                    {
+                        LeftScreen.screenID = System.Convert.ToInt32(Base.Settings.LeftQualyScreen);
+                    }
+                    if (Base.Settings.RightQualyScreen != "None")
+                    {
+                        RightScreen.screenID = System.Convert.ToInt32(Base.Settings.RightQualyScreen);
+                    }
+                }
+            }
+
             if (Base.counter != 2)
                 return;
-
-
+            
             Base.SetProp("DDUstartLED", Base.Settings.DDUstartLED);
             Base.SetProp("SW1startLED", Base.Settings.SW1startLED);
             Base.SetProp("DDUEnabled", Base.Settings.DDUEnabled);
