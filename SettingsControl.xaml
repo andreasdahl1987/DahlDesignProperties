@@ -344,51 +344,9 @@
                                 VerticalAlignment="Top"
                                 Height="20"
                                 IsChecked="{Binding SupercarARBDirection}" />
-
-                                <TextBlock Grid.Row="10" 
-                                Text="Show Map instead of gear"    HorizontalAlignment="Left"
-                                VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18" >
-                                </TextBlock>
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="10"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Height="20"
-                            IsChecked="{Binding ShowMapEnabled}" RenderTransformOrigin="0.45,0.2"/>
-
-                                <TextBlock Grid.Row="11" Text="Override Dashboard Type"/>
-                                <ComboBox Grid.Row="11" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
-                                          SelectedValue="{Binding DashType}" SelectedValuePath="Content">
-                                <ComboBoxItem IsSelected="True">Automatic Selection</ComboBoxItem>
-                                
-                                <ComboBoxItem >Porsche GT3R</ComboBoxItem>
-                                <ComboBoxItem >Dallara LMP2</ComboBoxItem>
-                                <ComboBoxItem >Rally</ComboBoxItem>
-                                <ComboBoxItem >Supercar</ComboBoxItem>
-                                <ComboBoxItem >FR3.5</ComboBoxItem>
-                                <ComboBoxItem >Porsche 919</ComboBoxItem>
-                                <ComboBoxItem >Mercedes W12</ComboBoxItem>
-                                <ComboBoxItem >Mclaren F1</ComboBoxItem>
-                                <ComboBoxItem >Williams F1</ComboBoxItem>
-                                <ComboBoxItem >Indycar</ComboBoxItem>
-                                <ComboBoxItem >Williams F1</ComboBoxItem>
-                                <ComboBoxItem >GT3</ComboBoxItem>
-                                <ComboBoxItem >BiasOnly</ComboBoxItem>
-                                <ComboBoxItem>Default</ComboBoxItem>
-                            </ComboBox>
-                                <TextBlock Grid.Row="12" 
-                                Text="Show Brake and Throttle gauges"    HorizontalAlignment="Left"
-                                VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18" >
-                                </TextBlock>
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="12"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Height="20"
-                            IsChecked="{Binding ShowBrakeThrottleGaugesEnabled}" RenderTransformOrigin="0.45,0.2"/>
                             </Grid>
-
                         </StackPanel>
                     </styles:SHSection>
-
                 </Grid>
             </TabItem>
             <TabItem Header="CHAT" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
@@ -410,6 +368,104 @@
                                     Margin="10,-20,0,10"                        
                                     Text="{Binding BehindPlayerText}"/>
 
+                        </StackPanel>
+                    </styles:SHSection>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="DASHBOARD" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
+                <Grid Background="#FFDADADA" Margin="0,0,0,0">
+                    <styles:SHSection Title="Dashboard" Margin="0,0,0,0">
+                        <StackPanel>
+                                                    <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*" MinHeight="20"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="1" 
+                                Text="Show Map instead of gear"    HorizontalAlignment="Left"
+                                VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18" >
+                                </TextBlock>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Height="20"
+                            IsChecked="{Binding ShowMapEnabled}" RenderTransformOrigin="0.45,0.2"/>
+
+                            <TextBlock Grid.Row="2" Text="Override Dashboard Type"/>
+                                <ComboBox Grid.Row="2" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
+                                          SelectedValue="{Binding DashType}" SelectedValuePath="Content">
+                                <ComboBoxItem IsSelected="True">Automatic Selection</ComboBoxItem>
+                                
+                                <ComboBoxItem >Porsche GT3R</ComboBoxItem>
+                                <ComboBoxItem >Dallara LMP2</ComboBoxItem>
+                                <ComboBoxItem >Rally</ComboBoxItem>
+                                <ComboBoxItem >Supercar</ComboBoxItem>
+                                <ComboBoxItem >FR3.5</ComboBoxItem>
+                                <ComboBoxItem >Porsche 919</ComboBoxItem>
+                                <ComboBoxItem >Mercedes W12</ComboBoxItem>
+                                <ComboBoxItem >Mclaren F1</ComboBoxItem>
+                                <ComboBoxItem >Williams F1</ComboBoxItem>
+                                <ComboBoxItem >Indycar</ComboBoxItem>
+                                <ComboBoxItem >Williams F1</ComboBoxItem>
+                                <ComboBoxItem >GT3</ComboBoxItem>
+                                <ComboBoxItem >BiasOnly</ComboBoxItem>
+                                <ComboBoxItem>Default</ComboBoxItem>
+                            </ComboBox>
+
+                                <TextBlock Grid.Row="3" 
+                                Text="Show Brake and Throttle gauges"    HorizontalAlignment="Left"
+                                VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18" >
+                                </TextBlock>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="3"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Height="20"
+                            IsChecked="{Binding ShowBrakeThrottleGaugesEnabled}" RenderTransformOrigin="0.45,0.2"/>
+
+                            <TextBlock Grid.Row="4" Text="Left Screen at startup"/>
+                                <ComboBox Grid.Row="4" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
+                                          SelectedValuePath="Tag" SelectedValue="{Binding LeftScreen}">
+                                <ComboBoxItem Tag="1" IsSelected="True">Time Attack</ComboBoxItem>
+                                <ComboBoxItem Tag="2">Sector</ComboBoxItem>
+                                <ComboBoxItem Tag="3">Lap Time</ComboBoxItem>
+                                <ComboBoxItem Tag="4">Quali</ComboBoxItem>
+                                <ComboBoxItem Tag="5">Race</ComboBoxItem>
+                                <ComboBoxItem Tag="6">Race 2</ComboBoxItem>
+                                <ComboBoxItem Tag="7">Race 3</ComboBoxItem>
+                                <ComboBoxItem Tag="8">Shift Point</ComboBoxItem>
+                                <ComboBoxItem Tag="9">Map</ComboBoxItem>
+                            </ComboBox>
+
+                            <TextBlock Grid.Row="5" Text="Right Screen at startup"/>
+                                <ComboBox Grid.Row="5" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
+                                          SelectedValuePath="Tag" SelectedValue="{Binding RightScreen}">
+                                <ComboBoxItem Tag="1" IsSelected="True">Practice</ComboBoxItem>
+                                <ComboBoxItem Tag="2">Stint</ComboBoxItem>
+                                <ComboBoxItem Tag="3">Qualify</ComboBoxItem>
+                                <ComboBoxItem Tag="4">Open</ComboBoxItem>
+                                <ComboBoxItem Tag="5">Race 1</ComboBoxItem>
+                                <ComboBoxItem Tag="6">Race 2</ComboBoxItem>
+                                <ComboBoxItem Tag="7">Ralley</ComboBoxItem>
+                                <ComboBoxItem Tag="8">Track</ComboBoxItem>                                
+                            </ComboBox>
+                            </Grid>
+                  
+                            <TextBlock>Controls</TextBlock>
+                            <ui:ControlsEditor FriendlyName="Left Screen > Next" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Next" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen > Previous" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Previous" HorizontalAlignment="Left" Width="750"/>
+
+                            <ui:ControlsEditor FriendlyName="Right Screen > Next" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Next" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen > Previous" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Previous" HorizontalAlignment="Left" Width="750"/>
                         </StackPanel>
                     </styles:SHSection>
 

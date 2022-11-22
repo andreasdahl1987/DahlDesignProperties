@@ -149,6 +149,7 @@
       <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Sections\Dashboard.cs" />
+    <Compile Include="Sections\Screen.cs" />
     <Compile Include="iRacing\Models\Tracks.cs" />
     <Compile Include="iRacing\TrackInfos.cs" />
   </ItemGroup>
