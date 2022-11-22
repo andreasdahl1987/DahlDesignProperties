@@ -463,9 +463,26 @@
                             <TextBlock>Controls</TextBlock>
                             <ui:ControlsEditor FriendlyName="Left Screen > Next" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Next" HorizontalAlignment="Left" Width="750"/>
                             <ui:ControlsEditor FriendlyName="Left Screen > Previous" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Previous" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Time Attack" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.1_TimeAttack" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Sector" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.2_Sector" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Lap Time" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.3_LapTime" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Quali" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.4_Quali" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Race" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.5_Race" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Race 2" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.6_Race2" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Race 3" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.7_Race3" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Shift Point" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.8_ShiftPoint" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Map" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.9_Map" HorizontalAlignment="Left" Width="750"/>
 
                             <ui:ControlsEditor FriendlyName="Right Screen > Next" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Next" HorizontalAlignment="Left" Width="750"/>
                             <ui:ControlsEditor FriendlyName="Right Screen > Previous" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Previous" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Practice" ActionName="DahlDesign.Controls.Dashboard.RightScreen.1_Practice" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Stint" ActionName="DahlDesign.Controls.Dashboard.RightScreen.2_Stint" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Q1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.3_Q1" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Q2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.4_Q2" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Race 1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.5_Race1" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Race 2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.6_Race2" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Ralley" ActionName="DahlDesign.Controls.Dashboard.RightScreen.7_Ralley" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Track" ActionName="DahlDesign.Controls.Dashboard.RightScreen.8_Track" HorizontalAlignment="Left" Width="750"/>
                         </StackPanel>
                     </styles:SHSection>
 
