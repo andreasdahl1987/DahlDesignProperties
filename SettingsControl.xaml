@@ -435,54 +435,54 @@
                             <TextBlock Grid.Row="4" Text="Left Screen at startup"/>
                                 <ComboBox Grid.Row="4" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
                                           SelectedValuePath="Tag" SelectedValue="{Binding LeftScreen}">
-                                <ComboBoxItem Tag="1" IsSelected="True">Time Attack</ComboBoxItem>
-                                <ComboBoxItem Tag="2">Sector</ComboBoxItem>
-                                <ComboBoxItem Tag="3">Lap Time</ComboBoxItem>
-                                <ComboBoxItem Tag="4">Quali</ComboBoxItem>
-                                <ComboBoxItem Tag="5">Race</ComboBoxItem>
-                                <ComboBoxItem Tag="6">Race 2</ComboBoxItem>
-                                <ComboBoxItem Tag="7">Race 3</ComboBoxItem>
-                                <ComboBoxItem Tag="8">Shift Point</ComboBoxItem>
-                                <ComboBoxItem Tag="9">Map</ComboBoxItem>
+                                <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
+                                <ComboBoxItem Tag="2">Time2</ComboBoxItem>
+                                <ComboBoxItem Tag="3">Time3</ComboBoxItem>
+                                <ComboBoxItem Tag="4">Qualy</ComboBoxItem>
+                                <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                <ComboBoxItem Tag="8">Practice1</ComboBoxItem>
+                                <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
                             </ComboBox>
 
                             <TextBlock Grid.Row="5" Text="Right Screen at startup"/>
                                 <ComboBox Grid.Row="5" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
                                           SelectedValuePath="Tag" SelectedValue="{Binding RightScreen}">
-                                <ComboBoxItem Tag="1" IsSelected="True">Practice</ComboBoxItem>
-                                <ComboBoxItem Tag="2">Stint</ComboBoxItem>
-                                <ComboBoxItem Tag="3">Qualify</ComboBoxItem>
-                                <ComboBoxItem Tag="4">Open</ComboBoxItem>
-                                <ComboBoxItem Tag="5">Race 1</ComboBoxItem>
-                                <ComboBoxItem Tag="6">Race 2</ComboBoxItem>
-                                <ComboBoxItem Tag="7">Ralley</ComboBoxItem>
+                                <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
+                                <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
+                                <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
+                                <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
+                                <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                <ComboBoxItem Tag="7">Race3</ComboBoxItem>
                                 <ComboBoxItem Tag="8">Track</ComboBoxItem>                                
                             </ComboBox>
                             </Grid>
                   
                             <TextBlock>Controls</TextBlock>
-                            <ui:ControlsEditor FriendlyName="Left Screen > Next" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Next" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen > Previous" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Previous" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Time Attack" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.1_TimeAttack" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Sector" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.2_Sector" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Lap Time" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.3_LapTime" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Quali" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.4_Quali" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Race" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.5_Race" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Race 2" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.6_Race2" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Race 3" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.7_Race3" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Shift Point" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.8_ShiftPoint" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Map" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.9_Map" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen > Next Page" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Next" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen > Previous Page" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Previous" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Time1" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Time1" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Time2" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Time2" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Time3" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Time3" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Qualy" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Qualy" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Race1" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Race1" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Race2" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Race2" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Race3" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Race3" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Practice1" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Practice1" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Left Screen - Practice2" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Practice2" HorizontalAlignment="Left" Width="750"/>
 
-                            <ui:ControlsEditor FriendlyName="Right Screen > Next" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Next" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen > Previous" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Previous" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Practice" ActionName="DahlDesign.Controls.Dashboard.RightScreen.1_Practice" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Stint" ActionName="DahlDesign.Controls.Dashboard.RightScreen.2_Stint" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Q1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.3_Q1" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Q2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.4_Q2" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Race 1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.5_Race1" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Race 2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.6_Race2" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Ralley" ActionName="DahlDesign.Controls.Dashboard.RightScreen.7_Ralley" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Track" ActionName="DahlDesign.Controls.Dashboard.RightScreen.8_Track" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen > Next Page" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Next" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen > Previous Page" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Previous" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Stint1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Stint1" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Stint2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Stint2" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Qualy1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Qualy1" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Qualy2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Qualy2" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Race1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Race1" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Race2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Race2" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Race3" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Race3" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Right Screen - Track" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Track" HorizontalAlignment="Left" Width="750"/>
                         </StackPanel>
                     </styles:SHSection>
 
