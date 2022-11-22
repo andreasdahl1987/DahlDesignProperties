@@ -375,6 +375,7 @@
             </TabItem>
             <TabItem Header="DASHBOARD" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
                 <Grid Background="#FFDADADA" Margin="0,0,0,0">
+                <ScrollViewer>
                     <styles:SHSection Title="Dashboard" Margin="0,0,0,0">
                         <StackPanel>
                                                     <Grid>
@@ -485,7 +486,7 @@
                             <ui:ControlsEditor FriendlyName="Right Screen - Track" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Track" HorizontalAlignment="Left" Width="750"/>
                         </StackPanel>
                     </styles:SHSection>
-
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
         </TabControl>
