@@ -6,8 +6,14 @@ The plugin also features a **lap time delta system**, completely indenpentent fr
 
 The downside of this delta system is that the 60 Hz data flow limits the resolution of lap timing. So the delta values produced are not accurate to the 0.001s. They are very accurate to 0.1s, and fairly accurate to the 0.01s.&#x20;
 
-| Name | Description | Type |
-| ---- | ----------- | ---- |
-|      |             |      |
-|      |             |      |
-|      |             |      |
+| Name           | Description                                                                                                                                                   | Type     |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| JokerThisLap   | Whether current lap is a joker lap or not                                                                                                                     | boolean  |
+| JokerCount     | Number of joker laps this stint                                                                                                                               | integer  |
+| LapsRemaining  | Complex algorithm that calculates the remaining laps of the race, based on time left, your pace, leaders pace and track position, amongst other things.       | integer  |
+| LapBalance     | Your position on track when session finishes; how close you are to having a 1 lap shorter/longer session.                                                     | decimal  |
+| Pace           | Dynamic estimation of race pace, adjusts to sudden changes in pace (damage, new tires) and excludes outlaps, inlaps and laps with time lost to crash/road-off | timespan |
+| SessionBestLap | Session best valid lap time.                                                                                                                                  | timespan |
+| LapRecord      | All time best valid lap time. Stored in the LapRecords.csv file in SimHub folder                                                                              | timespan |
+| OptimalLapTime | Fastest lap this session based on your fastest valid sector times                                                                                             | timespan |
+|                |                                                                                                                                                               |          |

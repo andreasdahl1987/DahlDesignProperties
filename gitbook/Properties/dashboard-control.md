@@ -1,6 +1,8 @@
 # 🎛 Dashboard control
 
-These properties are used to control visibility of elements in Dashboard. They all require a button mapping to be toggled. _**If you're not using Dashboard, you can still use these button mappings and these properties to control visibility of elements in your own dashboard template.**_&#x20;
+These properties are used to control visibility of elements and animate the PitMenu and InCarMenu in Dashbaord. They all require a button/rotary switch to be assigned.&#x20;
+
+If you're not using Dashboard, you can still use these button mappings and these properties to control visibility of elements in your own dashboard template.
 
 | Name            | Description                                                                                                                                                                                                                                                                                                                                             | Type     |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
@@ -16,4 +18,3 @@ These properties are used to control visibility of elements in Dashboard. They a
 | LEDWarnings     | On/Off guide to LEDs warning lights for Dahl Design DDU. Currently not in use                                                                                                                                                                                                                                                                           | boolean  |
 | SpotterMode     | On/off spotter mode. The idle screen will be removed when in spotter mode                                                                                                                                                                                                                                                                               | boolean  |
 |                 |                                                                                                                                                                                                                                                                                                                                                         |          |
-
