@@ -10,6 +10,8 @@ These properties reflect settings in the plugin menu
 | ShowMapEnabled                 | Map instead of gear in center box.                                                                                                                                     | boolean |
 | ShowBrakeThrottleGaugesEnabled | Frame of center box show throttle and brake inputs.                                                                                                                    | boolean |
 | DashType                       | Current type of center box graphic.                                                                                                                                    | string  |
+| Dashboard.LeftScreen                       | Current left screen page.                                                                                                                                    | string  |
+| Dashboard.RightScreen                       | Current right screen page.                                                                                                                                    | string  |
 | LapInfoScreen                  | Show lap summary when starting new lap.                                                                                                                                | boolean |
 | ShiftTimingAssist              | Allow shift timing assist tools in the RPM bar outside of practice sessions.                                                                                           | boolean |
 | ShiftWarning                   | RPM bar goes orange as a shift alert. Takes `reaction tim`e setting into account.                                                                                      | boolean |
