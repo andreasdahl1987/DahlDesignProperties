@@ -23,6 +23,10 @@ namespace DahlDesign.Plugin
         public int SmallFuelIncrement { get; set; } = 2; //In Liters
         public int LargeFuelIncrement { get; set; } = 10; //In Liters
 
+        public double FuelCalculationMargin { get; set; } = 0; //In liters
+
+        public double FuelCommandMargin { get; set; } = 0.5; //In liters
+
         public bool CoupleInCarToPit { get; set; } = true; //Only allow pit commands when the in-car rotary is on Pit Mode.
 
         public bool ShiftTimingAssist { get; set; } = false;

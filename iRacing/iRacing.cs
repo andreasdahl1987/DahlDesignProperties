@@ -5549,7 +5549,7 @@ namespace DahlDesign.Plugin.iRacing
                 if (fuelPerLap > 0)
                 {
                     double distanceLeft = truncRemainingLaps + 1 - trackPosition;
-                    double fuelDelta = fuel - (fuelPerLap * distanceLeft);
+                    double fuelDelta = fuel - (fuelPerLap * distanceLeft) - Base.Settings.FuelCalculationMargin;
 
                     //Calculating pit window
 
@@ -5629,12 +5629,12 @@ namespace DahlDesign.Plugin.iRacing
 
                     if (Base.counter != 4)
                     {
-                        commandMinFuel = Math.Ceiling(minFuelPush + 0.5);
+                        commandMinFuel = Math.Ceiling(minFuelPush + Base.Settings.FuelCommandMargin);
                         if (minFuelPush == 0)
                         {
                             commandMinFuel = 0;
                         }
-                        commandMaxFuel = Math.Ceiling(maxFuelPush + 0.5);
+                        commandMaxFuel = Math.Ceiling(maxFuelPush + Base.Settings.FuelCommandMargin);
                         if (maxFuelPush == 0)
                         {
                             commandMaxFuel = 500;
