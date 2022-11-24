@@ -22,6 +22,7 @@
   * [⛽ Fuel and strategy](Properties/fuel-and-strategy.md)
   * [🔧 Pit service](Properties/pit-service.md)
   * [⤴ Pit Exit](properties/pit-exit.md)
+  * [🔨 Utility](properties/utility.md)
   * [🖥 Dashboard settings](Properties/dashboard-settings.md)
   * [🎛 Dashboard control](Properties/dashboard-control.md)
   * [🚥 LED control](Properties/led-control.md)
