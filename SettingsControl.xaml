@@ -390,7 +390,13 @@
                                     <RowDefinition Height="1*" MinHeight="30"/>
                                     <RowDefinition Height="1*" MinHeight="30"/>
                                     <RowDefinition Height="1*" MinHeight="30"/>
-                                </Grid.RowDefinitions>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    </Grid.RowDefinitions>
 
                             <TextBlock Grid.Row="1" 
                                 Text="Show Map instead of gear"    HorizontalAlignment="Left"
@@ -433,9 +439,9 @@
                             Height="20"
                             IsChecked="{Binding ShowBrakeThrottleGaugesEnabled}" RenderTransformOrigin="0.45,0.2"/>
 
-                            <TextBlock Grid.Row="4" Text="Left Screen at startup"/>
-                                <ComboBox Grid.Row="4" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
-                                          SelectedValuePath="Tag" SelectedValue="{Binding LeftScreen}">
+                            <TextBlock Grid.Row="4" Text="Left Screen in practice"/>
+                            <ComboBox Grid.Row="4" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
+                                SelectedValuePath="Tag" SelectedValue="{Binding LeftPracticeScreen}">
                                 <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
                                 <ComboBoxItem Tag="2">Time2</ComboBoxItem>
                                 <ComboBoxItem Tag="3">Time3</ComboBoxItem>
@@ -447,9 +453,9 @@
                                 <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
                             </ComboBox>
 
-                            <TextBlock Grid.Row="5" Text="Right Screen at startup"/>
-                                <ComboBox Grid.Row="5" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
-                                          SelectedValuePath="Tag" SelectedValue="{Binding RightScreen}">
+                                <TextBlock Grid.Row="5" Text="Right Screen in practice"/>
+                            <ComboBox Grid.Row="5" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
+                                    SelectedValuePath="Tag" SelectedValue="{Binding RightPracticeScreen}">
                                 <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
                                 <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
                                 <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
@@ -457,9 +463,64 @@
                                 <ComboBoxItem Tag="5">Race1</ComboBoxItem>
                                 <ComboBoxItem Tag="6">Race2</ComboBoxItem>
                                 <ComboBoxItem Tag="7">Race3</ComboBoxItem>
-                                <ComboBoxItem Tag="8">Track</ComboBoxItem>                                
+                                <ComboBoxItem Tag="8">Track</ComboBoxItem>
                             </ComboBox>
-                            </Grid>
+
+                            <TextBlock Grid.Row="6" Text="Left Screen in qualy"/>
+                            <ComboBox Grid.Row="6" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
+                        SelectedValuePath="Tag" SelectedValue="{Binding LeftQualyScreen}">
+                                <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
+                                <ComboBoxItem Tag="2">Time2</ComboBoxItem>
+                                <ComboBoxItem Tag="3">Time3</ComboBoxItem>
+                                <ComboBoxItem Tag="4">Qualy</ComboBoxItem>
+                                <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                <ComboBoxItem Tag="8">Practice1</ComboBoxItem>
+                                <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
+                            </ComboBox>
+
+                            <TextBlock Grid.Row="7" Text="Right Screen in qualy"/>
+                            <ComboBox Grid.Row="7" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
+                            SelectedValuePath="Tag" SelectedValue="{Binding RightQualyScreen}">
+                                <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
+                                <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
+                                <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
+                                <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
+                                <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                <ComboBoxItem Tag="8">Track</ComboBoxItem>
+                            </ComboBox>
+
+                            <TextBlock Grid.Row="8" Text="Left Screen in race"/>
+                            <ComboBox Grid.Row="8" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
+                        SelectedValuePath="Tag" SelectedValue="{Binding LeftRaceScreen}">
+                                <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
+                                <ComboBoxItem Tag="2">Time2</ComboBoxItem>
+                                <ComboBoxItem Tag="3">Time3</ComboBoxItem>
+                                <ComboBoxItem Tag="4">Qualy</ComboBoxItem>
+                                <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                <ComboBoxItem Tag="8">Practice1</ComboBoxItem>
+                                <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
+                            </ComboBox>
+
+                            <TextBlock Grid.Row="9" Text="Right Screen in race"/>
+                            <ComboBox Grid.Row="9" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
+                            SelectedValuePath="Tag" SelectedValue="{Binding RightRaceScreen}">
+                                <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
+                                <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
+                                <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
+                                <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
+                                <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                <ComboBoxItem Tag="8">Track</ComboBoxItem>
+                            </ComboBox>
+
+                                </Grid>
                   
                             <TextBlock>Controls</TextBlock>
                             <ui:ControlsEditor FriendlyName="Left Screen > Next Page" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Next" HorizontalAlignment="Left" Width="750"/>

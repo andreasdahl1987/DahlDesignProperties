@@ -117,7 +117,7 @@ namespace DahlDesign.Plugin.iRacing
 
         string carModelHolder = "";
         string trackHolder = "";
-        string sessionHolder = "";
+        public string sessionHolder { get; set; } = "";
 
         List<double?> carAheadGap = new List<double?> { };
         List<double?> carAheadRaceGap = new List<double?> { };
