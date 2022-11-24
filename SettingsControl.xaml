@@ -335,12 +335,19 @@
                                 <TextBox VerticalAlignment="Top" Height="20" Margin="10,-20,0,-20" Text="{Binding fuelPerLapTarget}"/>
                                 <TextBlock Text="Fuel per lap offset increments:" Grid.Row="1" Margin="10,10,0,23" Grid.RowSpan="2"/>
                                 <TextBox VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding fuelOffsetIncrement}"/>
-                                <TextBlock Text="Small Pitstop Fuel Adjustment Increment (Liters)" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                                <TextBlock Text="Small Pitstop Fuel Adjustment Increment (liters)" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
                                 <TextBlock Text="{Binding ElementName=SmallIncrementSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,0,0,0" Width="20" Height="20"/>
                                 <Slider x:Name="SmallIncrementSlider" Value="{Binding SmallFuelIncrement}" Width="600" HorizontalAlignment="Left" Maximum="10" Minimum="1" SmallChange="1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" />
-                                <TextBlock Text="Large Pitstop Fuel Adjustment Increment (Liters)" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                                <TextBlock Text="Large Pitstop Fuel Adjustment Increment (liters)" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
                                 <TextBlock Text="{Binding ElementName=LargeIncrementSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,0,0,0" Width="20" Height="20"/>
-                                <Slider x:Name="LargeIncrementSlider" Value="{Binding LargeFuelIncrement}" Width="600" HorizontalAlignment="Left" Maximum="50" Minimum="10" SmallChange="5" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" />
+                                <Slider x:Name="LargeIncrementSlider" Value="{Binding LargeFuelIncrement}" Width="600" HorizontalAlignment="Left" Maximum="50" Minimum="5" SmallChange="5" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" />
+                                <TextBlock Text="Fuel calculation margin (liters)" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                                <TextBlock Text="{Binding ElementName=FuelCalculationMarginSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,0,0,0" Width="20" Height="20"/>
+                                <Slider x:Name="FuelCalculationMarginSlider" Value="{Binding FuelCalculationMargin}" Width="600" HorizontalAlignment="Left" Maximum="2" Minimum="-1" SmallChange="0.1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" TickFrequency="0.1" />
+                                <TextBlock Text="Fuel command margin. Cumulates with fuel calculation margin (liters)" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                                <TextBlock Text="{Binding ElementName=FuelCommandMarginSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,0,0,0" Width="20" Height="20"/>
+                                <Slider x:Name="FuelCommandMarginSlider" Value="{Binding FuelCommandMargin}" Width="600" HorizontalAlignment="Left" Maximum="2" Minimum="-1" SmallChange="0.1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" TickFrequency="0.1" />
+
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="2*"/>
@@ -481,7 +488,8 @@
 
                                 <TextBlock Text="Reaction time (ms)">
                                 </TextBlock>
-                                <Slider MinWidth="400" MaxWidth="800" HorizontalAlignment="Left" AutoToolTipPlacement="TopLeft" Ticks="10,20,30,40,50,60,70,80,90" TickFrequency="1" TickPlacement="Both" Value="{Binding Path=ReactionTime}" Minimum="100" Maximum="1000">
+                                <TextBlock Text="{Binding ElementName=ReactionSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,0,0,0" Width="20" Height="20"/>
+                                <Slider x:Name="ReactionSlider" MinWidth="400" MaxWidth="800" HorizontalAlignment="Left" AutoToolTipPlacement="TopLeft" Ticks="10,20,30,40,50,60,70,80,90" TickFrequency="1" TickPlacement="Both" Value="{Binding Path=ReactionTime}" Minimum="100" Maximum="1000">
                                 </Slider>
                             </StackPanel>
                         </styles:SHSection>
