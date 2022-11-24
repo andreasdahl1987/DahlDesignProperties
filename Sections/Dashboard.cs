@@ -71,6 +71,8 @@ namespace DahlDesign.Plugin.Categories
 
         public void DataUpdate()
         {
+            if (Base.gameName != "IRacing" || !Base.gameRunning) return;
+        
             Base.SetProp("ShowMapEnabled", Base.Settings.ShowMapEnabled);
             Base.SetProp("ShowBrakeThrottleGaugesEnabled", Base.Settings.ShowBrakeThrottleGaugesEnabled);
 
