@@ -9,6 +9,9 @@ namespace DahlDesign.Plugin.Categories
 
         public Screen LeftScreen;
         public Screen RightScreen;
+
+       
+
         public Dashboard(DahlDesign dahlDesign)
         {
             Base = dahlDesign;
@@ -31,16 +34,6 @@ namespace DahlDesign.Plugin.Categories
             Base.AddProp("MenuType", "");
             Base.AddProp("Dashboard.LeftScreen", Base.Settings.LeftScreen);
             Base.AddProp("Dashboard.RightScreen", Base.Settings.RightScreen);
-            try
-            {
-                LeftScreen.screenID = System.Convert.ToInt32(Base.Settings.LeftScreen);              //setup left startup screen      
-            }
-            catch (System.Exception) { }
-            try
-            {
-                RightScreen.screenID = System.Convert.ToInt32(Base.Settings.RightScreen);            //setup right startup screen 
-            }
-            catch (System.Exception) { }
 
             Base.AddAction(
                 "Controls.MapToggle",
@@ -78,16 +71,38 @@ namespace DahlDesign.Plugin.Categories
 
         public void DataUpdate()
         {
+            if (Base.gameName != "IRacing" || !Base.gameRunning) return;
+        
             Base.SetProp("ShowMapEnabled", Base.Settings.ShowMapEnabled);
             Base.SetProp("ShowBrakeThrottleGaugesEnabled", Base.Settings.ShowBrakeThrottleGaugesEnabled);
+
+            string session = Base.gameData.NewData.SessionTypeName;
+
+            if (Base.iRacing.sessionHolder != session)
+            {
+                if (session == "Practice" || session == "Warmup" || session == "Offline testing")
+                {
+                     LeftScreen.screenID = System.Convert.ToInt32(Base.Settings.LeftPracticeScreen);
+                     RightScreen.screenID = System.Convert.ToInt32(Base.Settings.RightPracticeScreen);
+                }
+                else if (session == "Race")
+                {
+                    LeftScreen.screenID = System.Convert.ToInt32(Base.Settings.LeftRaceScreen);
+                    RightScreen.screenID = System.Convert.ToInt32(Base.Settings.RightRaceScreen);
+                }
+                else if (session == "Lone Qualify" || session == "Open Qualify")
+                {
+                    LeftScreen.screenID = System.Convert.ToInt32(Base.Settings.LeftQualyScreen);
+                    RightScreen.screenID = System.Convert.ToInt32(Base.Settings.RightQualyScreen);
+                }
+            }
 
             Base.SetProp("Dashboard.LeftScreen", LeftScreen.screenID);
             Base.SetProp("Dashboard.RightScreen", RightScreen.screenID);
 
             if (Base.counter != 2)
                 return;
-
-
+            
             Base.SetProp("DDUstartLED", Base.Settings.DDUstartLED);
             Base.SetProp("SW1startLED", Base.Settings.SW1startLED);
             Base.SetProp("DDUEnabled", Base.Settings.DDUEnabled);

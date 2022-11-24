@@ -56,8 +56,15 @@ namespace DahlDesign.Plugin
         public bool ShowMapEnabled { get; set; } = false;
         public bool ShowBrakeThrottleGaugesEnabled { get; set; } = false;
         public string DashType { get; set; } = "Automatic Selection";
-        public string LeftScreen { get; set; } = "Time Attack";
-        public string RightScreen { get; set; } = "Practice";
+        public string LeftScreen { get; set; } = "Time1";
+        public string RightScreen { get; set; } = "Stint1";
+        public string LeftPracticeScreen { get; set; } = "None";
+        public string RightPracticeScreen { get; set; } = "None";
+        public string LeftQualyScreen { get; set; } = "None";
+        public string RightQualyScreen { get; set; } = "None";
+        public string LeftRaceScreen { get; set; } = "None";
+        public string RightRaceScreen { get; set; } = "None";
+
 
         #region Property supporting UI refresh from code
         /*
