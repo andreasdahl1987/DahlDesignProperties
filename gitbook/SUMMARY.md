@@ -28,3 +28,4 @@
   * [🚥 LED control](Properties/led-control.md)
   * [🎮 DDC](Properties/ddc.md)
   * [🕹 SW1](Properties/sw1.md)
+* [Pit Menu](pit-menu.md)
