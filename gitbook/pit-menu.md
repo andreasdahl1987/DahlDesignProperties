@@ -10,7 +10,7 @@ You can bind a rotary switch/encoder to change menu position. Each menu position
 
 Bindings for the pit menu position switch and the option buttons are in the plugin menu. The property `DahlDesign.PitMenu` will show the current position in the pit menu.
 
-Though this system is tailored for [Dashboard](https://github.com/andreasdahl1987/DahlDesignDash), you can still easily implement it into your own template. The commands that are specific to Dashboard, such as toggling Pit Screen, simply switches the property DahlDesign.PitScreen on/off. That is all. Dashboard uses this property to control visibility of the pit screen. You can use the same property however you want.&#x20;
+Though this system is tailored for [Dashboard](https://github.com/andreasdahl1987/DahlDesignDash), you can still easily implement it into your own template. The commands that are specific to [Dashboard](https://github.com/andreasdahl1987/DahlDesignDash), such as toggling Pit Screen, simply switches the property DahlDesign.PitScreen on/off. That is all. [Dashboard](https://github.com/andreasdahl1987/DahlDesignDash) uses this property to control visibility of the pit screen. You can use the same property however you want.&#x20;
 
 The table below explains all 36 options, as well as the graphics shown in [Dashboard](https://github.com/andreasdahl1987/DahlDesignDash) for each position in the Pit Menu.&#x20;
 
