@@ -1,19 +1,277 @@
 ﻿<UserControl x:Class="DahlDesign.Plugin.SettingsControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DahlDesign.Plugin"
-             xmlns:styles="clr-namespace:SimHub.Plugins.Styles;assembly=SimHub.Plugins" mc:Ignorable="d" 
-             xmlns:ui="clr-namespace:SimHub.Plugins.UI;assembly=SimHub.Plugins"
-             d:DesignHeight="1080" Width="820" HorizontalAlignment="Left">
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:DahlDesign.Plugin"
+    xmlns:styles="clr-namespace:SimHub.Plugins.Styles;assembly=SimHub.Plugins" mc:Ignorable="d"
+    xmlns:ui="clr-namespace:SimHub.Plugins.UI;assembly=SimHub.Plugins" d:DesignHeight="720" d:DesignWidth="800">
 
     <Grid>
-        <TabControl HorizontalAlignment="Left" Height="1080" VerticalAlignment="Top" Width="820 " Margin="0,12,0,0">
-            <TabItem Header="PIT ROTARY" Foreground="#FF252525">
-                <Grid Background="#FFDADADA" Margin="0,0,0,0">
+        <styles:SHTabControl x:Name="tabcontrol">
+            <styles:SHTabItem Header="Dash settings">
+                <styles:SHSection Title="Dashboard" Margin="0,0,0,0">
                     <ScrollViewer>
-                        <styles:SHSection Title="PIT MENU">
+                        <StackPanel>
+                            <styles:SHSection Title="Settings">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*" MinHeight="20"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="7" Text="Show Map instead of gear" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
+                                    </TextBlock>
+                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="7" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShowMapEnabled}" RenderTransformOrigin="0.45,0.2"/>
+
+                                    <TextBlock Grid.Row="8" Text="Show Brake and Throttle gauges" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
+                                    </TextBlock>
+                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="8" HorizontalAlignment="Left" Height="20" IsChecked="{Binding ShowBrakeThrottleGaugesEnabled}" RenderTransformOrigin="0.45,0.2"/>
+
+                                    <TextBlock Grid.Row="1" Text="Swap RPM bar for LEDs:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
+                                    </TextBlock>
+                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DashLEDEnabled}" RenderTransformOrigin="0.45,0.2"/>
+
+                                    <TextBlock Grid.Row="2" Text="RPM bar shift warning:" />
+                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShiftWarning}" />
+
+                                    <TextBlock Grid.Row="3" Text="Shift timing assist active outside practice (purple and green line in RPM bar):" />
+                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShiftTimingAssist}" />
+
+                                    <TextBlock Grid.Row="4" Text="Lap info screen on new lap:" />
+                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding LapInfoScreen}"/>
+
+                                    <TextBlock Grid.Row="5" Text="Swap ARB lever placement (Supercars):" />
+                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding SupercarSwapPosition}" />
+
+                                    <TextBlock Grid.Row="6" Text="Swap ARB lever direction (Supercars):" />
+                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding SupercarARBDirection}" />
+                                    <TextBlock Grid.Row="9" Text="Override Dashboard Type"/>
+                                    <ComboBox Grid.Row="9" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValue="{Binding DashType}" SelectedValuePath="Content">
+                                        <ComboBoxItem IsSelected="True">Automatic Selection</ComboBoxItem>
+
+                                        <ComboBoxItem >Porsche GT3R</ComboBoxItem>
+                                        <ComboBoxItem >Dallara LMP2</ComboBoxItem>
+                                        <ComboBoxItem >Rally</ComboBoxItem>
+                                        <ComboBoxItem >Supercar</ComboBoxItem>
+                                        <ComboBoxItem >FR3.5</ComboBoxItem>
+                                        <ComboBoxItem >Porsche 919</ComboBoxItem>
+                                        <ComboBoxItem >Mercedes W12</ComboBoxItem>
+                                        <ComboBoxItem >Mclaren F1</ComboBoxItem>
+                                        <ComboBoxItem >Williams F1</ComboBoxItem>
+                                        <ComboBoxItem >Indycar</ComboBoxItem>
+                                        <ComboBoxItem >Williams F1</ComboBoxItem>
+                                        <ComboBoxItem >GT3</ComboBoxItem>
+                                        <ComboBoxItem >BiasOnly</ComboBoxItem>
+                                        <ComboBoxItem>Default</ComboBoxItem>
+                                    </ComboBox>
+                                </Grid>
+                            </styles:SHSection>
+                            <styles:SHSection Title="Session setup">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*" MinHeight="20"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+
+
+                                    </Grid.RowDefinitions>
+
+
+
+
+                                    <TextBlock Grid.Row="1" Text="Left Screen in practice"/>
+                                    <ComboBox Grid.Row="1" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding LeftPracticeScreen}">
+                                        <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
+                                        <ComboBoxItem Tag="2">Time2</ComboBoxItem>
+                                        <ComboBoxItem Tag="3">Time3</ComboBoxItem>
+                                        <ComboBoxItem Tag="4">Qualy</ComboBoxItem>
+                                        <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                        <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                        <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                        <ComboBoxItem Tag="8">Practice1</ComboBoxItem>
+                                        <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
+                                    </ComboBox>
+
+                                    <TextBlock Grid.Row="2" Text="Right Screen in practice"/>
+                                    <ComboBox Grid.Row="2" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding RightPracticeScreen}">
+                                        <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
+                                        <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
+                                        <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
+                                        <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
+                                        <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                        <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                        <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                        <ComboBoxItem Tag="8">Track</ComboBoxItem>
+                                    </ComboBox>
+
+                                    <TextBlock Grid.Row="3" Text="Left Screen in qualy"/>
+                                    <ComboBox Grid.Row="3" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding LeftQualyScreen}">
+                                        <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
+                                        <ComboBoxItem Tag="2">Time2</ComboBoxItem>
+                                        <ComboBoxItem Tag="3">Time3</ComboBoxItem>
+                                        <ComboBoxItem Tag="4">Qualy</ComboBoxItem>
+                                        <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                        <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                        <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                        <ComboBoxItem Tag="8">Practice1</ComboBoxItem>
+                                        <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
+                                    </ComboBox>
+
+                                    <TextBlock Grid.Row="4" Text="Right Screen in qualy"/>
+                                    <ComboBox Grid.Row="4" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding RightQualyScreen}">
+                                        <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
+                                        <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
+                                        <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
+                                        <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
+                                        <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                        <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                        <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                        <ComboBoxItem Tag="8">Track</ComboBoxItem>
+                                    </ComboBox>
+
+                                    <TextBlock Grid.Row="5" Text="Left Screen in race"/>
+                                    <ComboBox Grid.Row="5" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding LeftRaceScreen}">
+                                        <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
+                                        <ComboBoxItem Tag="2">Time2</ComboBoxItem>
+                                        <ComboBoxItem Tag="3">Time3</ComboBoxItem>
+                                        <ComboBoxItem Tag="4">Qualy</ComboBoxItem>
+                                        <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                        <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                        <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                        <ComboBoxItem Tag="8">Practice1</ComboBoxItem>
+                                        <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
+                                    </ComboBox>
+
+                                    <TextBlock Grid.Row="6" Text="Right Screen in race"/>
+                                    <ComboBox Grid.Row="6" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding RightRaceScreen}">
+                                        <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
+                                        <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
+                                        <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
+                                        <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
+                                        <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                        <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                        <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                        <ComboBoxItem Tag="8">Track</ComboBoxItem>
+                                    </ComboBox>
+
+
+                                </Grid>
+                            </styles:SHSection>
+                        </StackPanel>
+                    </ScrollViewer>
+                </styles:SHSection>
+
+            </styles:SHTabItem>
+            <styles:SHTabItem Header="Dash controls">
+                <ScrollViewer>
+                    <StackPanel>
+                        <styles:SHSection Title="Fullscreens bindings">
+                            <StackPanel>
+                                <ui:ControlsEditor FriendlyName="Launch Screen (toggle switch released)" ActionName="DahlDesign.LaunchReleased" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Launch Screen (button toggle)" ActionName="DahlDesign.LaunchPressed" HorizontalAlignment="Left" Width="750"/>
+
+                                <ui:ControlsEditor FriendlyName="Pit Screen (pressed)" ActionName="DahlDesign.PitPressed" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Pit Screen (released)" ActionName="DahlDesign.PitReleased" HorizontalAlignment="Left" Width="750"/>
+
+                                <ui:ControlsEditor FriendlyName="Pace Screen (pressed)" ActionName="DahlDesign.PacePressed" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Pace Screen (released)" ActionName="DahlDesign.PaceReleased" HorizontalAlignment="Left" Width="750"/>
+                            </StackPanel>
+                        </styles:SHSection>
+
+                        <styles:SHSection Title="Dashboard bindings">
+                            <StackPanel>
+                                
+                                <ui:ControlsEditor FriendlyName="Next delta screen" ActionName="DahlDesign.DeltaInc" HorizontalAlignment="Left" Width="750" Loaded="ControlsEditor_Loaded"/>
+                                <ui:ControlsEditor FriendlyName="Previous delta screen" ActionName="DahlDesign.DeltaDec" HorizontalAlignment="Left" Width="750"/>
+
+                                <ui:ControlsEditor FriendlyName="Radio (pressed)" ActionName="DahlDesign.RadioPressed" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Radio (released)" ActionName="DahlDesign.RadioReleased" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="LED Warnings (pressed)" ActionName="DahlDesign.LEDWarningPressed" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="LED Warnings (released)" ActionName="DahlDesign.LEDWarningReleased" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Toggle map" ActionName="DahlDesign.Controls.MapToggle" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Toggle Brake and Throttle visibility" ActionName="DahlDesign.Controls.ShowBrakeThrottleGaugesToggle" HorizontalAlignment="Left" Width="750"/>
+
+                            </StackPanel>
+                        </styles:SHSection>
+                        <styles:SHSection Title="Left screen bindings">
+                            <StackPanel>
+                                <ui:ControlsEditor FriendlyName="Left Screen > Next Page" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Next" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Left Screen > Previous Page" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Previous" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Left Screen - Time1" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Time1" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Left Screen - Time2" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Time2" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Left Screen - Time3" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Time3" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Left Screen - Qualy" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Qualy" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Left Screen - Race1" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Race1" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Left Screen - Race2" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Race2" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Left Screen - Race3" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Race3" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Left Screen - Practice1" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Practice1" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Left Screen - Practice2" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Practice2" HorizontalAlignment="Left" Width="750"/>
+                            </StackPanel>
+                        </styles:SHSection>
+
+                        <styles:SHSection Title="Right screen bindings">
+                            <StackPanel>
+                                <ui:ControlsEditor FriendlyName="Right Screen > Next Page" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Next" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Right Screen > Previous Page" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Previous" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Right Screen - Stint1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Stint1" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Right Screen - Stint2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Stint2" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Right Screen - Qualy1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Qualy1" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Right Screen - Qualy2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Qualy2" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Right Screen - Race1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Race1" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Right Screen - Race2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Race2" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Right Screen - Race3" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Race3" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Right Screen - Track" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Track" HorizontalAlignment="Left" Width="750"/>
+                            </StackPanel>
+                        </styles:SHSection>
+                    </StackPanel>
+                </ScrollViewer>
+            </styles:SHTabItem>
+            <styles:SHTabItem Header="Car controls">
+                <ScrollViewer>
+                    <styles:SHSection Title="Car control bindings">
+                        <StackPanel>
+                            <ui:ControlsEditor FriendlyName="TC Off (pressed)" ActionName="DahlDesign.TCPressed" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="TC Off (released)" ActionName="DahlDesign.TCReleased" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="ERS No Boost" ActionName="DahlDesign.NBPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                        </StackPanel>
+                    </styles:SHSection>
+                </ScrollViewer>
+            </styles:SHTabItem>
+            <styles:SHTabItem Header="Pit menu">
+                <ScrollViewer>
+                    <StackPanel>
+                        <styles:SHSection Title="Pit menu bindings">
+                            <StackPanel>
+
+
+                                <ui:ControlsEditor FriendlyName="Pit Menu: +" ActionName="DahlDesign.PlusPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Pit Menu: -" ActionName="DahlDesign.MinusPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Pit Menu: OK" ActionName="DahlDesign.OKPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                            </StackPanel>
+                        </styles:SHSection>
+                        <styles:SHSection Title="Multiposition switch bindings">
                             <StackPanel>
                                 <ui:ControlsEditor FriendlyName="Position 1" ActionName="DahlDesign.L1" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Position 2" ActionName="DahlDesign.L2" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
@@ -27,93 +285,140 @@
                                 <ui:ControlsEditor FriendlyName="Position 10" ActionName="DahlDesign.L10" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Position 11" ActionName="DahlDesign.L11" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Position 12" ActionName="DahlDesign.L12" HorizontalAlignment="Left" Width="750"/>
+                            </StackPanel>
+                        </styles:SHSection>
+                        <styles:SHSection Title="Rotary encoder bindings">
+                            <StackPanel>
                                 <ui:ControlsEditor FriendlyName="Increment" ActionName="DahlDesign.LInc" HorizontalAlignment="Left" Width="750" Margin="0,0,-40,0"/>
                                 <ui:ControlsEditor FriendlyName="Decrement" ActionName="DahlDesign.LDec" HorizontalAlignment="Left" Width="750" Margin="0,0,-40,0"/>
                             </StackPanel>
                         </styles:SHSection>
-                    </ScrollViewer>
-                </Grid>
-            </TabItem>
-            <TabItem Header="IN-CAR ROTARY" Margin="1,0,-1,0" Foreground="#FF252525">
-                <Grid Background="#FFDADADA" Margin="0,0,0,0">
-                    <ScrollViewer>
-                        <styles:SHSection Title="IN-CAR MENU">
+                    </StackPanel>
+                </ScrollViewer>
+            </styles:SHTabItem>
+            <styles:SHTabItem Header="InCar menu">
+                <ScrollViewer>
+                    <StackPanel>
+                        <styles:SHSection Title="InCar Multiposition switch bindings">
                             <StackPanel>
-                                <ui:ControlsEditor FriendlyName="Position 1" ActionName="DahlDesign.R1" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 2" ActionName="DahlDesign.R2" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 3" ActionName="DahlDesign.R3" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 4" ActionName="DahlDesign.R4" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 5" ActionName="DahlDesign.R5" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 6" ActionName="DahlDesign.R6" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 7" ActionName="DahlDesign.R7" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 8" ActionName="DahlDesign.R8" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 9" ActionName="DahlDesign.R9" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 10" ActionName="DahlDesign.R10" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 11" ActionName="DahlDesign.R11" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 12" ActionName="DahlDesign.R12" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Increment" ActionName="DahlDesign.RInc" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Decrement" ActionName="DahlDesign.RDec" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 1" ActionName="DahlDesign.L1" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 2" ActionName="DahlDesign.L2" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 3" ActionName="DahlDesign.L3" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 4" ActionName="DahlDesign.L4" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 5" ActionName="DahlDesign.L5" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 6" ActionName="DahlDesign.L6" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 7" ActionName="DahlDesign.L7" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 8" ActionName="DahlDesign.L8" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 9" ActionName="DahlDesign.L9" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 10" ActionName="DahlDesign.L10" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 11" ActionName="DahlDesign.L11" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 12" ActionName="DahlDesign.L12" HorizontalAlignment="Left" Width="750"/>
                             </StackPanel>
                         </styles:SHSection>
-                    </ScrollViewer>
-                </Grid>
-            </TabItem>
-            <TabItem Header="CONTROLS" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
-                <Grid Background="#FFDADADA" Margin="0,0,0,0">
-                    <ScrollViewer>
-                        <styles:SHSection Title="CAR CONTROLS" Margin="0,0,0,0">
+                        <styles:SHSection Title="InCar Rotary encoder bindings">
                             <StackPanel>
-                                <ui:ControlsEditor FriendlyName="Upshift (pressed)" ActionName="DahlDesign.Upshift" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Downshift (pressed)" ActionName="DahlDesign.Downshift" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Pit Menu: +" ActionName="DahlDesign.PlusPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Pit Menu: -" ActionName="DahlDesign.MinusPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Pit Menu: OK" ActionName="DahlDesign.OKPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="TC Off (pressed)" ActionName="DahlDesign.TCPressed"  HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="TC Off (released)" ActionName="DahlDesign.TCReleased" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="ERS No Boost" ActionName="DahlDesign.NBPressed" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Radio (pressed)" ActionName="DahlDesign.RadioPressed" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Radio (released)" ActionName="DahlDesign.RadioReleased" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="LED Warnings (pressed)" ActionName="DahlDesign.LEDWarningPressed" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="LED Warnings (released)" ActionName="DahlDesign.LEDWarningReleased" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Bite Point Adjust (pressed)" ActionName="DahlDesign.BitePointPressed" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Bite Point Adjust (released)" ActionName="DahlDesign.BitePointReleased" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Next delta screen" ActionName="DahlDesign.DeltaInc" HorizontalAlignment="Left" Width="750" Loaded="ControlsEditor_Loaded"/>
-                                <ui:ControlsEditor FriendlyName="Previous delta screen" ActionName="DahlDesign.DeltaDec" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Toggle map" ActionName="DahlDesign.Controls.MapToggle" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Toggle Brake and Throttle visibility" ActionName="DahlDesign.Controls.ShowBrakeThrottleGaugesToggle" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Increment" ActionName="DahlDesign.LInc" HorizontalAlignment="Left" Width="750" Margin="0,0,-40,0"/>
+                                <ui:ControlsEditor FriendlyName="Decrement" ActionName="DahlDesign.LDec" HorizontalAlignment="Left" Width="750" Margin="0,0,-40,0"/>
                             </StackPanel>
                         </styles:SHSection>
-                    </ScrollViewer>
-                </Grid>
-            </TabItem>
-            <TabItem Header="FULLSCREENS" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
-                <Grid Background="#FFDADADA" Margin="0,0,0,0">
-                    <styles:SHSection Title="Full Screen Overlay Bindings" Margin="0,0,0,0">
-                        <StackPanel>
-                            <ui:ControlsEditor FriendlyName="Launch Screen (button toggle)" ActionName="DahlDesign.LaunchPressed" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Launch Screen (toggle switch released)" ActionName="DahlDesign.LaunchReleased" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Pit Screen (pressed)" ActionName="DahlDesign.PitPressed" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Pit Screen (released)" ActionName="DahlDesign.PitReleased" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Pace Screen (pressed)" ActionName="DahlDesign.PacePressed" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Pace Screen (released)" ActionName="DahlDesign.PaceReleased" HorizontalAlignment="Left" Width="750"/>
+
+                    </StackPanel>
+                </ScrollViewer>
+
+            </styles:SHTabItem>
+            <styles:SHTabItem Header="Fuel &amp; Strategy">
+                <ScrollViewer>
+                    <StackPanel>
+                        <styles:SHSection Title="Fuel &amp; Strategy">
+                            <StackPanel>
+                                <TextBlock Text="Fuel per lap target:" Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                                <TextBox VerticalAlignment="Top" Height="20" Margin="10,-20,0,-20" Text="{Binding fuelPerLapTarget}"/>
+                                <TextBlock Text="Fuel per lap offset increments:" Grid.Row="1" Margin="10,10,0,23" Grid.RowSpan="2"/>
+                                <TextBox VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding fuelOffsetIncrement}"/>
+                                <TextBlock Text="Small Pitstop Fuel Adjustment Increment (Liters)" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                                <TextBlock Text="{Binding ElementName=SmallIncrementSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,0,0,0" Width="20" Height="20"/>
+                                <Slider x:Name="SmallIncrementSlider" Value="{Binding SmallFuelIncrement}" Width="600" HorizontalAlignment="Left" Maximum="10" Minimum="1" SmallChange="1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" />
+                                <TextBlock Text="Large Pitstop Fuel Adjustment Increment (Liters)" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                                <TextBlock Text="{Binding ElementName=LargeIncrementSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,0,0,0" Width="20" Height="20"/>
+                                <Slider x:Name="LargeIncrementSlider" Value="{Binding LargeFuelIncrement}" Width="600" HorizontalAlignment="Left" Maximum="50" Minimum="10" SmallChange="5" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*" MinHeight="20"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="1" Text="Adjust remaining laps for pit stop duration:" Grid.ColumnSpan="2"/>
+                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding CorrectByPitstop}" />
 
 
+                                </Grid>
+                            </StackPanel>
+                        </styles:SHSection>
+                    </StackPanel>
+                </ScrollViewer>
+            </styles:SHTabItem>
+            <styles:SHTabItem Header="Controllers">
+                <StackPanel>
+                    <styles:SHSection Title="Dahl Design Controller" Margin="0,0,0,0">
+                        <StackPanel Margin="0,0,9,0">
+                            <TextBlock Text="Name of your joystick controller &quot;JoystickPlugin.Arduino_Leonardo_B01&quot; means you write &quot;Arduino_Leonardo&quot; here." Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                            <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding DDC}"/>
 
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="1" Text="DDC Enabled"/>
+                                <styles:SHToggleButton Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding Path=DDCEnabled}"/>
+                                <TextBlock Grid.Row="2" Text="DDS Enabled" />
+                                <styles:SHToggleButton Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DDSEnabled}"/>
+                                <TextBlock Grid.Row="3" Text="DDC Clutch"/>
+                                <styles:SHToggleButton Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DDCclutchEnabled}"/>
+                            </Grid>
                         </StackPanel>
                     </styles:SHSection>
-
-                </Grid>
-            </TabItem>
-            <TabItem Header="LED" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
-                <Grid Background="#FFDADADA" Margin="0,0,0,0">
+                    <styles:SHSection Title="Bindings" Margin="0,0,0,0">
+                        <StackPanel>
+                            <ui:ControlsEditor FriendlyName="Bite Point Adjust (pressed)" ActionName="DahlDesign.BitePointPressed" HorizontalAlignment="Left" Width="750"/>
+                            <ui:ControlsEditor FriendlyName="Bite Point Adjust (released)" ActionName="DahlDesign.BitePointReleased" HorizontalAlignment="Left" Width="750"/>
+                        </StackPanel>
+                    </styles:SHSection>
+                </StackPanel>
+            </styles:SHTabItem>
+            <styles:SHTabItem Header="LED plugin">
+                <Grid >
                     <styles:SHSection Title="Dahl Design LED controls" Margin="0,0,0,0">
                         <StackPanel>
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition  Height="40"/>
-                                    <RowDefinition  Height="40"/>
-                                    <RowDefinition  Height="40"/>
-                                    <RowDefinition  Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
                                 </Grid.RowDefinitions>
 
                                 <Grid.ColumnDefinitions>
@@ -121,435 +426,77 @@
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock
-                        Grid.Row="0"
-                        Text="DDU Enabled" Margin="0,22,0,18" Grid.RowSpan="2">
+                                <TextBlock Grid.Row="0" Text="DDU Enabled" Margin="0,22,0,18" Grid.RowSpan="2">
                                 </TextBlock>
-                                <styles:SHToggleButton  
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Height="20"
-                        IsChecked="{Binding Path=DDUEnabled}" Margin="23,22,0,0" Grid.RowSpan="2">
+                                <styles:SHToggleButton Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding Path=DDUEnabled}" Margin="23,22,0,0" Grid.RowSpan="2">
                                 </styles:SHToggleButton>
 
-                                <TextBlock
-                        Grid.Row="2"
-                        Text="SW1 Enabled" Margin="0,16,0,24" Grid.RowSpan="2"/>
-                                <styles:SHToggleButton  
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Height="20"
-                        IsChecked="{Binding Path=SW1Enabled}" Margin="24,16,0,0">
+                                <TextBlock Text="DDU start LED" Grid.Row="1" Margin="0,17,0,23" Grid.RowSpan="2"/>
+                                <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="24,12,-58,0" Text="{Binding DDUstartLED}" Grid.Row="1"></TextBox>
+
+                                <TextBlock Grid.Row="2" Text="SW1 Enabled" Margin="0,16,0,24" Grid.RowSpan="2"/>
+                                <styles:SHToggleButton Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding Path=SW1Enabled}" Margin="24,16,0,0">
                                 </styles:SHToggleButton>
-                                <TextBlock
-                        Grid.Row="3"
-                        Text="SW1 start LED" Margin="0,13,0,-13"/>
-                                <TextBox
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        VerticalAlignment="Top"
-                        Height="20"
-                        Margin="22,11,-58,0"                        
-                        Text="{Binding Path=SW1startLED}">
+
+                                <TextBlock Grid.Row="3" Text="SW1 start LED" Margin="0,13,0,-13"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="22,11,-58,0" Text="{Binding Path=SW1startLED}">
                                 </TextBox>
-                                <TextBlock
-                        Grid.Row="3"
-                        Text="Reaction time (ms)" Margin="0,56,0,-56">
-                                </TextBlock>
-                                <Slider
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        Margin="22,51,-184,-56"
-                        AutoToolTipPlacement="TopLeft"                        
-                        Ticks="10,20,30,40,50,60,70,80,90"
-                        TickFrequency="1"
-                        TickPlacement="Both"
-                        Value="{Binding Path=ReactionTime}" Minimum="100" Maximum="1000"
-                        >
-                                </Slider>
-                                <TextBlock
-                                    Text="DDU start LED" Grid.Row="1" Margin="0,17,0,23" Grid.RowSpan="2"/>
-                                <TextBox
-                                    Grid.Column="1"
-                                    VerticalAlignment="Top"
-                                    Height="20"
-                                    Margin="24,12,-58,0"                        
-                                    Text="{Binding DDUstartLED}" Grid.Row="1">
-                                </TextBox>
-                                <TextBlock
-                                    Grid.Row="2"
-                                    Text="SW1 Enabled" Margin="0,16,0,24" Grid.RowSpan="2"/>
-                                <styles:SHToggleButton  
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top"
-                                    Height="20"
-                                    IsChecked="{Binding SW1Enabled}" Margin="24,16,0,0"/>
-                                <styles:SHToggleButton  
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top"
-                                    Height="20"
-                                    IsChecked="{Binding SW1Enabled}" Margin="24,16,0,0"/>
+
+
+
                             </Grid>
                         </StackPanel>
                     </styles:SHSection>
                 </Grid>
-            </TabItem>
-            <TabItem Header="DDC" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
-                <Grid Background="#FFDADADA" Margin="0,0,0,0" Width="806">
-                    <styles:SHSection Title="Dahl Design Controller" Margin="0,0,0,0">
-                        <StackPanel Margin="0,0,9,0">
-                            <TextBlock
-                                    Text="Name of your joystick controller. &quot;JoystickPlugin.Arduino_Leonardo_B01&quot; means you write &quot;Arduino_Leonardo&quot; here." Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
-                            <TextBox
-                                    VerticalAlignment="Top"
-                                    Height="20"  
-                                    Margin="10,-20,0,10"                        
-                                    Text="{Binding DDC}"/>
-
-                            <TextBlock Grid.Row="0" Text="DDC Enabled"/>
-                            <styles:SHToggleButton  Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding Path=DDCEnabled}"/>
-                            <TextBlock Grid.Row="0" Text="DDS Enabled" />
-                            <styles:SHToggleButton  Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DDSEnabled}"/>
-                            <TextBlock Grid.Row="0" Text="DDC Clutch"/>
-                            <styles:SHToggleButton Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DDCclutchEnabled}"/>
-                        </StackPanel>
-                    </styles:SHSection>
-                </Grid>
-            </TabItem>
-            <TabItem Header="MISC" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
-                <Grid Background="#FFDADADA" Margin="0,0,0,0">
-                    <styles:SHSection Title="Miscellaneous" Margin="0,0,0,0">
-                        <StackPanel>
-                            <TextBlock
-                                Text="Fuel per lap target:" Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
-                            <TextBox
-                                VerticalAlignment="Top"
-                                Height="20"  
-                                Margin="10,-20,0,-20"                        
-                                Text="{Binding fuelPerLapTarget}"/>
-                            <TextBlock
-                                Text="Fuel per lap offset increments:" Grid.Row="1" Margin="10,10,0,23" Grid.RowSpan="2"/>
-                            <TextBox
-                                VerticalAlignment="Top"
-                                Height="20"  
-                                Margin="10,-20,0,10"                        
-                                Text="{Binding fuelOffsetIncrement}"/>
-                            <TextBlock
-                                Text="Small Pitstop Fuel Adjustment Increment (Liters)" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
-                            <TextBlock Text="{Binding ElementName=SmallIncrementSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,0,0,0" Width="20" Height="20"/>
-                            <Slider x:Name="SmallIncrementSlider" Value="{Binding SmallFuelIncrement}" Width="600" HorizontalAlignment="Left" Maximum="10" Minimum="1" SmallChange="1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" />
-                            <TextBlock
-                                Text="Large Pitstop Fuel Adjustment Increment (Liters)" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
-                            <TextBlock Text="{Binding ElementName=LargeIncrementSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,0,0,0" Width="20" Height="20"/>
-                            <Slider x:Name="LargeIncrementSlider" Value="{Binding LargeFuelIncrement}" Width="600" HorizontalAlignment="Left" Maximum="50" Minimum="10" SmallChange="5" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" />
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="1*" MinHeight="20"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                </Grid.RowDefinitions>
-
-                                <TextBlock Grid.Row="1"
-                                           
-                                Text="Adjust remaining laps for pit stop duration:"  Grid.ColumnSpan="2"/>
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="1"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Height="20"
-                                IsChecked="{Binding CorrectByPitstop}" />
-
-                                <TextBlock Grid.Row="2"
-                                Text="Swap RPM bar for LEDs:"    HorizontalAlignment="Left"
-                                VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
-                                </TextBlock>
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="2"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Height="20"
-                        IsChecked="{Binding DashLEDEnabled}"  RenderTransformOrigin="0.45,0.2"/>
-                                <TextBlock Grid.Row="3"
-                                Text="RPM bar shift warning:"  />
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="3"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Height="20"
-                                IsChecked="{Binding ShiftWarning}" />
-
-                                <TextBlock Grid.Row="4"
-                                Text="Shift timing assist active outside practice (purple and green line in RPM bar):" />
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="4"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Height="20"
-                                IsChecked="{Binding ShiftTimingAssist}" />
-
-                                <TextBlock Grid.Row="5"
-                                Text="Lap info screen on new lap:"  />
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="5"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Height="20"
-                                IsChecked="{Binding LapInfoScreen}"/>
-                                
-                                <TextBlock Grid.Row="6"
-                                Text="Disable PitMenu Controls unless In-Car Rotary unused or in 12th/Pit position"/>
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="6"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Height="20"
-                                IsChecked="{Binding CoupleInCarToPit}"/>
-
-                                <TextBlock Grid.Row="7"
-                                Text="Activate wheel slip functions:" />
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="7"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Height="20"
-                                IsChecked="{Binding WheelSlipLEDs}" />
-
-                                <TextBlock Grid.Row="8"
-                                Text="Swap ARB lever placement (Supercars):" />
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="8"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Height="20"
-                                IsChecked="{Binding SupercarSwapPosition}" />
-
-                                <TextBlock Grid.Row="9"
-                                Text="Swap ARB lever direction (Supercars):" />
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="9"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Height="20"
-                                IsChecked="{Binding SupercarARBDirection}" />
-                            </Grid>
-                        </StackPanel>
-                    </styles:SHSection>
-                </Grid>
-            </TabItem>
-            <TabItem Header="CHAT" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
-                <Grid Background="#FFDADADA" Margin="0,0,0,0">
-                    <styles:SHSection Title="Chat Items" Margin="0,0,0,0">
-                        <StackPanel>
-                            <TextBlock
-                                    Text="Post message to driver ahead on track:" Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
-                            <TextBox
-                                    VerticalAlignment="Top"
-                                    Height="20"
-                                    Margin="10,-20,0,10"                        
-                                    Text="{Binding AheadPlayerText}"/>
-                            <TextBlock
-                                    Text="Post message to driver behind on track:" Grid.Row="1" Margin="10,0,0,23" Grid.RowSpan="2"/>
-                            <TextBox
-                                    VerticalAlignment="Top"
-                                    Height="20"
-                                    Margin="10,-20,0,10"                        
-                                    Text="{Binding BehindPlayerText}"/>
-
-                        </StackPanel>
-                    </styles:SHSection>
-
-                </Grid>
-            </TabItem>
-            <TabItem Header="DASHBOARD" Margin="3,0,-3,0" BorderBrush="#CC1BA1DA" Foreground="#FF252525">
-                <Grid Background="#FFDADADA" Margin="0,0,0,0">
+            </styles:SHTabItem>
+            <styles:SHTabItem Header="Plugin setup">
                 <ScrollViewer>
-                    <styles:SHSection Title="Dashboard" Margin="0,0,0,0">
-                        <StackPanel>
-                                                    <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="1*" MinHeight="20"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
-                                    <RowDefinition Height="1*" MinHeight="30"/>
+                    <StackPanel>
+                        <styles:SHSection Title="Plugin bindings">
+                            <StackPanel>
+                                <ui:ControlsEditor FriendlyName="Upshift (pressed)" ActionName="DahlDesign.Upshift" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Downshift (pressed)" ActionName="DahlDesign.Downshift" HorizontalAlignment="Left" Width="750"/>
+
+                            </StackPanel>
+
+                        </styles:SHSection>
+                        <styles:SHSection Title="Plugin setup" Margin="0,0,0,0">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+
                                     </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="Disable PitMenu Controls unless In-Car Rotary unused or in 12th/Pit position"/>
+                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding CoupleInCarToPit}"/>
 
-                            <TextBlock Grid.Row="1" 
-                                Text="Show Map instead of gear"    HorizontalAlignment="Left"
-                                VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18" >
-                                </TextBlock>
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="1"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Height="20"
-                            IsChecked="{Binding ShowMapEnabled}" RenderTransformOrigin="0.45,0.2"/>
-
-                            <TextBlock Grid.Row="2" Text="Override Dashboard Type"/>
-                                <ComboBox Grid.Row="2" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
-                                          SelectedValue="{Binding DashType}" SelectedValuePath="Content">
-                                <ComboBoxItem IsSelected="True">Automatic Selection</ComboBoxItem>
-                                
-                                <ComboBoxItem >Porsche GT3R</ComboBoxItem>
-                                <ComboBoxItem >Dallara LMP2</ComboBoxItem>
-                                <ComboBoxItem >Rally</ComboBoxItem>
-                                <ComboBoxItem >Supercar</ComboBoxItem>
-                                <ComboBoxItem >FR3.5</ComboBoxItem>
-                                <ComboBoxItem >Porsche 919</ComboBoxItem>
-                                <ComboBoxItem >Mercedes W12</ComboBoxItem>
-                                <ComboBoxItem >Mclaren F1</ComboBoxItem>
-                                <ComboBoxItem >Williams F1</ComboBoxItem>
-                                <ComboBoxItem >Indycar</ComboBoxItem>
-                                <ComboBoxItem >Williams F1</ComboBoxItem>
-                                <ComboBoxItem >GT3</ComboBoxItem>
-                                <ComboBoxItem >BiasOnly</ComboBoxItem>
-                                <ComboBoxItem>Default</ComboBoxItem>
-                            </ComboBox>
-
-                                <TextBlock Grid.Row="3" 
-                                Text="Show Brake and Throttle gauges"    HorizontalAlignment="Left"
-                                VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18" >
-                                </TextBlock>
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="3"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Height="20"
-                            IsChecked="{Binding ShowBrakeThrottleGaugesEnabled}" RenderTransformOrigin="0.45,0.2"/>
-
-                            <TextBlock Grid.Row="4" Text="Left Screen in practice"/>
-                            <ComboBox Grid.Row="4" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
-                                SelectedValuePath="Tag" SelectedValue="{Binding LeftPracticeScreen}">
-                                <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
-                                <ComboBoxItem Tag="2">Time2</ComboBoxItem>
-                                <ComboBoxItem Tag="3">Time3</ComboBoxItem>
-                                <ComboBoxItem Tag="4">Qualy</ComboBoxItem>
-                                <ComboBoxItem Tag="5">Race1</ComboBoxItem>
-                                <ComboBoxItem Tag="6">Race2</ComboBoxItem>
-                                <ComboBoxItem Tag="7">Race3</ComboBoxItem>
-                                <ComboBoxItem Tag="8">Practice1</ComboBoxItem>
-                                <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
-                            </ComboBox>
-
-                                <TextBlock Grid.Row="5" Text="Right Screen in practice"/>
-                            <ComboBox Grid.Row="5" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
-                                    SelectedValuePath="Tag" SelectedValue="{Binding RightPracticeScreen}">
-                                <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
-                                <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
-                                <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
-                                <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
-                                <ComboBoxItem Tag="5">Race1</ComboBoxItem>
-                                <ComboBoxItem Tag="6">Race2</ComboBoxItem>
-                                <ComboBoxItem Tag="7">Race3</ComboBoxItem>
-                                <ComboBoxItem Tag="8">Track</ComboBoxItem>
-                            </ComboBox>
-
-                            <TextBlock Grid.Row="6" Text="Left Screen in qualy"/>
-                            <ComboBox Grid.Row="6" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
-                        SelectedValuePath="Tag" SelectedValue="{Binding LeftQualyScreen}">
-                                <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
-                                <ComboBoxItem Tag="2">Time2</ComboBoxItem>
-                                <ComboBoxItem Tag="3">Time3</ComboBoxItem>
-                                <ComboBoxItem Tag="4">Qualy</ComboBoxItem>
-                                <ComboBoxItem Tag="5">Race1</ComboBoxItem>
-                                <ComboBoxItem Tag="6">Race2</ComboBoxItem>
-                                <ComboBoxItem Tag="7">Race3</ComboBoxItem>
-                                <ComboBoxItem Tag="8">Practice1</ComboBoxItem>
-                                <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
-                            </ComboBox>
-
-                            <TextBlock Grid.Row="7" Text="Right Screen in qualy"/>
-                            <ComboBox Grid.Row="7" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
-                            SelectedValuePath="Tag" SelectedValue="{Binding RightQualyScreen}">
-                                <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
-                                <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
-                                <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
-                                <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
-                                <ComboBoxItem Tag="5">Race1</ComboBoxItem>
-                                <ComboBoxItem Tag="6">Race2</ComboBoxItem>
-                                <ComboBoxItem Tag="7">Race3</ComboBoxItem>
-                                <ComboBoxItem Tag="8">Track</ComboBoxItem>
-                            </ComboBox>
-
-                            <TextBlock Grid.Row="8" Text="Left Screen in race"/>
-                            <ComboBox Grid.Row="8" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
-                        SelectedValuePath="Tag" SelectedValue="{Binding LeftRaceScreen}">
-                                <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
-                                <ComboBoxItem Tag="2">Time2</ComboBoxItem>
-                                <ComboBoxItem Tag="3">Time3</ComboBoxItem>
-                                <ComboBoxItem Tag="4">Qualy</ComboBoxItem>
-                                <ComboBoxItem Tag="5">Race1</ComboBoxItem>
-                                <ComboBoxItem Tag="6">Race2</ComboBoxItem>
-                                <ComboBoxItem Tag="7">Race3</ComboBoxItem>
-                                <ComboBoxItem Tag="8">Practice1</ComboBoxItem>
-                                <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
-                            </ComboBox>
-
-                            <TextBlock Grid.Row="9" Text="Right Screen in race"/>
-                            <ComboBox Grid.Row="9" Grid.Column="1"  MaxWidth="200" HorizontalAlignment="Left" 
-                            SelectedValuePath="Tag" SelectedValue="{Binding RightRaceScreen}">
-                                <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
-                                <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
-                                <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
-                                <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
-                                <ComboBoxItem Tag="5">Race1</ComboBoxItem>
-                                <ComboBoxItem Tag="6">Race2</ComboBoxItem>
-                                <ComboBoxItem Tag="7">Race3</ComboBoxItem>
-                                <ComboBoxItem Tag="8">Track</ComboBoxItem>
-                            </ComboBox>
-
+                                    <TextBlock Grid.Row="1" Text="Activate wheel slip functions:" />
+                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding WheelSlipLEDs}" />
                                 </Grid>
-                  
-                            <TextBlock>Controls</TextBlock>
-                            <ui:ControlsEditor FriendlyName="Left Screen > Next Page" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Next" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen > Previous Page" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Previous" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Time1" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Time1" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Time2" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Time2" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Time3" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Time3" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Qualy" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Qualy" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Race1" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Race1" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Race2" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Race2" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Race3" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Race3" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Practice1" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Practice1" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Left Screen - Practice2" ActionName="DahlDesign.Controls.Dashboard.LeftScreen.Practice2" HorizontalAlignment="Left" Width="750"/>
 
-                            <ui:ControlsEditor FriendlyName="Right Screen > Next Page" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Next" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen > Previous Page" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Previous" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Stint1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Stint1" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Stint2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Stint2" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Qualy1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Qualy1" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Qualy2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Qualy2" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Race1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Race1" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Race2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Race2" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Race3" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Race3" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Right Screen - Track" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Track" HorizontalAlignment="Left" Width="750"/>
-                        </StackPanel>
-                    </styles:SHSection>
-                    </ScrollViewer>
-                </Grid>
-            </TabItem>
-        </TabControl>
+                                <TextBlock Text="Reaction time (ms)">
+                                </TextBlock>
+                                <Slider MinWidth="400" MaxWidth="800" HorizontalAlignment="Left" AutoToolTipPlacement="TopLeft" Ticks="10,20,30,40,50,60,70,80,90" TickFrequency="1" TickPlacement="Both" Value="{Binding Path=ReactionTime}" Minimum="100" Maximum="1000">
+                                </Slider>
+                            </StackPanel>
+                        </styles:SHSection>
+
+                        <styles:SHSection Title="Chat Items" Margin="0,0,0,0">
+                            <StackPanel>
+                                <TextBlock Text="Post message to driver ahead on track:" Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                                <TextBox VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding AheadPlayerText}"/>
+                                <TextBlock Text="Post message to driver behind on track:" Grid.Row="1" Margin="10,0,0,23" Grid.RowSpan="2"/>
+                                <TextBox VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding BehindPlayerText}"/>
+                            </StackPanel>
+                        </styles:SHSection>
+                    </StackPanel>
+                </ScrollViewer>
+            </styles:SHTabItem>
+        </styles:SHTabControl>
     </Grid>
 </UserControl>
