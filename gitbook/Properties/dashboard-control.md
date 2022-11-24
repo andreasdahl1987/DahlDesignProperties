@@ -2,7 +2,7 @@
 
 These properties are used to control visibility of elements and animate the PitMenu and InCarMenu in Dashbaord. They all require a button/rotary switch to be assigned.&#x20;
 
-If you're not using Dashboard, you can still use these button mappings and these properties to control visibility of elements in your own dashboard template.
+If you're not using [Dashboard](https://github.com/andreasdahl1987/DahlDesignDash), you can still use these button mappings and these properties to control visibility of elements in your own dashboard template.
 
 | Name            | Description                                                                                                                                                                                                                                                                                                                                             | Type     |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |

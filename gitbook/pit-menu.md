@@ -1,6 +1,6 @@
 # Pit Menu
 
-The pit menu is a system for controlling the plugin and Dashboard.&#x20;
+The pit menu is a system for controlling the plugin and [Dashboard](https://github.com/andreasdahl1987/DahlDesignDash).&#x20;
 
 You can bind a rotary switch/encoder to change menu position. Each menu position will have 3 options, which are activated though button presses:
 
@@ -10,9 +10,9 @@ You can bind a rotary switch/encoder to change menu position. Each menu position
 
 Bindings for the pit menu position switch and the option buttons are in the plugin menu. The property `DahlDesign.PitMenu` will show the current position in the pit menu.
 
-Though this system is tailored for Dashboard, you can still easily implement it into your own template. The commands that are specific to Dashboard, such as toggling Pit Screen, simply switches the property DahlDesign.PitScreen on/off. That is all. Dashboard uses this property to control visibility of the pit screen. You can use the same property however you want.&#x20;
+Though this system is tailored for [Dashboard](https://github.com/andreasdahl1987/DahlDesignDash), you can still easily implement it into your own template. The commands that are specific to Dashboard, such as toggling Pit Screen, simply switches the property DahlDesign.PitScreen on/off. That is all. Dashboard uses this property to control visibility of the pit screen. You can use the same property however you want.&#x20;
 
-The table below explains all 36 options, as well as the graphics shown in Dashboard for each position in the Pit Menu.&#x20;
+The table below explains all 36 options, as well as the graphics shown in [Dashboard](https://github.com/andreasdahl1987/DahlDesignDash) for each position in the Pit Menu.&#x20;
 
 | #  |                                                                                                     Graphic                                                                                                     |                                         OK                                        |                       +                       |                             -                            |
 | -- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: | :-------------------------------------------: | :------------------------------------------------------: |
