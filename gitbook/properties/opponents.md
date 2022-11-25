@@ -1,4 +1,4 @@
-# 🧍♂ Opponents
+# ✖ Opponents
 
 There are two disctinct sets of opponent properties, with different usage:
 
