@@ -65,6 +65,8 @@ namespace DahlDesign.Plugin
         public string LeftRaceScreen { get; set; } = "None";
         public string RightRaceScreen { get; set; } = "None";
 
+        public string DeltaScreen { get; set; } = "LastLap";
+
 
         #region Property supporting UI refresh from code
         /*

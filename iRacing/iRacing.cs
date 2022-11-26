@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DahlDesign.Plugin.Categories;
 using IRacingReader;
 
 namespace DahlDesign.Plugin.iRacing
@@ -362,7 +363,6 @@ namespace DahlDesign.Plugin.iRacing
         bool NBspeedLim = false;
         bool NBvalue = false;
 
-        int deltaScreen = 0;
         bool plusButtonCheck = false;
         bool minusButtonCheck = false;
         bool OKButtonCheck = false;
@@ -1177,8 +1177,6 @@ namespace DahlDesign.Plugin.iRacing
             /*
              * Hardware buttons
              */
-            Base.AddProp("Dashboard.DeltaScreen", 0);
-
             Base.AddProp("BitePointAdjust", false);
             Base.AddAction("BitePointPressed", (a, b) => bitePointPressed = true);
             Base.AddAction("BitePointReleased", (a, b) => bitePointReleased = true);
@@ -1360,26 +1358,6 @@ namespace DahlDesign.Plugin.iRacing
                     pitMenuRotary = 12;
                 }
                 Base.SetProp("PitMenu", pitMenuRotary);
-            });
-
-            Base.AddAction("DeltaInc", (a, b) =>
-            {
-                deltaScreen++;
-                if (deltaScreen > 4)
-                {
-                    deltaScreen = 0;
-                }
-                Base.SetProp("Dashboard.DeltaScreen", deltaScreen);
-            });
-
-            Base.AddAction("DeltaDec", (a, b) =>
-            {
-                deltaScreen--;
-                if (deltaScreen < 0)
-                {
-                    deltaScreen = 4;
-                }
-                Base.SetProp("Dashboard.DeltaScreen", deltaScreen);
             });
 
             Base.AddProp("PitSavePaceLock", false);
@@ -3073,11 +3051,7 @@ namespace DahlDesign.Plugin.iRacing
                 }
                 else if (pitMenuRotary == 11 && pitMenuRequirementMet)
                 {
-                    deltaScreen++;
-                    if (deltaScreen > 4)
-                    {
-                        deltaScreen = 0;
-                    }
+                    //Trigger next delta page flip
                 }
                 else if (pitMenuRotary == 12 && pitMenuRequirementMet)
                 {
@@ -6873,7 +6847,6 @@ namespace DahlDesign.Plugin.iRacing
             Base.SetProp("Idle", iRIdle);
             Base.SetProp("SmoothGear", smoothGear);
             Base.SetProp("TrackEntry", offTrack);
-            Base.SetProp("Dashboard.DeltaScreen", deltaScreen);
             Base.SetProp("LEDWarnings", LEDwarningActive);
             Base.SetProp("SpotterMode", spotMode);
             Base.SetProp("PitSavePaceLock", savePitTimerLock);
