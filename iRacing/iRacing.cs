@@ -220,7 +220,7 @@ namespace DahlDesign.Plugin.iRacing
         bool jokerLapChecker = false;
 
         //Track parameters
-        int trackType = 0; //Track type: 0 = Road, 1-3 = RX, 4 = Dirt road w/o joker, 5 = Dirt Oval, 6 = Short oval, 7 = oval, 8 = super speedway
+        public int trackType = 0; //Track type: 0 = Road, 1-3 = RX, 4 = Dirt road w/o joker, 5 = Dirt Oval, 6 = Short oval, 7 = oval, 8 = super speedway
         bool hasExempt = false;
         double exemptOne = 0;
         double exemptOneMargin = 0;

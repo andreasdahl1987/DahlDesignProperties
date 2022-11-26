@@ -65,7 +65,8 @@ namespace DahlDesign.Plugin
         public string LeftRaceScreen { get; set; } = "None";
         public string RightRaceScreen { get; set; } = "None";
 
-        public string DeltaScreen { get; set; } = "LastLap";
+        public int DeltaScreen { get; set; } = 1;
+        public string DeltaScreenStartup { get; set; } = "LastLap";
         public double DeltaRoadSensitivity { get; set; } = 2.5;
         public double DeltaOvalSensitivity { get; set; } = 0.2;
         public double DeltaRallySensitivity { get; set; } = 1.5;

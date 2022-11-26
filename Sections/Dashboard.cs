@@ -10,6 +10,8 @@ namespace DahlDesign.Plugin.Categories
         public Screen LeftScreen;
         public Screen RightScreen;
         public Screen DeltaScreen;
+        public bool DashStartup;
+        public double DeltaBarSensitivity;
 
        
 
@@ -36,7 +38,10 @@ namespace DahlDesign.Plugin.Categories
             Base.AddProp("MenuType", "");
             Base.AddProp("Dashboard.LeftScreen", System.Convert.ToInt32(Base.Settings.LeftScreen));
             Base.AddProp("Dashboard.RightScreen", System.Convert.ToInt32(Base.Settings.RightScreen));
-            Base.AddProp("Dashboard.DeltaScreen", System.Convert.ToInt32(Base.Settings.DeltaScreen));
+
+            DashStartup = true; 
+            Base.AddProp("Dashboard.DeltaScreen", Base.Settings.DeltaScreen);
+            Base.AddProp("DeltaBarSensitivity", Base.Settings.DeltaRoadSensitivity);
 
             Base.AddAction(
                 "Controls.MapToggle",
@@ -112,12 +117,33 @@ namespace DahlDesign.Plugin.Categories
             Base.SetProp("Dashboard.LeftScreen", LeftScreen.screenID);
             Base.SetProp("Dashboard.RightScreen", RightScreen.screenID);
 
-            //DeltaScreen.screenID = System.Convert.ToInt32(Base.Settings.DeltaScreen);
-            //Base.SetProp("DashBoard.DeltaScreen", DeltaScreen.screenID);
+            if (DashStartup)
+            {
+                DashStartup = !DashStartup;
+                DeltaScreen.screenID = System.Convert.ToInt32(Base.Settings.DeltaScreenStartup);
+            }
+            Base.SetProp("DashBoard.DeltaScreen", DeltaScreen.screenID);
+
 
             if (Base.counter != 2)
                 return;
-            
+
+
+            //Delta sensitivity
+            if (Base.iRacing.trackType == 0)
+            {
+                DeltaBarSensitivity = Base.Settings.DeltaRoadSensitivity;
+            }
+            else if (Base.iRacing.trackType < 5)
+            {
+                DeltaBarSensitivity = Base.Settings.DeltaRallySensitivity;
+            }
+            else
+            {
+                DeltaBarSensitivity = Base.Settings.DeltaOvalSensitivity;
+            }
+            Base.SetProp("DeltaBarSensitivity", DeltaBarSensitivity);
+
             Base.SetProp("DDUstartLED", Base.Settings.DDUstartLED);
             Base.SetProp("SW1startLED", Base.Settings.SW1startLED);
             Base.SetProp("DDUEnabled", Base.Settings.DDUEnabled);

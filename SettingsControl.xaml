@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:DahlDesign.Plugin"
     xmlns:styles="clr-namespace:SimHub.Plugins.Styles;assembly=SimHub.Plugins" mc:Ignorable="d"
-    xmlns:ui="clr-namespace:SimHub.Plugins.UI;assembly=SimHub.Plugins" d:DesignHeight="720" d:DesignWidth="800">
+    xmlns:ui="clr-namespace:SimHub.Plugins.UI;assembly=SimHub.Plugins" d:DesignHeight="3000" d:DesignWidth="800">
 
     <Grid>
         <styles:SHTabControl x:Name="tabcontrol">
@@ -200,7 +200,7 @@
                                     </Grid.RowDefinitions>
 
                                     <TextBlock Grid.Row="1" Text="Startup screen"/>
-                                    <ComboBox Grid.Row="1" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding DeltaScreen}">
+                                    <ComboBox Grid.Row="1" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding DeltaScreenStartup}">
                                         <ComboBoxItem Tag="1" IsSelected="True">LastLap</ComboBoxItem>
                                         <ComboBoxItem Tag="2">SessionBest</ComboBoxItem>
                                         <ComboBoxItem Tag="3">LapRecord</ComboBoxItem>
@@ -286,6 +286,19 @@
                                 <ui:ControlsEditor FriendlyName="Right Screen - Race2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Race2" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Right Screen - Race3" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Race3" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Right Screen - Track" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Track" HorizontalAlignment="Left" Width="750"/>
+                            </StackPanel>
+                        </styles:SHSection>
+
+                        <styles:SHSection Title="Delta screen bindings">
+                            <StackPanel>
+                                <ui:ControlsEditor FriendlyName="Delta Screen > Next Page" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.Next" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Delta Screen > Previous Page" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.Previous" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Delta Screen - LastLap" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.LastLap" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Delta Screen - SessionBest" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.SessionBest" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Delta Screen - LapRecord" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.LapRecord" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Delta Screen - FuelSave" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.FuelSave" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Delta Screen - FuelTarget" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.FuelTarget" HorizontalAlignment="Left" Width="750"/>
+
                             </StackPanel>
                         </styles:SHSection>
                     </StackPanel>
