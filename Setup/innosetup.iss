@@ -2,7 +2,7 @@
 #define LEDVersion '1.1.0'
 
 [Setup]
-AppName=Dahl Design Dahsboard & Plugin
+AppName=Dahl Design Dashboard & Plugin
 AppVersion={#PluginVersion}
 OutputBaseFilename=DahlDesignSetup
 WizardStyle=modern
