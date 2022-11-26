@@ -1,8 +1,9 @@
-; -- Example1.iss --
+#define PluginVersion '1.11.0'
+#define LEDVersion '1.1.0'
 
 [Setup]
 AppName=Dahl Design Dahsboard & Plugin
-AppVersion=1.11.0
+AppVersion={#PluginVersion}
 OutputBaseFilename=DahlDesignSetup
 WizardStyle=modern
 DefaultDirName={autopf}\SimHub
@@ -15,7 +16,8 @@ DirExistsWarning=no
 
 [Files]
 Source: "..\obj\Debug\DahlDesign.dll"; DestDir: "{app}"
-Source: "{tmp}\DahlDesignDDU.simhubdash"; DestDir: "{app}"; Flags: external
+Source: "{tmp}\DahlDesignLED.dll"; DestDir: "{app}"; Flags: external
+Source: "{tmp}\DahlDesignDDU.simhubdash"; DestDir: "{app}"; Flags: external deleteafterinstall
 
 [Run]
 Filename: "{app}\DahlDesignDDU.simhubdash"; Flags: shellexec waituntilterminated
@@ -37,7 +39,9 @@ function NextButtonClick(CurPageID: Integer): Boolean;
 begin
   if CurPageID = wpReady then begin
     DownloadPage.Clear;
-    DownloadPage.Add('https://github.com/andreasdahl1987/DahlDesignDash/releases/download/1.11.0/DahlDesignDDU.simhubdash', 'DahlDesignDDU.simhubdash', '');    
+    DownloadPage.Add('https://github.com/andreasdahl1987/DahlDesignDash/releases/download/{#PluginVersion}/DahlDesignDDU.simhubdash', 'DahlDesignDDU.simhubdash', '');    
+    DownloadPage.Add('https://github.com/andreasdahl1987/DahlDesignLED/releases/download/{#LEDVersion}/DahlDesignLED.dll', 'DahlDesignLED.dll', '');    
+    
     DownloadPage.Show;
     try
       try
