@@ -362,7 +362,7 @@ namespace DahlDesign.Plugin.iRacing
         bool NBspeedLim = false;
         bool NBvalue = false;
 
-        int fuelSaveDelta = 0;
+        int deltaScreen = 0;
         bool plusButtonCheck = false;
         bool minusButtonCheck = false;
         bool OKButtonCheck = false;
@@ -1177,7 +1177,7 @@ namespace DahlDesign.Plugin.iRacing
             /*
              * Hardware buttons
              */
-            Base.AddProp("FuelSaveDelta", 0);
+            Base.AddProp("Dashboard.DeltaScreen", 0);
 
             Base.AddProp("BitePointAdjust", false);
             Base.AddAction("BitePointPressed", (a, b) => bitePointPressed = true);
@@ -1364,22 +1364,22 @@ namespace DahlDesign.Plugin.iRacing
 
             Base.AddAction("DeltaInc", (a, b) =>
             {
-                fuelSaveDelta++;
-                if (fuelSaveDelta > 4)
+                deltaScreen++;
+                if (deltaScreen > 4)
                 {
-                    fuelSaveDelta = 0;
+                    deltaScreen = 0;
                 }
-                Base.SetProp("FuelSaveDelta", fuelSaveDelta);
+                Base.SetProp("Dashboard.DeltaScreen", deltaScreen);
             });
 
             Base.AddAction("DeltaDec", (a, b) =>
             {
-                fuelSaveDelta--;
-                if (fuelSaveDelta < 0)
+                deltaScreen--;
+                if (deltaScreen < 0)
                 {
-                    fuelSaveDelta = 4;
+                    deltaScreen = 4;
                 }
-                Base.SetProp("FuelSaveDelta", fuelSaveDelta);
+                Base.SetProp("Dashboard.DeltaScreen", deltaScreen);
             });
 
             Base.AddProp("PitSavePaceLock", false);
@@ -3073,10 +3073,10 @@ namespace DahlDesign.Plugin.iRacing
                 }
                 else if (pitMenuRotary == 11 && pitMenuRequirementMet)
                 {
-                    fuelSaveDelta++;
-                    if (fuelSaveDelta > 4)
+                    deltaScreen++;
+                    if (deltaScreen > 4)
                     {
-                        fuelSaveDelta = 0;
+                        deltaScreen = 0;
                     }
                 }
                 else if (pitMenuRotary == 12 && pitMenuRequirementMet)
@@ -6737,7 +6737,7 @@ namespace DahlDesign.Plugin.iRacing
                 commandMinFuel = 0;
                 commandMaxFuel = 500;
                 LEDwarningActive = false;
-                fuelSaveDelta = 0;
+                deltaScreen = 0;
                 tcBump = false;
                 tcBumpCounter = 0;
 
@@ -6873,7 +6873,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.SetProp("Idle", iRIdle);
             Base.SetProp("SmoothGear", smoothGear);
             Base.SetProp("TrackEntry", offTrack);
-            Base.SetProp("FuelSaveDelta", fuelSaveDelta);
+            Base.SetProp("Dashboard.DeltaScreen", deltaScreen);
             Base.SetProp("LEDWarnings", LEDwarningActive);
             Base.SetProp("SpotterMode", spotMode);
             Base.SetProp("PitSavePaceLock", savePitTimerLock);
