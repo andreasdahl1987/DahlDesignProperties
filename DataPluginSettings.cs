@@ -66,6 +66,10 @@ namespace DahlDesign.Plugin
         public string RightRaceScreen { get; set; } = "None";
 
         public string DeltaScreen { get; set; } = "LastLap";
+        public double DeltaRoadSensitivity { get; set; } = 2.5;
+        public double DeltaOvalSensitivity { get; set; } = 0.2;
+        public double DeltaRallySensitivity { get; set; } = 1.5;
+
 
 
         #region Property supporting UI refresh from code

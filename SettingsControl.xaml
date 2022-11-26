@@ -179,6 +179,49 @@
 
                                 </Grid>
                             </styles:SHSection>
+                            <styles:SHSection Title="Delta Screens">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*" MinHeight="20"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="1" Text="Startup screen"/>
+                                    <ComboBox Grid.Row="1" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding DeltaScreen}">
+                                        <ComboBoxItem Tag="1" IsSelected="True">LastLap</ComboBoxItem>
+                                        <ComboBoxItem Tag="2">SessionBest</ComboBoxItem>
+                                        <ComboBoxItem Tag="3">LapRecord</ComboBoxItem>
+                                        <ComboBoxItem Tag="4">FuelSave</ComboBoxItem>
+                                        <ComboBoxItem Tag="5">FuelTarget</ComboBoxItem>
+                                    </ComboBox>
+
+                                    <TextBlock Text="Road tracks - Delta change bar sensitivity (10th's delta change to fill a whole bar)" Grid.Row="2" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                                    <TextBlock Text="{Binding ElementName=DeltaRoadSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" HorizontalAlignment="Left" Margin="10,0,0,0" Width="50" Height="20"/>
+                                    <Slider x:Name="DeltaRoadSlider" Value="{Binding DeltaRoadSensitivity}" Grid.Row="4" Width="600" HorizontalAlignment="Left" Maximum="10" Minimum="0.5" SmallChange="0.25" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" TickFrequency="0.25" />
+                                    <TextBlock Text="Oval tracks - Delta change bar sensitivity (10th's delta change to fill a whole bar)" Grid.Row="5" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                                    <TextBlock Text="{Binding ElementName=DeltaOvalSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" HorizontalAlignment="Left" Margin="10,0,0,0" Width="50" Height="20"/>
+                                    <Slider x:Name="DeltaOvalSlider" Value="{Binding DeltaOvalSensitivity}" Grid.Row="7" Width="600" HorizontalAlignment="Left" Maximum="2" Minimum="0.05" SmallChange="0.05" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" TickFrequency="0.05" />
+                                    <TextBlock Text="Rally tracks - Delta change bar sensitivity (10th's delta change to fill a whole bar)" Grid.Row="8" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                                    <TextBlock Text="{Binding ElementName=DeltaRallySlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="9" HorizontalAlignment="Left" Margin="10,0,0,0" Width="50" Height="20"/>
+                                    <Slider x:Name="DeltaRallySlider" Value="{Binding DeltaRallySensitivity}" Grid.Row="10" Width="600" HorizontalAlignment="Left" Maximum="4" Minimum="0.2" SmallChange="0.2" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" TickFrequency="0.1" />
+
+
+
+                                </Grid>
+                            </styles:SHSection>
                         </StackPanel>
                     </ScrollViewer>
                 </styles:SHSection>
@@ -488,7 +531,7 @@
 
                                 <TextBlock Text="Reaction time (ms)">
                                 </TextBlock>
-                                <TextBlock Text="{Binding ElementName=ReactionSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,0,0,0" Width="20" Height="20"/>
+                                <TextBlock Text="{Binding ElementName=ReactionSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="0,0,0,0" Width="50" Height="20"/>
                                 <Slider x:Name="ReactionSlider" MinWidth="400" MaxWidth="800" HorizontalAlignment="Left" AutoToolTipPlacement="TopLeft" Ticks="10,20,30,40,50,60,70,80,90" TickFrequency="1" TickPlacement="Both" Value="{Binding Path=ReactionTime}" Minimum="100" Maximum="1000">
                                 </Slider>
                             </StackPanel>

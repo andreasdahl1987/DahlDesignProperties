@@ -6711,7 +6711,6 @@ namespace DahlDesign.Plugin.iRacing
                 commandMinFuel = 0;
                 commandMaxFuel = 500;
                 LEDwarningActive = false;
-                deltaScreen = 0;
                 tcBump = false;
                 tcBumpCounter = 0;
 

@@ -34,9 +34,9 @@ namespace DahlDesign.Plugin.Categories
             Base.AddProp("ARBstiffForward", Base.Settings.SupercarARBDirection);
             Base.AddProp("CenterDashType", "");
             Base.AddProp("MenuType", "");
-            Base.AddProp("Dashboard.LeftScreen", Base.Settings.LeftScreen);
-            Base.AddProp("Dashboard.RightScreen", Base.Settings.RightScreen);
-            Base.AddProp("Dashboard.DeltaScreen", Base.Settings.DeltaScreen);
+            Base.AddProp("Dashboard.LeftScreen", System.Convert.ToInt32(Base.Settings.LeftScreen));
+            Base.AddProp("Dashboard.RightScreen", System.Convert.ToInt32(Base.Settings.RightScreen));
+            Base.AddProp("Dashboard.DeltaScreen", System.Convert.ToInt32(Base.Settings.DeltaScreen));
 
             Base.AddAction(
                 "Controls.MapToggle",
@@ -92,7 +92,7 @@ namespace DahlDesign.Plugin.Categories
 
             if (Base.iRacing.sessionHolder != session)
             {
-                if (session == "Practice" || session == "Warmup" || session == "Offline testing")
+                if (session == "Practice" || session == "Warmup" || session == "Offline Testing")
                 {
                      LeftScreen.screenID = System.Convert.ToInt32(Base.Settings.LeftPracticeScreen);
                      RightScreen.screenID = System.Convert.ToInt32(Base.Settings.RightPracticeScreen);
@@ -111,7 +111,9 @@ namespace DahlDesign.Plugin.Categories
 
             Base.SetProp("Dashboard.LeftScreen", LeftScreen.screenID);
             Base.SetProp("Dashboard.RightScreen", RightScreen.screenID);
-            Base.SetProp("DashBoard.DeltaScreen", DeltaScreen.screenID);
+
+            //DeltaScreen.screenID = System.Convert.ToInt32(Base.Settings.DeltaScreen);
+            //Base.SetProp("DashBoard.DeltaScreen", DeltaScreen.screenID);
 
             if (Base.counter != 2)
                 return;
