@@ -1,4 +1,5 @@
-#define PluginVersion '1.11.0'
+#define PluginVersion '1.10.1'
+#define DashVersion '1.11.0'
 #define LEDVersion '1.1.0'
 
 [Setup]
@@ -15,7 +16,7 @@ DirExistsWarning=no
 ;OutputDir= userdocs:Inno Setup Examples Output
 
 [Files]
-Source: "..\obj\Debug\DahlDesign.dll"; DestDir: "{app}"
+Source: "{tmp}\DahlDesign.dll"; DestDir: "{app}" ; Flags: external
 Source: "{tmp}\DahlDesignLED.dll"; DestDir: "{app}"; Flags: external
 Source: "{tmp}\DahlDesignDDU.simhubdash"; DestDir: "{app}"; Flags: external deleteafterinstall
 
@@ -39,9 +40,9 @@ function NextButtonClick(CurPageID: Integer): Boolean;
 begin
   if CurPageID = wpReady then begin
     DownloadPage.Clear;
-    DownloadPage.Add('https://github.com/andreasdahl1987/DahlDesignDash/releases/download/{#PluginVersion}/DahlDesignDDU.simhubdash', 'DahlDesignDDU.simhubdash', '');    
+    DownloadPage.Add('https://github.com/andreasdahl1987/DahlDesignDash/releases/download/{#DashVersion}/DahlDesignDDU.simhubdash', 'DahlDesignDDU.simhubdash', '');    
     DownloadPage.Add('https://github.com/andreasdahl1987/DahlDesignLED/releases/download/{#LEDVersion}/DahlDesignLED.dll', 'DahlDesignLED.dll', '');    
-    
+    DownloadPage.Add('https://github.com/andreasdahl1987/DahlDesignProperties/releases/download/{#PluginVersion}/DahlDesign.dll', 'DahlDesign.dll', '');        
     DownloadPage.Show;
     try
       try
