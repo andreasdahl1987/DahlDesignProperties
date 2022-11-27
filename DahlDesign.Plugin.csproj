@@ -176,6 +176,8 @@
     <None Include="README.md" />
     <None Include="requirements.cmd" />
     <None Include="Resources\Dahl icon.png" />
+	<None Include="gitbook\**" />
+	  
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DahlDesign.Plugin.Categories;
 using IRacingReader;
 
 namespace DahlDesign.Plugin.iRacing
@@ -219,7 +220,7 @@ namespace DahlDesign.Plugin.iRacing
         bool jokerLapChecker = false;
 
         //Track parameters
-        int trackType = 0; //Track type: 0 = Road, 1-3 = RX, 4 = Dirt road w/o joker, 5 = Dirt Oval, 6 = Short oval, 7 = oval, 8 = super speedway
+        public int trackType = 0; //Track type: 0 = Road, 1-3 = RX, 4 = Dirt road w/o joker, 5 = Dirt Oval, 6 = Short oval, 7 = oval, 8 = super speedway
         bool hasExempt = false;
         double exemptOne = 0;
         double exemptOneMargin = 0;
@@ -362,7 +363,6 @@ namespace DahlDesign.Plugin.iRacing
         bool NBspeedLim = false;
         bool NBvalue = false;
 
-        int fuelSaveDelta = 0;
         bool plusButtonCheck = false;
         bool minusButtonCheck = false;
         bool OKButtonCheck = false;
@@ -1177,8 +1177,6 @@ namespace DahlDesign.Plugin.iRacing
             /*
              * Hardware buttons
              */
-            Base.AddProp("FuelSaveDelta", 0);
-
             Base.AddProp("BitePointAdjust", false);
             Base.AddAction("BitePointPressed", (a, b) => bitePointPressed = true);
             Base.AddAction("BitePointReleased", (a, b) => bitePointReleased = true);
@@ -1360,26 +1358,6 @@ namespace DahlDesign.Plugin.iRacing
                     pitMenuRotary = 12;
                 }
                 Base.SetProp("PitMenu", pitMenuRotary);
-            });
-
-            Base.AddAction("DeltaInc", (a, b) =>
-            {
-                fuelSaveDelta++;
-                if (fuelSaveDelta > 4)
-                {
-                    fuelSaveDelta = 0;
-                }
-                Base.SetProp("FuelSaveDelta", fuelSaveDelta);
-            });
-
-            Base.AddAction("DeltaDec", (a, b) =>
-            {
-                fuelSaveDelta--;
-                if (fuelSaveDelta < 0)
-                {
-                    fuelSaveDelta = 4;
-                }
-                Base.SetProp("FuelSaveDelta", fuelSaveDelta);
             });
 
             Base.AddProp("PitSavePaceLock", false);
@@ -3073,11 +3051,7 @@ namespace DahlDesign.Plugin.iRacing
                 }
                 else if (pitMenuRotary == 11 && pitMenuRequirementMet)
                 {
-                    fuelSaveDelta++;
-                    if (fuelSaveDelta > 4)
-                    {
-                        fuelSaveDelta = 0;
-                    }
+                    Base.Dashboard.DeltaScreen.Next();
                 }
                 else if (pitMenuRotary == 12 && pitMenuRequirementMet)
                 {
@@ -6737,7 +6711,6 @@ namespace DahlDesign.Plugin.iRacing
                 commandMinFuel = 0;
                 commandMaxFuel = 500;
                 LEDwarningActive = false;
-                fuelSaveDelta = 0;
                 tcBump = false;
                 tcBumpCounter = 0;
 
@@ -6873,7 +6846,6 @@ namespace DahlDesign.Plugin.iRacing
             Base.SetProp("Idle", iRIdle);
             Base.SetProp("SmoothGear", smoothGear);
             Base.SetProp("TrackEntry", offTrack);
-            Base.SetProp("FuelSaveDelta", fuelSaveDelta);
             Base.SetProp("LEDWarnings", LEDwarningActive);
             Base.SetProp("SpotterMode", spotMode);
             Base.SetProp("PitSavePaceLock", savePitTimerLock);
