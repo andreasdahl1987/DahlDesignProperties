@@ -252,9 +252,7 @@
 
                         <styles:SHSection Title="Dashboard bindings">
                             <StackPanel>
-                                
-                                <ui:ControlsEditor FriendlyName="Next delta screen" ActionName="DahlDesign.DeltaInc" HorizontalAlignment="Left" Width="750" Loaded="ControlsEditor_Loaded"/>
-                                <ui:ControlsEditor FriendlyName="Previous delta screen" ActionName="DahlDesign.DeltaDec" HorizontalAlignment="Left" Width="750"/>
+
 
                                 <ui:ControlsEditor FriendlyName="Radio (pressed)" ActionName="DahlDesign.RadioPressed" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Radio (released)" ActionName="DahlDesign.RadioReleased" HorizontalAlignment="Left" Width="750"/>
