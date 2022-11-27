@@ -36,8 +36,8 @@ namespace DahlDesign.Plugin.Categories
             Base.AddProp("ARBstiffForward", Base.Settings.SupercarARBDirection);
             Base.AddProp("CenterDashType", "");
             Base.AddProp("MenuType", "");
-            Base.AddProp("Dashboard.LeftScreen", System.Convert.ToInt32(Base.Settings.LeftScreen));
-            Base.AddProp("Dashboard.RightScreen", System.Convert.ToInt32(Base.Settings.RightScreen));
+            Base.AddProp("Dashboard.LeftScreen", Base.Settings.LeftScreen);
+            Base.AddProp("Dashboard.RightScreen", Base.Settings.RightScreen);
 
             DashStartup = true; 
             Base.AddProp("Dashboard.DeltaScreen", Base.Settings.DeltaScreen);
