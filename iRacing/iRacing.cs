@@ -3051,7 +3051,7 @@ namespace DahlDesign.Plugin.iRacing
                 }
                 else if (pitMenuRotary == 11 && pitMenuRequirementMet)
                 {
-                    //Trigger next delta page flip
+                    Base.Dashboard.DeltaScreen.Next();
                 }
                 else if (pitMenuRotary == 12 && pitMenuRequirementMet)
                 {
