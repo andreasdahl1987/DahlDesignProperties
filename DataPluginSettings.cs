@@ -55,6 +55,7 @@ namespace DahlDesign.Plugin
 
         public bool ShowMapEnabled { get; set; } = false;
         public bool ShowBrakeThrottleGaugesEnabled { get; set; } = false;
+        public bool ShowGenericSplashEnabled {get;set;} = false;
         public string DashType { get; set; } = "Automatic Selection";
         public int LeftScreen { get; set; } = 1;
         public int RightScreen { get; set; } = 1;

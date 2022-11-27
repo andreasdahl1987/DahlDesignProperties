@@ -42,6 +42,7 @@ namespace DahlDesign.Plugin.Categories
             DashStartup = true; 
             Base.AddProp("Dashboard.DeltaScreen", Base.Settings.DeltaScreen);
             Base.AddProp("DeltaBarSensitivity", Base.Settings.DeltaRoadSensitivity);
+            Base.AddProp("Dashboard.ShowGenericSplashEnabled", Base.Settings.ShowGenericSplashEnabled);
 
             Base.AddAction(
                 "Controls.MapToggle",
@@ -158,6 +159,7 @@ namespace DahlDesign.Plugin.Categories
             Base.SetProp("SmallFuelIncrement", Base.Settings.SmallFuelIncrement);
             Base.SetProp("LargeFuelIncrement", Base.Settings.LargeFuelIncrement);
             Base.SetProp("CoupleInCarToPit", Base.Settings.CoupleInCarToPit);
+            Base.SetProp("Dashboard.ShowGenericSplashEnabled", Base.Settings.ShowGenericSplashEnabled);
         }
     }
 }
