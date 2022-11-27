@@ -30,3 +30,8 @@ The plugin menu has some settings relevant to fuel and strategy:
 * Small Pitstop Fuel Adjustment Increment: Change the size of small fuel adjustments in Dashboard.
 * Large Pitstop Fuel Adjustment Increment: Change the size of large fuel adjustments in Dashboard.
 * Adjust remaining laps for pit stop duration: For timed sessions, a pit stop might last so long that the race will be 1 lap shorter than what you calculate for. With this checked, the pit stop time will be subtracted from the race duration for calculations, avoiding fueling for that lap that you're not doing. There is an inherent risk to this.
+* Margin for **fuel calculations** will add the safety margin to the fuel delta. So having a 1 liter margin on fuel calculation will mean you finish the session with 1 liter left on the tank. The calculations for amount of pit stops, % to conserve, minimum/maximum fuel add, pit window and more will also be affected by this margin.&#x20;
+* Margin for **fuel command** will add this margin to the amont of fuel ordered when using the commands on PitMenu position 1:
+  * "+" for fueling for maximum amount of laps
+  * "-" for fueling for minimum to get through the session
+  * This margin cumulates with the fuel calculation margin. So a reasonable mix of the two, or just one of them - depending on how you use the system. I prefer to leave the fuel calculations margin at 0, to get accurate strategy information, and then add half a liter to fuel command margin, since I usually use PitMenu1 + "-" to order my fuel.&#x20;
