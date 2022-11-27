@@ -9,6 +9,9 @@ namespace DahlDesign.Plugin.Categories
 
         public Screen LeftScreen;
         public Screen RightScreen;
+        public Screen DeltaScreen;
+        public bool DashStartup;
+        public double DeltaBarSensitivity;
 
        
 
@@ -18,6 +21,7 @@ namespace DahlDesign.Plugin.Categories
 
             LeftScreen = new Screen(new string[] { "Time1", "Time2", "Time3", "Qualy", "Race1", "Race2", "Race3", "Practice1", "Practice2" });
             RightScreen = new Screen(new string[] { "Stint1", "Stint2", "Qualy1", "Qualy2", "Race1", "Race2", "Race3", "Track" });
+            DeltaScreen = new Screen(new string[] { "LastLap", "SessionBest", "LapRecord", "FuelSave", "FuelTarget" });
 
             Base.AddProp("ShowMapEnabled", Base.Settings.ShowMapEnabled);
             Base.AddProp("ShowBrakeThrottleGaugesEnabled", Base.Settings.ShowBrakeThrottleGaugesEnabled);
@@ -32,8 +36,12 @@ namespace DahlDesign.Plugin.Categories
             Base.AddProp("ARBstiffForward", Base.Settings.SupercarARBDirection);
             Base.AddProp("CenterDashType", "");
             Base.AddProp("MenuType", "");
-            Base.AddProp("Dashboard.LeftScreen", Base.Settings.LeftScreen);
-            Base.AddProp("Dashboard.RightScreen", Base.Settings.RightScreen);
+            Base.AddProp("Dashboard.LeftScreen", System.Convert.ToInt32(Base.Settings.LeftScreen));
+            Base.AddProp("Dashboard.RightScreen", System.Convert.ToInt32(Base.Settings.RightScreen));
+
+            DashStartup = true; 
+            Base.AddProp("Dashboard.DeltaScreen", Base.Settings.DeltaScreen);
+            Base.AddProp("DeltaBarSensitivity", Base.Settings.DeltaRoadSensitivity);
 
             Base.AddAction(
                 "Controls.MapToggle",
@@ -67,6 +75,15 @@ namespace DahlDesign.Plugin.Categories
             Base.AddAction("Controls.Dashboard.RightScreen.Race2", (a, b) => RightScreen.screenID=6);
             Base.AddAction("Controls.Dashboard.RightScreen.Race3", (a, b) => RightScreen.screenID=7);
             Base.AddAction("Controls.Dashboard.RightScreen.Track", (a, b) => RightScreen.screenID=8);
+
+            Base.AddAction("Controls.Dashboard.DeltaScreen.Next", (a, b) => DeltaScreen.Next());
+            Base.AddAction("Controls.Dashboard.DeltaScreen.Previous", (a, b) => DeltaScreen.Previous());
+
+            Base.AddAction("Controls.Dashboard.DeltaScreen.LastLap", (a, b) => DeltaScreen.screenID = 1);
+            Base.AddAction("Controls.Dashboard.DeltaScreen.SessionBest", (a, b) => DeltaScreen.screenID = 2);
+            Base.AddAction("Controls.Dashboard.DeltaScreen.LapRecord", (a, b) => DeltaScreen.screenID = 3);
+            Base.AddAction("Controls.Dashboard.DeltaScreen.FuelSave", (a, b) => DeltaScreen.screenID = 4);
+            Base.AddAction("Controls.Dashboard.DeltaScreen.FuelTarget", (a, b) => DeltaScreen.screenID = 5);
         }
 
         public void DataUpdate()
@@ -80,7 +97,7 @@ namespace DahlDesign.Plugin.Categories
 
             if (Base.iRacing.sessionHolder != session)
             {
-                if (session == "Practice" || session == "Warmup" || session == "Offline testing")
+                if (session == "Practice" || session == "Warmup" || session == "Offline Testing")
                 {
                      LeftScreen.screenID = System.Convert.ToInt32(Base.Settings.LeftPracticeScreen);
                      RightScreen.screenID = System.Convert.ToInt32(Base.Settings.RightPracticeScreen);
@@ -100,9 +117,33 @@ namespace DahlDesign.Plugin.Categories
             Base.SetProp("Dashboard.LeftScreen", LeftScreen.screenID);
             Base.SetProp("Dashboard.RightScreen", RightScreen.screenID);
 
+            if (DashStartup)
+            {
+                DashStartup = !DashStartup;
+                DeltaScreen.screenID = System.Convert.ToInt32(Base.Settings.DeltaScreenStartup);
+            }
+            Base.SetProp("DashBoard.DeltaScreen", DeltaScreen.screenID);
+
+
             if (Base.counter != 2)
                 return;
-            
+
+
+            //Delta sensitivity
+            if (Base.iRacing.trackType == 0)
+            {
+                DeltaBarSensitivity = Base.Settings.DeltaRoadSensitivity;
+            }
+            else if (Base.iRacing.trackType < 5)
+            {
+                DeltaBarSensitivity = Base.Settings.DeltaRallySensitivity;
+            }
+            else
+            {
+                DeltaBarSensitivity = Base.Settings.DeltaOvalSensitivity;
+            }
+            Base.SetProp("DeltaBarSensitivity", DeltaBarSensitivity);
+
             Base.SetProp("DDUstartLED", Base.Settings.DDUstartLED);
             Base.SetProp("SW1startLED", Base.Settings.SW1startLED);
             Base.SetProp("DDUEnabled", Base.Settings.DDUEnabled);
