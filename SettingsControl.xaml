@@ -30,6 +30,7 @@
                                         <RowDefinition Height="1*" MinHeight="30"/>
                                         <RowDefinition Height="1*" MinHeight="30"/>
                                         <RowDefinition Height="1*" MinHeight="30"/>
+                                        <RowDefinition Height="1*" MinHeight="30"/>
 
                                     </Grid.RowDefinitions>
 
@@ -59,8 +60,9 @@
 
                                     <TextBlock Grid.Row="6" Text="Swap ARB lever direction (Supercars):" />
                                     <styles:SHToggleButton Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding SupercarARBDirection}" />
-                                    <TextBlock Grid.Row="9" Text="Override Dashboard Type"/>
-                                    <ComboBox Grid.Row="9" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValue="{Binding DashType}" SelectedValuePath="Content">
+
+                                    <TextBlock Grid.Row="10" Text="Override Dashboard Type"/>
+                                    <ComboBox Grid.Row="10" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValue="{Binding DashType}" SelectedValuePath="Content">
                                         <ComboBoxItem IsSelected="True">Automatic Selection</ComboBoxItem>
 
                                         <ComboBoxItem >Porsche GT3R</ComboBoxItem>
@@ -78,6 +80,11 @@
                                         <ComboBoxItem >BiasOnly</ComboBoxItem>
                                         <ComboBoxItem>Default</ComboBoxItem>
                                     </ComboBox>
+
+                                      <TextBlock Grid.Row="9" Text="Show generic splash screen" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
+                                    </TextBlock>
+                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="9" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShowGenericSplashEnabled}" RenderTransformOrigin="0.45,0.2"/>
+
                                 </Grid>
                             </styles:SHSection>
                             <styles:SHSection Title="Session setup">
