@@ -1035,6 +1035,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("FuelSaveDeltaValue", 0);
             Base.AddProp("FuelPerLapOffset", 0);
             Base.AddProp("FuelPerLapTarget", 0);
+            Base.AddProp("FuelPerLapTargetLocked", Base.Settings.fuelPerLapTargetLocked);
             Base.AddProp("FuelPerLapTargetLastLapDelta", 0);
             Base.AddProp("FuelTargetDeltaCumulative", 0);
 
@@ -2881,7 +2882,7 @@ namespace DahlDesign.Plugin.iRacing
 
                 else if (pitMenuRotary == 12 && pitMenuRequirementMet)
                 {
-                    //pluginManager.TriggerAction("ShakeITBSV3Plugin.MainFeedbackLevelIncrement");
+                    Base.Settings.fuelPerLapTargetLocked = false;
                     fuelPerLapOffset = fuelPerLapOffset + Base.Settings.fuelOffsetIncrement;
                 }
 
@@ -2979,6 +2980,7 @@ namespace DahlDesign.Plugin.iRacing
                     {
                         fuelPerLapOffset = -fuelAvgLap;
                     }
+                    Base.Settings.fuelPerLapTargetLocked = false;
                 }
 
                 minusButtonCheck = false;
@@ -2990,6 +2992,7 @@ namespace DahlDesign.Plugin.iRacing
                 {
                     PitCommands.iRacingChat("#clear$");
                     fuelPerLapOffset = 0;
+                    Base.Settings.fuelPerLapTargetLocked = false;
                 }
                 else if (pitMenuRotary == 2 && pitMenuRequirementMet)
                 {
@@ -3056,6 +3059,7 @@ namespace DahlDesign.Plugin.iRacing
                 else if (pitMenuRotary == 12 && pitMenuRequirementMet)
                 {
                     Base.Settings.fuelPerLapTarget = fuelAvgLap + fuelPerLapOffset;
+                    Base.Settings.fuelPerLapTargetLocked = true;
                 }
 
                 OKButtonCheck = false;
@@ -5488,6 +5492,10 @@ namespace DahlDesign.Plugin.iRacing
                 if (Base.counter != 4)
                 {
                     fuelPerLap = fuelAvgLap + Math.Round(fuelPerLapOffset, 2);
+                    if (Base.Settings.fuelPerLapTargetLocked)
+                    {
+                        fuelPerLap = Base.Settings.fuelPerLapTarget;
+                    }
                 }
                 else
                 {
@@ -5505,6 +5513,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("FuelConserveToSaveAStop", 0);
                     Base.SetProp("FuelSlowestFuelSavePace", new TimeSpan(0));
                     Base.SetProp("FuelAlert", false);
+                    Base.SetProp("FuelPerLapTargetLocked", Base.Settings.fuelPerLapTargetLocked);
 
                 }
                 else
@@ -5524,7 +5533,7 @@ namespace DahlDesign.Plugin.iRacing
                 {
                     double distanceLeft = truncRemainingLaps + 1 - trackPosition;
                     double fuelDelta = fuel - (fuelPerLap * distanceLeft) - Base.Settings.FuelCalculationMargin;
-
+                    double builtInFuelMargin = 1 + (0.2 / fuelPerLap); //0.2 liters to finish since cars start stuttering around there, also 1 whole lap for the one where you run out of fuel.
                     //Calculating pit window
 
                     //Room for fuel
@@ -5534,7 +5543,7 @@ namespace DahlDesign.Plugin.iRacing
                     //Where will I get to with current fuel load
                     double dryPosition = (fuel / fuelPerLap) + currentLap + trackPosition;
                     //Latest possible pit stop on lap:
-                    int latestPitLap = ((int)((dryPosition - 1.1) * 100)) / 100;
+                    int latestPitLap = ((int)((dryPosition - builtInFuelMargin) * 100)) / 100;
                     if (fuelDelta > 0 && session != "Offline Testing")
                     {
                         latestPitLap = 0;
@@ -5553,7 +5562,7 @@ namespace DahlDesign.Plugin.iRacing
                     double maxFillOnStop = maxFuel - latestPitFuelLoad;
                     //How far can I get on that tank?
                     double maxDist = maxFuel / fuelPerLap;
-                    double maxLaps = ((int)((maxDist - 1.1) * 100)) / 100;
+                    double maxLaps = ((int)((maxDist - builtInFuelMargin) * 100)) / 100;
                     //Least amount of fuel to give maximum amount of laps
                     double secondFuelingMinimum = fuelPerLap * maxLaps;
 

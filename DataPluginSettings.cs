@@ -44,6 +44,7 @@ namespace DahlDesign.Plugin
         public bool DDSEnabled { get; set; } = false;
 
         public double fuelPerLapTarget { get; set; } = 2.50;
+        public bool fuelPerLapTargetLocked = false;
 
         public double fuelOffsetIncrement { get; set; } = 0.01;
 
