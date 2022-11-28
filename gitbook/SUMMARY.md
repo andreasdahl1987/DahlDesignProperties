@@ -29,3 +29,4 @@
   * [🎮 DDC](Properties/ddc.md)
   * [🕹 SW1](Properties/sw1.md)
 * [Pit Menu](pit-menu.md)
+* [Showcase](showcase.md)
