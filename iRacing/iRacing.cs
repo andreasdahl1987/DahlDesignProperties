@@ -54,6 +54,10 @@ namespace DahlDesign.Plugin.iRacing
         int deltaChangeChunks = 20;
 
         bool pitMenuRequirementMet = false;
+        float plannedLFPressure = 0;
+        float plannedRFPressure = 0;
+        float plannedLRPressure = 0;
+        float plannedRRPressure = 0;
 
         bool overtakeMode = false;
         int roadOff = 0;
@@ -80,6 +84,7 @@ namespace DahlDesign.Plugin.iRacing
         int sector2Incidents = 0;
         int sector3Incidents = 0;
         bool currentLapTimeStarted = false;
+        TimeSpan optimalLapTime = new TimeSpan(0);
 
         double oneThird = 1d / 3d;
         double twoThirds = 2d / 3d;
@@ -517,10 +522,10 @@ namespace DahlDesign.Plugin.iRacing
             #endregion
             #region SimHub Properties
 
-            Base.AddProp("TestProperty", 0);
+            Base.AttachDelegate("TestProperty", () => TCreleaseCD != 0);
             Base.AddProp("Position", 0);
-            Base.AddProp("HotLapPosition", 0);
-            Base.AddProp("RaceFinished", false);
+            Base.AttachDelegate("HotLapPosition", () => hotLapPosition);
+            Base.AttachDelegate("RaceFinished", () => raceFinished);
             Base.AddProp("SoF", 0);
             Base.AddProp("IRchange", 0);
             Base.AddProp("MyClassColor", "");
@@ -539,23 +544,23 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("TrueRevLimiter", () => revLim);
             Base.AttachDelegate("IdleRPM", () => idleRPM);
 
-            Base.AddProp("Lap01Time", new TimeSpan(0));
-            Base.AddProp("Lap02Time", new TimeSpan(0));
-            Base.AddProp("Lap03Time", new TimeSpan(0));
-            Base.AddProp("Lap04Time", new TimeSpan(0));
-            Base.AddProp("Lap05Time", new TimeSpan(0));
-            Base.AddProp("Lap06Time", new TimeSpan(0));
-            Base.AddProp("Lap07Time", new TimeSpan(0));
-            Base.AddProp("Lap08Time", new TimeSpan(0));
+            Base.AttachDelegate("Lap01Time", () => lapTimeList[0]);
+            Base.AttachDelegate("Lap02Time", () => lapTimeList[1]);
+            Base.AttachDelegate("Lap03Time", () => lapTimeList[2]);
+            Base.AttachDelegate("Lap04Time", () => lapTimeList[3]);
+            Base.AttachDelegate("Lap05Time", () => lapTimeList[4]);
+            Base.AttachDelegate("Lap06Time", () => lapTimeList[5]);
+            Base.AttachDelegate("Lap07Time", () => lapTimeList[6]);
+            Base.AttachDelegate("Lap08Time", () => lapTimeList[7]);
 
-            Base.AddProp("Lap01Status", 0);
-            Base.AddProp("Lap02Status", 0);
-            Base.AddProp("Lap03Status", 0);
-            Base.AddProp("Lap04Status", 0);
-            Base.AddProp("Lap05Status", 0);
-            Base.AddProp("Lap06Status", 0);
-            Base.AddProp("Lap07Status", 0);
-            Base.AddProp("Lap08Status", 0);
+            Base.AttachDelegate("Lap01Status", () => lapStatusList[0]);
+            Base.AttachDelegate("Lap02Status", () => lapStatusList[1]);
+            Base.AttachDelegate("Lap03Status", () => lapStatusList[2]);
+            Base.AttachDelegate("Lap04Status", () => lapStatusList[3]);
+            Base.AttachDelegate("Lap05Status", () => lapStatusList[4]);
+            Base.AttachDelegate("Lap06Status", () => lapStatusList[5]);
+            Base.AttachDelegate("Lap07Status", () => lapStatusList[6]);
+            Base.AttachDelegate("Lap08Status", () => lapStatusList[7]);
 
             Base.AddProp("Lap01Delta", 0);
             Base.AddProp("Lap02Delta", 0);
@@ -670,9 +675,9 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("CurrentSector1Status", 0);
             Base.AddProp("CurrentSector2Status", 0);
             Base.AddProp("CurrentSector3Status", 0);
-            Base.AddProp("SessionBestSector1", new TimeSpan(0));
-            Base.AddProp("SessionBestSector2", new TimeSpan(0));
-            Base.AddProp("SessionBestSector3", new TimeSpan(0));
+            Base.AttachDelegate("SessionBestSector1", () => TimeSpan.FromSeconds(sessionBestSector1));
+            Base.AttachDelegate("SessionBestSector2", () => TimeSpan.FromSeconds(sessionBestSector2));
+            Base.AttachDelegate("SessionBestSector3", () => TimeSpan.FromSeconds(sessionBestSector3));
             Base.AddProp("Sector1Pace", new TimeSpan(0));
             Base.AddProp("Sector2Pace", new TimeSpan(0));
             Base.AddProp("Sector3Pace", new TimeSpan(0));
@@ -680,95 +685,23 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("Sector2Score", 0);
             Base.AddProp("Sector3Score", 0);
 
-            Base.AddProp("OptimalLapTime", new TimeSpan(0));
+            Base.AttachDelegate("OptimalLapTime", () => optimalLapTime);
 
-            Base.AddProp("Lap01Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap01Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap01Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap01Sector1Delta", 0);
-            Base.AddProp("Lap01Sector2Delta", 0);
-            Base.AddProp("Lap01Sector3Delta", 0);
-            Base.AddProp("Lap01Sector1Status", 0);
-            Base.AddProp("Lap01Sector2Status", 0);
-            Base.AddProp("Lap01Sector3Status", 0);
-            Base.AddProp("Lap01FuelTargetDelta", 0);
+            for (int i = 0; i < sector1StatusList.Count; i++)
+            {
+                string propIndex = $"{i + 1:00}";
 
-            Base.AddProp("Lap02Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap02Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap02Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap02Sector1Delta", 0);
-            Base.AddProp("Lap02Sector2Delta", 0);
-            Base.AddProp("Lap02Sector3Delta", 0);
-            Base.AddProp("Lap02Sector1Status", 0);
-            Base.AddProp("Lap02Sector2Status", 0);
-            Base.AddProp("Lap02Sector3Status", 0);
-            Base.AddProp("Lap02FuelTargetDelta", 0);
-
-            Base.AddProp("Lap03Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap03Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap03Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap03Sector1Delta", 0);
-            Base.AddProp("Lap03Sector2Delta", 0);
-            Base.AddProp("Lap03Sector3Delta", 0);
-            Base.AddProp("Lap03Sector1Status", 0);
-            Base.AddProp("Lap03Sector2Status", 0);
-            Base.AddProp("Lap03Sector3Status", 0);
-            Base.AddProp("Lap03FuelTargetDelta", 0);
-
-            Base.AddProp("Lap04Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap04Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap04Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap04Sector1Delta", 0);
-            Base.AddProp("Lap04Sector2Delta", 0);
-            Base.AddProp("Lap04Sector3Delta", 0);
-            Base.AddProp("Lap04Sector1Status", 0);
-            Base.AddProp("Lap04Sector2Status", 0);
-            Base.AddProp("Lap04Sector3Status", 0);
-            Base.AddProp("Lap04FuelTargetDelta", 0);
-
-            Base.AddProp("Lap05Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap05Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap05Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap05Sector1Delta", 0);
-            Base.AddProp("Lap05Sector2Delta", 0);
-            Base.AddProp("Lap05Sector3Delta", 0);
-            Base.AddProp("Lap05Sector1Status", 0);
-            Base.AddProp("Lap05Sector2Status", 0);
-            Base.AddProp("Lap05Sector3Status", 0);
-            Base.AddProp("Lap05FuelTargetDelta", 0);
-
-            Base.AddProp("Lap06Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap06Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap06Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap06Sector1Delta", 0);
-            Base.AddProp("Lap06Sector2Delta", 0);
-            Base.AddProp("Lap06Sector3Delta", 0);
-            Base.AddProp("Lap06Sector1Status", 0);
-            Base.AddProp("Lap06Sector2Status", 0);
-            Base.AddProp("Lap06Sector3Status", 0);
-            Base.AddProp("Lap06FuelTargetDelta", 0);
-
-            Base.AddProp("Lap07Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap07Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap07Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap07Sector1Delta", 0);
-            Base.AddProp("Lap07Sector2Delta", 0);
-            Base.AddProp("Lap07Sector3Delta", 0);
-            Base.AddProp("Lap07Sector1Status", 0);
-            Base.AddProp("Lap07Sector2Status", 0);
-            Base.AddProp("Lap07Sector3Status", 0);
-            Base.AddProp("Lap07FuelTargetDelta", 0);
-
-            Base.AddProp("Lap08Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap08Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap08Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap08Sector1Delta", 0);
-            Base.AddProp("Lap08Sector2Delta", 0);
-            Base.AddProp("Lap08Sector3Delta", 0);
-            Base.AddProp("Lap08Sector1Status", 0);
-            Base.AddProp("Lap08Sector2Status", 0);
-            Base.AddProp("Lap08Sector3Status", 0);
-            Base.AddProp("Lap08FuelTargetDelta", 0);
+                Base.AttachDelegate($"Lap{propIndex}Sector1Time", () => TimeSpan.FromSeconds(sector1TimeList[i]));
+                Base.AttachDelegate($"Lap{propIndex}Sector2Time", () => TimeSpan.FromSeconds(sector2TimeList[i]));
+                Base.AttachDelegate($"Lap{propIndex}Sector3Time", () => TimeSpan.FromSeconds(sector3TimeList[i]));
+                Base.AddProp($"Lap{propIndex}Sector1Delta", 0);
+                Base.AddProp($"Lap{propIndex}Sector2Delta", 0);
+                Base.AddProp($"Lap{propIndex}Sector3Delta", 0);
+                Base.AttachDelegate($"Lap{propIndex}Sector1Status", () => sector1StatusList[i]);
+                Base.AttachDelegate($"Lap{propIndex}Sector2Status", () => sector2StatusList[i]);
+                Base.AttachDelegate($"Lap{propIndex}Sector3Status", () => sector3StatusList[i]);
+                Base.AttachDelegate($"Lap{propIndex}FuelTargetDelta", () => fuelTargetDeltas[i]);
+            }
 
             Base.AttachDelegate("LapRecord", () => lapRecord);
             Base.AddProp("DeltaLastLap", 0);
@@ -1036,7 +969,7 @@ namespace DahlDesign.Plugin.iRacing
 
             Base.AddProp("FuelSlowestFuelSavePace", new TimeSpan(0));
             Base.AddProp("FuelSaveDeltaValue", 0);
-            Base.AddProp("FuelPerLapOffset", 0);
+            Base.AttachDelegate("FuelPerLapOffset", () => Math.Round(fuelPerLapOffset, 2));
             Base.AddProp("FuelPerLapTarget", 0);
             Base.AddProp("FuelPerLapTargetLastLapDelta", 0);
             Base.AddProp("FuelTargetDeltaCumulative", 0);
@@ -1857,10 +1790,10 @@ namespace DahlDesign.Plugin.iRacing
 
             double plannedFuel = Convert.ToDouble(irData.Telemetry.PitSvFuel);                      //Planned fuel
             double maxFuel = Base.gameData.NewData.MaxFuel;
-            float plannedLFPressure = irData.Telemetry.PitSvLFP;                                    //Planned LF pressure
-            float plannedRFPressure = irData.Telemetry.PitSvRFP;                                    //Planned RF pressure
-            float plannedLRPressure = irData.Telemetry.PitSvLRP;                                    //Planned LR pressure
-            float plannedRRPressure = irData.Telemetry.PitSvRRP;                                    //Planned RR pressure
+            plannedLFPressure = irData.Telemetry.PitSvLFP;                                    //Planned LF pressure
+            plannedRFPressure = irData.Telemetry.PitSvRFP;                                    //Planned RF pressure
+            plannedLRPressure = irData.Telemetry.PitSvLRP;                                    //Planned LR pressure
+            plannedRRPressure = irData.Telemetry.PitSvRRP;                                    //Planned RR pressure
 
             int cam = irData.Telemetry.CamCameraState;                                              //Cam state
             sessionScreen = Convert.ToBoolean(cam & 1);
@@ -4361,8 +4294,6 @@ namespace DahlDesign.Plugin.iRacing
                 }
 
                 Base.SetProp("Position", realPosition);
-                Base.SetProp("HotLapPosition", hotLapPosition);
-                Base.SetProp("RaceFinished", raceFinished);
 
             }
 
@@ -6798,114 +6729,14 @@ namespace DahlDesign.Plugin.iRacing
             //-----------------------------------------------------------------------------
             //----------------------SETTING GLOBAL PROPERTY VALUES-------------------------
             //-----------------------------------------------------------------------------
-
-            Base.SetProp("TestProperty", TCreleaseCD != 0);
-            Base.SetProp("FuelPerLapOffset", Math.Round(fuelPerLapOffset, 2));
-
-            Base.SetProp("SessionBestSector1", TimeSpan.FromSeconds(sessionBestSector1));
-            Base.SetProp("SessionBestSector2", TimeSpan.FromSeconds(sessionBestSector2));
-            Base.SetProp("SessionBestSector3", TimeSpan.FromSeconds(sessionBestSector3));
-
+            
             if (sessionBestSector1 > 0 && sessionBestSector2 > 0 && sessionBestSector3 > 0)
             {
-                Base.SetProp("OptimalLapTime", TimeSpan.FromSeconds(sessionBestSector1 + sessionBestSector2 + sessionBestSector3));
+                optimalLapTime = TimeSpan.FromSeconds(sessionBestSector1 + sessionBestSector2 + sessionBestSector3);
             }
             else
             {
-                Base.SetProp("OptimalLapTime", new TimeSpan(0));
-            }
-
-            Base.SetProp("PitServiceLFPSet", plannedLFPressure);
-            Base.SetProp("PitServiceRFPSet", plannedRFPressure);
-            Base.SetProp("PitServiceLRPSet", plannedLRPressure);
-            Base.SetProp("PitServiceRRPSet", plannedRRPressure);
-
-            if (Base.counter == 6 || Base.counter == 36) //General lap times refreshed only twice per second
-            {
-
-
-                Base.SetProp("Lap01Time", lapTimeList[0]);
-                Base.SetProp("Lap02Time", lapTimeList[1]);
-                Base.SetProp("Lap03Time", lapTimeList[2]);
-                Base.SetProp("Lap04Time", lapTimeList[3]);
-                Base.SetProp("Lap05Time", lapTimeList[4]);
-                Base.SetProp("Lap06Time", lapTimeList[5]);
-                Base.SetProp("Lap07Time", lapTimeList[6]);
-                Base.SetProp("Lap08Time", lapTimeList[7]);
-
-                Base.SetProp("Lap01Status", lapStatusList[0]);
-                Base.SetProp("Lap02Status", lapStatusList[1]);
-                Base.SetProp("Lap03Status", lapStatusList[2]);
-                Base.SetProp("Lap04Status", lapStatusList[3]);
-                Base.SetProp("Lap05Status", lapStatusList[4]);
-                Base.SetProp("Lap06Status", lapStatusList[5]);
-                Base.SetProp("Lap07Status", lapStatusList[6]);
-                Base.SetProp("Lap08Status", lapStatusList[7]);
-
-                Base.SetProp("Lap01FuelTargetDelta", fuelTargetDeltas[0]);
-                Base.SetProp("Lap02FuelTargetDelta", fuelTargetDeltas[1]);
-                Base.SetProp("Lap03FuelTargetDelta", fuelTargetDeltas[2]);
-                Base.SetProp("Lap04FuelTargetDelta", fuelTargetDeltas[3]);
-                Base.SetProp("Lap05FuelTargetDelta", fuelTargetDeltas[4]);
-                Base.SetProp("Lap06FuelTargetDelta", fuelTargetDeltas[5]);
-                Base.SetProp("Lap07FuelTargetDelta", fuelTargetDeltas[6]);
-                Base.SetProp("Lap08FuelTargetDelta", fuelTargetDeltas[7]);
-
-                Base.SetProp("Lap01Sector1Time", TimeSpan.FromSeconds(sector1TimeList[0]));
-                Base.SetProp("Lap01Sector2Time", TimeSpan.FromSeconds(sector2TimeList[0]));
-                Base.SetProp("Lap01Sector3Time", TimeSpan.FromSeconds(sector3TimeList[0]));
-                Base.SetProp("Lap01Sector1Status", sector1StatusList[0]);
-                Base.SetProp("Lap01Sector2Status", sector2StatusList[0]);
-                Base.SetProp("Lap01Sector3Status", sector3StatusList[0]);
-
-                Base.SetProp("Lap02Sector1Time", TimeSpan.FromSeconds(sector1TimeList[1]));
-                Base.SetProp("Lap02Sector2Time", TimeSpan.FromSeconds(sector2TimeList[1]));
-                Base.SetProp("Lap02Sector3Time", TimeSpan.FromSeconds(sector3TimeList[1]));
-                Base.SetProp("Lap02Sector1Status", sector1StatusList[1]);
-                Base.SetProp("Lap02Sector2Status", sector2StatusList[1]);
-                Base.SetProp("Lap02Sector3Status", sector3StatusList[1]);
-
-                Base.SetProp("Lap03Sector1Time", TimeSpan.FromSeconds(sector1TimeList[2]));
-                Base.SetProp("Lap03Sector2Time", TimeSpan.FromSeconds(sector2TimeList[2]));
-                Base.SetProp("Lap03Sector3Time", TimeSpan.FromSeconds(sector3TimeList[2]));
-                Base.SetProp("Lap03Sector1Status", sector1StatusList[2]);
-                Base.SetProp("Lap03Sector2Status", sector2StatusList[2]);
-                Base.SetProp("Lap03Sector3Status", sector3StatusList[2]);
-
-                Base.SetProp("Lap04Sector1Time", TimeSpan.FromSeconds(sector1TimeList[3]));
-                Base.SetProp("Lap04Sector2Time", TimeSpan.FromSeconds(sector2TimeList[3]));
-                Base.SetProp("Lap04Sector3Time", TimeSpan.FromSeconds(sector3TimeList[3]));
-                Base.SetProp("Lap04Sector1Status", sector1StatusList[3]);
-                Base.SetProp("Lap04Sector2Status", sector2StatusList[3]);
-                Base.SetProp("Lap04Sector3Status", sector3StatusList[3]);
-
-                Base.SetProp("Lap05Sector1Time", TimeSpan.FromSeconds(sector1TimeList[4]));
-                Base.SetProp("Lap05Sector2Time", TimeSpan.FromSeconds(sector2TimeList[4]));
-                Base.SetProp("Lap05Sector3Time", TimeSpan.FromSeconds(sector3TimeList[4]));
-                Base.SetProp("Lap05Sector1Status", sector1StatusList[4]);
-                Base.SetProp("Lap05Sector2Status", sector2StatusList[4]);
-                Base.SetProp("Lap05Sector3Status", sector3StatusList[4]);
-
-                Base.SetProp("Lap06Sector1Time", TimeSpan.FromSeconds(sector1TimeList[5]));
-                Base.SetProp("Lap06Sector2Time", TimeSpan.FromSeconds(sector2TimeList[5]));
-                Base.SetProp("Lap06Sector3Time", TimeSpan.FromSeconds(sector3TimeList[5]));
-                Base.SetProp("Lap06Sector1Status", sector1StatusList[5]);
-                Base.SetProp("Lap06Sector2Status", sector2StatusList[5]);
-                Base.SetProp("Lap06Sector3Status", sector3StatusList[5]);
-
-                Base.SetProp("Lap07Sector1Time", TimeSpan.FromSeconds(sector1TimeList[6]));
-                Base.SetProp("Lap07Sector2Time", TimeSpan.FromSeconds(sector2TimeList[6]));
-                Base.SetProp("Lap07Sector3Time", TimeSpan.FromSeconds(sector3TimeList[6]));
-                Base.SetProp("Lap07Sector1Status", sector1StatusList[6]);
-                Base.SetProp("Lap07Sector2Status", sector2StatusList[6]);
-                Base.SetProp("Lap07Sector3Status", sector3StatusList[6]);
-
-                Base.SetProp("Lap08Sector1Time", TimeSpan.FromSeconds(sector1TimeList[7]));
-                Base.SetProp("Lap08Sector2Time", TimeSpan.FromSeconds(sector2TimeList[7]));
-                Base.SetProp("Lap08Sector3Time", TimeSpan.FromSeconds(sector3TimeList[7]));
-                Base.SetProp("Lap08Sector1Status", sector1StatusList[7]);
-                Base.SetProp("Lap08Sector2Status", sector2StatusList[7]);
-                Base.SetProp("Lap08Sector3Status", sector3StatusList[7]);
+                optimalLapTime =  new TimeSpan(0);
             }
         }
     }
