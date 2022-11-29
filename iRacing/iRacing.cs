@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SimHub.Plugins;
 using DahlDesign.Plugin.Categories;
 using IRacingReader;
 
@@ -563,9 +564,9 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("Lap07Delta", 0);
             Base.AddProp("Lap08Delta", 0);
 
-            Base.AddProp("SmallFuelIncrement", Base.Settings.SmallFuelIncrement);
-            Base.AddProp("LargeFuelIncrement", Base.Settings.LargeFuelIncrement);
-            Base.AddProp("CoupleInCarToPit", Base.Settings.CoupleInCarToPit);
+            Base.AttachDelegate("SmallFuelIncrement", () => Base.Settings.SmallFuelIncrement);
+            Base.AttachDelegate("LargeFuelIncrement", () =>Base.Settings.LargeFuelIncrement);
+            Base.AttachDelegate("CoupleInCarToPit", () => Base.Settings.CoupleInCarToPit);
 
             Base.AddProp("Idle", true);
             Base.AddProp("SmoothGear", "");

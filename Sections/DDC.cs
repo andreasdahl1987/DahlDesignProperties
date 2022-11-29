@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimHub.Plugins;
+using System;
 
 namespace DahlDesign.Plugin.Categories
 {
@@ -101,9 +102,9 @@ namespace DahlDesign.Plugin.Categories
             Base.AddProp("SW1Brake",  0);
             Base.AddProp("SW1Throttle",  0);
 
-            Base.AddProp("DDUstartLED",  Base.Settings.DDUstartLED);
-            Base.AddProp("SW1startLED", Base.Settings.SW1startLED);
-            Base.AddProp("DDUEnabled",  Base.Settings.DDUEnabled);
+            Base.AttachDelegate("DDUstartLED", () => Base.Settings.DDUstartLED);
+            Base.AttachDelegate("SW1startLED", () => Base.Settings.SW1startLED);
+            Base.AttachDelegate("DDUEnabled", () => Base.Settings.DDUEnabled);
         }
 
         public void DataUpdate()
