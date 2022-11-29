@@ -24,6 +24,8 @@ namespace DahlDesign.Plugin.iRacing
         string myClassColor = "";
         int myClassColorIndex = 0;
 
+        double SoF = 0;
+
         List<pitOpponents> pitStopOpponents = new List<pitOpponents> { };
         List<pitOpponents> finalList = new List<pitOpponents> { };
 
@@ -526,8 +528,8 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("Position", 0);
             Base.AttachDelegate("HotLapPosition", () => hotLapPosition);
             Base.AttachDelegate("RaceFinished", () => raceFinished);
-            Base.AddProp("SoF", 0);
-            Base.AddProp("IRchange", 0);
+            Base.AttachDelegate("SoF", () => SoF);
+            Base.AttachDelegate("IRchange", () => IRchange);
             Base.AddProp("MyClassColor", "");
 
 
@@ -598,7 +600,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("TCActive", false);
             Base.AddProp("TCToggle", false);
             Base.AddProp("ABSToggle", false);
-            Base.AddProp("HasTC", false);
+            Base.AttachDelegate("HasTC", () => hasTCtimer || hasTCtog || hasTC);
             Base.AttachDelegate("HasABS", () => hasABS);
             Base.AttachDelegate("HasDRS", () => hasDRS);
             Base.AddProp("DRSState", "");
@@ -687,7 +689,7 @@ namespace DahlDesign.Plugin.iRacing
 
             Base.AttachDelegate("OptimalLapTime", () => optimalLapTime);
 
-            for (int i = 0; i < sector1StatusList.Count; i++)
+            for (int i = 0; i < 7; i++)
             {
                 string propIndex = $"{i + 1:00}";
 
@@ -1890,7 +1892,7 @@ namespace DahlDesign.Plugin.iRacing
                     IRscore = IRscore - 0.5;
                 }
 
-                double SoF = 0;
+                SoF = 0;
 
                 if (sum != 0)
                 {
@@ -1901,10 +1903,6 @@ namespace DahlDesign.Plugin.iRacing
                     }
 
                 }
-
-                Base.SetProp("SoF", SoF);
-                Base.SetProp("IRchange", IRchange);
-
             }
 
             //----------------------------------------------
@@ -2221,8 +2219,6 @@ namespace DahlDesign.Plugin.iRacing
                             break;
                     }
                 }
-
-                Base.SetProp("HasTC", hasTCtimer || hasTCtog || hasTC);
 
                 Base.SetProp("AnimationType", (int)animaionType);
 
