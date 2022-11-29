@@ -527,7 +527,7 @@ namespace DahlDesign.Plugin.iRacing
             #region SimHub Properties
 
             Base.AttachDelegate("TestProperty", () => TCreleaseCD != 0);
-            Base.AddProp("Position", 0);
+            Base.AttachDelegate("Position", () => realPosition);
             Base.AttachDelegate("HotLapPosition", () => hotLapPosition);
             Base.AttachDelegate("RaceFinished", () => raceFinished);
             Base.AttachDelegate("SoF", () => SoF);
@@ -4256,8 +4256,6 @@ namespace DahlDesign.Plugin.iRacing
                     hotLapPosition = myPosition;
 
                 }
-
-                Base.SetProp("Position", realPosition);
 
             }
 
