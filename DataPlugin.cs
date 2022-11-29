@@ -12,7 +12,6 @@ namespace DahlDesign.Plugin
 
     public class DahlDesign : IPlugin, IDataPlugin, IWPFSettingsV2
     {
-        const string version = "1.10.1";
         public DataPluginSettings Settings;
         /// <summary>Instance of the current plugin manager</summary>
         public PluginManager PluginManager { get; set; }
@@ -41,9 +40,6 @@ namespace DahlDesign.Plugin
             Dashboard = new Categories.Dashboard(this);
             DDC = new Categories.DDC(this);
             iRacing = new iRacing.Data(this);
-
-            //Update property
-            pluginManager.AddProperty("Version", this.GetType(), version);
         }
 
         public void DataUpdate(PluginManager pluginManager, ref GameData data)
