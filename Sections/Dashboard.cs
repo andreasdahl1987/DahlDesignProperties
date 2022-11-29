@@ -24,7 +24,6 @@ namespace DahlDesign.Plugin.Categories
             RightScreen = new Screen(new string[] { "Stint1", "Stint2", "Qualy1", "Qualy2", "Race1", "Race2", "Race3", "Track" });
             DeltaScreen = new Screen(new string[] { "LastLap", "SessionBest", "LapRecord", "FuelSave", "FuelTarget" });
             
-            //Base.AddProp("ShowMapEnabled", );
             Base.AttachDelegate("ShowMapEnabled", () => Base.Settings.ShowMapEnabled);
             Base.AttachDelegate("ShowBrakeThrottleGaugesEnabled", () => Base.Settings.ShowBrakeThrottleGaugesEnabled);
 
@@ -47,11 +46,11 @@ namespace DahlDesign.Plugin.Categories
             RightScreen.screenID = Base.Settings.RightScreen;
 
             DashStartup = true; 
-            Base.AddProp("Dashboard.DeltaScreen", DeltaScreen.screenID);
+            Base.AttachDelegate("Dashboard.DeltaScreen", () => DeltaScreen.screenID);
             DeltaScreen.screenID = Base.Settings.DeltaScreen;
 
-            Base.AddProp("DeltaBarSensitivity", Base.Settings.DeltaRoadSensitivity);
-            Base.AddProp("Dashboard.ShowGenericSplashEnabled", Base.Settings.ShowGenericSplashEnabled);
+            Base.AttachDelegate("DeltaBarSensitivity", () => Base.Settings.DeltaRoadSensitivity);
+            Base.AttachDelegate("Dashboard.ShowGenericSplashEnabled", () => Base.Settings.ShowGenericSplashEnabled);
 
             Base.AddAction(
                 "Controls.MapToggle",

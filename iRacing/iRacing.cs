@@ -625,7 +625,7 @@ namespace DahlDesign.Plugin.iRacing
 
             Base.AttachDelegate("AnimationType", () => animaionType);
             Base.AttachDelegate("ShiftLightRPM", () => shiftLightRPM);
-            Base.AddProp("ReactionTime", 0);
+            Base.AttachDelegate("ReactionTime", () => Math.Round(reactionPush));
             Base.AttachDelegate("LEDWarnings", () => LEDwarningActive);
 
             Base.AttachDelegate("LaunchBitePoint", () => clutchBitePoint);
@@ -2383,8 +2383,6 @@ namespace DahlDesign.Plugin.iRacing
                 reactionPush = globalClock.TotalMilliseconds - reactionTime.TotalMilliseconds - 40;
                 reactionGear = gear;
             }
-
-            Base.SetProp("ReactionTime", Math.Round(reactionPush));
 
             //-------------------------------------
             //-------MCLAREN MP4-30 ERS TARGET-----
