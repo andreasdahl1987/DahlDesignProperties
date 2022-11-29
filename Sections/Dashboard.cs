@@ -36,8 +36,8 @@ namespace DahlDesign.Plugin.Categories
             Base.AttachDelegate("ShiftWarning", () => Base.Settings.ShiftWarning);
             Base.AttachDelegate("ARBswapped", () => Base.Settings.SupercarSwapPosition);
             Base.AttachDelegate("ARBstiffForward", () => Base.Settings.SupercarARBDirection);
-            Base.AddProp("CenterDashType", "");
-            Base.AddProp("MenuType", "");
+     
+            
 
             
             Base.AttachDelegate("Dashboard.LeftScreen", () => LeftScreen.screenID);

@@ -25,6 +25,8 @@ namespace DahlDesign.Plugin.iRacing
         int myClassColorIndex = 0;
 
         double SoF = 0;
+        int DRSleft = 0;
+        string DRSpush = "";
 
         List<pitOpponents> pitStopOpponents = new List<pitOpponents> { };
         List<pitOpponents> finalList = new List<pitOpponents> { };
@@ -530,7 +532,10 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("RaceFinished", () => raceFinished);
             Base.AttachDelegate("SoF", () => SoF);
             Base.AttachDelegate("IRchange", () => IRchange);
-            Base.AddProp("MyClassColor", "");
+            Base.AttachDelegate("MyClassColor", () => myClassColor);
+
+            Base.AttachDelegate("CenterDashType", () => dashType);
+            Base.AttachDelegate("MenuType", () => rotaryType);
 
 
             Base.AttachDelegate("OptimalShiftGear1", () => shiftPoint1);
@@ -603,13 +608,13 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("HasTC", () => hasTCtimer || hasTCtog || hasTC);
             Base.AttachDelegate("HasABS", () => hasABS);
             Base.AttachDelegate("HasDRS", () => hasDRS);
-            Base.AddProp("DRSState", "");
+            Base.AttachDelegate("DRSState", () => DRSpush);
             Base.AttachDelegate("HasAntiStall", () => hasAntiStall);
             Base.AttachDelegate("HasOvertake", () => hasOvertake);
             Base.AttachDelegate("MapHigh", () => mapHigh);
             Base.AttachDelegate("MapLow", () => mapLow);
-            Base.AddProp("P2PCount", -1);
-            Base.AddProp("P2PStatus", false);
+            Base.AttachDelegate("P2PCount", () => p2pCounter);
+            Base.AttachDelegate("P2PStatus", () => p2pActive);
             Base.AddProp("DRSCount", -1);
 
             Base.AddProp("SlipLF", 0);
@@ -618,7 +623,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("SlipRR", 0);
 
 
-            Base.AddProp("AnimationType", 1);
+            Base.AttachDelegate("AnimationType", () => animaionType);
             Base.AttachDelegate("ShiftLightRPM", () => shiftLightRPM);
             Base.AddProp("ReactionTime", 0);
             Base.AttachDelegate("LEDWarnings", () => LEDwarningActive);
@@ -676,7 +681,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("CurrentSector3Delta", 0);
             Base.AddProp("CurrentSector1Status", 0);
             Base.AddProp("CurrentSector2Status", 0);
-            Base.AddProp("CurrentSector3Status", 0);
+            Base.AttachDelegate("CurrentSector3Status", () => currentSector3Status);
             Base.AttachDelegate("SessionBestSector1", () => TimeSpan.FromSeconds(sessionBestSector1));
             Base.AttachDelegate("SessionBestSector2", () => TimeSpan.FromSeconds(sessionBestSector2));
             Base.AttachDelegate("SessionBestSector3", () => TimeSpan.FromSeconds(sessionBestSector3));
@@ -757,10 +762,10 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("BehindP2PCount", -1);
             Base.AddProp("BehindRealGap", 0);
 
-            Base.AddProp("LeftCarGap", 0);
-            Base.AddProp("LeftCarName", "");
-            Base.AddProp("RightCarGap", 0);
-            Base.AddProp("RightCarName", "");
+            Base.AttachDelegate("LeftCarGap", () => iRacingSpotter.carPositionLeft);
+            Base.AttachDelegate("LeftCarName", () => iRacingSpotter.carNameLeft);
+            Base.AttachDelegate("RightCarGap", () => iRacingSpotter.carPositionRight);
+            Base.AttachDelegate("RightCarName", () => iRacingSpotter.carNameRight);
 
             Base.AddProp("CarAhead01Gap", 0);
             Base.AddProp("CarAhead01RaceGap", 0);
@@ -1115,7 +1120,7 @@ namespace DahlDesign.Plugin.iRacing
             /*
              * Hardware buttons
              */
-            Base.AddProp("BitePointAdjust", false);
+            Base.AttachDelegate("BitePointAdjust", () => bitePointAdjust);
             Base.AddAction("BitePointPressed", (a, b) => bitePointPressed = true);
             Base.AddAction("BitePointReleased", (a, b) => bitePointReleased = true);
             Base.AddAction("PlusPressed", (a, b) => plusButtonCheck = true);
@@ -1128,29 +1133,29 @@ namespace DahlDesign.Plugin.iRacing
 
             Base.AddAction("Downshift", (a, b) => downshift = true);
 
-            Base.AddProp("LaunchScreen", false);
+            Base.AttachDelegate("LaunchScreen", () => launchActive);
             Base.AddAction("LaunchPressed", (a, b) => launchPressed = true);
             Base.AddAction("LaunchReleased", (a, b) => launchReleased = true);
 
-            Base.AddProp("NoBoost", false);
+            Base.AttachDelegate("NoBoost", () => NBvalue);
             Base.AddAction("NBPressed", (a, b) => NBpressed = true);
             Base.AttachDelegate("SpotterMode", () => spotMode);
 
 
 
-            Base.AddProp("Radio", false);
-            Base.AddProp("RadioName", "");
-            Base.AddProp("RadioPosition", 0);
-            Base.AddProp("RadioIsSpectator", false);
+            Base.AttachDelegate("Radio", () => radio);
+            Base.AttachDelegate("RadioName", () => radioName);
+            Base.AttachDelegate("RadioPosition", () => radioPosition);
+            Base.AttachDelegate("RadioIsSpectator", () => radioIsSpectator);
 
             Base.AddAction("RadioPressed", (a, b) => radio = true);
             Base.AddAction("RadioReleased", (a, b) => radio = false);
 
-            Base.AddProp("PaceCheck", false);
+            Base.AttachDelegate("PaceCheck", () => paceCheck);
             Base.AddAction("PacePressed", (a, b) => pacePressed = true);
             Base.AddAction("PaceReleased", (a, b) => paceReleased = true);
 
-            Base.AddProp("PitScreen", false);
+            Base.AttachDelegate("PitScreen", () => pitScreenEnable);
             Base.AddAction("PitPressed", (a, b) => pitPressed = true);
             Base.AddAction("PitReleased", (a, b) => pitReleased = true);
 
@@ -2219,12 +2224,6 @@ namespace DahlDesign.Plugin.iRacing
                             break;
                     }
                 }
-
-                Base.SetProp("AnimationType", (int)animaionType);
-
-                Base.SetProp("CenterDashType", dashType);
-                Base.SetProp("MenuType", rotaryType);
-
             }
 
 
@@ -2238,16 +2237,12 @@ namespace DahlDesign.Plugin.iRacing
             //--------F3.5 DRS COUNT------------------------------
             //----------------------------------------------------
 
-            int DRSleft = 8 - myDRSCount;
+            DRSleft = 8 - myDRSCount;
 
             if (DRSleft < 0 || session != "Race")
             {
                 DRSleft = 0;
             }
-
-            Base.SetProp("P2PCount", p2pCounter);
-            Base.SetProp("P2PStatus", p2pActive);
-            Base.SetProp("DRSCount", DRSleft);
 
             //Special considerations
 
@@ -2272,7 +2267,7 @@ namespace DahlDesign.Plugin.iRacing
             //-----------------------------------------------
             //--------------DRS------------------------------
             //-----------------------------------------------
-            string DRSpush = "";
+            DRSpush = "";
             switch (DRSState)
             {
                 case 0:
@@ -2296,8 +2291,6 @@ namespace DahlDesign.Plugin.iRacing
                     DRSpush = "Open";
                     break;
             }
-
-            Base.SetProp("DRSState", DRSpush);
 
             //----------------------------------------------
             //-------SHIFT LIGHT/SHIFT POINT PER GEAR-------
@@ -2523,15 +2516,8 @@ namespace DahlDesign.Plugin.iRacing
             //------------Spotter calculations--------------------
             //----------------------------------------------------
 
-
             iRacingSpotter.Spotter(Base.gameData, trackLength);
-
-            Base.SetProp("LeftCarGap", iRacingSpotter.carPositionLeft);
-            Base.SetProp("LeftCarName", iRacingSpotter.carNameLeft);
-            Base.SetProp("RightCarGap", iRacingSpotter.carPositionRight);
-            Base.SetProp("RightCarName", iRacingSpotter.carNameRight);
-
-
+            
             //----------------------------------
             //-------TRIGGERED STOPWATCH--------
             //----------------------------------
@@ -2641,7 +2627,6 @@ namespace DahlDesign.Plugin.iRacing
                         myClassColor = irData.SessionData.DriverInfo.CompetingDrivers[i].CarClassColor;
                         myClassColorIndex = classColors.IndexOf(myClassColor);
                         myIR = Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[i].IRating);
-                        Base.SetProp("MyClassColor", myClassColor);
                         break;
                     }
                 }
@@ -2965,7 +2950,6 @@ namespace DahlDesign.Plugin.iRacing
                 launchPressed = false;
                 launchReleased = false;
             }
-            Base.SetProp("LaunchScreen", launchActive);
 
             //Pit screen
 
@@ -2981,8 +2965,6 @@ namespace DahlDesign.Plugin.iRacing
                 pitPressed = false;
                 pitReleased = false;
             }
-            Base.SetProp("PitScreen", pitScreenEnable);
-
 
             //Pace screen
             if (pacePressed)
@@ -2998,8 +2980,6 @@ namespace DahlDesign.Plugin.iRacing
                 paceReleased = false;
             }
 
-            Base.SetProp("PaceCheck", paceCheck);
-
             //Bite adjust
             if (bitePointPressed)
             {
@@ -3013,7 +2993,6 @@ namespace DahlDesign.Plugin.iRacing
                 bitePointPressed = false;
                 bitePointReleased = false;
             }
-            Base.SetProp("BitePointAdjust", bitePointAdjust);
 
             //Radio toggle/name
 
@@ -3048,13 +3027,6 @@ namespace DahlDesign.Plugin.iRacing
                 radio = false;
             }
 
-            Base.SetProp("Radio", radio);
-            Base.SetProp("RadioName", radioName);
-            Base.SetProp("RadioPosition", radioPosition);
-            Base.SetProp("RadioIsSpectator", radioIsSpectator);
-
-
-
             //No boost
             if (hasNoBoost)
             {
@@ -3080,8 +3052,6 @@ namespace DahlDesign.Plugin.iRacing
                     NBspeedLim = false;
                     NBactive = false;
                 }
-
-                Base.SetProp("NoBoost", NBvalue);
             }
 
             //TC off toggle
@@ -3472,7 +3442,6 @@ namespace DahlDesign.Plugin.iRacing
                 }
 
                 Base.SetProp("CurrentSector3Time", TimeSpan.FromSeconds(currentSector3Time));
-                Base.SetProp("CurrentSector3Status", currentSector3Status);
                 Base.SetProp("CurrentSector3Delta", 0);
 
                 if (currentSector2Time > 0 && sessionBestSector2 > 0)
@@ -3569,7 +3538,6 @@ namespace DahlDesign.Plugin.iRacing
                 currentSector3Status = 0;
 
                 Base.SetProp("CurrentSector3Time", TimeSpan.FromSeconds(currentSector3Time));
-                Base.SetProp("CurrentSector3Status", currentSector3Status);
                 Base.SetProp("CurrentSector3Delta", 0);
                 Base.SetProp("CurrentSector2Time", TimeSpan.FromSeconds(currentSector2Time));
                 Base.SetProp("CurrentSector2Status", currentSector2Status);
