@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:DahlDesign.Plugin"
     xmlns:styles="clr-namespace:SimHub.Plugins.Styles;assembly=SimHub.Plugins" mc:Ignorable="d"
-    xmlns:ui="clr-namespace:SimHub.Plugins.UI;assembly=SimHub.Plugins" d:DesignHeight="3000" d:DesignWidth="800">
+    xmlns:ui="clr-namespace:SimHub.Plugins.UI;assembly=SimHub.Plugins" d:DesignHeight="720" d:DesignWidth="800">
 
     <Grid>
         <styles:SHTabControl x:Name="tabcontrol">
@@ -362,24 +362,24 @@
                     <StackPanel>
                         <styles:SHSection Title="InCar Multiposition switch bindings">
                             <StackPanel>
-                                <ui:ControlsEditor FriendlyName="Position 1" ActionName="DahlDesign.L1" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 2" ActionName="DahlDesign.L2" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 3" ActionName="DahlDesign.L3" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 4" ActionName="DahlDesign.L4" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 5" ActionName="DahlDesign.L5" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 6" ActionName="DahlDesign.L6" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 7" ActionName="DahlDesign.L7" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 8" ActionName="DahlDesign.L8" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 9" ActionName="DahlDesign.L9" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 10" ActionName="DahlDesign.L10" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 11" ActionName="DahlDesign.L11" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Position 12" ActionName="DahlDesign.L12" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 1" ActionName="DahlDesign.R1" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 2" ActionName="DahlDesign.R2" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 3" ActionName="DahlDesign.R3" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 4" ActionName="DahlDesign.R4" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 5" ActionName="DahlDesign.R5" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 6" ActionName="DahlDesign.R6" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 7" ActionName="DahlDesign.R7" Margin="0,0,-240,0" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 8" ActionName="DahlDesign.R8" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 9" ActionName="DahlDesign.R9" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 10" ActionName="DahlDesign.R10" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 11" ActionName="DahlDesign.R11" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Position 12" ActionName="DahlDesign.R12" HorizontalAlignment="Left" Width="750"/>
                             </StackPanel>
                         </styles:SHSection>
                         <styles:SHSection Title="InCar Rotary encoder bindings">
                             <StackPanel>
-                                <ui:ControlsEditor FriendlyName="Increment" ActionName="DahlDesign.LInc" HorizontalAlignment="Left" Width="750" Margin="0,0,-40,0"/>
-                                <ui:ControlsEditor FriendlyName="Decrement" ActionName="DahlDesign.LDec" HorizontalAlignment="Left" Width="750" Margin="0,0,-40,0"/>
+                                <ui:ControlsEditor FriendlyName="Increment" ActionName="DahlDesign.RInc" HorizontalAlignment="Left" Width="750" Margin="0,0,-40,0"/>
+                                <ui:ControlsEditor FriendlyName="Decrement" ActionName="DahlDesign.RDec" HorizontalAlignment="Left" Width="750" Margin="0,0,-40,0"/>
                             </StackPanel>
                         </styles:SHSection>
 
