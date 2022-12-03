@@ -109,8 +109,8 @@ namespace DahlDesign.Plugin.Categories
 
         public void DataUpdate()
         {
-            Base.Settings.DDSEnabled = false;
-            Base.Settings.DDCclutchEnabled = false; 
+            //Base.Settings.DDSEnabled = false;
+            //Base.Settings.DDCclutchEnabled = false; 
 
             controllerEnabled = Base.Settings.DDCEnabled;
 
