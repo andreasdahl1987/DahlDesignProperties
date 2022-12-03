@@ -3061,7 +3061,10 @@ namespace DahlDesign.Plugin.iRacing
                 else if (pitMenuRotary == 12 && pitMenuRequirementMet)
                 {
                     Base.Settings.fuelPerLapTarget = fuelAvgLap + fuelPerLapOffset;
-                    Base.Settings.fuelPerLapTargetLocked = true;
+                    if (Base.Settings.fuelTargetLockOnTargetSet)
+                    {
+                        Base.Settings.fuelPerLapTargetLocked = true;
+                    }
                 }
 
                 OKButtonCheck = false;
