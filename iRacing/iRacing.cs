@@ -660,7 +660,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("PitEntry", false);
             Base.AddProp("PitSpeeding", false);
 
-            Base.AttachDelegate("SessionBestLap", () => lapRecord);
+            Base.AttachDelegate("SessionBestLap", () => sessionBestLap);
 
             Base.AddProp("HotlapLivePosition", 0);
 
