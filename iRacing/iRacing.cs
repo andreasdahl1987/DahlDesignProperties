@@ -2995,6 +2995,7 @@ namespace DahlDesign.Plugin.iRacing
                     PitCommands.iRacingChat("#clear$");
                     fuelPerLapOffset = 0;
                     Base.Settings.fuelPerLapTargetLocked = false;
+                    fuelTargetDeltaCumulative = 0;
                 }
                 else if (pitMenuRotary == 2 && pitMenuRequirementMet)
                 {
