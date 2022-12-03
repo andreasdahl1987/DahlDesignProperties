@@ -1915,14 +1915,16 @@ namespace DahlDesign.Plugin.iRacing
                 double weight = 1600 / Math.Log(2);
                 double posCorr = (classOpponents / 2 - realPosition) / 100;
 
-                GameReaderCommon.Opponent opponent = Base.gameData.NewData.Opponents.FirstOrDefault(x => x.CarClass == myClass);
-                if (opponent != null)
+                for (int i = 0; i < opponents; i++)
                 {
-                    iratings.Add(opponent.IRacing_IRating);
-                }
-                else
-                {
-                    iratings.Add(0);
+                    if (Base.gameData.NewData.Opponents[i].CarClass == myClass)
+                    {
+                        iratings.Add(Base.gameData.NewData.Opponents[i].IRacing_IRating);
+                    }
+                    else
+                    {
+                        iratings.Add(0);
+                    }
                 }
 
                 List<double> filtered = new List<double> { };

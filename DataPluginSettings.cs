@@ -59,15 +59,15 @@ namespace DahlDesign.Plugin
         public string DashType { get; set; } = "Automatic Selection";
         public int LeftScreen { get; set; } = 1;
         public int RightScreen { get; set; } = 1;
-        public string LeftPracticeScreen { get; set; } = "None";
-        public string RightPracticeScreen { get; set; } = "None";
-        public string LeftQualyScreen { get; set; } = "None";
-        public string RightQualyScreen { get; set; } = "None";
-        public string LeftRaceScreen { get; set; } = "None";
-        public string RightRaceScreen { get; set; } = "None";
+        public string LeftPracticeScreen { get; set; } = "1";
+        public string RightPracticeScreen { get; set; } = "1";
+        public string LeftQualyScreen { get; set; } = "1";
+        public string RightQualyScreen { get; set; } = "1";
+        public string LeftRaceScreen { get; set; } = "1";
+        public string RightRaceScreen { get; set; } = "1";
 
         public int DeltaScreen { get; set; } = 1;
-        public string DeltaScreenStartup { get; set; } = "LastLap";
+        public string DeltaScreenStartup { get; set; } = "1";
         public double DeltaRoadSensitivity { get; set; } = 2.5;
         public double DeltaOvalSensitivity { get; set; } = 0.2;
         public double DeltaRallySensitivity { get; set; } = 1.5;
