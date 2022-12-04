@@ -51,9 +51,8 @@ namespace DahlDesign.Plugin
             gameName = data.GameName;
             gameData = data;
 
-            Dashboard.DataUpdate();
-
             //FRAME COUNTER FOR CPU SAVING
+            //Counters used: 1,2,3,4,5,6,7,8,9,10,11,14,15,17,20,22,24,25,27,30,33,35,36,38,39,40,43,45,47,50,51,52,53,54,55,59  
             long nowTicks = DateTime.Now.Ticks;
             UpdateAt60Fps = nowTicks - LastRan60Fps >= TicksFor60Fps;
             if (UpdateAt60Fps)
@@ -70,14 +69,9 @@ namespace DahlDesign.Plugin
                 return;
             }
 
-
-            //Counters used: 1,2,3,4,5,6,7,8,9,10,11,14,15,17,20,22,24,25,27,30,33,35,36,38,39,40,43,45,47,50,51,52,53,54,55,59  
-
+            Dashboard.DataUpdate();
             DDC.DataUpdate();
             iRacing.DataUpdate();
-
-            
-
             iRacing.DataUpdateIdle();
         }
 
