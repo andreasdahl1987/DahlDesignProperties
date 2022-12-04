@@ -3964,6 +3964,7 @@ namespace DahlDesign.Plugin.iRacing
                 double runOffLap = fastLap * 1.05;
                 int calculationAccuracy = 0;
                 double averageFuelHolder = 0;
+                int averageCounter = 0;
 
                 for (int i = 0; i < lapTimeList.Count; i++)
                 {
@@ -3980,12 +3981,16 @@ namespace DahlDesign.Plugin.iRacing
                             slowFuelList.Add(lapFuelList[i]);
                         }
                     }
+                    if (lapFuelList[i] != 0)
+                    {
+                        averageCounter++;
+                    }
                     averageFuelHolder = averageFuelHolder + lapFuelList[i];
                 }
 
-                if (lapFuelList.Count > 0)
+                if (averageCounter > 0)
                 {
-                    calcAverageFuel = averageFuelHolder / lapFuelList.Count;
+                    calcAverageFuel = averageFuelHolder / averageCounter;
                 }
                 else
                 {
@@ -3993,7 +3998,7 @@ namespace DahlDesign.Plugin.iRacing
                 }
 
                 pace = fastList.Count > 0 ? fastList.Average() : 0.0;
-                calcFuelPerLap = fastFuelList.Count > 0 ? fastList.Average() : 0.0;
+                calcFuelPerLap = fastFuelList.Count > 0 ? fastFuelList.Average() : 0.0;
                 if (fastList.Count > 3)
                 {
                     calculationAccuracy = 3;
