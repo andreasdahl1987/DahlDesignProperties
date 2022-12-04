@@ -326,6 +326,9 @@ namespace DahlDesign.Plugin.iRacing
         double fuelPerLapOffset = 0;
         bool onlyThrough = true;
 
+        double fuelHolder = 0;
+        double calcLastLapFuel = 0;
+
         bool fuelTargetCheck = false;
         double oldFuelValue = 0;
         double commandMinFuel = 0;
@@ -1022,6 +1025,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("FuelPitStops", 0);
             Base.AddProp("FuelConserveToSaveAStop", 0);
             Base.AddProp("FuelAlert", false);
+            Base.AddProp("CalcLastLapFuel", calcLastLapFuel);
 
             Base.AddProp("FuelDeltaLL", 0);
             Base.AddProp("FuelPitWindowFirstLL", 0);
@@ -3714,6 +3718,11 @@ namespace DahlDesign.Plugin.iRacing
                 {
                     outLap = false;
                 }
+                if (fuelHolder != 0)
+                {
+                    calcLastLapFuel = fuelHolder - fuel;
+                }
+                fuelHolder = fuel;
 
             }
 
@@ -3879,10 +3888,13 @@ namespace DahlDesign.Plugin.iRacing
             if (Math.Abs(pitBox) < 2 && pit == 1)   //Car is in the pit box
             {
                 pitBox = 1 - ((pitBox + 2) / 4);
+
                 validStintLaps = 0;
                 invalidStintLaps = 0;
                 stintLapsCheck = true;
+
                 fuelTargetDeltaCumulative = 0;
+                fuelHolder = fuel;
             }
             else pitBox = 0;
 
@@ -6997,6 +7009,8 @@ namespace DahlDesign.Plugin.iRacing
                 Base.SetProp("CurrentRearWing", currentRearWing);
                 Base.SetProp("CurrentPowersteer", currentPWS);
                 Base.SetProp("CurrentTape", currentTape);
+
+                Base.SetProp("CalcLastLapFuel", calcLastLapFuel);
 
             }
         }
