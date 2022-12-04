@@ -18,6 +18,9 @@ namespace DahlDesign.Plugin
         public Categories.Dashboard Dashboard;
         public Categories.DDC DDC;
         public iRacing.Data iRacing;
+        const long TicksFor60Fps = 10000000 / 60;
+        internal bool UpdateAt60Fps;
+        internal long LastRan60Fps;
         public int counter = 0;
         public ImageSource PictureIcon => this.ToIcon(Properties.Resources.Dahl_icon);
         public string LeftMenuTitle => "Dahl Design";
@@ -51,17 +54,29 @@ namespace DahlDesign.Plugin
             Dashboard.DataUpdate();
 
             //FRAME COUNTER FOR CPU SAVING
-            counter++;
+            long nowTicks = DateTime.Now.Ticks;
+            UpdateAt60Fps = nowTicks - LastRan60Fps >= TicksFor60Fps;
+            if (UpdateAt60Fps)
+            {
+                LastRan60Fps = DateTime.Now.Ticks;
+                counter++;
+                //Resetting counter
+                if (counter > 59)
+                {
+                    counter = 0;
+                }
+            } else
+            {
+                return;
+            }
+
+
             //Counters used: 1,2,3,4,5,6,7,8,9,10,11,14,15,17,20,22,24,25,27,30,33,35,36,38,39,40,43,45,47,50,51,52,53,54,55,59  
 
             DDC.DataUpdate();
             iRacing.DataUpdate();
 
-            //Resetting counter
-            if (counter > 59)
-            {
-                counter = 0;
-            }
+            
 
             iRacing.DataUpdateIdle();
         }
