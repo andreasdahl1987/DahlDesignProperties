@@ -94,6 +94,7 @@ namespace DahlDesign.Plugin.iRacing
         double twoThirds = 2d / 3d;
 
         TimeSpan lapRecord = new TimeSpan(0);
+        TimeSpan proplapRecord = new TimeSpan(0);
         TimeSpan sessionBestLap = new TimeSpan(0);
         double sessionBestSector1 = 0;
         double sessionBestSector2 = 0;
@@ -710,7 +711,7 @@ namespace DahlDesign.Plugin.iRacing
                 Base.AttachDelegate($"Lap{propIndex}FuelTargetDelta", () => fuelTargetDeltas[i]);
             }
 
-            Base.AttachDelegate("LapRecord", () => lapRecord);
+            Base.AttachDelegate("LapRecord", () => proplapRecord);
             Base.AddProp("DeltaLastLap", 0);
             Base.AddProp("DeltaSessionBest", 0);
             Base.AddProp("DeltaLapRecord", 0);
@@ -6691,6 +6692,8 @@ namespace DahlDesign.Plugin.iRacing
             //-----------------------------------------------------------------------------
             //----------------------SETTING GLOBAL PROPERTY VALUES-------------------------
             //-----------------------------------------------------------------------------
+            
+            proplapRecord = lapRecord;
             
             if (sessionBestSector1 > 0 && sessionBestSector2 > 0 && sessionBestSector3 > 0)
             {
