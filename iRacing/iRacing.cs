@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SimHub.Plugins;
 using DahlDesign.Plugin.Categories;
 using IRacingReader;
 
@@ -23,6 +24,10 @@ namespace DahlDesign.Plugin.iRacing
         string myClassColor = "";
         int myClassColorIndex = 0;
 
+        double SoF = 0;
+        int DRSleft = 0;
+        string DRSpush = "";
+
         List<pitOpponents> pitStopOpponents = new List<pitOpponents> { };
         List<pitOpponents> finalList = new List<pitOpponents> { };
 
@@ -34,6 +39,7 @@ namespace DahlDesign.Plugin.iRacing
         List<List<bool>> realGapLocks = new List<List<bool>> { };
         List<List<bool>> realGapChecks = new List<List<bool>> { };
 
+        int lapStatus = 1;
         List<double> lapDeltaCurrent = new List<double> { };
         List<double> lapDeltaLast = new List<double> { };
         List<double> lapDeltaSessionBest = new List<double> { };
@@ -52,7 +58,12 @@ namespace DahlDesign.Plugin.iRacing
         int deltaChangeChunks = 20;
 
         bool pitMenuRequirementMet = false;
+        float plannedLFPressure = 0;
+        float plannedRFPressure = 0;
+        float plannedLRPressure = 0;
+        float plannedRRPressure = 0;
 
+        bool overtakeMode = false;
         int roadOff = 0;
         bool outLap = false;
         double cutoff = 0.02;
@@ -77,6 +88,7 @@ namespace DahlDesign.Plugin.iRacing
         int sector2Incidents = 0;
         int sector3Incidents = 0;
         bool currentLapTimeStarted = false;
+        TimeSpan optimalLapTime = new TimeSpan(0);
 
         double oneThird = 1d / 3d;
         double twoThirds = 2d / 3d;
@@ -120,7 +132,7 @@ namespace DahlDesign.Plugin.iRacing
         string carModelHolder = "";
         string trackHolder = "";
         public string sessionHolder { get; set; } = "";
-
+        bool boxApproach = false;
         List<double?> carAheadGap = new List<double?> { };
         List<double?> carAheadRaceGap = new List<double?> { };
         List<string> carAheadName = new List<string> { };
@@ -520,45 +532,48 @@ namespace DahlDesign.Plugin.iRacing
             #endregion
             #region SimHub Properties
 
-            Base.AddProp("TestProperty", 0);
-            Base.AddProp("Position", 0);
-            Base.AddProp("HotLapPosition", 0);
-            Base.AddProp("RaceFinished", false);
-            Base.AddProp("SoF", 0);
-            Base.AddProp("IRchange", 0);
-            Base.AddProp("MyClassColor", "");
+            Base.AttachDelegate("TestProperty", () => TCreleaseCD != 0);
+            Base.AttachDelegate("Position", () => realPosition);
+            Base.AttachDelegate("HotLapPosition", () => hotLapPosition);
+            Base.AttachDelegate("RaceFinished", () => raceFinished);
+            Base.AttachDelegate("SoF", () => SoF);
+            Base.AttachDelegate("IRchange", () => IRchange);
+            Base.AttachDelegate("MyClassColor", () => myClassColor);
+
+            Base.AttachDelegate("CenterDashType", () => dashType);
+            Base.AttachDelegate("MenuType", () => rotaryType);
 
 
-            Base.AddProp("OptimalShiftGear1", 0);
-            Base.AddProp("OptimalShiftGear2", 0);
-            Base.AddProp("OptimalShiftGear3", 0);
-            Base.AddProp("OptimalShiftGear4", 0);
-            Base.AddProp("OptimalShiftGear5", 0);
-            Base.AddProp("OptimalShiftGear6", 0);
-            Base.AddProp("OptimalShiftGear7", 0);
-            Base.AddProp("OptimalShiftCurrentGear", 0);
-            Base.AddProp("OptimalShiftLastGear", 0);
+            Base.AttachDelegate("OptimalShiftGear1", () => shiftPoint1);
+            Base.AttachDelegate("OptimalShiftGear2",  () => shiftPoint2);
+            Base.AttachDelegate("OptimalShiftGear3",  () => shiftPoint3);
+            Base.AttachDelegate("OptimalShiftGear4",  () => shiftPoint4);
+            Base.AttachDelegate("OptimalShiftGear5",  () => shiftPoint5);
+            Base.AttachDelegate("OptimalShiftGear6",  () => shiftPoint6);
+            Base.AttachDelegate("OptimalShiftGear7",  () => shiftPoint7);
+            Base.AttachDelegate("OptimalShiftCurrentGear", () => currentShiftPoint);
+            Base.AttachDelegate("OptimalShiftLastGear", () => lastShiftPoint);
 
-            Base.AddProp("TrueRevLimiter", 0);
-            Base.AddProp("IdleRPM", 0);
+            Base.AttachDelegate("TrueRevLimiter", () => revLim);
+            Base.AttachDelegate("IdleRPM", () => idleRPM);
 
-            Base.AddProp("Lap01Time", new TimeSpan(0));
-            Base.AddProp("Lap02Time", new TimeSpan(0));
-            Base.AddProp("Lap03Time", new TimeSpan(0));
-            Base.AddProp("Lap04Time", new TimeSpan(0));
-            Base.AddProp("Lap05Time", new TimeSpan(0));
-            Base.AddProp("Lap06Time", new TimeSpan(0));
-            Base.AddProp("Lap07Time", new TimeSpan(0));
-            Base.AddProp("Lap08Time", new TimeSpan(0));
+            Base.AttachDelegate("Lap01Time", () => lapTimeList[0]);
+            Base.AttachDelegate("Lap02Time", () => lapTimeList[1]);
+            Base.AttachDelegate("Lap03Time", () => lapTimeList[2]);
+            Base.AttachDelegate("Lap04Time", () => lapTimeList[3]);
+            Base.AttachDelegate("Lap05Time", () => lapTimeList[4]);
+            Base.AttachDelegate("Lap06Time", () => lapTimeList[5]);
+            Base.AttachDelegate("Lap07Time", () => lapTimeList[6]);
+            Base.AttachDelegate("Lap08Time", () => lapTimeList[7]);
 
-            Base.AddProp("Lap01Status", 0);
-            Base.AddProp("Lap02Status", 0);
-            Base.AddProp("Lap03Status", 0);
-            Base.AddProp("Lap04Status", 0);
-            Base.AddProp("Lap05Status", 0);
-            Base.AddProp("Lap06Status", 0);
-            Base.AddProp("Lap07Status", 0);
-            Base.AddProp("Lap08Status", 0);
+            Base.AttachDelegate("Lap01Status", () => lapStatusList[0]);
+            Base.AttachDelegate("Lap02Status", () => lapStatusList[1]);
+            Base.AttachDelegate("Lap03Status", () => lapStatusList[2]);
+            Base.AttachDelegate("Lap04Status", () => lapStatusList[3]);
+            Base.AttachDelegate("Lap05Status", () => lapStatusList[4]);
+            Base.AttachDelegate("Lap06Status", () => lapStatusList[5]);
+            Base.AttachDelegate("Lap07Status", () => lapStatusList[6]);
+            Base.AttachDelegate("Lap08Status", () => lapStatusList[7]);
 
             Base.AddProp("Lap01Delta", 0);
             Base.AddProp("Lap02Delta", 0);
@@ -569,16 +584,16 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("Lap07Delta", 0);
             Base.AddProp("Lap08Delta", 0);
 
-            Base.AddProp("SmallFuelIncrement", Base.Settings.SmallFuelIncrement);
-            Base.AddProp("LargeFuelIncrement", Base.Settings.LargeFuelIncrement);
-            Base.AddProp("CoupleInCarToPit", Base.Settings.CoupleInCarToPit);
+            Base.AttachDelegate("SmallFuelIncrement", () => Base.Settings.SmallFuelIncrement);
+            Base.AttachDelegate("LargeFuelIncrement", () =>Base.Settings.LargeFuelIncrement);
+            Base.AttachDelegate("CoupleInCarToPit", () => Base.Settings.CoupleInCarToPit);
 
-            Base.AddProp("Idle", true);
-            Base.AddProp("SmoothGear", "");
-            Base.AddProp("TrackEntry", false);
-            Base.AddProp("LastGearMaxRPM", 0);
-            Base.AddProp("LastGear", 0);
-            Base.AddProp("OvertakeMode", false);
+            Base.AttachDelegate("Idle", () => iRIdle);
+            Base.AttachDelegate("SmoothGear", () => smoothGear);
+            Base.AttachDelegate("TrackEntry", () => offTrack);
+            Base.AttachDelegate("LastGearMaxRPM", () => RPMlastGear);
+            Base.AttachDelegate("LastGear", () => RPMgear);
+            Base.AttachDelegate("OvertakeMode", () => overtakeMode);
 
             Base.AddProp("StopWatch", TimeSpan.FromSeconds(0));
             Base.AddProp("StopWatchSplit", TimeSpan.FromSeconds(0));
@@ -596,16 +611,16 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("TCActive", false);
             Base.AddProp("TCToggle", false);
             Base.AddProp("ABSToggle", false);
-            Base.AddProp("HasTC", false);
-            Base.AddProp("HasABS", false);
-            Base.AddProp("HasDRS", false);
-            Base.AddProp("DRSState", "");
-            Base.AddProp("HasAntiStall", false);
-            Base.AddProp("HasOvertake", false);
-            Base.AddProp("MapHigh", mapHigh);
-            Base.AddProp("MapLow", mapLow);
-            Base.AddProp("P2PCount", -1);
-            Base.AddProp("P2PStatus", false);
+            Base.AttachDelegate("HasTC", () => hasTCtimer || hasTCtog || hasTC);
+            Base.AttachDelegate("HasABS", () => hasABS);
+            Base.AttachDelegate("HasDRS", () => hasDRS);
+            Base.AttachDelegate("DRSState", () => DRSpush);
+            Base.AttachDelegate("HasAntiStall", () => hasAntiStall);
+            Base.AttachDelegate("HasOvertake", () => hasOvertake);
+            Base.AttachDelegate("MapHigh", () => mapHigh);
+            Base.AttachDelegate("MapLow", () => mapLow);
+            Base.AttachDelegate("P2PCount", () => p2pCounter);
+            Base.AttachDelegate("P2PStatus", () => p2pActive);
             Base.AddProp("DRSCount", -1);
 
             Base.AddProp("SlipLF", 0);
@@ -614,50 +629,50 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("SlipRR", 0);
 
 
-            Base.AddProp("AnimationType", 1);
-            Base.AddProp("ShiftLightRPM", 0);
-            Base.AddProp("ReactionTime", 0);
-            Base.AddProp("LEDWarnings", false);
+            Base.AttachDelegate("AnimationType", () => animaionType);
+            Base.AttachDelegate("ShiftLightRPM", () => shiftLightRPM);
+            Base.AttachDelegate("ReactionTime", () => Math.Round(reactionPush));
+            Base.AttachDelegate("LEDWarnings", () => LEDwarningActive);
 
-            Base.AddProp("LaunchBitePoint", 0);
-            Base.AddProp("LaunchSpin", 0);
-            Base.AddProp("LaunchIdealRangeStart", 0);
-            Base.AddProp("LaunchIdealRangeStop", 0);
-            Base.AddProp("LaunchGearRelease", 0);
-            Base.AddProp("LaunchGearReleased", 0);
-            Base.AddProp("LaunchTimeRelease", 0);
-            Base.AddProp("LaunchTimeReleased", 0);
-            Base.AddProp("HighPower", false);
-            Base.AddProp("LaunchThrottle", 0);
+            Base.AttachDelegate("LaunchBitePoint", () => clutchBitePoint);
+            Base.AttachDelegate("LaunchSpin", () => clutchSpin);
+            Base.AttachDelegate("LaunchIdealRangeStart", () => clutchIdealRangeStart);
+            Base.AttachDelegate("LaunchIdealRangeStop", () => clutchIdealRangeStop);
+            Base.AttachDelegate("LaunchGearRelease", () => clutchGearRelease);
+            Base.AttachDelegate("LaunchGearReleased", () => clutchGearReleased);
+            Base.AttachDelegate("LaunchTimeRelease", () => clutchTimeRelease);
+            Base.AttachDelegate("LaunchTimeReleased", () => clutchTimeReleased);
+            Base.AttachDelegate("HighPower", () => highPower);
+            Base.AttachDelegate("LaunchThrottle", () =>  launchThrottle);
 
 
             Base.AddProp("CalculationAccuracy", 0);
             Base.AddProp("LapsRemaining", 0);
             Base.AddProp("LapBalance", 0);
 
-            Base.AddProp("LapStatus", 0);
+            Base.AttachDelegate("LapStatus", () => lapStatus);
 
             Base.AddProp("StintTimer", new TimeSpan(0));
             Base.AddProp("StintTotalTime", new TimeSpan(0));
             Base.AddProp("StintTotalHotlaps", 0);
             Base.AddProp("StintCurrentHotlap", 0);
-            Base.AddProp("StintValidLaps", 0);
-            Base.AddProp("StintInvalidLaps", 0);
+            Base.AttachDelegate("StintValidLaps", () => validStintLaps);
+            Base.AttachDelegate("StintInvalidLaps", () => invalidStintLaps);
 
             Base.AddProp("Pace", new TimeSpan(0));
 
-            Base.AddProp("PitBoxPosition", 1);
-            Base.AddProp("PitBoxApproach", false);
+            Base.AttachDelegate("PitBoxPosition", () => pitBox);  //TODO: check, was 1 before
+            Base.AttachDelegate("PitBoxApproach", () => boxApproach);
             Base.AddProp("PitEntry", false);
             Base.AddProp("PitSpeeding", false);
 
-            Base.AddProp("SessionBestLap", new TimeSpan(0));
+            Base.AttachDelegate("SessionBestLap", () => sessionBestLap);
 
             Base.AddProp("HotlapLivePosition", 0);
 
-            Base.AddProp("QualyWarmUpLap", false);
-            Base.AddProp("QualyLap1Status", 0);
-            Base.AddProp("QualyLap2Status", 0);
+            Base.AttachDelegate("QualyWarmUpLap", () => warmup);
+            Base.AttachDelegate("QualyLap1Status", () => qLap1Status);
+            Base.AttachDelegate("QualyLap2Status", () => qLap2Status);
             Base.AddProp("QualyLap1Time", new TimeSpan(0));
             Base.AddProp("QualyLap2Time", new TimeSpan(0));
 
@@ -672,10 +687,10 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("CurrentSector3Delta", 0);
             Base.AddProp("CurrentSector1Status", 0);
             Base.AddProp("CurrentSector2Status", 0);
-            Base.AddProp("CurrentSector3Status", 0);
-            Base.AddProp("SessionBestSector1", new TimeSpan(0));
-            Base.AddProp("SessionBestSector2", new TimeSpan(0));
-            Base.AddProp("SessionBestSector3", new TimeSpan(0));
+            Base.AttachDelegate("CurrentSector3Status", () => currentSector3Status);
+            Base.AttachDelegate("SessionBestSector1", () => TimeSpan.FromSeconds(sessionBestSector1));
+            Base.AttachDelegate("SessionBestSector2", () => TimeSpan.FromSeconds(sessionBestSector2));
+            Base.AttachDelegate("SessionBestSector3", () => TimeSpan.FromSeconds(sessionBestSector3));
             Base.AddProp("Sector1Pace", new TimeSpan(0));
             Base.AddProp("Sector2Pace", new TimeSpan(0));
             Base.AddProp("Sector3Pace", new TimeSpan(0));
@@ -683,97 +698,25 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("Sector2Score", 0);
             Base.AddProp("Sector3Score", 0);
 
-            Base.AddProp("OptimalLapTime", new TimeSpan(0));
+            Base.AttachDelegate("OptimalLapTime", () => optimalLapTime);
 
-            Base.AddProp("Lap01Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap01Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap01Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap01Sector1Delta", 0);
-            Base.AddProp("Lap01Sector2Delta", 0);
-            Base.AddProp("Lap01Sector3Delta", 0);
-            Base.AddProp("Lap01Sector1Status", 0);
-            Base.AddProp("Lap01Sector2Status", 0);
-            Base.AddProp("Lap01Sector3Status", 0);
-            Base.AddProp("Lap01FuelTargetDelta", 0);
+            for (int i = 0; i < 7; i++)
+            {
+                string propIndex = $"{i + 1:00}";
 
-            Base.AddProp("Lap02Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap02Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap02Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap02Sector1Delta", 0);
-            Base.AddProp("Lap02Sector2Delta", 0);
-            Base.AddProp("Lap02Sector3Delta", 0);
-            Base.AddProp("Lap02Sector1Status", 0);
-            Base.AddProp("Lap02Sector2Status", 0);
-            Base.AddProp("Lap02Sector3Status", 0);
-            Base.AddProp("Lap02FuelTargetDelta", 0);
+                Base.AttachDelegate($"Lap{propIndex}Sector1Time", () => TimeSpan.FromSeconds(sector1TimeList[i]));
+                Base.AttachDelegate($"Lap{propIndex}Sector2Time", () => TimeSpan.FromSeconds(sector2TimeList[i]));
+                Base.AttachDelegate($"Lap{propIndex}Sector3Time", () => TimeSpan.FromSeconds(sector3TimeList[i]));
+                Base.AddProp($"Lap{propIndex}Sector1Delta", 0);
+                Base.AddProp($"Lap{propIndex}Sector2Delta", 0);
+                Base.AddProp($"Lap{propIndex}Sector3Delta", 0);
+                Base.AttachDelegate($"Lap{propIndex}Sector1Status", () => sector1StatusList[i]);
+                Base.AttachDelegate($"Lap{propIndex}Sector2Status", () => sector2StatusList[i]);
+                Base.AttachDelegate($"Lap{propIndex}Sector3Status", () => sector3StatusList[i]);
+                Base.AttachDelegate($"Lap{propIndex}FuelTargetDelta", () => fuelTargetDeltas[i]);
+            }
 
-            Base.AddProp("Lap03Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap03Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap03Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap03Sector1Delta", 0);
-            Base.AddProp("Lap03Sector2Delta", 0);
-            Base.AddProp("Lap03Sector3Delta", 0);
-            Base.AddProp("Lap03Sector1Status", 0);
-            Base.AddProp("Lap03Sector2Status", 0);
-            Base.AddProp("Lap03Sector3Status", 0);
-            Base.AddProp("Lap03FuelTargetDelta", 0);
-
-            Base.AddProp("Lap04Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap04Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap04Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap04Sector1Delta", 0);
-            Base.AddProp("Lap04Sector2Delta", 0);
-            Base.AddProp("Lap04Sector3Delta", 0);
-            Base.AddProp("Lap04Sector1Status", 0);
-            Base.AddProp("Lap04Sector2Status", 0);
-            Base.AddProp("Lap04Sector3Status", 0);
-            Base.AddProp("Lap04FuelTargetDelta", 0);
-
-            Base.AddProp("Lap05Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap05Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap05Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap05Sector1Delta", 0);
-            Base.AddProp("Lap05Sector2Delta", 0);
-            Base.AddProp("Lap05Sector3Delta", 0);
-            Base.AddProp("Lap05Sector1Status", 0);
-            Base.AddProp("Lap05Sector2Status", 0);
-            Base.AddProp("Lap05Sector3Status", 0);
-            Base.AddProp("Lap05FuelTargetDelta", 0);
-
-            Base.AddProp("Lap06Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap06Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap06Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap06Sector1Delta", 0);
-            Base.AddProp("Lap06Sector2Delta", 0);
-            Base.AddProp("Lap06Sector3Delta", 0);
-            Base.AddProp("Lap06Sector1Status", 0);
-            Base.AddProp("Lap06Sector2Status", 0);
-            Base.AddProp("Lap06Sector3Status", 0);
-            Base.AddProp("Lap06FuelTargetDelta", 0);
-
-            Base.AddProp("Lap07Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap07Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap07Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap07Sector1Delta", 0);
-            Base.AddProp("Lap07Sector2Delta", 0);
-            Base.AddProp("Lap07Sector3Delta", 0);
-            Base.AddProp("Lap07Sector1Status", 0);
-            Base.AddProp("Lap07Sector2Status", 0);
-            Base.AddProp("Lap07Sector3Status", 0);
-            Base.AddProp("Lap07FuelTargetDelta", 0);
-
-            Base.AddProp("Lap08Sector1Time", new TimeSpan(0));
-            Base.AddProp("Lap08Sector2Time", new TimeSpan(0));
-            Base.AddProp("Lap08Sector3Time", new TimeSpan(0));
-            Base.AddProp("Lap08Sector1Delta", 0);
-            Base.AddProp("Lap08Sector2Delta", 0);
-            Base.AddProp("Lap08Sector3Delta", 0);
-            Base.AddProp("Lap08Sector1Status", 0);
-            Base.AddProp("Lap08Sector2Status", 0);
-            Base.AddProp("Lap08Sector3Status", 0);
-            Base.AddProp("Lap08FuelTargetDelta", 0);
-
-            Base.AddProp("LapRecord", new TimeSpan(0));
+            Base.AttachDelegate("LapRecord", () => lapRecord);
             Base.AddProp("DeltaLastLap", 0);
             Base.AddProp("DeltaSessionBest", 0);
             Base.AddProp("DeltaLapRecord", 0);
@@ -825,10 +768,10 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("BehindP2PCount", -1);
             Base.AddProp("BehindRealGap", 0);
 
-            Base.AddProp("LeftCarGap", 0);
-            Base.AddProp("LeftCarName", "");
-            Base.AddProp("RightCarGap", 0);
-            Base.AddProp("RightCarName", "");
+            Base.AttachDelegate("LeftCarGap", () => iRacingSpotter.carPositionLeft);
+            Base.AttachDelegate("LeftCarName", () => iRacingSpotter.carNameLeft);
+            Base.AttachDelegate("RightCarGap", () => iRacingSpotter.carPositionRight);
+            Base.AttachDelegate("RightCarName", () => iRacingSpotter.carNameRight);
 
             Base.AddProp("CarAhead01Gap", 0);
             Base.AddProp("CarAhead01RaceGap", 0);
@@ -1042,26 +985,26 @@ namespace DahlDesign.Plugin.iRacing
 
             Base.AddProp("FuelSlowestFuelSavePace", new TimeSpan(0));
             Base.AddProp("FuelSaveDeltaValue", 0);
-            Base.AddProp("FuelPerLapOffset", 0);
+            Base.AttachDelegate("FuelPerLapOffset", () => Math.Round(fuelPerLapOffset, 2));
             Base.AddProp("FuelPerLapTarget", 0);
             Base.AddProp("FuelPerLapTargetLocked", Base.Settings.fuelPerLapTargetLocked);
             Base.AddProp("FuelPerLapTargetLastLapDelta", 0);
             Base.AddProp("FuelTargetDeltaCumulative", 0);
 
-            Base.AddProp("TrackType", 0);
-            Base.AddProp("JokerThisLap", false);
-            Base.AddProp("JokerCount", 0);
+            Base.AttachDelegate("TrackType", () => trackType);
+            Base.AttachDelegate("JokerThisLap", () => jokerThisLap);
+            Base.AttachDelegate("JokerCount", () => jokerLapCount);
 
             Base.AddProp("MinimumCornerSpeed", 0);
             Base.AddProp("StraightLineSpeed", 0);
 
-            Base.AddProp("PitToggleLF", false);
-            Base.AddProp("PitToggleRF", false);
-            Base.AddProp("PitToggleLR", false);
-            Base.AddProp("PitToggleRR", false);
-            Base.AddProp("PitToggleFuel", false);
-            Base.AddProp("PitToggleWindscreen", false);
-            Base.AddProp("PitToggleRepair", false);
+            Base.AttachDelegate("PitToggleLF", () => LFTog);
+            Base.AttachDelegate("PitToggleRF", () => RFTog);
+            Base.AttachDelegate("PitToggleLR", () => LRTog);
+            Base.AttachDelegate("PitToggleRR", () => RRTog);
+            Base.AttachDelegate("PitToggleFuel", () => fuelTog);
+            Base.AttachDelegate("PitToggleWindscreen", () => WSTog);
+            Base.AttachDelegate("PitToggleRepair", () => repairTog);
 
             Base.AddProp("PitServiceFuelTarget", 0);
             Base.AddProp("PitServiceLFPSet", 0);
@@ -1069,10 +1012,10 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("PitServiceLRPSet", 0);
             Base.AddProp("PitServiceRRPSet", 0);
             
-            Base.AddProp("CurrentFrontWing", 0);
-            Base.AddProp("CurrentRearWing", 0);
-            Base.AddProp("CurrentPowersteer", 0);
-            Base.AddProp("CurrentTape", 0);
+            Base.AttachDelegate("CurrentFrontWing", () => currentFrontWing);
+            Base.AttachDelegate("CurrentRearWing", () => currentRearWing);
+            Base.AttachDelegate("CurrentPowersteer", () => currentPWS);
+            Base.AttachDelegate("CurrentTape", () => currentTape);
 
             Base.AddProp("PitCrewType", 0);
             Base.AddProp("PitTimeTires", 0);
@@ -1187,7 +1130,7 @@ namespace DahlDesign.Plugin.iRacing
             /*
              * Hardware buttons
              */
-            Base.AddProp("BitePointAdjust", false);
+            Base.AttachDelegate("BitePointAdjust", () => bitePointAdjust);
             Base.AddAction("BitePointPressed", (a, b) => bitePointPressed = true);
             Base.AddAction("BitePointReleased", (a, b) => bitePointReleased = true);
             Base.AddAction("PlusPressed", (a, b) => plusButtonCheck = true);
@@ -1200,29 +1143,29 @@ namespace DahlDesign.Plugin.iRacing
 
             Base.AddAction("Downshift", (a, b) => downshift = true);
 
-            Base.AddProp("LaunchScreen", false);
+            Base.AttachDelegate("LaunchScreen", () => launchActive);
             Base.AddAction("LaunchPressed", (a, b) => launchPressed = true);
             Base.AddAction("LaunchReleased", (a, b) => launchReleased = true);
 
-            Base.AddProp("NoBoost", false);
+            Base.AttachDelegate("NoBoost", () => NBvalue);
             Base.AddAction("NBPressed", (a, b) => NBpressed = true);
-            Base.AddProp("SpotterMode", false);
+            Base.AttachDelegate("SpotterMode", () => spotMode);
 
 
 
-            Base.AddProp("Radio", false);
-            Base.AddProp("RadioName", "");
-            Base.AddProp("RadioPosition", 0);
-            Base.AddProp("RadioIsSpectator", false);
+            Base.AttachDelegate("Radio", () => radio);
+            Base.AttachDelegate("RadioName", () => radioName);
+            Base.AttachDelegate("RadioPosition", () => radioPosition);
+            Base.AttachDelegate("RadioIsSpectator", () => radioIsSpectator);
 
             Base.AddAction("RadioPressed", (a, b) => radio = true);
             Base.AddAction("RadioReleased", (a, b) => radio = false);
 
-            Base.AddProp("PaceCheck", false);
+            Base.AttachDelegate("PaceCheck", () => paceCheck);
             Base.AddAction("PacePressed", (a, b) => pacePressed = true);
             Base.AddAction("PaceReleased", (a, b) => paceReleased = true);
 
-            Base.AddProp("PitScreen", false);
+            Base.AttachDelegate("PitScreen", () => pitScreenEnable);
             Base.AddAction("PitPressed", (a, b) => pitPressed = true);
             Base.AddAction("PitReleased", (a, b) => pitReleased = true);
 
@@ -1370,7 +1313,7 @@ namespace DahlDesign.Plugin.iRacing
                 Base.SetProp("PitMenu", pitMenuRotary);
             });
 
-            Base.AddProp("PitSavePaceLock", false);
+            Base.AttachDelegate("PitSavePaceLock", () => savePitTimerLock);
 
             Base.AddProp("InCarMenu", 0);
             Base.AddAction("R1", (a, b) =>
@@ -1864,10 +1807,10 @@ namespace DahlDesign.Plugin.iRacing
 
             double plannedFuel = Convert.ToDouble(irData.Telemetry.PitSvFuel);                      //Planned fuel
             double maxFuel = Base.gameData.NewData.MaxFuel;
-            float plannedLFPressure = irData.Telemetry.PitSvLFP;                                    //Planned LF pressure
-            float plannedRFPressure = irData.Telemetry.PitSvRFP;                                    //Planned RF pressure
-            float plannedLRPressure = irData.Telemetry.PitSvLRP;                                    //Planned LR pressure
-            float plannedRRPressure = irData.Telemetry.PitSvRRP;                                    //Planned RR pressure
+            plannedLFPressure = irData.Telemetry.PitSvLFP;                                    //Planned LF pressure
+            plannedRFPressure = irData.Telemetry.PitSvRFP;                                    //Planned RF pressure
+            plannedLRPressure = irData.Telemetry.PitSvLRP;                                    //Planned LR pressure
+            plannedRRPressure = irData.Telemetry.PitSvRRP;                                    //Planned RR pressure
 
             int cam = irData.Telemetry.CamCameraState;                                              //Cam state
             sessionScreen = Convert.ToBoolean(cam & 1);
@@ -1966,7 +1909,7 @@ namespace DahlDesign.Plugin.iRacing
                     IRscore = IRscore - 0.5;
                 }
 
-                double SoF = 0;
+                SoF = 0;
 
                 if (sum != 0)
                 {
@@ -1977,10 +1920,6 @@ namespace DahlDesign.Plugin.iRacing
                     }
 
                 }
-
-                Base.SetProp("SoF", SoF);
-                Base.SetProp("IRchange", IRchange);
-
             }
 
             //----------------------------------------------
@@ -2297,44 +2236,6 @@ namespace DahlDesign.Plugin.iRacing
                             break;
                     }
                 }
-
-
-
-                Base.SetProp("LaunchBitePoint", clutchBitePoint);
-                Base.SetProp("LaunchSpin", clutchSpin);
-                Base.SetProp("LaunchIdealRangeStart", clutchIdealRangeStart);
-                Base.SetProp("LaunchIdealRangeStop", clutchIdealRangeStop);
-                Base.SetProp("LaunchGearRelease", clutchGearRelease);
-                Base.SetProp("LaunchGearReleased", clutchGearReleased);
-                Base.SetProp("LaunchTimeRelease", clutchTimeRelease);
-                Base.SetProp("LaunchTimeReleased", clutchTimeReleased);
-                Base.SetProp("HighPower", highPower);
-                Base.SetProp("LaunchThrottle", launchThrottle);
-
-                Base.SetProp("OptimalShiftGear1", shiftPoint1);
-                Base.SetProp("OptimalShiftGear2", shiftPoint2);
-                Base.SetProp("OptimalShiftGear3", shiftPoint3);
-                Base.SetProp("OptimalShiftGear4", shiftPoint4);
-                Base.SetProp("OptimalShiftGear5", shiftPoint5);
-                Base.SetProp("OptimalShiftGear6", shiftPoint6);
-                Base.SetProp("OptimalShiftGear7", shiftPoint7);
-
-                Base.SetProp("HasTC", hasTCtimer || hasTCtog || hasTC);
-                Base.SetProp("HasABS", hasABS);
-                Base.SetProp("HasDRS", hasDRS);
-                Base.SetProp("HasAntiStall", hasAntiStall);
-                Base.SetProp("HasOvertake", hasOvertake);
-                Base.SetProp("MapHigh", mapHigh);
-                Base.SetProp("MapLow", mapLow);
-
-                Base.SetProp("AnimationType", (int)animaionType);
-
-                Base.SetProp("TrueRevLimiter", revLim);
-                Base.SetProp("IdleRPM", idleRPM);
-
-                Base.SetProp("CenterDashType", dashType);
-                Base.SetProp("MenuType", rotaryType);
-
             }
 
 
@@ -2348,16 +2249,12 @@ namespace DahlDesign.Plugin.iRacing
             //--------F3.5 DRS COUNT------------------------------
             //----------------------------------------------------
 
-            int DRSleft = 8 - myDRSCount;
+            DRSleft = 8 - myDRSCount;
 
             if (DRSleft < 0 || session != "Race")
             {
                 DRSleft = 0;
             }
-
-            Base.SetProp("P2PCount", p2pCounter);
-            Base.SetProp("P2PStatus", p2pActive);
-            Base.SetProp("DRSCount", DRSleft);
 
             //Special considerations
 
@@ -2375,14 +2272,6 @@ namespace DahlDesign.Plugin.iRacing
                     shiftPoint5 = 12280;
                 }
 
-                Base.SetProp("OptimalShiftGear1", shiftPoint1);
-                Base.SetProp("OptimalShiftGear2", shiftPoint2);
-                Base.SetProp("OptimalShiftGear3", shiftPoint3);
-                Base.SetProp("OptimalShiftGear4", shiftPoint4);
-                Base.SetProp("OptimalShiftGear5", shiftPoint5);
-                Base.SetProp("OptimalShiftGear6", shiftPoint6);
-                Base.SetProp("OptimalShiftGear7", shiftPoint7);
-                Base.SetProp("TrueRevLimiter", revLim);
             }
 
 
@@ -2390,7 +2279,7 @@ namespace DahlDesign.Plugin.iRacing
             //-----------------------------------------------
             //--------------DRS------------------------------
             //-----------------------------------------------
-            string DRSpush = "";
+            DRSpush = "";
             switch (DRSState)
             {
                 case 0:
@@ -2414,8 +2303,6 @@ namespace DahlDesign.Plugin.iRacing
                     DRSpush = "Open";
                     break;
             }
-
-            Base.SetProp("DRSState", DRSpush);
 
             //----------------------------------------------
             //-------SHIFT LIGHT/SHIFT POINT PER GEAR-------
@@ -2508,11 +2395,6 @@ namespace DahlDesign.Plugin.iRacing
                 reactionPush = globalClock.TotalMilliseconds - reactionTime.TotalMilliseconds - 40;
                 reactionGear = gear;
             }
-
-            Base.SetProp("OptimalShiftCurrentGear", currentShiftPoint);
-            Base.SetProp("OptimalShiftLastGear", lastShiftPoint);
-            Base.SetProp("ShiftLightRPM", shiftLightRPM);
-            Base.SetProp("ReactionTime", Math.Round(reactionPush));
 
             //-------------------------------------
             //-------MCLAREN MP4-30 ERS TARGET-----
@@ -2644,15 +2526,8 @@ namespace DahlDesign.Plugin.iRacing
             //------------Spotter calculations--------------------
             //----------------------------------------------------
 
-
             iRacingSpotter.Spotter(Base.gameData, trackLength);
-
-            Base.SetProp("LeftCarGap", iRacingSpotter.carPositionLeft);
-            Base.SetProp("LeftCarName", iRacingSpotter.carNameLeft);
-            Base.SetProp("RightCarGap", iRacingSpotter.carPositionRight);
-            Base.SetProp("RightCarName", iRacingSpotter.carNameRight);
-
-
+            
             //----------------------------------
             //-------TRIGGERED STOPWATCH--------
             //----------------------------------
@@ -2734,7 +2609,7 @@ namespace DahlDesign.Plugin.iRacing
 
 
             //OvertakeMode
-            bool overtakeMode = false;
+            overtakeMode = false;
 
             if (throttle == 100 && rpm > 300 && speed > 10)
             {
@@ -2762,7 +2637,6 @@ namespace DahlDesign.Plugin.iRacing
                         myClassColor = irData.SessionData.DriverInfo.CompetingDrivers[i].CarClassColor;
                         myClassColorIndex = classColors.IndexOf(myClassColor);
                         myIR = Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[i].IRating);
-                        Base.SetProp("MyClassColor", myClassColor);
                         break;
                     }
                 }
@@ -3093,7 +2967,6 @@ namespace DahlDesign.Plugin.iRacing
                 launchPressed = false;
                 launchReleased = false;
             }
-            Base.SetProp("LaunchScreen", launchActive);
 
             //Pit screen
 
@@ -3109,8 +2982,6 @@ namespace DahlDesign.Plugin.iRacing
                 pitPressed = false;
                 pitReleased = false;
             }
-            Base.SetProp("PitScreen", pitScreenEnable);
-
 
             //Pace screen
             if (pacePressed)
@@ -3126,8 +2997,6 @@ namespace DahlDesign.Plugin.iRacing
                 paceReleased = false;
             }
 
-            Base.SetProp("PaceCheck", paceCheck);
-
             //Bite adjust
             if (bitePointPressed)
             {
@@ -3141,7 +3010,6 @@ namespace DahlDesign.Plugin.iRacing
                 bitePointPressed = false;
                 bitePointReleased = false;
             }
-            Base.SetProp("BitePointAdjust", bitePointAdjust);
 
             //Radio toggle/name
 
@@ -3176,13 +3044,6 @@ namespace DahlDesign.Plugin.iRacing
                 radio = false;
             }
 
-            Base.SetProp("Radio", radio);
-            Base.SetProp("RadioName", radioName);
-            Base.SetProp("RadioPosition", radioPosition);
-            Base.SetProp("RadioIsSpectator", radioIsSpectator);
-
-
-
             //No boost
             if (hasNoBoost)
             {
@@ -3208,8 +3069,6 @@ namespace DahlDesign.Plugin.iRacing
                     NBspeedLim = false;
                     NBactive = false;
                 }
-
-                Base.SetProp("NoBoost", NBvalue);
             }
 
             //TC off toggle
@@ -3402,8 +3261,6 @@ namespace DahlDesign.Plugin.iRacing
             {
                 RPMlastGear = RPMtracker;
                 RPMgearShift = true;
-                Base.SetProp("LastGearMaxRPM", RPMlastGear);
-                Base.SetProp("LastGear", RPMgear);
 
                 switch (RPMgear)
                 {
@@ -3472,7 +3329,7 @@ namespace DahlDesign.Plugin.iRacing
                 hasPitted = true;
             }
 
-            int lapStatus = 1; //Lap status calculation: 1 = Valid lap, 2 = Invalid lap, 3 = Out lap, 4 = Penalty, 5 = Pit lane
+            lapStatus = 1; //Lap status calculation: 1 = Valid lap, 2 = Invalid lap, 3 = Out lap, 4 = Penalty, 5 = Pit lane
 
             if (outLap)
             {
@@ -3602,7 +3459,6 @@ namespace DahlDesign.Plugin.iRacing
                 }
 
                 Base.SetProp("CurrentSector3Time", TimeSpan.FromSeconds(currentSector3Time));
-                Base.SetProp("CurrentSector3Status", currentSector3Status);
                 Base.SetProp("CurrentSector3Delta", 0);
 
                 if (currentSector2Time > 0 && sessionBestSector2 > 0)
@@ -3699,7 +3555,6 @@ namespace DahlDesign.Plugin.iRacing
                 currentSector3Status = 0;
 
                 Base.SetProp("CurrentSector3Time", TimeSpan.FromSeconds(currentSector3Time));
-                Base.SetProp("CurrentSector3Status", currentSector3Status);
                 Base.SetProp("CurrentSector3Delta", 0);
                 Base.SetProp("CurrentSector2Time", TimeSpan.FromSeconds(currentSector2Time));
                 Base.SetProp("CurrentSector2Status", currentSector2Status);
@@ -3872,7 +3727,7 @@ namespace DahlDesign.Plugin.iRacing
             //---------Pit box location calculations--------------
             //----------------------------------------------------
 
-            bool boxApproach = false;
+            boxApproach = false;
 
             pitBox = (pitLocation - trackPosition) * trackLength;
             if (pitLocation < 0.2 && trackPosition > 0.8)
@@ -4483,10 +4338,6 @@ namespace DahlDesign.Plugin.iRacing
 
                 }
 
-                Base.SetProp("Position", realPosition);
-                Base.SetProp("HotLapPosition", hotLapPosition);
-                Base.SetProp("RaceFinished", raceFinished);
-
             }
 
             //-------------------------------------------------
@@ -4556,8 +4407,8 @@ namespace DahlDesign.Plugin.iRacing
                     timeLeftSeconds = timeLeftSeconds - pitStopDuration;
                 }
 
-                Base.SetProp("QualyLap1Status", 0);
-                Base.SetProp("QualyLap2Status", 0);
+                qLap1Status = 0;
+                qLap2Status = 0;
                 Base.SetProp("QualyLap1Time", new TimeSpan(0));
                 Base.SetProp("QualyLap2Time", new TimeSpan(0));
                 warmup = false;
@@ -5182,9 +5033,6 @@ namespace DahlDesign.Plugin.iRacing
                     }
                 }
 
-                Base.SetProp("QualyWarmUpLap", warmup);
-                Base.SetProp("QualyLap1Status", qLap1Status);
-                Base.SetProp("QualyLap2Status", qLap2Status);
                 Base.SetProp("QualyLap1Time", qLap1Time);
                 Base.SetProp("QualyLap2Time", qLap2Time);
 
@@ -6926,153 +6774,15 @@ namespace DahlDesign.Plugin.iRacing
             //-----------------------------------------------------------------------------
             //----------------------SETTING GLOBAL PROPERTY VALUES-------------------------
             //-----------------------------------------------------------------------------
-
-            Base.SetProp("TestProperty", TCreleaseCD != 0);
-            Base.SetProp("Idle", iRIdle);
-            Base.SetProp("SmoothGear", smoothGear);
-            Base.SetProp("TrackEntry", offTrack);
-            Base.SetProp("LEDWarnings", LEDwarningActive);
-            Base.SetProp("SpotterMode", spotMode);
-            Base.SetProp("PitSavePaceLock", savePitTimerLock);
-            Base.SetProp("OvertakeMode", overtakeMode);
-            Base.SetProp("FuelPerLapOffset", Math.Round(fuelPerLapOffset, 2));
-
-            Base.SetProp("LapStatus", lapStatus);
-            Base.SetProp("StintValidLaps", validStintLaps);
-            Base.SetProp("StintInvalidLaps", invalidStintLaps);
-            Base.SetProp("SessionBestLap", sessionBestLap);
-            Base.SetProp("LapRecord", lapRecord);
-            Base.SetProp("SessionBestSector1", TimeSpan.FromSeconds(sessionBestSector1));
-            Base.SetProp("SessionBestSector2", TimeSpan.FromSeconds(sessionBestSector2));
-            Base.SetProp("SessionBestSector3", TimeSpan.FromSeconds(sessionBestSector3));
-
+            
             if (sessionBestSector1 > 0 && sessionBestSector2 > 0 && sessionBestSector3 > 0)
             {
-                Base.SetProp("OptimalLapTime", TimeSpan.FromSeconds(sessionBestSector1 + sessionBestSector2 + sessionBestSector3));
+                optimalLapTime = TimeSpan.FromSeconds(sessionBestSector1 + sessionBestSector2 + sessionBestSector3);
             }
             else
             {
-                Base.SetProp("OptimalLapTime", new TimeSpan(0));
-            }
-
-            Base.SetProp("JokerThisLap", jokerThisLap);
-            Base.SetProp("JokerCount", jokerLapCount);
-
-            Base.SetProp("PitBoxPosition", pitBox);
-            Base.SetProp("PitBoxApproach", boxApproach);
-
-            Base.SetProp("PitToggleLF", LFTog);
-            Base.SetProp("PitToggleRF", RFTog);
-            Base.SetProp("PitToggleLR", LRTog);
-            Base.SetProp("PitToggleRR", RRTog);
-            Base.SetProp("PitToggleFuel", fuelTog);
-            Base.SetProp("PitToggleWindscreen", WSTog);
-            Base.SetProp("PitToggleRepair", repairTog);
-
-            Base.SetProp("PitServiceLFPSet", plannedLFPressure);
-            Base.SetProp("PitServiceRFPSet", plannedRFPressure);
-            Base.SetProp("PitServiceLRPSet", plannedLRPressure);
-            Base.SetProp("PitServiceRRPSet", plannedRRPressure);
-
-            if (Base.counter == 6 || Base.counter == 36) //General lap times refreshed only twice per second
-            {
-
-
-                Base.SetProp("Lap01Time", lapTimeList[0]);
-                Base.SetProp("Lap02Time", lapTimeList[1]);
-                Base.SetProp("Lap03Time", lapTimeList[2]);
-                Base.SetProp("Lap04Time", lapTimeList[3]);
-                Base.SetProp("Lap05Time", lapTimeList[4]);
-                Base.SetProp("Lap06Time", lapTimeList[5]);
-                Base.SetProp("Lap07Time", lapTimeList[6]);
-                Base.SetProp("Lap08Time", lapTimeList[7]);
-
-                Base.SetProp("Lap01Status", lapStatusList[0]);
-                Base.SetProp("Lap02Status", lapStatusList[1]);
-                Base.SetProp("Lap03Status", lapStatusList[2]);
-                Base.SetProp("Lap04Status", lapStatusList[3]);
-                Base.SetProp("Lap05Status", lapStatusList[4]);
-                Base.SetProp("Lap06Status", lapStatusList[5]);
-                Base.SetProp("Lap07Status", lapStatusList[6]);
-                Base.SetProp("Lap08Status", lapStatusList[7]);
-
-                Base.SetProp("Lap01FuelTargetDelta", fuelTargetDeltas[0]);
-                Base.SetProp("Lap02FuelTargetDelta", fuelTargetDeltas[1]);
-                Base.SetProp("Lap03FuelTargetDelta", fuelTargetDeltas[2]);
-                Base.SetProp("Lap04FuelTargetDelta", fuelTargetDeltas[3]);
-                Base.SetProp("Lap05FuelTargetDelta", fuelTargetDeltas[4]);
-                Base.SetProp("Lap06FuelTargetDelta", fuelTargetDeltas[5]);
-                Base.SetProp("Lap07FuelTargetDelta", fuelTargetDeltas[6]);
-                Base.SetProp("Lap08FuelTargetDelta", fuelTargetDeltas[7]);
-
-                Base.SetProp("Lap01Sector1Time", TimeSpan.FromSeconds(sector1TimeList[0]));
-                Base.SetProp("Lap01Sector2Time", TimeSpan.FromSeconds(sector2TimeList[0]));
-                Base.SetProp("Lap01Sector3Time", TimeSpan.FromSeconds(sector3TimeList[0]));
-                Base.SetProp("Lap01Sector1Status", sector1StatusList[0]);
-                Base.SetProp("Lap01Sector2Status", sector2StatusList[0]);
-                Base.SetProp("Lap01Sector3Status", sector3StatusList[0]);
-
-                Base.SetProp("Lap02Sector1Time", TimeSpan.FromSeconds(sector1TimeList[1]));
-                Base.SetProp("Lap02Sector2Time", TimeSpan.FromSeconds(sector2TimeList[1]));
-                Base.SetProp("Lap02Sector3Time", TimeSpan.FromSeconds(sector3TimeList[1]));
-                Base.SetProp("Lap02Sector1Status", sector1StatusList[1]);
-                Base.SetProp("Lap02Sector2Status", sector2StatusList[1]);
-                Base.SetProp("Lap02Sector3Status", sector3StatusList[1]);
-
-                Base.SetProp("Lap03Sector1Time", TimeSpan.FromSeconds(sector1TimeList[2]));
-                Base.SetProp("Lap03Sector2Time", TimeSpan.FromSeconds(sector2TimeList[2]));
-                Base.SetProp("Lap03Sector3Time", TimeSpan.FromSeconds(sector3TimeList[2]));
-                Base.SetProp("Lap03Sector1Status", sector1StatusList[2]);
-                Base.SetProp("Lap03Sector2Status", sector2StatusList[2]);
-                Base.SetProp("Lap03Sector3Status", sector3StatusList[2]);
-
-                Base.SetProp("Lap04Sector1Time", TimeSpan.FromSeconds(sector1TimeList[3]));
-                Base.SetProp("Lap04Sector2Time", TimeSpan.FromSeconds(sector2TimeList[3]));
-                Base.SetProp("Lap04Sector3Time", TimeSpan.FromSeconds(sector3TimeList[3]));
-                Base.SetProp("Lap04Sector1Status", sector1StatusList[3]);
-                Base.SetProp("Lap04Sector2Status", sector2StatusList[3]);
-                Base.SetProp("Lap04Sector3Status", sector3StatusList[3]);
-
-                Base.SetProp("Lap05Sector1Time", TimeSpan.FromSeconds(sector1TimeList[4]));
-                Base.SetProp("Lap05Sector2Time", TimeSpan.FromSeconds(sector2TimeList[4]));
-                Base.SetProp("Lap05Sector3Time", TimeSpan.FromSeconds(sector3TimeList[4]));
-                Base.SetProp("Lap05Sector1Status", sector1StatusList[4]);
-                Base.SetProp("Lap05Sector2Status", sector2StatusList[4]);
-                Base.SetProp("Lap05Sector3Status", sector3StatusList[4]);
-
-                Base.SetProp("Lap06Sector1Time", TimeSpan.FromSeconds(sector1TimeList[5]));
-                Base.SetProp("Lap06Sector2Time", TimeSpan.FromSeconds(sector2TimeList[5]));
-                Base.SetProp("Lap06Sector3Time", TimeSpan.FromSeconds(sector3TimeList[5]));
-                Base.SetProp("Lap06Sector1Status", sector1StatusList[5]);
-                Base.SetProp("Lap06Sector2Status", sector2StatusList[5]);
-                Base.SetProp("Lap06Sector3Status", sector3StatusList[5]);
-
-                Base.SetProp("Lap07Sector1Time", TimeSpan.FromSeconds(sector1TimeList[6]));
-                Base.SetProp("Lap07Sector2Time", TimeSpan.FromSeconds(sector2TimeList[6]));
-                Base.SetProp("Lap07Sector3Time", TimeSpan.FromSeconds(sector3TimeList[6]));
-                Base.SetProp("Lap07Sector1Status", sector1StatusList[6]);
-                Base.SetProp("Lap07Sector2Status", sector2StatusList[6]);
-                Base.SetProp("Lap07Sector3Status", sector3StatusList[6]);
-
-                Base.SetProp("Lap08Sector1Time", TimeSpan.FromSeconds(sector1TimeList[7]));
-                Base.SetProp("Lap08Sector2Time", TimeSpan.FromSeconds(sector2TimeList[7]));
-                Base.SetProp("Lap08Sector3Time", TimeSpan.FromSeconds(sector3TimeList[7]));
-                Base.SetProp("Lap08Sector1Status", sector1StatusList[7]);
-                Base.SetProp("Lap08Sector2Status", sector2StatusList[7]);
-                Base.SetProp("Lap08Sector3Status", sector3StatusList[7]);
-
-                Base.SetProp("TrackType", trackType);
-
-                Base.SetProp("CurrentFrontWing", currentFrontWing);
-                Base.SetProp("CurrentRearWing", currentRearWing);
-                Base.SetProp("CurrentPowersteer", currentPWS);
-                Base.SetProp("CurrentTape", currentTape);
-
-                Base.SetProp("CalcLastLapFuel", calcLastLapFuel);
-
+                optimalLapTime =  new TimeSpan(0);
             }
         }
-
-
     }
 }

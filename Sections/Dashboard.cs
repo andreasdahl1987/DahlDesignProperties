@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using SimHub.Plugins;
 using SimHub.Plugins.OutputPlugins.GraphicalDash;
 
 namespace DahlDesign.Plugin.Categories
@@ -22,27 +23,34 @@ namespace DahlDesign.Plugin.Categories
             LeftScreen = new Screen(new string[] { "Time1", "Time2", "Time3", "Qualy", "Race1", "Race2", "Race3", "Practice1", "Practice2" });
             RightScreen = new Screen(new string[] { "Stint1", "Stint2", "Qualy1", "Qualy2", "Race1", "Race2", "Race3", "Track" });
             DeltaScreen = new Screen(new string[] { "LastLap", "SessionBest", "LapRecord", "FuelSave", "FuelTarget" });
+            
+            Base.AttachDelegate("ShowMapEnabled", () => Base.Settings.ShowMapEnabled);
+            Base.AttachDelegate("ShowBrakeThrottleGaugesEnabled", () => Base.Settings.ShowBrakeThrottleGaugesEnabled);
 
-            Base.AddProp("ShowMapEnabled", Base.Settings.ShowMapEnabled);
-            Base.AddProp("ShowBrakeThrottleGaugesEnabled", Base.Settings.ShowBrakeThrottleGaugesEnabled);
+            Base.AttachDelegate("SW1Enabled", () => Base.Settings.SW1Enabled);
+            Base.AttachDelegate("DashLEDEnabled", () => Base.Settings.DashLEDEnabled);
+            Base.AttachDelegate("DashType", () => Base.Settings.DashType);
+            Base.AttachDelegate("LapInfoScreen", () => Base.Settings.LapInfoScreen);
+            Base.AttachDelegate("ShiftTimingAssist", () => Base.Settings.ShiftTimingAssist);
+            Base.AttachDelegate("ShiftWarning", () => Base.Settings.ShiftWarning);
+            Base.AttachDelegate("ARBswapped", () => Base.Settings.SupercarSwapPosition);
+            Base.AttachDelegate("ARBstiffForward", () => Base.Settings.SupercarARBDirection);
+     
+            
 
-            Base.AddProp("SW1Enabled", Base.Settings.SW1Enabled);
-            Base.AddProp("DashLEDEnabled", Base.Settings.DashLEDEnabled);
-            Base.AddProp("DashType", Base.Settings.DashType);
-            Base.AddProp("LapInfoScreen", Base.Settings.LapInfoScreen);
-            Base.AddProp("ShiftTimingAssist", Base.Settings.ShiftTimingAssist);
-            Base.AddProp("ShiftWarning", Base.Settings.ShiftWarning);
-            Base.AddProp("ARBswapped", Base.Settings.SupercarSwapPosition);
-            Base.AddProp("ARBstiffForward", Base.Settings.SupercarARBDirection);
-            Base.AddProp("CenterDashType", "");
-            Base.AddProp("MenuType", "");
-            Base.AddProp("Dashboard.LeftScreen", Base.Settings.LeftScreen);
-            Base.AddProp("Dashboard.RightScreen", Base.Settings.RightScreen);
+            
+            Base.AttachDelegate("Dashboard.LeftScreen", () => LeftScreen.screenID);
+            LeftScreen.screenID = Base.Settings.LeftScreen;
+            
+            Base.AttachDelegate("Dashboard.RightScreen", () => RightScreen.screenID);
+            RightScreen.screenID = Base.Settings.RightScreen;
 
             DashStartup = true; 
-            Base.AddProp("Dashboard.DeltaScreen", Base.Settings.DeltaScreen);
-            Base.AddProp("DeltaBarSensitivity", Base.Settings.DeltaRoadSensitivity);
-            Base.AddProp("Dashboard.ShowGenericSplashEnabled", Base.Settings.ShowGenericSplashEnabled);
+            Base.AttachDelegate("Dashboard.DeltaScreen", () => DeltaScreen.screenID);
+            DeltaScreen.screenID = Base.Settings.DeltaScreen;
+
+            Base.AttachDelegate("DeltaBarSensitivity", () => Base.Settings.DeltaRoadSensitivity);
+            Base.AttachDelegate("Dashboard.ShowGenericSplashEnabled", () => Base.Settings.ShowGenericSplashEnabled);
 
             Base.AddAction(
                 "Controls.MapToggle",
@@ -91,9 +99,6 @@ namespace DahlDesign.Plugin.Categories
         {
             if (Base.gameName != "IRacing" || !Base.gameRunning) return;
         
-            Base.SetProp("ShowMapEnabled", Base.Settings.ShowMapEnabled);
-            Base.SetProp("ShowBrakeThrottleGaugesEnabled", Base.Settings.ShowBrakeThrottleGaugesEnabled);
-
             string session = Base.gameData.NewData.SessionTypeName;
 
             if (Base.iRacing.sessionHolder != session)
@@ -115,21 +120,12 @@ namespace DahlDesign.Plugin.Categories
                 }
             }
 
-            Base.SetProp("Dashboard.LeftScreen", LeftScreen.screenID);
-            Base.SetProp("Dashboard.RightScreen", RightScreen.screenID);
-
             if (DashStartup)
             {
                 DashStartup = !DashStartup;
                 DeltaScreen.screenID = System.Convert.ToInt32(Base.Settings.DeltaScreenStartup);
             }
-            Base.SetProp("DashBoard.DeltaScreen", DeltaScreen.screenID);
-
-
-            if (Base.counter != 2)
-                return;
-
-
+                        
             //Delta sensitivity
             if (Base.iRacing.trackType == 0)
             {
@@ -143,23 +139,6 @@ namespace DahlDesign.Plugin.Categories
             {
                 DeltaBarSensitivity = Base.Settings.DeltaOvalSensitivity;
             }
-            Base.SetProp("DeltaBarSensitivity", DeltaBarSensitivity);
-
-            Base.SetProp("DDUstartLED", Base.Settings.DDUstartLED);
-            Base.SetProp("SW1startLED", Base.Settings.SW1startLED);
-            Base.SetProp("DDUEnabled", Base.Settings.DDUEnabled);
-            Base.SetProp("SW1Enabled", Base.Settings.SW1Enabled);
-            Base.SetProp("DashLEDEnabled", Base.Settings.DashLEDEnabled);
-            Base.SetProp("DashType", Base.Settings.DashType);
-            Base.SetProp("LapInfoScreen", Base.Settings.LapInfoScreen);
-            Base.SetProp("ShiftTimingAssist", Base.Settings.ShiftTimingAssist);
-            Base.SetProp("ShiftWarning", Base.Settings.ShiftWarning);
-            Base.SetProp("ARBswapped", Base.Settings.SupercarSwapPosition);
-            Base.SetProp("ARBstiffForward", Base.Settings.SupercarARBDirection);
-            Base.SetProp("SmallFuelIncrement", Base.Settings.SmallFuelIncrement);
-            Base.SetProp("LargeFuelIncrement", Base.Settings.LargeFuelIncrement);
-            Base.SetProp("CoupleInCarToPit", Base.Settings.CoupleInCarToPit);
-            Base.SetProp("Dashboard.ShowGenericSplashEnabled", Base.Settings.ShowGenericSplashEnabled);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimHub.Plugins;
+using System;
 
 namespace DahlDesign.Plugin.Categories
 {
@@ -54,9 +55,9 @@ namespace DahlDesign.Plugin.Categories
             Base.AddProp("DDCR8",  -1);
             Base.AddProp("DDCR15",  -1);
             Base.AddProp("DDCDDSMode",  -1);
-            Base.AddProp("DDCDDSEnabled",  false);
+            Base.AttachDelegate("DDCDDSEnabled",  () => Base.Settings.DDSEnabled);
             Base.AddProp("DDCEnabled",  false);
-            Base.AddProp("DDCclutchEnabled",  false);
+            Base.AttachDelegate("DDCclutchEnabled",  () => Base.Settings.DDCclutchEnabled);
             Base.AddProp("DDCclutchMode",  -1);
             Base.AddProp("DDCbiteSetting",  -1);
 
@@ -101,15 +102,15 @@ namespace DahlDesign.Plugin.Categories
             Base.AddProp("SW1Brake",  0);
             Base.AddProp("SW1Throttle",  0);
 
-            Base.AddProp("DDUstartLED",  Base.Settings.DDUstartLED);
-            Base.AddProp("SW1startLED", Base.Settings.SW1startLED);
-            Base.AddProp("DDUEnabled",  Base.Settings.DDUEnabled);
+            Base.AttachDelegate("DDUstartLED", () => Base.Settings.DDUstartLED);
+            Base.AttachDelegate("SW1startLED", () => Base.Settings.SW1startLED);
+            Base.AttachDelegate("DDUEnabled", () => Base.Settings.DDUEnabled);
         }
 
         public void DataUpdate()
         {
-            Base.SetProp("DDCDDSEnabled",  false);
-            Base.SetProp("DDCclutchEnabled",  false);
+            //Base.Settings.DDSEnabled = false;
+            //Base.Settings.DDCclutchEnabled = false; 
 
             controllerEnabled = Base.Settings.DDCEnabled;
 
@@ -179,9 +180,6 @@ namespace DahlDesign.Plugin.Categories
                 Base.SetProp("SW1BitePoint",  Math.Round(bitePointValue, 1));
                 Base.SetProp("SW1Brake",  Math.Round(brakeValue, 1));
                 Base.SetProp("SW1Throttle",  Math.Round(throttleValue, 1));
-
-                Base.SetProp("DDCDDSEnabled", Base.Settings.DDSEnabled);
-                Base.SetProp("DDCclutchEnabled",  Base.Settings.DDCclutchEnabled);
             }
 
             else if (controllerEnabled)
@@ -255,9 +253,6 @@ namespace DahlDesign.Plugin.Categories
                 Base.SetProp("DDCbitePoint",  Math.Round(bitePointValue, 1));
                 Base.SetProp("DDCbrake",  Math.Round(brakeValue, 1));
                 Base.SetProp("DDCthrottle",  Math.Round(throttleValue, 1));
-
-                Base.SetProp("DDCDDSEnabled", Base.Settings.DDSEnabled);
-                Base.SetProp("DDCclutchEnabled", Base.Settings.DDCclutchEnabled);
             }
         }
     }
