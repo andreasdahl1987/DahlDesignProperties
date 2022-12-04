@@ -121,6 +121,7 @@ namespace DahlDesign.Plugin.iRacing
         List<int> sector2StatusList = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0 };
         List<int> sector3StatusList = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0 };
 
+        List<double> lapFuelList = new List<double> { 0, 0, 0, 0, 0, 0, 0, 0 };
         List<double> fuelTargetDeltas = new List<double> { 0, 0, 0, 0, 0, 0, 0, 0 };
         double fuelTargetDeltaCumulative = 0;
         double fuelTargetDelta = 0;
@@ -337,6 +338,11 @@ namespace DahlDesign.Plugin.iRacing
         double maxFuelPush = 0;
         double fuelPerLapOffset = 0;
         bool onlyThrough = true;
+
+        double fuelHolder = 0;
+        double calcLastLapFuel = 0;
+        double calcAverageFuel = 0;
+        double calcFuelPerLap = 0;
 
         bool fuelTargetCheck = false;
         double oldFuelValue = 0;
@@ -640,7 +646,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("LaunchThrottle", () =>  launchThrottle);
 
 
-            Base.AddProp("ApproximateCalculations", false);
+            Base.AddProp("CalculationAccuracy", 0);
             Base.AddProp("LapsRemaining", 0);
             Base.AddProp("LapBalance", 0);
 
@@ -965,6 +971,9 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("FuelPitStops", 0);
             Base.AddProp("FuelConserveToSaveAStop", 0);
             Base.AddProp("FuelAlert", false);
+            Base.AddProp("CalcLastLapFuel", 0);
+            Base.AddProp("CalcFuelPerLap", 0);
+            Base.AddProp("CalcAverageFuel", 0);
 
             Base.AddProp("FuelDeltaLL", 0);
             Base.AddProp("FuelPitWindowFirstLL", 0);
@@ -978,6 +987,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("FuelSaveDeltaValue", 0);
             Base.AttachDelegate("FuelPerLapOffset", () => Math.Round(fuelPerLapOffset, 2));
             Base.AddProp("FuelPerLapTarget", 0);
+            Base.AddProp("FuelPerLapTargetLocked", Base.Settings.fuelPerLapTargetLocked);
             Base.AddProp("FuelPerLapTargetLastLapDelta", 0);
             Base.AddProp("FuelTargetDeltaCumulative", 0);
 
@@ -2757,7 +2767,7 @@ namespace DahlDesign.Plugin.iRacing
 
                 else if (pitMenuRotary == 12 && pitMenuRequirementMet)
                 {
-                    //pluginManager.TriggerAction("ShakeITBSV3Plugin.MainFeedbackLevelIncrement");
+                    Base.Settings.fuelPerLapTargetLocked = false;
                     fuelPerLapOffset = fuelPerLapOffset + Base.Settings.fuelOffsetIncrement;
                 }
 
@@ -2847,14 +2857,15 @@ namespace DahlDesign.Plugin.iRacing
                 else if (pitMenuRotary == 12 && pitMenuRequirementMet)
                 {
                     //pluginManager.TriggerAction("ShakeITBSV3Plugin.MainFeedbackLevelDecrement");
-                    if ((fuelAvgLap + fuelPerLapOffset - Base.Settings.fuelOffsetIncrement) > 0)
+                    if ((calcFuelPerLap + fuelPerLapOffset - Base.Settings.fuelOffsetIncrement) > 0)
                     {
                         fuelPerLapOffset = fuelPerLapOffset - Base.Settings.fuelOffsetIncrement;
                     }
                     else
                     {
-                        fuelPerLapOffset = -fuelAvgLap;
+                        fuelPerLapOffset = -calcFuelPerLap;
                     }
+                    Base.Settings.fuelPerLapTargetLocked = false;
                 }
 
                 minusButtonCheck = false;
@@ -2866,6 +2877,8 @@ namespace DahlDesign.Plugin.iRacing
                 {
                     PitCommands.iRacingChat("#clear$");
                     fuelPerLapOffset = 0;
+                    Base.Settings.fuelPerLapTargetLocked = false;
+                    fuelTargetDeltaCumulative = 0;
                 }
                 else if (pitMenuRotary == 2 && pitMenuRequirementMet)
                 {
@@ -2931,7 +2944,11 @@ namespace DahlDesign.Plugin.iRacing
                 }
                 else if (pitMenuRotary == 12 && pitMenuRequirementMet)
                 {
-                    Base.Settings.fuelPerLapTarget = fuelAvgLap + fuelPerLapOffset;
+                    Base.Settings.fuelPerLapTarget = calcFuelPerLap + fuelPerLapOffset;
+                    if (Base.Settings.fuelTargetLockOnTargetSet)
+                    {
+                        Base.Settings.fuelPerLapTargetLocked = true;
+                    }
                 }
 
                 OKButtonCheck = false;
@@ -3561,6 +3578,11 @@ namespace DahlDesign.Plugin.iRacing
                 {
                     outLap = false;
                 }
+                if (fuelHolder != 0)
+                {
+                    calcLastLapFuel = fuelHolder - fuel;
+                }
+                fuelHolder = fuel;
 
             }
 
@@ -3587,6 +3609,7 @@ namespace DahlDesign.Plugin.iRacing
                 if (lapStatusList[0] != 0)
                 {
                     lapTimeList.Insert(0, lastLapTime);
+                    lapFuelList.Insert(0, calcLastLapFuel);
 
                     //Checking for session best lap
                     if ((lapTimeList[0].TotalSeconds < sessionBestLap.TotalSeconds || sessionBestLap.TotalSeconds == 0) && lapStatusList[0] == 1)
@@ -3615,6 +3638,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
 
                     lapTimeList.RemoveAt(8); //Making sure list doesnt grow untill infinity
+                    lapFuelList.RemoveAt(8); //Making sure list doesnt grow untill infinity
                 }
                 lastLapHolder = lastLapTime;
 
@@ -3726,10 +3750,13 @@ namespace DahlDesign.Plugin.iRacing
             if (Math.Abs(pitBox) < 2 && pit == 1)   //Car is in the pit box
             {
                 pitBox = 1 - ((pitBox + 2) / 4);
+
                 validStintLaps = 0;
                 invalidStintLaps = 0;
                 stintLapsCheck = true;
+
                 fuelTargetDeltaCumulative = 0;
+                fuelHolder = fuel;
             }
             else pitBox = 0;
 
@@ -3785,9 +3812,15 @@ namespace DahlDesign.Plugin.iRacing
                 }
 
                 List<double> fastList = new List<double> { };
+                List<double> fastFuelList = new List<double> { };
                 List<double> slowList = new List<double> { };
+                List<double> slowFuelList = new List<double> { };
                 double thresholdLap = fastLap * 1.015;
                 double runOffLap = fastLap * 1.05;
+                int calculationAccuracy = 0;
+                double averageFuelHolder = 0;
+                int averageCounter = 0;
+
                 for (int i = 0; i < lapTimeList.Count; i++)
                 {
                     if ((lapStatusList[i] < 3 && lapStatusList[i] != 0) && !(lapListSeconds[i] > (fastLap + 8) && lapListSeconds[i] > runOffLap)) //Excluding inlaps/outlaps/jokerlaps and laps with accidents (8 sec time loss if that corresponds to 5% or more of normal lap time)
@@ -3795,31 +3828,81 @@ namespace DahlDesign.Plugin.iRacing
                         if (lapListSeconds[i] < thresholdLap)
                         {
                             fastList.Add(lapListSeconds[i]);
+                            fastFuelList.Add(lapFuelList[i]);
                         }
                         else
                         {
                             slowList.Add(lapListSeconds[i]);
+                            slowFuelList.Add(lapFuelList[i]);
                         }
                     }
+                    if (lapFuelList[i] != 0)
+                    {
+                        averageCounter++;
+                    }
+                    averageFuelHolder = averageFuelHolder + lapFuelList[i];
+                }
+
+                if (averageCounter > 0)
+                {
+                    calcAverageFuel = averageFuelHolder / averageCounter;
+                }
+                else
+                {
+                    calcAverageFuel = 0;
                 }
 
                 pace = fastList.Count > 0 ? fastList.Average() : 0.0;
+                calcFuelPerLap = fastFuelList.Count > 0 ? fastFuelList.Average() : 0.0;
+                if (fastList.Count > 3)
+                {
+                    calculationAccuracy = 3;
+                }
+                else if (fastList.Count > 1)
+                {
+                    calculationAccuracy = 2;
+                }
+                else
+                {
+                    calculationAccuracy = 1;
+                }
 
                 if (lapListSeconds.Count > 1)
                 {
                     if (lapListSeconds[0] > thresholdLap && lapListSeconds[1] > thresholdLap && lapStatusList[0] < 3 && lapStatusList[1] < 3 && slowList.Count > 1) //Pace is slowing down for some reason, fast acting
                     {
                         pace = (slowList[0] + slowList[1]) / 2;
+                        calcFuelPerLap = (slowFuelList[0] + slowFuelList[1]) / 2;
+                        calculationAccuracy = 2;
                     }
 
                     if (lapListSeconds[0] < fastLap * 1.005 && lapListSeconds[1] < fastLap * 1.005 && lapStatusList[0] == 1 && lapStatusList[1] == 1) //Pace is increasing, two fast valid Laps fast acting
                     {
                         pace = (fastList[0] + fastList[1]) / 2;
+                        calcFuelPerLap = (fastFuelList[0] + fastFuelList[1]) / 2;
+                        calculationAccuracy = 2;
                     }
                 }
+
+                if (calcFuelPerLap == 0)
+                {
+                    calcFuelPerLap = fuelAvgLap;
+                    calculationAccuracy = 0;
+                }
+
+
+                if ((lapRecord.TotalSeconds == 0 && pace > 0) || (pace > 0 && pace > lapRecord.TotalSeconds * 1.05))
+                {
+                    calculationAccuracy = 1;
+                }
+
+
                 TimeSpan paceTime = TimeSpan.FromSeconds(pace);
 
                 Base.SetProp("Pace", paceTime);
+                Base.SetProp("CalcFuelPerLap", calcFuelPerLap);
+                Base.SetProp("CalcAverageFuel", calcAverageFuel);
+                Base.SetProp("CalculationAccuracy", calculationAccuracy);
 
                 if (sessionBestLap.TotalSeconds > 0)
                 {
@@ -3832,8 +3915,6 @@ namespace DahlDesign.Plugin.iRacing
                         }
                     }
                 }
-
-
             }
 
             if (Base.counter == 33) //Sector 1 pace
@@ -4391,30 +4472,21 @@ namespace DahlDesign.Plugin.iRacing
 
                 }
 
-                bool inaccurateCalculations = false;
-
                 myExpectedLapTime = pace;
-
-                if (lapRecord.TotalSeconds == 0 || (pace > 0 && pace > lapRecord.TotalSeconds * 1.05))
-                {
-                    inaccurateCalculations = true;
-                }
 
                 if (myExpectedLapTime == 0)
                 {
                     myExpectedLapTime = lapRecord.TotalSeconds * 1.05;
-                    inaccurateCalculations = true;
                 }
                 if (myExpectedLapTime == 0)
                 {
                     myExpectedLapTime = trackLength / 40;
-                    inaccurateCalculations = true;
                 }
 
                 lapLapsRemaining = totalLaps - currentLap;
                 timeLapsRemaining = timeLeftSeconds / myExpectedLapTime + trackPosition - 1;
 
-                Base.SetProp("ApproximateCalculations", inaccurateCalculations);
+
 
                 Base.SetProp("P1Gap", leaderGap);
                 Base.SetProp("P1Name", leaderName);
@@ -5328,6 +5400,11 @@ namespace DahlDesign.Plugin.iRacing
                 double fuelLastLap = Convert.ToDouble(Base.GetProp("DataCorePlugin.Computed.Fuel_LastLapConsumption"));
                 double fuelPerLap = 0;
 
+                if (calcLastLapFuel != 0)
+                {
+                    fuelLastLap = calcLastLapFuel;
+                }
+
                 int truncRemainingLaps = ((int)(remainingLaps * 100)) / 100;
 
                 if (sessionState < 4 && trackPosition == 0 && isLapLimited && !isTimeLimited) //When standing on grid and track position is not updated yet. 
@@ -5337,7 +5414,11 @@ namespace DahlDesign.Plugin.iRacing
 
                 if (Base.counter != 4)
                 {
-                    fuelPerLap = fuelAvgLap + Math.Round(fuelPerLapOffset, 2);
+                    fuelPerLap = calcFuelPerLap + Math.Round(fuelPerLapOffset, 2);
+                    if (Base.Settings.fuelPerLapTargetLocked)
+                    {
+                        fuelPerLap = Base.Settings.fuelPerLapTarget;
+                    }
                 }
                 else
                 {
@@ -5355,6 +5436,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("FuelConserveToSaveAStop", 0);
                     Base.SetProp("FuelSlowestFuelSavePace", new TimeSpan(0));
                     Base.SetProp("FuelAlert", false);
+                    Base.SetProp("FuelPerLapTargetLocked", Base.Settings.fuelPerLapTargetLocked);
 
                 }
                 else
@@ -5374,7 +5456,7 @@ namespace DahlDesign.Plugin.iRacing
                 {
                     double distanceLeft = truncRemainingLaps + 1 - trackPosition;
                     double fuelDelta = fuel - (fuelPerLap * distanceLeft) - Base.Settings.FuelCalculationMargin;
-
+                    double builtInFuelMargin = 1 + (0.2 / fuelPerLap); //0.2 liters to finish since cars start stuttering around there, also 1 whole lap for the one where you run out of fuel.
                     //Calculating pit window
 
                     //Room for fuel
@@ -5384,7 +5466,7 @@ namespace DahlDesign.Plugin.iRacing
                     //Where will I get to with current fuel load
                     double dryPosition = (fuel / fuelPerLap) + currentLap + trackPosition;
                     //Latest possible pit stop on lap:
-                    int latestPitLap = ((int)((dryPosition - 1.1) * 100)) / 100;
+                    int latestPitLap = ((int)((dryPosition - builtInFuelMargin) * 100)) / 100;
                     if (fuelDelta > 0 && session != "Offline Testing")
                     {
                         latestPitLap = 0;
@@ -5403,7 +5485,7 @@ namespace DahlDesign.Plugin.iRacing
                     double maxFillOnStop = maxFuel - latestPitFuelLoad;
                     //How far can I get on that tank?
                     double maxDist = maxFuel / fuelPerLap;
-                    double maxLaps = ((int)((maxDist - 1.1) * 100)) / 100;
+                    double maxLaps = ((int)((maxDist - builtInFuelMargin) * 100)) / 100;
                     //Least amount of fuel to give maximum amount of laps
                     double secondFuelingMinimum = fuelPerLap * maxLaps;
 
@@ -6578,6 +6660,7 @@ namespace DahlDesign.Plugin.iRacing
                     savePitTimerSnap = new TimeSpan(0);
                     slowestLapTimeSpanCopy = new TimeSpan(0);
                     lapTimeList = new List<TimeSpan> { listFiller, listFiller, listFiller, listFiller, listFiller, listFiller, listFiller, listFiller }; //Reset lap and status lists
+                    lapFuelList = new List<double> { 0, 0, 0, 0, 0, 0, 0, 0 };
                     lapStatusList = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0 };
                     sector1TimeList = new List<double> { 0, 0, 0, 0, 0, 0, 0, 0 };
                     sector2TimeList = new List<double> { 0, 0, 0, 0, 0, 0, 0, 0 };

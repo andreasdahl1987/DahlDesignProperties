@@ -45,6 +45,9 @@ namespace DahlDesign.Plugin
 
         public double fuelPerLapTarget { get; set; } = 2.50;
 
+        public bool fuelPerLapTargetLocked { get; set; } = false;
+        public bool fuelTargetLockOnTargetSet { get; set; } = false;
+
         public double fuelOffsetIncrement { get; set; } = 0.01;
 
         public bool SupercarSwapPosition { get; set; } = false;
