@@ -6366,7 +6366,7 @@ namespace DahlDesign.Plugin.iRacing
             }
 
             int chunkSize = lapDeltaSections / deltaChangeChunks;
-            int currentChunk = myDeltaIndex / chunkSize;
+            int currentChunk = (myDeltaIndex / chunkSize);
             bool changeStarted = false;
             double changeSum = 0;
             double firstOfChunk = 0;
@@ -6394,7 +6394,7 @@ namespace DahlDesign.Plugin.iRacing
                 changeSum = lastOfChunk - firstOfChunk;
             }
 
-            lastChunks[currentChunk] = changeSum;
+            lastChunks[currentChunk] = Math.Round(changeSum,3);
 
             string lastResult = string.Join(",", lastChunks); //push result as string
 
@@ -6422,7 +6422,7 @@ namespace DahlDesign.Plugin.iRacing
                 changeSum = lastOfChunk - firstOfChunk;
             }
 
-            SBChunks[currentChunk] = changeSum;
+            SBChunks[currentChunk] = Math.Round(changeSum,3);
 
             string SBResult = string.Join(",", SBChunks); //push result as string
 
@@ -6450,7 +6450,7 @@ namespace DahlDesign.Plugin.iRacing
                 changeSum = lastOfChunk - firstOfChunk;
             }
 
-            LRChunks[currentChunk] = changeSum;
+            LRChunks[currentChunk] = Math.Round(changeSum,3);
 
             string LRResult = string.Join(",", LRChunks); //push result as string
 
