@@ -4,10 +4,9 @@ using SimHub.Plugins.OutputPlugins.GraphicalDash;
 
 namespace DahlDesign.Plugin.Categories
 {
-    public class Dashboard
+    public class Dashboard : SectionBase
     {
-        private readonly DahlDesign Base;
-
+        public Dashboard(DahlDesign dahlDesign) : base(dahlDesign) { }
         public Screen LeftScreen;
         public Screen RightScreen;
         public Screen DeltaScreen;
@@ -16,10 +15,8 @@ namespace DahlDesign.Plugin.Categories
 
        
 
-        public Dashboard(DahlDesign dahlDesign)
+        public override void Init(PluginManager pluginManager)
         {
-            Base = dahlDesign;
-
             LeftScreen = new Screen(new string[] { "Time1", "Time2", "Time3", "Qualy", "Race1", "Race2", "Race3", "Practice1", "Practice2" });
             RightScreen = new Screen(new string[] { "Stint1", "Stint2", "Qualy1", "Qualy2", "Race1", "Race2", "Race3", "Track" });
             DeltaScreen = new Screen(new string[] { "LastLap", "SessionBest", "LapRecord", "FuelSave", "FuelTarget" });
@@ -95,11 +92,11 @@ namespace DahlDesign.Plugin.Categories
             Base.AddAction("Controls.Dashboard.DeltaScreen.FuelTarget", (a, b) => DeltaScreen.screenID = 5);
         }
 
-        public void DataUpdate()
+        public override void DataUpdate()
         {
             if (Base.gameName != "IRacing" || !Base.gameRunning) return;
         
-            string session = Base.gameData.NewData.SessionTypeName;
+            string session = NewData.SessionTypeName;
 
             if (Base.iRacing.sessionHolder != session)
             {

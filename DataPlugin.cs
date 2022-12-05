@@ -1,11 +1,10 @@
-﻿using DahlDesign.Plugin.iRacing;
+﻿using DahlDesign.Plugin.Categories;
 using GameReaderCommon;
 using SimHub.Plugins;
 using System;
-using System.Linq;
-using System.Windows.Markup;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Media;
-//using ACSharedMemory;
 
 namespace DahlDesign.Plugin
 {
@@ -18,15 +17,16 @@ namespace DahlDesign.Plugin
         public DataPluginSettings Settings;
         /// <summary>Instance of the current plugin manager</summary>
         public PluginManager PluginManager { get; set; }
+        public iRacing.Data iRacing;
         public Categories.Dashboard Dashboard;
         public Categories.DDC DDC;
-        public iRacing.Data iRacing;
         public int counter = 0;
         public ImageSource PictureIcon => this.ToIcon(Properties.Resources.Dahl_icon);
         public string LeftMenuTitle => "Dahl Design";
         public bool gameRunning;
         public string gameName;
         public GameData gameData;
+        public List<SectionBase> Sections = new List<SectionBase>();
 
         /// <summary>
         /// Called once after plugins startup
@@ -43,6 +43,12 @@ namespace DahlDesign.Plugin
             Dashboard = new Categories.Dashboard(this);
             DDC = new Categories.DDC(this);
             iRacing = new iRacing.Data(this);
+
+            Sections.Add(Dashboard);
+            Sections.Add(DDC);
+            Sections.Add(iRacing);
+            Sections.Add(new Tires(this));
+            Sections.Add(new iRacingSpotter(this));
         }
 
         public void DataUpdate(PluginManager pluginManager, ref GameData data)
@@ -62,10 +68,18 @@ namespace DahlDesign.Plugin
                 counter = 0;
             }
 
-            Dashboard.DataUpdate();
-            DDC.DataUpdate();
-            iRacing.DataUpdate();
-            iRacing.DataUpdateIdle();
+            if (data.NewData != null)
+            {
+                //Parallel.ForEach(
+                //Sections,
+                //section =>
+                //    section.DataUpdate()
+                //);
+                foreach (SectionBase section in Sections)
+                {
+                    section.DataUpdate();
+                }
+            }
         }
 
         public void End(PluginManager pluginManager)
@@ -92,5 +106,7 @@ namespace DahlDesign.Plugin
         public void TriggerEvent(string EventName) => PluginManager.TriggerEvent(EventName, GetType());
         public void AddAction(string ActionName, Action<PluginManager, string> ActionBody)
             => PluginManager.AddAction(ActionName, GetType(), ActionBody);
+
+        public void TriggerAction(string ActionName) => PluginManager.TriggerAction(ActionName);
     }
 }
