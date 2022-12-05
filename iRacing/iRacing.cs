@@ -662,7 +662,7 @@ namespace DahlDesign.Plugin.iRacing
 
             Base.AttachDelegate("SessionBestLap", () => sessionBestLap);
 
-            Base.AddProp("HotlapLivePosition", 0);
+            Base.AddProp("HotLapLivePosition", 0);
 
             Base.AttachDelegate("QualyWarmUpLap", () => warmup);
             Base.AttachDelegate("QualyLap1Status", () => qLap1Status);
@@ -3702,7 +3702,7 @@ namespace DahlDesign.Plugin.iRacing
                     position = 0;
                 }
 
-                Base.SetProp("HotlapLivePosition", position);
+                Base.SetProp("HotLapLivePosition", position);
 
             }
 
