@@ -7,11 +7,9 @@ using IRacingReader;
 
 namespace DahlDesign.Plugin.iRacing
 {
-    public class Data
+    public class Data : SectionBase
     {
-        private readonly DahlDesign Base;
-        iRacingSpotter iRacingSpotter = new iRacingSpotter();
-        iRacing.Properties p;
+        public Data(DahlDesign dahlDesign) : base(dahlDesign) { }
         
         #region Variables
 
@@ -464,12 +462,8 @@ namespace DahlDesign.Plugin.iRacing
         DataSampleEx irData;
         #endregion
 
-        public Data(DahlDesign dahlDesign)
+        public override void Init(PluginManager pluginManager)
         {
-            Base = dahlDesign;
-
-            p = new iRacing.Properties(Base);
-
             //Find the lap records file
             LapRecords.findCSV(ref csvAdress);
 
@@ -655,7 +649,7 @@ namespace DahlDesign.Plugin.iRacing
 
             Base.AddProp("Pace", new TimeSpan(0));
 
-            Base.AttachDelegate("PitBoxPosition", () => pitBox);  //TODO: check, was 1 before
+            Base.AttachDelegate("PitBoxPosition", () => pitBox);
             Base.AttachDelegate("PitBoxApproach", () => boxApproach);
             Base.AddProp("PitEntry", false);
             Base.AddProp("PitSpeeding", false);
@@ -761,11 +755,6 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("BehindP2PStatus", false);
             Base.AddProp("BehindP2PCount", -1);
             Base.AddProp("BehindRealGap", 0);
-
-            Base.AttachDelegate("LeftCarGap", () => iRacingSpotter.carPositionLeft);
-            Base.AttachDelegate("LeftCarName", () => iRacingSpotter.carNameLeft);
-            Base.AttachDelegate("RightCarGap", () => iRacingSpotter.carPositionRight);
-            Base.AttachDelegate("RightCarName", () => iRacingSpotter.carNameRight);
 
             Base.AddProp("CarAhead01Gap", 0);
             Base.AddProp("CarAhead01RaceGap", 0);
@@ -1634,13 +1623,13 @@ namespace DahlDesign.Plugin.iRacing
             }
         }
 
-        public void DataUpdate()
+        public override void DataUpdate()
         {
             if (Base.gameName != "IRacing" || !Base.gameRunning)
                 return;
 
             //Gaining access to raw data
-            if (Base.gameData?.NewData?.GetRawDataObject() is DataSampleEx) { irData = Base.gameData.NewData.GetRawDataObject() as DataSampleEx; }
+            if (NewData?.GetRawDataObject() is DataSampleEx) { irData = NewData.GetRawDataObject() as DataSampleEx; }
 
             //Updating relevant data
             TimeSpan globalClock = TimeSpan.FromTicks(DateTime.Now.Ticks);
@@ -1669,25 +1658,25 @@ namespace DahlDesign.Plugin.iRacing
             double slipRR = Convert.ToDouble(Base.GetProp("ShakeITMotorsV3Plugin.Export.WheelSlip.RearRight"));  //Wheel slip
 
             double trackPosition = irData.Telemetry.LapDistPct;                                     //Lap distance
-            int completedLaps = Base.gameData.NewData.CompletedLaps;                                         //Completed laps
-            int currentLap = Base.gameData.NewData.CurrentLap;                                               //Current lap
-            int totalLaps = Base.gameData.NewData.TotalLaps;                                                 //Total laps
-            TimeSpan currentLapTime = Base.gameData.NewData.CurrentLapTime;                                  //Current lap time
-            int pit = Base.gameData.NewData.IsInPit;                                                         //Pit
-            int pitLimiter = Base.gameData.NewData.PitLimiterOn;                                             //Pit limiter on/off
-            string gear = Base.gameData.NewData.Gear;                                                        //Gear
+            int completedLaps = NewData.CompletedLaps;                                         //Completed laps
+            int currentLap = NewData.CurrentLap;                                               //Current lap
+            int totalLaps = NewData.TotalLaps;                                                 //Total laps
+            TimeSpan currentLapTime = NewData.CurrentLapTime;                                  //Current lap time
+            int pit = NewData.IsInPit;                                                         //Pit
+            int pitLimiter = NewData.PitLimiterOn;                                             //Pit limiter on/off
+            string gear = NewData.Gear;                                                        //Gear
             double fuelAvgLap = Convert.ToDouble(Base.GetProp("DataCorePlugin.Computed.Fuel_LitersPerLap")); //Fuel avg lap
-            int black = Base.gameData.NewData.Flag_Black;                                                    //Black flag
-            int white = Base.gameData.NewData.Flag_White;                                                    //White flag
-            int checkered = Base.gameData.NewData.Flag_Checkered;                                            //Checkered flag
-            TimeSpan lastLapTime = Base.gameData.NewData.LastLapTime;                                        //Last Lap Time 
-            string carModel = Base.gameData.NewData.CarModel;                                                //Car model
-            string track = Base.gameData.NewData.TrackName;                                                  //Track name
-            string session = Base.gameData.NewData.SessionTypeName;                                          //Session type
-            TimeSpan timeLeft = Base.gameData.NewData.SessionTimeLeft;                                       //Session time left
+            int black = NewData.Flag_Black;                                                    //Black flag
+            int white = NewData.Flag_White;                                                    //White flag
+            int checkered = NewData.Flag_Checkered;                                            //Checkered flag
+            TimeSpan lastLapTime = NewData.LastLapTime;                                        //Last Lap Time 
+            string carModel = NewData.CarModel;                                                //Car model
+            string track = NewData.TrackName;                                                  //Track name
+            string session = NewData.SessionTypeName;                                          //Session type
+            TimeSpan timeLeft = NewData.SessionTimeLeft;                                       //Session time left
             double pitLocation = irData.SessionData.DriverInfo.DriverPitTrkPct;                     //Pit location
-            double trackLength = Base.gameData.NewData.TrackLength;                                          //Track length
-            double defaultRevLim = Base.gameData.NewData.CarSettings_MaxRPM;                                 //Default rev limiter
+            double trackLength = NewData.TrackLength;                                          //Track length
+            double defaultRevLim = NewData.CarSettings_MaxRPM;                                 //Default rev limiter
             int pitSpeedLimit = 0;                                                                  //Pit speed limit
             if (irData.SessionData.WeekendInfo.TrackPitSpeedLimit != null)
             {
@@ -1708,7 +1697,7 @@ namespace DahlDesign.Plugin.iRacing
             }
             int sessionNumber = irData.Telemetry.SessionNum;                                        //Session number, to find correct session
             string trackConfig = irData.SessionData.WeekendInfo.TrackType;                          //Track type name
-            int greenFlag = Base.gameData.NewData.Flag_Green;                                                //Green flag
+            int greenFlag = NewData.Flag_Green;                                                //Green flag
 
             irData.Telemetry.TryGetValue("dcTractionControlToggle", out object rawTCswitch);        //In-game TC toggle
             bool TCswitch = Convert.ToBoolean(rawTCswitch);
@@ -1725,10 +1714,10 @@ namespace DahlDesign.Plugin.iRacing
             irData.Telemetry.TryGetValue("PlayerTrackSurfaceMaterial", out object rawSurface);      //Track surface type
             int surface = Convert.ToInt32(rawSurface);
 
-            double stintLength = Base.gameData.NewData.StintOdo;                                             //Stint length
-            int opponents = Base.gameData.NewData.Opponents.Count;                                           //All opponents
-            int classOpponents = Base.gameData.NewData.PlayerClassOpponentsCount;                            //Class opponents
-            double fuel = Base.gameData.NewData.Fuel;                                                        //Fuel on tank
+            double stintLength = NewData.StintOdo;                                             //Stint length
+            int opponents = NewData.Opponents.Count;                                           //All opponents
+            int classOpponents = NewData.PlayerClassOpponentsCount;                            //Class opponents
+            double fuel = NewData.Fuel;                                                        //Fuel on tank
 
             irData.Telemetry.TryGetValue("SessionState", out object rawSessionState);
             int sessionState = Convert.ToInt32(rawSessionState);                                    //Session State
@@ -1781,22 +1770,22 @@ namespace DahlDesign.Plugin.iRacing
 
             var estimatedLapTime = (TimeSpan)(Base.GetProp("PersistantTrackerPlugin.EstimatedLapTime")); //EstimatedLapTime
 
-            if (Base.gameData.NewData.OpponentsAheadOnTrack.Count > 0)
+            if (NewData.OpponentsAheadOnTrack.Count > 0)
             {
-                aheadGap = Base.gameData.NewData.OpponentsAheadOnTrack[0].GaptoPlayer;                       //Ahead GAP
-                aheadClass = Base.gameData.NewData.OpponentsAheadOnTrack[0].CarClass;                        //Ahead Class
-                aheadClassPosition = Base.gameData.NewData.OpponentsAheadOnTrack[0].PositionInClass;         //Ahead Position (class)
+                aheadGap = NewData.OpponentsAheadOnTrack[0].GaptoPlayer;                       //Ahead GAP
+                aheadClass = NewData.OpponentsAheadOnTrack[0].CarClass;                        //Ahead Class
+                aheadClassPosition = NewData.OpponentsAheadOnTrack[0].PositionInClass;         //Ahead Position (class)
             }
-            string myClass = Base.gameData.NewData.CarClass;                                                 //My Class
+            string myClass = NewData.CarClass;                                                 //My Class
             int myPosition = irData.Telemetry.PlayerCarClassPosition;                               //My Position (class)
-            double throttle = Base.gameData.NewData.Throttle;                                                //Throttle application
-            double brake = Base.gameData.NewData.Brake;                                                      //Brake application
-            double clutch = Base.gameData.NewData.Clutch;                                                    //Clutch application
-            double speed = Base.gameData.NewData.SpeedLocal;                                                 //Speed
-            double rpm = Base.gameData.NewData.Rpms;                                                         //RPM value
+            double throttle = NewData.Throttle;                                                //Throttle application
+            double brake = NewData.Brake;                                                      //Brake application
+            double clutch = NewData.Clutch;                                                    //Clutch application
+            double speed = NewData.SpeedLocal;                                                 //Speed
+            double rpm = NewData.Rpms;                                                         //RPM value
 
             double plannedFuel = Convert.ToDouble(irData.Telemetry.PitSvFuel);                      //Planned fuel
-            double maxFuel = Base.gameData.NewData.MaxFuel;
+            double maxFuel = NewData.MaxFuel;
             plannedLFPressure = irData.Telemetry.PitSvLFP;                                    //Planned LF pressure
             plannedRFPressure = irData.Telemetry.PitSvRFP;                                    //Planned RF pressure
             plannedLRPressure = irData.Telemetry.PitSvLRP;                                    //Planned LR pressure
@@ -1860,9 +1849,9 @@ namespace DahlDesign.Plugin.iRacing
 
                 for (int i = 0; i < opponents; i++)
                 {
-                    if (Base.gameData.NewData.Opponents[i].CarClass == myClass)
+                    if (NewData.Opponents[i].CarClass == myClass)
                     {
-                        iratings.Add(Base.gameData.NewData.Opponents[i].IRacing_IRating);
+                        iratings.Add(NewData.Opponents[i].IRacing_IRating);
                     }
                     else
                     {
@@ -2512,12 +2501,6 @@ namespace DahlDesign.Plugin.iRacing
                 accelerationPremature = 0;
             }
 
-            //----------------------------------------------------
-            //------------Spotter calculations--------------------
-            //----------------------------------------------------
-
-            iRacingSpotter.Spotter(Base.gameData, trackLength);
-            
             //----------------------------------
             //-------TRIGGERED STOPWATCH--------
             //----------------------------------
@@ -2622,7 +2605,7 @@ namespace DahlDesign.Plugin.iRacing
             {
                 for (int i = 0; i < irData.SessionData.DriverInfo.CompetingDrivers.Length; i++)
                 {
-                    if (Base.gameData.NewData.PlayerName == irData.SessionData.DriverInfo.CompetingDrivers[i].UserName)
+                    if (NewData.PlayerName == irData.SessionData.DriverInfo.CompetingDrivers[i].UserName)
                     {
                         myClassColor = irData.SessionData.DriverInfo.CompetingDrivers[i].CarClassColor;
                         myClassColorIndex = classColors.IndexOf(myClassColor);
@@ -2666,11 +2649,11 @@ namespace DahlDesign.Plugin.iRacing
             bool aheadPlayerReady = false;
             bool behindPlayerReady = false;
 
-            if (Base.gameData.NewData.OpponentsAheadOnTrack.Count > 0)
+            if (NewData.OpponentsAheadOnTrack.Count > 0)
             {
                 aheadPlayerReady = true;
             }
-            if (Base.gameData.NewData.OpponentsBehindOnTrack.Count > 0)
+            if (NewData.OpponentsBehindOnTrack.Count > 0)
             {
                 behindPlayerReady = true;
             }
@@ -2729,7 +2712,7 @@ namespace DahlDesign.Plugin.iRacing
                 }
                 else if (pitMenuRotary == 6 && pitMenuRequirementMet && aheadPlayerReady)
                 {
-                    PitCommands.iRacingChat("/" + Base.gameData.NewData.OpponentsAheadOnTrack[0].CarNumber + " " + Base.Settings.AheadPlayerText);
+                    PitCommands.iRacingChat("/" + NewData.OpponentsAheadOnTrack[0].CarNumber + " " + Base.Settings.AheadPlayerText);
                 }
                 else if (pitMenuRotary == 7 && pitMenuRequirementMet)
                 {
@@ -2812,7 +2795,7 @@ namespace DahlDesign.Plugin.iRacing
                 }
                 else if (pitMenuRotary == 6 && pitMenuRequirementMet && behindPlayerReady)
                 {
-                    string driverText = "/#" + Base.gameData.NewData.OpponentsBehindOnTrack[0].CarNumber + " " + Base.Settings.BehindPlayerText;
+                    string driverText = "/#" + NewData.OpponentsBehindOnTrack[0].CarNumber + " " + Base.Settings.BehindPlayerText;
                     PitCommands.iRacingChat(driverText);
                 }
                 else if (pitMenuRotary == 7 && pitMenuRequirementMet)
@@ -3679,7 +3662,7 @@ namespace DahlDesign.Plugin.iRacing
                 int position = 0;
                 for (int i = 0; i < opponents; i++)
                 {
-                    if (estimatedLapTime.TotalSeconds > 0 && Base.gameData.NewData.Opponents[i].BestLapTime.TotalSeconds > 0 && estimatedLapTime.TotalSeconds > Base.gameData.NewData.Opponents[i].BestLapTime.TotalSeconds && Base.gameData.NewData.Opponents[i].CarClass == myClass && !Base.gameData.NewData.Opponents[i].IsPlayer)
+                    if (estimatedLapTime.TotalSeconds > 0 && NewData.Opponents[i].BestLapTime.TotalSeconds > 0 && estimatedLapTime.TotalSeconds > NewData.Opponents[i].BestLapTime.TotalSeconds && NewData.Opponents[i].CarClass == myClass && !NewData.Opponents[i].IsPlayer)
                     {
                         position++;
                     }
@@ -4173,16 +4156,16 @@ namespace DahlDesign.Plugin.iRacing
 
                     for (int i = 0; i < opponents; i++)
                     {
-                        if (Base.gameData.NewData.Opponents[i].GaptoPlayer < 0)
+                        if (NewData.Opponents[i].GaptoPlayer < 0)
                         {
                             isRaceLeader = false;
-                            if (Base.gameData.NewData.Opponents[i].CarClass == myClass)
+                            if (NewData.Opponents[i].CarClass == myClass)
                             {
                                 realPosition++;
                             }
                         }
                         hotLapPosition = 1;
-                        if (Base.gameData.NewData.Opponents[i].BestLapTime.TotalSeconds < sessionBestLap.TotalSeconds && Base.gameData.NewData.Opponents[i].BestLapTime.TotalSeconds > 0)
+                        if (NewData.Opponents[i].BestLapTime.TotalSeconds < sessionBestLap.TotalSeconds && NewData.Opponents[i].BestLapTime.TotalSeconds > 0)
                         {
                             hotLapPosition++;
                         }
@@ -4192,7 +4175,7 @@ namespace DahlDesign.Plugin.iRacing
                         }
                     }
 
-                    if (Base.gameData.NewData.Opponents[0].GaptoPlayer == null && Base.gameData.NewData.Opponents[1].GaptoPlayer == null)
+                    if (NewData.Opponents[0].GaptoPlayer == null && NewData.Opponents[1].GaptoPlayer == null)
                     {
                         if (aheadClass == myClass && aheadGap != 0)
                         {
@@ -4226,12 +4209,12 @@ namespace DahlDesign.Plugin.iRacing
 
                         for (int i = 0; i < opponents; i++)
                         {
-                            if (finishedCars.IndexOf(Base.gameData.NewData.Opponents[i].CarNumber) < 0 && Base.gameData.NewData.Opponents[i].CurrentLap > currentLap && myClass == Base.gameData.NewData.Opponents[i].CarClass)
+                            if (finishedCars.IndexOf(NewData.Opponents[i].CarNumber) < 0 && NewData.Opponents[i].CurrentLap > currentLap && myClass == NewData.Opponents[i].CarClass)
                             {
-                                finishedCars.Add(Base.gameData.NewData.Opponents[i].CarNumber);
+                                finishedCars.Add(NewData.Opponents[i].CarNumber);
                             }
 
-                            if (Base.gameData.NewData.Opponents[i].CurrentLap == currentLap && Base.gameData.NewData.Opponents[i].GaptoPlayer < 0 && myClass == Base.gameData.NewData.Opponents[i].CarClass)
+                            if (NewData.Opponents[i].CurrentLap == currentLap && NewData.Opponents[i].GaptoPlayer < 0 && myClass == NewData.Opponents[i].CarClass)
                             {
                                 position++;
                             }
@@ -4335,57 +4318,57 @@ namespace DahlDesign.Plugin.iRacing
 
                 for (int i = 0; i < opponents; i++)
                 {
-                    if (Base.gameData.NewData.Opponents[i].GaptoPlayer < classLeaderGap && Base.gameData.NewData.Opponents[i].CarClass == myClass)
+                    if (NewData.Opponents[i].GaptoPlayer < classLeaderGap && NewData.Opponents[i].CarClass == myClass)
                     {
-                        classLeaderGap = Base.gameData.NewData.Opponents[i].GaptoPlayer;
-                        classLeaderName = Base.gameData.NewData.Opponents[i].Name;
-                        classLeaderLastLap = Base.gameData.NewData.Opponents[i].LastLapTime;
-                        classLeaderBestLap = Base.gameData.NewData.Opponents[i].BestLapTime;
+                        classLeaderGap = NewData.Opponents[i].GaptoPlayer;
+                        classLeaderName = NewData.Opponents[i].Name;
+                        classLeaderLastLap = NewData.Opponents[i].LastLapTime;
+                        classLeaderBestLap = NewData.Opponents[i].BestLapTime;
                     }
-                    if (Base.gameData.NewData.Opponents[i].GaptoPlayer < leaderGap)
+                    if (NewData.Opponents[i].GaptoPlayer < leaderGap)
                     {
-                        leaderGap = Base.gameData.NewData.Opponents[i].GaptoPlayer;
-                        leaderName = Base.gameData.NewData.Opponents[i].Name;
-                        leaderCurrentLap = Base.gameData.NewData.Opponents[i].CurrentLap;
-                        leaderLastLap = Base.gameData.NewData.Opponents[i].LastLapTime;
-                        leaderBestLap = Base.gameData.NewData.Opponents[i].BestLapTime;
-                        leaderTrackPosition = Base.gameData.NewData.Opponents[i].TrackPositionPercent;
+                        leaderGap = NewData.Opponents[i].GaptoPlayer;
+                        leaderName = NewData.Opponents[i].Name;
+                        leaderCurrentLap = NewData.Opponents[i].CurrentLap;
+                        leaderLastLap = NewData.Opponents[i].LastLapTime;
+                        leaderBestLap = NewData.Opponents[i].BestLapTime;
+                        leaderTrackPosition = NewData.Opponents[i].TrackPositionPercent;
                     }
-                    if (Base.gameData.NewData.Opponents[i].GaptoPlayer < 0 && (aheadGap == 0 || Base.gameData.NewData.Opponents[i].GaptoPlayer > aheadGap))
+                    if (NewData.Opponents[i].GaptoPlayer < 0 && (aheadGap == 0 || NewData.Opponents[i].GaptoPlayer > aheadGap))
                     {
-                        aheadGap = Base.gameData.NewData.Opponents[i].GaptoPlayer;
-                        aheadName = Base.gameData.NewData.Opponents[i].Name;
-                        aheadLastLap = Base.gameData.NewData.Opponents[i].LastLapTime;
-                        aheadBestLap = Base.gameData.NewData.Opponents[i].BestLapTime;
-                        aheadIsConnected = Base.gameData.NewData.Opponents[i].IsConnected;
-                        aheadIsInPit = Base.gameData.NewData.Opponents[i].IsCarInPit;
+                        aheadGap = NewData.Opponents[i].GaptoPlayer;
+                        aheadName = NewData.Opponents[i].Name;
+                        aheadLastLap = NewData.Opponents[i].LastLapTime;
+                        aheadBestLap = NewData.Opponents[i].BestLapTime;
+                        aheadIsConnected = NewData.Opponents[i].IsConnected;
+                        aheadIsInPit = NewData.Opponents[i].IsCarInPit;
                     }
-                    else if (Base.gameData.NewData.Opponents[i].GaptoPlayer > 0 && (behindGap == 0 || Base.gameData.NewData.Opponents[i].GaptoPlayer < behindGap))
+                    else if (NewData.Opponents[i].GaptoPlayer > 0 && (behindGap == 0 || NewData.Opponents[i].GaptoPlayer < behindGap))
                     {
-                        behindGap = Base.gameData.NewData.Opponents[i].GaptoPlayer;
-                        behindName = Base.gameData.NewData.Opponents[i].Name;
-                        behindLastLap = Base.gameData.NewData.Opponents[i].LastLapTime;
-                        behindBestLap = Base.gameData.NewData.Opponents[i].BestLapTime;
-                        behindIsConnected = Base.gameData.NewData.Opponents[i].IsConnected;
-                        behindIsInPit = Base.gameData.NewData.Opponents[i].IsCarInPit;
+                        behindGap = NewData.Opponents[i].GaptoPlayer;
+                        behindName = NewData.Opponents[i].Name;
+                        behindLastLap = NewData.Opponents[i].LastLapTime;
+                        behindBestLap = NewData.Opponents[i].BestLapTime;
+                        behindIsConnected = NewData.Opponents[i].IsConnected;
+                        behindIsInPit = NewData.Opponents[i].IsCarInPit;
                     }
-                    if ((leaderCurrentLap + leaderTrackPosition) - (Base.gameData.NewData.Opponents[i].TrackPositionPercent + Base.gameData.NewData.Opponents[i].CurrentLap) > 1 && Base.gameData.NewData.Opponents[i].CarClass == myClass && (luckyDogGap == 0 || Base.gameData.NewData.Opponents[i].GaptoLeader < luckyDogGap))
+                    if ((leaderCurrentLap + leaderTrackPosition) - (NewData.Opponents[i].TrackPositionPercent + NewData.Opponents[i].CurrentLap) > 1 && NewData.Opponents[i].CarClass == myClass && (luckyDogGap == 0 || NewData.Opponents[i].GaptoLeader < luckyDogGap))
                     {
-                        luckyDogGap = Base.gameData.NewData.Opponents[i].GaptoPlayer;
-                        luckyDogName = Base.gameData.NewData.Opponents[i].Name;
-                        if (Base.gameData.NewData.Opponents[i].GaptoPlayer < 0)
+                        luckyDogGap = NewData.Opponents[i].GaptoPlayer;
+                        luckyDogName = NewData.Opponents[i].Name;
+                        if (NewData.Opponents[i].GaptoPlayer < 0)
                         {
                             luckyDogPositionsAhead++;
                         }
                     }
-                    else if ((leaderCurrentLap + leaderTrackPosition) - (Base.gameData.NewData.Opponents[i].TrackPositionPercent + Base.gameData.NewData.Opponents[i].CurrentLap) > 1 && Base.gameData.NewData.Opponents[i].CarClass == myClass && Base.gameData.NewData.Opponents[i].GaptoPlayer < 0)
+                    else if ((leaderCurrentLap + leaderTrackPosition) - (NewData.Opponents[i].TrackPositionPercent + NewData.Opponents[i].CurrentLap) > 1 && NewData.Opponents[i].CarClass == myClass && NewData.Opponents[i].GaptoPlayer < 0)
                     {
                         luckyDogPositionsAhead++;
                     }
                     if ((leaderCurrentLap + leaderTrackPosition) - (currentLap + trackPosition) > 1 && luckyDogGap > 0)
                     {
                         luckyDogGap = 0;
-                        luckyDogName = Base.gameData.NewData.PlayerName;
+                        luckyDogName = NewData.PlayerName;
                         luckyDogPositionsAhead = 0;
                     }
 
@@ -5045,18 +5028,18 @@ namespace DahlDesign.Plugin.iRacing
 
                 //Cars ahead/behind on track calculations
 
-                for (int i = 0; i < Base.gameData.NewData.OpponentsAheadOnTrack.Count && i < 5; i++)
+                for (int i = 0; i < NewData.OpponentsAheadOnTrack.Count && i < 5; i++)
                 {
-                    carAheadGap.Add(Base.gameData.NewData.OpponentsAheadOnTrack[i].RelativeGapToPlayer);
-                    carAheadRaceGap.Add(Base.gameData.NewData.OpponentsAheadOnTrack[i].GaptoPlayer);
-                    carAheadName.Add(Base.gameData.NewData.OpponentsAheadOnTrack[i].Name);
-                    carAheadIsInPit.Add(Base.gameData.NewData.OpponentsAheadOnTrack[i].IsCarInPit);
-                    carAheadBestLap.Add(Base.gameData.NewData.OpponentsAheadOnTrack[i].BestLapTime);
-                    carAheadPosition.Add(Base.gameData.NewData.OpponentsAheadOnTrack[i].Position);
+                    carAheadGap.Add(NewData.OpponentsAheadOnTrack[i].RelativeGapToPlayer);
+                    carAheadRaceGap.Add(NewData.OpponentsAheadOnTrack[i].GaptoPlayer);
+                    carAheadName.Add(NewData.OpponentsAheadOnTrack[i].Name);
+                    carAheadIsInPit.Add(NewData.OpponentsAheadOnTrack[i].IsCarInPit);
+                    carAheadBestLap.Add(NewData.OpponentsAheadOnTrack[i].BestLapTime);
+                    carAheadPosition.Add(NewData.OpponentsAheadOnTrack[i].Position);
 
                     for (int u = 0; u < irData.SessionData.DriverInfo.CompetingDrivers.Length; u++)
                     {
-                        if (irData.SessionData.DriverInfo.CompetingDrivers[u].UserName == Base.gameData.NewData.OpponentsAheadOnTrack[i].Name)
+                        if (irData.SessionData.DriverInfo.CompetingDrivers[u].UserName == NewData.OpponentsAheadOnTrack[i].Name)
                         {
                             carAheadLicence.Add(irData.SessionData.DriverInfo.CompetingDrivers[u].LicString);
                             carAheadiRating.Add(irData.SessionData.DriverInfo.CompetingDrivers[u].IRating);
@@ -5064,9 +5047,9 @@ namespace DahlDesign.Plugin.iRacing
                             carAheadClassDifference.Add((classColors.IndexOf(irData.SessionData.DriverInfo.CompetingDrivers[u].CarClassColor)) - myClassColorIndex);
                             carAheadLapsSincePit.Add(sessionCarsLapsSincePit[Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[u].CarIdx)]);
 
-                            double? gap = Base.gameData.NewData.OpponentsAheadOnTrack[i].GaptoPlayer;
+                            double? gap = NewData.OpponentsAheadOnTrack[i].GaptoPlayer;
                             double? realgap = realGapOpponentDelta[Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[u].CarIdx)];
-                            double? relative = Base.gameData.NewData.OpponentsAheadOnTrack[i].RelativeGapToPlayer;
+                            double? relative = NewData.OpponentsAheadOnTrack[i].RelativeGapToPlayer;
                             double? realrelative = realGapOpponentRelative[Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[u].CarIdx)];
 
                             if ((gap > realgap * 1.25 && gap - realgap > 10) || (gap < realgap * 0.75 && gap - realgap < -10) || realgap == 0)
@@ -5114,7 +5097,7 @@ namespace DahlDesign.Plugin.iRacing
                             break;
                         }
                     }
-                    if (Base.gameData.NewData.OpponentsAheadOnTrack[i].GaptoPlayer < 0 || (Base.gameData.NewData.OpponentsAheadOnTrack[i].RelativeGapToPlayer != null && Base.gameData.NewData.OpponentsAheadOnTrack[i].GaptoPlayer == null))
+                    if (NewData.OpponentsAheadOnTrack[i].GaptoPlayer < 0 || (NewData.OpponentsAheadOnTrack[i].RelativeGapToPlayer != null && NewData.OpponentsAheadOnTrack[i].GaptoPlayer == null))
                     {
                         carAheadIsAhead.Add(true);
                     }
@@ -5122,7 +5105,7 @@ namespace DahlDesign.Plugin.iRacing
                     {
                         carAheadIsAhead.Add(false);
                     }
-                    if (Base.gameData.NewData.OpponentsAheadOnTrack[i].Name == classLeaderName)
+                    if (NewData.OpponentsAheadOnTrack[i].Name == classLeaderName)
                     {
                         carAheadIsClassLeader.Add(true);
                     }
@@ -5157,7 +5140,7 @@ namespace DahlDesign.Plugin.iRacing
 
                 }
 
-                for (int i = Base.gameData.NewData.OpponentsAheadOnTrack.Count; i < 5; i++) //Clearing the empty ones
+                for (int i = NewData.OpponentsAheadOnTrack.Count; i < 5; i++) //Clearing the empty ones
                 {
                     Base.SetProp("CarAhead0" + (i + 1) + "Gap", 0);
                     Base.SetProp("CarAhead0" + (i + 1) + "RaceGap", 0);
@@ -5179,18 +5162,18 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("CarAhead0" + (i + 1) + "RealRelative", 0);
                 }
 
-                for (int i = 0; i < Base.gameData.NewData.OpponentsBehindOnTrack.Count && i < 5; i++)
+                for (int i = 0; i < NewData.OpponentsBehindOnTrack.Count && i < 5; i++)
                 {
-                    carBehindGap.Add(Base.gameData.NewData.OpponentsBehindOnTrack[i].RelativeGapToPlayer);
-                    carBehindRaceGap.Add(Base.gameData.NewData.OpponentsBehindOnTrack[i].GaptoPlayer);
-                    carBehindName.Add(Base.gameData.NewData.OpponentsBehindOnTrack[i].Name);
-                    carBehindIsInPit.Add(Base.gameData.NewData.OpponentsBehindOnTrack[i].IsCarInPit);
-                    carBehindBestLap.Add(Base.gameData.NewData.OpponentsBehindOnTrack[i].BestLapTime);
-                    carBehindPosition.Add(Base.gameData.NewData.OpponentsBehindOnTrack[i].Position);
+                    carBehindGap.Add(NewData.OpponentsBehindOnTrack[i].RelativeGapToPlayer);
+                    carBehindRaceGap.Add(NewData.OpponentsBehindOnTrack[i].GaptoPlayer);
+                    carBehindName.Add(NewData.OpponentsBehindOnTrack[i].Name);
+                    carBehindIsInPit.Add(NewData.OpponentsBehindOnTrack[i].IsCarInPit);
+                    carBehindBestLap.Add(NewData.OpponentsBehindOnTrack[i].BestLapTime);
+                    carBehindPosition.Add(NewData.OpponentsBehindOnTrack[i].Position);
 
                     for (int u = 0; u < irData.SessionData.DriverInfo.CompetingDrivers.Length; u++)
                     {
-                        if (irData.SessionData.DriverInfo.CompetingDrivers[u].UserName == Base.gameData.NewData.OpponentsBehindOnTrack[i].Name)
+                        if (irData.SessionData.DriverInfo.CompetingDrivers[u].UserName == NewData.OpponentsBehindOnTrack[i].Name)
                         {
                             carBehindLicence.Add(irData.SessionData.DriverInfo.CompetingDrivers[u].LicString);
                             carBehindiRating.Add(irData.SessionData.DriverInfo.CompetingDrivers[u].IRating);
@@ -5198,8 +5181,8 @@ namespace DahlDesign.Plugin.iRacing
                             carBehindClassDifference.Add((classColors.IndexOf(irData.SessionData.DriverInfo.CompetingDrivers[u].CarClassColor)) - myClassColorIndex);
                             carBehindLapsSincePit.Add(sessionCarsLapsSincePit[Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[u].CarIdx)]);
 
-                            double? relative = Base.gameData.NewData.OpponentsBehindOnTrack[i].RelativeGapToPlayer;
-                            double? gap = Base.gameData.NewData.OpponentsBehindOnTrack[i].GaptoPlayer;
+                            double? relative = NewData.OpponentsBehindOnTrack[i].RelativeGapToPlayer;
+                            double? gap = NewData.OpponentsBehindOnTrack[i].GaptoPlayer;
                             double? realgap = realGapOpponentDelta[Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[u].CarIdx)];
                             double? realrelative = realGapOpponentRelative[Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[u].CarIdx)];
 
@@ -5251,7 +5234,7 @@ namespace DahlDesign.Plugin.iRacing
 
                         }
                     }
-                    if (Base.gameData.NewData.OpponentsBehindOnTrack[i].GaptoPlayer < 0)
+                    if (NewData.OpponentsBehindOnTrack[i].GaptoPlayer < 0)
                     {
                         carBehindIsAhead.Add(true);
                     }
@@ -5259,7 +5242,7 @@ namespace DahlDesign.Plugin.iRacing
                     {
                         carBehindIsAhead.Add(false);
                     }
-                    if (Base.gameData.NewData.OpponentsBehindOnTrack[i].Name == classLeaderName)
+                    if (NewData.OpponentsBehindOnTrack[i].Name == classLeaderName)
                     {
                         carBehindIsClassLeader.Add(true);
                     }
@@ -5292,7 +5275,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("CarBehind0" + (i + 1) + "RealRelative", carBehindRealRelative[i]);
                 }
 
-                for (int i = Base.gameData.NewData.OpponentsBehindOnTrack.Count; i < 5; i++)
+                for (int i = NewData.OpponentsBehindOnTrack.Count; i < 5; i++)
                 {
                     Base.SetProp("CarBehind0" + (i + 1) + "Gap", 0);
                     Base.SetProp("CarBehind0" + (i + 1) + "RaceGap", 0);
@@ -5837,15 +5820,15 @@ namespace DahlDesign.Plugin.iRacing
 
                 for (int i = 0; i < opponents; i++) //Add all opponents as objects with gap to player and name
                 {
-                    if (!Base.gameData.NewData.Opponents[i].IsPlayer)
+                    if (!NewData.Opponents[i].IsPlayer)
                     {
 
-                        double? gap = Base.gameData.NewData.Opponents[i].GaptoPlayer;
+                        double? gap = NewData.Opponents[i].GaptoPlayer;
                         double? realgap = 0;
                         bool usingRealGap = true;
                         for (int u = 0; u < irData.SessionData.DriverInfo.CompetingDrivers.Length; u++)
                         {
-                            if (irData.SessionData.DriverInfo.CompetingDrivers[u].UserName == Base.gameData.NewData.Opponents[i].Name)
+                            if (irData.SessionData.DriverInfo.CompetingDrivers[u].UserName == NewData.Opponents[i].Name)
                             {
                                 realgap = realGapOpponentDelta[Convert.ToInt32(irData.SessionData.DriverInfo.CompetingDrivers[u].CarIdx)];
                                 break;
@@ -5863,7 +5846,7 @@ namespace DahlDesign.Plugin.iRacing
                         }
 
 
-                        pitStopOpponents.Add(new pitOpponents(realgap, Base.gameData.NewData.Opponents[i].Name, Base.gameData.NewData.Opponents[i].TrackPositionPercent, Base.gameData.NewData.Opponents[i].CarClass == myClass, 0, 0, Base.gameData.NewData.Opponents[i].BestLapTime, false, false, usingRealGap));
+                        pitStopOpponents.Add(new pitOpponents(realgap, NewData.Opponents[i].Name, NewData.Opponents[i].TrackPositionPercent, NewData.Opponents[i].CarClass == myClass, 0, 0, NewData.Opponents[i].BestLapTime, false, false, usingRealGap));
                     }
                 }
 
@@ -6700,6 +6683,8 @@ namespace DahlDesign.Plugin.iRacing
             {
                 optimalLapTime =  new TimeSpan(0);
             }
+
+            DataUpdateIdle();
         }
     }
 }

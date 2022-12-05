@@ -1,11 +1,11 @@
 ﻿using SimHub.Plugins;
 using System;
 
-namespace DahlDesign.Plugin.Categories
+namespace DahlDesign.Plugin.Categories 
 {
-    public class DDC
+    public class DDC : SectionBase
     {
-        private readonly DahlDesign Base;
+        public DDC(DahlDesign dahlDesign) : base(dahlDesign) { }
         public bool controllerEnabled;
 
         //Switches
@@ -36,10 +36,8 @@ namespace DahlDesign.Plugin.Categories
         int button15Mode = 0;
         int button16Mode = 0;
 
-        public DDC(DahlDesign dahlDesign)
+        public override void Init(PluginManager pluginManager)
         {
-            Base = dahlDesign;
-         
             Base.AddProp("DDCclutch",  0);
             Base.AddProp("DDCbitePoint",  0);
             Base.AddProp("DDCbrake",  0);
@@ -107,7 +105,7 @@ namespace DahlDesign.Plugin.Categories
             Base.AttachDelegate("DDUEnabled", () => Base.Settings.DDUEnabled);
         }
 
-        public void DataUpdate()
+        public override void DataUpdate()
         {
             //Base.Settings.DDSEnabled = false;
             //Base.Settings.DDCclutchEnabled = false; 
