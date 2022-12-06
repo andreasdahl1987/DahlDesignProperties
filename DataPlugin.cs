@@ -41,15 +41,19 @@ namespace DahlDesign.Plugin
             // Load settings
             Settings = this.ReadCommonSettings<DataPluginSettings>("GeneralSettings", () => new DataPluginSettings());
 
-            Dashboard = new Categories.Dashboard(this);
-            DDC = new Categories.DDC(this);
-            iRacing = new iRacing.Data(this);
-
             InitSections();
         }
 
         private void InitSections()
         {
+            Dashboard = null;
+            DDC = null;
+            iRacing = null;
+
+            Dashboard = new Categories.Dashboard(this);
+            DDC = new Categories.DDC(this);
+            iRacing = new iRacing.Data(this);
+
             Sections.Add(Dashboard);
             Sections.Add(DDC);
             Sections.Add(iRacing);
