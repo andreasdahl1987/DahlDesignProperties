@@ -28,6 +28,7 @@ namespace DahlDesign.Plugin
         //public GameData gameData;
         public DahlGameData dahlGameData = new DahlGameData();
         public List<SectionBase> Sections = new List<SectionBase>();
+        private bool sectionsAreDirty = true;
 
         /// <summary>
         /// Called once after plugins startup
@@ -46,6 +47,10 @@ namespace DahlDesign.Plugin
 
         private void InitSections()
         {
+            if (sectionsAreDirty == false) { return; }
+
+            Sections.Clear();
+
             Dashboard = null;
             DDC = null;
             iRacing = null;
@@ -59,6 +64,8 @@ namespace DahlDesign.Plugin
             Sections.Add(iRacing);
             Sections.Add(new Tires(this));
             Sections.Add(new iRacingSpotter(this));
+
+            sectionsAreDirty = false;
         }
 
         public void DataUpdate(PluginManager pluginManager, ref GameData data)
@@ -88,9 +95,9 @@ namespace DahlDesign.Plugin
                 {
                     section.DataUpdate();
                 }
+                sectionsAreDirty= true;
             } else
             {
-                Sections.Clear();
                 InitSections();
             }
         }
