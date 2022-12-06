@@ -4390,8 +4390,6 @@ namespace DahlDesign.Plugin.iRacing
                     timeLeftSeconds = timeLeftSeconds - pitStopDuration;
                 }
 
-                qLap1Status = 0;
-                qLap2Status = 0;
                 Base.SetProp("QualyLap1Time", new TimeSpan(0));
                 Base.SetProp("QualyLap2Time", new TimeSpan(0));
                 warmup = false;
