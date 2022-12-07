@@ -1530,7 +1530,103 @@ namespace DahlDesign.Plugin.iRacing
 
         }
 
-       
+        public void DataUpdateIdle()
+        {           
+            fuelPerLapOffset = 0;
+            savePitTimerLock = false;
+            savePitTimerSnap = new TimeSpan(0);
+            slowestLapTimeSpanCopy = new TimeSpan(0);
+
+            pitBox = 0.5;
+            hasPitted = false;
+            validStintLaps = 0;
+            invalidStintLaps = 0;
+            fuelTargetDeltaCumulative = 0;
+            raceFinished = false;
+            jokerThisLap = false;
+            jokerLapChecker = false;
+            finishedCars = new List<string> { };
+            fuelTargetCheck = false;
+            oldFuelValue = 0;
+            NBactive = false;
+            NBvalue = false;
+            NBspeedLim = false;
+            ERSlapCounter = 0;
+            ERSstartingLap = true;
+            TCon = false;
+            TCduration = 0;
+            offTrack = false;
+            IRchange = 0;
+
+            //Props that need refresh
+            Base.SetProp("TCActive", false);
+
+            //Refreshing some lists
+            if (Base.counter == 59)
+            {
+                realGapLocks.Clear();
+                realGapChecks.Clear();
+                realGapPoints.Clear();
+                realGapOpponentDelta.Clear();
+                realGapOpponentRelative.Clear();
+                sessionCarsLapsSincePit.Clear();
+                sessionCarsLap.Clear();
+
+                lapDeltaCurrent.Clear();
+                lapDeltaSessionBest.Clear();
+                lapDeltaLast.Clear();
+                lapDeltaRecord.Clear();
+                lapDeltaLastChange.Clear();
+                lapDeltaSessionBestChange.Clear();
+                lapDeltaLapRecordChange.Clear();
+                lastChunks.Clear();
+                SBChunks.Clear();
+                LRChunks.Clear();
+
+                for (int u = 0; u < trackSections; u++)
+                {
+                    List<bool> locks = new List<bool> { };
+                    List<bool> checks = new List<bool> { };
+                    List<TimeSpan> points = new List<TimeSpan> { };
+
+                    for (int i = 0; i < 64; i++)
+                    {
+                        locks.Add(false);
+                        checks.Add(false);
+                        points.Add(TimeSpan.FromSeconds(0));
+                    }
+
+                    realGapLocks.Add(locks);
+                    realGapChecks.Add(checks);
+                    realGapPoints.Add(points);
+                }
+
+                for (int i = 0; i < 64; i++)
+                {
+                    realGapOpponentDelta.Add(0);
+                    realGapOpponentRelative.Add(0);
+                    sessionCarsLapsSincePit.Add(-1);
+                    sessionCarsLap.Add(-1);
+                }
+
+                for (int i = 0; i < lapDeltaSections + 1; i++)
+                {
+                    lapDeltaCurrent.Add(-1);
+                    lapDeltaSessionBest.Add(-1);
+                    lapDeltaLast.Add(-1);
+                    lapDeltaRecord.Add(-1);
+                    lapDeltaLastChange.Add(0);
+                    lapDeltaSessionBestChange.Add(0);
+                    lapDeltaLapRecordChange.Add(0);
+                }
+                for (int i = 0; i < deltaChangeChunks; i++)
+                {
+                    lastChunks.Add(0);
+                    SBChunks.Add(0);
+                    LRChunks.Add(0);
+                }
+            }
+        }
         public override void DataUpdate()
         {
             if (GameDataAll.GameName != "IRacing")
