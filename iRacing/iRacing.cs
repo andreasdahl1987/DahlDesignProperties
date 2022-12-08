@@ -5091,8 +5091,8 @@ namespace DahlDesign.Plugin.iRacing
 
                 for (int i = 0; i < GameData.OpponentsAheadOnTrack.Count && i < 5; i++)
                 {
-                    carAheadGap.Add(GameData.OpponentsAheadOnTrack[i].RelativeGapToPlayer);
-                    carAheadRaceGap.Add(GameData.OpponentsAheadOnTrack[i].GaptoPlayer);
+                    carAheadRelative.Add(GameData.OpponentsAheadOnTrack[i].RelativeGapToPlayer);
+                    carAheadGap.Add(GameData.OpponentsAheadOnTrack[i].GaptoPlayer);
                     carAheadName.Add(GameData.OpponentsAheadOnTrack[i].Name);
                     carAheadIsInPit.Add(GameData.OpponentsAheadOnTrack[i].IsCarInPit);
                     carAheadBestLap.Add(GameData.OpponentsAheadOnTrack[i].BestLapTime);
@@ -5225,8 +5225,8 @@ namespace DahlDesign.Plugin.iRacing
 
                 for (int i = 0; i < GameData.OpponentsBehindOnTrack.Count && i < 5; i++)
                 {
-                    carBehindGap.Add(GameData.OpponentsBehindOnTrack[i].RelativeGapToPlayer);
-                    carBehindRaceGap.Add(GameData.OpponentsBehindOnTrack[i].GaptoPlayer);
+                    carBehindRelative.Add(GameData.OpponentsBehindOnTrack[i].RelativeGapToPlayer);
+                    carBehindGap.Add(GameData.OpponentsBehindOnTrack[i].GaptoPlayer);
                     carBehindName.Add(GameData.OpponentsBehindOnTrack[i].Name);
                     carBehindIsInPit.Add(GameData.OpponentsBehindOnTrack[i].IsCarInPit);
                     carBehindBestLap.Add(GameData.OpponentsBehindOnTrack[i].BestLapTime);
