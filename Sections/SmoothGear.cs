@@ -3,7 +3,7 @@ using SimHub.Plugins;
 namespace DahlDesign.Plugin.Categories
 {
     /// <summary>
-    /// Template example class
+    /// Smooth Gear
     /// </summary>
     public class SmoothGear : SectionBase
     {
@@ -11,7 +11,9 @@ namespace DahlDesign.Plugin.Categories
         public SmoothGear(DahlDesign dahlDesign) : base(dahlDesign) { }
 
         //class variables go here
-        double templateVariable = 0;
+        int neutralCounter = 0;
+        public string smoothGear = "";
+
 
         /// <summary>
         /// Class initialization, called once at game start
@@ -19,9 +21,7 @@ namespace DahlDesign.Plugin.Categories
         /// <param name="pluginManager"></param>
         public override void Init(PluginManager pluginManager)
         {
-            // Add your delegates here
-
-            Base.AttachDelegate("Template", () => templateVariable);
+            Base.AttachDelegate("SmoothGear", () => smoothGear);
         }
 
         /// <summary>
@@ -29,11 +29,26 @@ namespace DahlDesign.Plugin.Categories
         /// </summary>
         public override void DataUpdate()
         {
-            // access to iRacing data with IRdata
-            // access to GameData with GameData
+            if (GameData.Gear != "N")
+            {
+                smoothGear = GameData.Gear;
+                neutralCounter = 0;
+            }
 
-            // assign something to your delegated variable
-            templateVariable = GameData.something;
+            if (GameData.Gear == "N")
+            {
+                neutralCounter++;
+            }
+
+            if (neutralCounter > 6)
+            {
+                smoothGear = "N";
+                neutralCounter = 0;
+            }
+            if (Base.DDC.button8Mode == 1)
+            {
+                smoothGear = "N";
+            }
         }
     }
 }

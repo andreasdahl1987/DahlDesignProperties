@@ -351,9 +351,6 @@ namespace DahlDesign.Plugin.iRacing
         double highestThrottle = 0;
         bool throttleLift = false;
 
-        string smoothGear = "";
-        int neutralCounter = 0;
-
         //Buttons
       
         bool TCactive = false;
@@ -534,7 +531,7 @@ namespace DahlDesign.Plugin.iRacing
             
 
             Base.AttachDelegate("Idle", () => iRIdle);
-            Base.AttachDelegate("SmoothGear", () => smoothGear);
+            
             Base.AttachDelegate("TrackEntry", () => offTrack);
             Base.AttachDelegate("LastGearMaxRPM", () => RPMlastGear);
             Base.AttachDelegate("LastGear", () => RPMgear);
@@ -1410,31 +1407,6 @@ namespace DahlDesign.Plugin.iRacing
 
 
             //----------------------------------------------
-            //--------SMOOTH GEAR---------------------------
-            //----------------------------------------------
-
-            if (gear != "N")
-            {
-                smoothGear = gear;
-                neutralCounter = 0;
-            }
-
-            if (gear == "N")
-            {
-                neutralCounter++;
-            }
-
-            if (neutralCounter > 6)
-            {
-                smoothGear = "N";
-                neutralCounter = 0;
-            }
-            if (Base.DDC.button8Mode == 1)
-            {
-                smoothGear = "N";
-            }
-
-            //----------------------------------------------
             //--------SoF AND IR LOSS/GAIN------------------
             //----------------------------------------------
 
@@ -1929,7 +1901,7 @@ namespace DahlDesign.Plugin.iRacing
             }
             double amplifier = 1;
 
-            if (gear == "N" && smoothGear == "N")
+            if (gear == "N" && Base.SmoothGear.smoothGear == "N")
             {
                 currentShiftPoint = shiftPoint1;
                 shiftPointAdjustment = 0;
