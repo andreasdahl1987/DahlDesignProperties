@@ -55,7 +55,7 @@ namespace DahlDesign.Plugin
 
             Sections.Clear();
 
-            iRacing.DataUpdateIdle();
+            iRacing.Initialize();
 
             Sections.Add(Dashboard);
             Sections.Add(DDC);
