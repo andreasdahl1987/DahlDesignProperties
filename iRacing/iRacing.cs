@@ -131,8 +131,8 @@ namespace DahlDesign.Plugin.iRacing
         string trackHolder = "";
         public string sessionHolder { get; set; } = "";
         bool boxApproach = false;
+        List<double?> carAheadRelative = new List<double?> { };
         List<double?> carAheadGap = new List<double?> { };
-        List<double?> carAheadRaceGap = new List<double?> { };
         List<string> carAheadName = new List<string> { };
         List<bool> carAheadIsInPit = new List<bool> { };
         List<bool> carAheadIsClassLeader = new List<bool> { };
@@ -152,8 +152,8 @@ namespace DahlDesign.Plugin.iRacing
 
         string aheadGlobal = "";
 
+        List<double?> carBehindRelative = new List<double?> { };
         List<double?> carBehindGap = new List<double?> { };
-        List<double?> carBehindRaceGap = new List<double?> { };
         List<string> carBehindName = new List<string> { };
         List<bool> carBehindIsInPit = new List<bool> { };
         List<bool> carBehindIsClassLeader = new List<bool> { };
@@ -661,7 +661,7 @@ namespace DahlDesign.Plugin.iRacing
 
             Base.AttachDelegate("SessionBestLap", () => sessionBestLap);
 
-            Base.AddProp("HotlapLivePosition", 0);
+            Base.AddProp("HotLapLivePosition", 0);
 
             Base.AttachDelegate("QualyWarmUpLap", () => warmup);
             Base.AttachDelegate("QualyLap1Status", () => qLap1Status);
@@ -761,8 +761,8 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("BehindP2PCount", -1);
             Base.AddProp("BehindRealGap", 0);
 
+            Base.AddProp("CarAhead01Relative", 0);
             Base.AddProp("CarAhead01Gap", 0);
-            Base.AddProp("CarAhead01RaceGap", 0);
             Base.AddProp("CarAhead01BestLap", new TimeSpan(0));
             Base.AddProp("CarAhead01Name", "");
             Base.AddProp("CarAhead01Position", 0);
@@ -780,8 +780,8 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("CarAhead01RealGap", 0);
             Base.AddProp("CarAhead01RealRelative", 0);
 
+            Base.AddProp("CarAhead02Relative", 0);
             Base.AddProp("CarAhead02Gap", 0);
-            Base.AddProp("CarAhead02RaceGap", 0);
             Base.AddProp("CarAhead02BestLap", new TimeSpan(0));
             Base.AddProp("CarAhead02Name", "");
             Base.AddProp("CarAhead02Position", 0);
@@ -799,8 +799,8 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("CarAhead02RealGap", 0);
             Base.AddProp("CarAhead02RealRelative", 0);
 
+            Base.AddProp("CarAhead03Relative", 0);
             Base.AddProp("CarAhead03Gap", 0);
-            Base.AddProp("CarAhead03RaceGap", 0);
             Base.AddProp("CarAhead03BestLap", new TimeSpan(0));
             Base.AddProp("CarAhead03Name", "");
             Base.AddProp("CarAhead03Position", 0);
@@ -818,8 +818,8 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("CarAhead03RealGap", 0);
             Base.AddProp("CarAhead03RealRelative", 0);
 
+            Base.AddProp("CarAhead04Relative", 0);
             Base.AddProp("CarAhead04Gap", 0);
-            Base.AddProp("CarAhead04RaceGap", 0);
             Base.AddProp("CarAhead04BestLap", new TimeSpan(0));
             Base.AddProp("CarAhead04Name", "");
             Base.AddProp("CarAhead04Position", 0);
@@ -837,8 +837,8 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("CarAhead04RealGap", 0);
             Base.AddProp("CarAhead04RealRelative", 0);
 
+            Base.AddProp("CarAhead05Relative", 0);
             Base.AddProp("CarAhead05Gap", 0);
-            Base.AddProp("CarAhead05RaceGap", 0);
             Base.AddProp("CarAhead05BestLap", new TimeSpan(0));
             Base.AddProp("CarAhead05Name", "");
             Base.AddProp("CarAhead05Position", 0);
@@ -856,8 +856,8 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("CarAhead05RealGap", 0);
             Base.AddProp("CarAhead05RealRelative", 0);
 
+            Base.AddProp("CarBehind01Relative", 0);
             Base.AddProp("CarBehind01Gap", 0);
-            Base.AddProp("CarBehind01RaceGap", 0);
             Base.AddProp("CarBehind01BestLap", new TimeSpan(0));
             Base.AddProp("CarBehind01Name", "");
             Base.AddProp("CarBehind01Position", 0);
@@ -875,8 +875,8 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("CarBehind01RealGap", 0);
             Base.AddProp("CarBehind01RealRelative", 0);
 
+            Base.AddProp("CarBehind02Relative", 0);
             Base.AddProp("CarBehind02Gap", 0);
-            Base.AddProp("CarBehind02RaceGap", 0);
             Base.AddProp("CarBehind02BestLap", new TimeSpan(0));
             Base.AddProp("CarBehind02Name", "");
             Base.AddProp("CarBehind02Position", 0);
@@ -894,8 +894,8 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("CarBehind02RealGap", 0);
             Base.AddProp("CarBehind02RealRelative", 0);
 
+            Base.AddProp("CarBehind03Relative", 0);
             Base.AddProp("CarBehind03Gap", 0);
-            Base.AddProp("CarBehind03RaceGap", 0);
             Base.AddProp("CarBehind03BestLap", new TimeSpan(0));
             Base.AddProp("CarBehind03Name", "");
             Base.AddProp("CarBehind03Position", 0);
@@ -913,8 +913,8 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("CarBehind03RealGap", 0);
             Base.AddProp("CarBehind03RealRelative", 0);
 
+            Base.AddProp("CarBehind04Relative", 0);
             Base.AddProp("CarBehind04Gap", 0);
-            Base.AddProp("CarBehind04RaceGap", 0);
             Base.AddProp("CarBehind04BestLap", new TimeSpan(0));
             Base.AddProp("CarBehind04Name", "");
             Base.AddProp("CarBehind04Position", 0);
@@ -932,8 +932,8 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("CarBehind04RealGap", 0);
             Base.AddProp("CarBehind04RealRelative", 0);
 
+            Base.AddProp("CarBehind05Relative", 0);
             Base.AddProp("CarBehind05Gap", 0);
-            Base.AddProp("CarBehind05RaceGap", 0);
             Base.AddProp("CarBehind05BestLap", new TimeSpan(0));
             Base.AddProp("CarBehind05Name", "");
             Base.AddProp("CarBehind05Position", 0);
@@ -1162,7 +1162,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddAction("TCReleased", (a, b) => TCactive = false);
 
             Base.AddProp("PitMenu", 1);
-            Base.AddAction("L1", (a, b) =>
+            Base.AddAction("PitMenu1", (a, b) =>
             {
                 pitMenuRotary = 1;
                 Base.SetProp("PitMenu", pitMenuRotary);
@@ -1172,7 +1172,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L2", (a, b) =>
+            Base.AddAction("PitMenu2", (a, b) =>
             {
                 pitMenuRotary = 2;
                 Base.SetProp("PitMenu", pitMenuRotary);
@@ -1182,7 +1182,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L3", (a, b) =>
+            Base.AddAction("PitMenu3", (a, b) =>
             {
                 pitMenuRotary = 3;
                 Base.SetProp("PitMenu", pitMenuRotary);
@@ -1192,7 +1192,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L4", (a, b) =>
+            Base.AddAction("PitMenu4", (a, b) =>
             {
                 pitMenuRotary = 4;
                 Base.SetProp("PitMenu", pitMenuRotary);
@@ -1202,7 +1202,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L5", (a, b) =>
+            Base.AddAction("PitMenu5", (a, b) =>
             {
                 pitMenuRotary = 5;
                 Base.SetProp("PitMenu", pitMenuRotary);
@@ -1212,7 +1212,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L6", (a, b) =>
+            Base.AddAction("PitMenu6", (a, b) =>
             {
                 pitMenuRotary = 6;
                 Base.SetProp("PitMenu", pitMenuRotary);
@@ -1222,7 +1222,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L7", (a, b) =>
+            Base.AddAction("PitMenu7", (a, b) =>
             {
                 pitMenuRotary = 7;
                 Base.SetProp("PitMenu", pitMenuRotary);
@@ -1232,7 +1232,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L8", (a, b) =>
+            Base.AddAction("PitMenu8", (a, b) =>
             {
                 pitMenuRotary = 8;
                 Base.SetProp("PitMenu", pitMenuRotary);
@@ -1242,7 +1242,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L9", (a, b) =>
+            Base.AddAction("PitMenu9", (a, b) =>
             {
                 pitMenuRotary = 9;
                 Base.SetProp("PitMenu", pitMenuRotary);
@@ -1252,7 +1252,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L10", (a, b) =>
+            Base.AddAction("PitMenu10", (a, b) =>
             {
                 pitMenuRotary = 10;
                 Base.SetProp("PitMenu", pitMenuRotary);
@@ -1262,7 +1262,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L11", (a, b) =>
+            Base.AddAction("PitMenu11", (a, b) =>
             {
                 pitMenuRotary = 11;
                 Base.SetProp("PitMenu", pitMenuRotary);
@@ -1272,7 +1272,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("L12", (a, b) =>
+            Base.AddAction("PitMenu12", (a, b) =>
             {
                 pitMenuRotary = 12;
                 Base.SetProp("PitMenu", pitMenuRotary);
@@ -1282,7 +1282,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("InCarMenu", inCarRotary);
                 }
             });
-            Base.AddAction("LInc", (a, b) =>
+            Base.AddAction("PitMenuInc", (a, b) =>
             {
                 pitMenuRotary++;
                 if (pitMenuRotary > 12)
@@ -1291,7 +1291,7 @@ namespace DahlDesign.Plugin.iRacing
                 }
                 Base.SetProp("PitMenu", pitMenuRotary);
             });
-            Base.AddAction("LDec", (a, b) =>
+            Base.AddAction("PitMenuDec", (a, b) =>
             {
                 pitMenuRotary--;
                 if (pitMenuRotary < 1)
@@ -1304,7 +1304,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("PitSavePaceLock", () => savePitTimerLock);
 
             Base.AddProp("InCarMenu", 0);
-            Base.AddAction("R1", (a, b) =>
+            Base.AddAction("InCarMenu1", (a, b) =>
             {
                 inCarRotary = 1;
                 Base.SetProp("InCarMenu", inCarRotary);
@@ -1321,7 +1321,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
                 }
             });
-            Base.AddAction("R2", (a, b) =>
+            Base.AddAction("InCarMenu2", (a, b) =>
             {
                 inCarRotary = 2;
                 Base.SetProp("InCarMenu", inCarRotary);
@@ -1338,7 +1338,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
                 }
             });
-            Base.AddAction("R3", (a, b) =>
+            Base.AddAction("InCarMenu3", (a, b) =>
             {
                 inCarRotary = 3;
                 Base.SetProp("InCarMenu", inCarRotary);
@@ -1355,7 +1355,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
                 }
             });
-            Base.AddAction("R4", (a, b) =>
+            Base.AddAction("InCarMenu4", (a, b) =>
             {
                 inCarRotary = 4;
                 Base.SetProp("InCarMenu", inCarRotary);
@@ -1372,7 +1372,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
                 }
             });
-            Base.AddAction("R5", (a, b) =>
+            Base.AddAction("InCarMenu5", (a, b) =>
             {
                 inCarRotary = 5;
                 Base.SetProp("InCarMenu", inCarRotary);
@@ -1389,7 +1389,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
                 }
             });
-            Base.AddAction("R6", (a, b) =>
+            Base.AddAction("InCarMenu6", (a, b) =>
             {
                 inCarRotary = 6;
                 Base.SetProp("InCarMenu", inCarRotary);
@@ -1406,7 +1406,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
                 }
             });
-            Base.AddAction("R7", (a, b) =>
+            Base.AddAction("InCarMenu7", (a, b) =>
             {
                 inCarRotary = 7;
                 Base.SetProp("InCarMenu", inCarRotary);
@@ -1423,7 +1423,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
                 }
             });
-            Base.AddAction("R8", (a, b) =>
+            Base.AddAction("InCarMenu8", (a, b) =>
             {
                 inCarRotary = 8;
                 Base.SetProp("InCarMenu", inCarRotary);
@@ -1440,7 +1440,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
                 }
             });
-            Base.AddAction("R9", (a, b) =>
+            Base.AddAction("InCarMenu9", (a, b) =>
             {
                 inCarRotary = 9;
                 Base.SetProp("InCarMenu", inCarRotary);
@@ -1457,7 +1457,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
                 }
             });
-            Base.AddAction("R10", (a, b) =>
+            Base.AddAction("InCarMenu10", (a, b) =>
             {
                 inCarRotary = 10;
                 Base.SetProp("InCarMenu", inCarRotary);
@@ -1474,7 +1474,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
                 }
             });
-            Base.AddAction("R11", (a, b) =>
+            Base.AddAction("InCarMenu11", (a, b) =>
             {
                 inCarRotary = 11;
                 Base.SetProp("InCarMenu", inCarRotary);
@@ -1491,7 +1491,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
                 }
             });
-            Base.AddAction("R12", (a, b) =>
+            Base.AddAction("InCarMenu12", (a, b) =>
             {
                 inCarRotary = 12;
                 Base.SetProp("InCarMenu", inCarRotary);
@@ -1508,7 +1508,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
                 }
             });
-            Base.AddAction("RInc", (a, b) =>
+            Base.AddAction("InCarMenuInc", (a, b) =>
             {
                 inCarRotary++;
                 if (inCarRotary > 12)
@@ -1517,7 +1517,7 @@ namespace DahlDesign.Plugin.iRacing
                 }
                 Base.SetProp("InCarMenu", inCarRotary);
             });
-            Base.AddAction("RDec", (a, b) =>
+            Base.AddAction("InCarMenuDec", (a, b) =>
             {
                 inCarRotary--;
                 if (inCarRotary < 1)
@@ -3693,7 +3693,7 @@ namespace DahlDesign.Plugin.iRacing
                     position = 0;
                 }
 
-                Base.SetProp("HotlapLivePosition", position);
+                Base.SetProp("HotLapLivePosition", position);
 
             }
 
@@ -5016,8 +5016,8 @@ namespace DahlDesign.Plugin.iRacing
             //---------------------------------------------
             if (Base.counter == 9 || Base.counter == 24 || Base.counter == 39 || Base.counter == 54)
             {
+                carAheadRelative.Clear();
                 carAheadGap.Clear();
-                carAheadRaceGap.Clear();
                 carAheadName.Clear();
                 carAheadIsInPit.Clear();
                 carAheadIsClassLeader.Clear();
@@ -5035,8 +5035,8 @@ namespace DahlDesign.Plugin.iRacing
                 carAheadRealGap.Clear();
                 carAheadRealRelative.Clear();
 
+                carBehindRelative.Clear();
                 carBehindGap.Clear();
-                carBehindRaceGap.Clear();
                 carBehindName.Clear();
                 carBehindIsInPit.Clear();
                 carBehindIsClassLeader.Clear();
@@ -5175,8 +5175,8 @@ namespace DahlDesign.Plugin.iRacing
                         carAheadIsClassLeader.Add(false);
                     }
 
+                    Base.SetProp("CarAhead0" + (i + 1) + "Relative", carAheadRelative[i]);
                     Base.SetProp("CarAhead0" + (i + 1) + "Gap", carAheadGap[i]);
-                    Base.SetProp("CarAhead0" + (i + 1) + "RaceGap", carAheadRaceGap[i]);
                     Base.SetProp("CarAhead0" + (i + 1) + "BestLap", carAheadBestLap[i]);
                     Base.SetProp("CarAhead0" + (i + 1) + "Name", carAheadName[i]);
                     Base.SetProp("CarAhead0" + (i + 1) + "IRating", carAheadiRating[i]);
@@ -5203,8 +5203,8 @@ namespace DahlDesign.Plugin.iRacing
 
                 for (int i = GameData.OpponentsAheadOnTrack.Count; i < 5; i++) //Clearing the empty ones
                 {
+                    Base.SetProp("CarAhead0" + (i + 1) + "Relative", 0);
                     Base.SetProp("CarAhead0" + (i + 1) + "Gap", 0);
-                    Base.SetProp("CarAhead0" + (i + 1) + "RaceGap", 0);
                     Base.SetProp("CarAhead0" + (i + 1) + "BestLap", new TimeSpan(0));
                     Base.SetProp("CarAhead0" + (i + 1) + "Name", "");
                     Base.SetProp("CarAhead0" + (i + 1) + "IRating", 0);
@@ -5311,8 +5311,8 @@ namespace DahlDesign.Plugin.iRacing
                     {
                         carBehindIsClassLeader.Add(false);
                     }
+                    Base.SetProp("CarBehind0" + (i + 1) + "Relative", carBehindRelative[i]);
                     Base.SetProp("CarBehind0" + (i + 1) + "Gap", carBehindGap[i]);
-                    Base.SetProp("CarBehind0" + (i + 1) + "RaceGap", carBehindRaceGap[i]);
                     Base.SetProp("CarBehind0" + (i + 1) + "BestLap", carBehindBestLap[i]);
                     Base.SetProp("CarBehind0" + (i + 1) + "Name", carBehindName[i]);
                     Base.SetProp("CarBehind0" + (i + 1) + "IRating", carBehindiRating[i]);
@@ -5338,8 +5338,8 @@ namespace DahlDesign.Plugin.iRacing
 
                 for (int i = GameData.OpponentsBehindOnTrack.Count; i < 5; i++)
                 {
+                    Base.SetProp("CarBehind0" + (i + 1) + "Relative", 0);
                     Base.SetProp("CarBehind0" + (i + 1) + "Gap", 0);
-                    Base.SetProp("CarBehind0" + (i + 1) + "RaceGap", 0);
                     Base.SetProp("CarBehind0" + (i + 1) + "BestLap", new TimeSpan(0));
                     Base.SetProp("CarBehind0" + (i + 1) + "Name", "");
                     Base.SetProp("CarBehind0" + (i + 1) + "IRating", 0);
