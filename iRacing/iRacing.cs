@@ -10,7 +10,7 @@ namespace DahlDesign.Plugin.iRacing
     public class Data : SectionBase
     {
         public Data(DahlDesign dahlDesign) : base(dahlDesign) { }
-        
+
         #region Variables
 
         //CSV file adress
@@ -476,53 +476,8 @@ namespace DahlDesign.Plugin.iRacing
             trackInfo = trackInfoClass.trackInfo;
 
 
-            #region lists
+            InitializeLists();
 
-
-            for (int u = 0; u < trackSections; u++)
-            {
-                List<bool> locks = new List<bool> { };
-                List<bool> checks = new List<bool> { };
-                List<TimeSpan> points = new List<TimeSpan> { };
-
-                for (int i = 0; i < 64; i++)
-                {
-                    locks.Add(false);
-                    checks.Add(false);
-                    points.Add(TimeSpan.FromSeconds(0));
-                }
-
-                realGapLocks.Add(locks);
-                realGapChecks.Add(checks);
-                realGapPoints.Add(points);
-            }
-
-            for (int i = 0; i < 64; i++)
-            {
-                realGapOpponentDelta.Add(0);
-                realGapOpponentRelative.Add(0);
-                sessionCarsLapsSincePit.Add(-1);
-                sessionCarsLap.Add(-1);
-            }
-
-            for (int i = 0; i < lapDeltaSections + 1; i++)
-            {
-                lapDeltaCurrent.Add(-1);
-                lapDeltaSessionBest.Add(-1);
-                lapDeltaLast.Add(-1);
-                lapDeltaRecord.Add(-1);
-                lapDeltaLastChange.Add(0);
-                lapDeltaSessionBestChange.Add(0);
-                lapDeltaLapRecordChange.Add(0);
-            }
-
-            for (int i = 0; i < deltaChangeChunks; i++)
-            {
-                lastChunks.Add(0);
-                SBChunks.Add(0);
-                LRChunks.Add(0);
-            }
-            #endregion
             #region SimHub Properties
 
             Base.AttachDelegate("TestProperty", () => TCreleaseCD != 0);
@@ -538,12 +493,12 @@ namespace DahlDesign.Plugin.iRacing
 
 
             Base.AttachDelegate("OptimalShiftGear1", () => shiftPoint1);
-            Base.AttachDelegate("OptimalShiftGear2",  () => shiftPoint2);
-            Base.AttachDelegate("OptimalShiftGear3",  () => shiftPoint3);
-            Base.AttachDelegate("OptimalShiftGear4",  () => shiftPoint4);
-            Base.AttachDelegate("OptimalShiftGear5",  () => shiftPoint5);
-            Base.AttachDelegate("OptimalShiftGear6",  () => shiftPoint6);
-            Base.AttachDelegate("OptimalShiftGear7",  () => shiftPoint7);
+            Base.AttachDelegate("OptimalShiftGear2", () => shiftPoint2);
+            Base.AttachDelegate("OptimalShiftGear3", () => shiftPoint3);
+            Base.AttachDelegate("OptimalShiftGear4", () => shiftPoint4);
+            Base.AttachDelegate("OptimalShiftGear5", () => shiftPoint5);
+            Base.AttachDelegate("OptimalShiftGear6", () => shiftPoint6);
+            Base.AttachDelegate("OptimalShiftGear7", () => shiftPoint7);
             Base.AttachDelegate("OptimalShiftCurrentGear", () => currentShiftPoint);
             Base.AttachDelegate("OptimalShiftLastGear", () => lastShiftPoint);
 
@@ -578,7 +533,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("Lap08Delta", 0);
 
             Base.AttachDelegate("SmallFuelIncrement", () => Base.Settings.SmallFuelIncrement);
-            Base.AttachDelegate("LargeFuelIncrement", () =>Base.Settings.LargeFuelIncrement);
+            Base.AttachDelegate("LargeFuelIncrement", () => Base.Settings.LargeFuelIncrement);
             Base.AttachDelegate("CoupleInCarToPit", () => Base.Settings.CoupleInCarToPit);
 
             Base.AttachDelegate("Idle", () => iRIdle);
@@ -636,7 +591,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("LaunchTimeRelease", () => clutchTimeRelease);
             Base.AttachDelegate("LaunchTimeReleased", () => clutchTimeReleased);
             Base.AttachDelegate("HighPower", () => highPower);
-            Base.AttachDelegate("LaunchThrottle", () =>  launchThrottle);
+            Base.AttachDelegate("LaunchThrottle", () => launchThrottle);
 
 
             Base.AddProp("CalculationAccuracy", 0);
@@ -999,7 +954,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("PitServiceRFPSet", 0);
             Base.AddProp("PitServiceLRPSet", 0);
             Base.AddProp("PitServiceRRPSet", 0);
-            
+
             Base.AttachDelegate("CurrentFrontWing", () => currentFrontWing);
             Base.AttachDelegate("CurrentRearWing", () => currentRearWing);
             Base.AttachDelegate("CurrentPowersteer", () => currentPWS);
@@ -1530,8 +1485,8 @@ namespace DahlDesign.Plugin.iRacing
 
         }
 
-        public void DataUpdateIdle()
-        {           
+        public void Initialize()
+        {
             fuelPerLapOffset = 0;
             savePitTimerLock = false;
             savePitTimerSnap = new TimeSpan(0);
@@ -1561,72 +1516,75 @@ namespace DahlDesign.Plugin.iRacing
             //Props that need refresh
             Base.SetProp("TCActive", false);
 
-            //Refreshing some lists
-            if (Base.counter == 59)
+
+            realGapLocks.Clear();
+            realGapChecks.Clear();
+            realGapPoints.Clear();
+            realGapOpponentDelta.Clear();
+            realGapOpponentRelative.Clear();
+            sessionCarsLapsSincePit.Clear();
+            sessionCarsLap.Clear();
+
+            lapDeltaCurrent.Clear();
+            lapDeltaSessionBest.Clear();
+            lapDeltaLast.Clear();
+            lapDeltaRecord.Clear();
+            lapDeltaLastChange.Clear();
+            lapDeltaSessionBestChange.Clear();
+            lapDeltaLapRecordChange.Clear();
+            lastChunks.Clear();
+            SBChunks.Clear();
+            LRChunks.Clear();
+
+            InitializeLists();
+        }
+
+        private void InitializeLists()
+        {
+            for (int u = 0; u < trackSections; u++)
             {
-                realGapLocks.Clear();
-                realGapChecks.Clear();
-                realGapPoints.Clear();
-                realGapOpponentDelta.Clear();
-                realGapOpponentRelative.Clear();
-                sessionCarsLapsSincePit.Clear();
-                sessionCarsLap.Clear();
-
-                lapDeltaCurrent.Clear();
-                lapDeltaSessionBest.Clear();
-                lapDeltaLast.Clear();
-                lapDeltaRecord.Clear();
-                lapDeltaLastChange.Clear();
-                lapDeltaSessionBestChange.Clear();
-                lapDeltaLapRecordChange.Clear();
-                lastChunks.Clear();
-                SBChunks.Clear();
-                LRChunks.Clear();
-
-                for (int u = 0; u < trackSections; u++)
-                {
-                    List<bool> locks = new List<bool> { };
-                    List<bool> checks = new List<bool> { };
-                    List<TimeSpan> points = new List<TimeSpan> { };
-
-                    for (int i = 0; i < 64; i++)
-                    {
-                        locks.Add(false);
-                        checks.Add(false);
-                        points.Add(TimeSpan.FromSeconds(0));
-                    }
-
-                    realGapLocks.Add(locks);
-                    realGapChecks.Add(checks);
-                    realGapPoints.Add(points);
-                }
+                List<bool> locks = new List<bool> { };
+                List<bool> checks = new List<bool> { };
+                List<TimeSpan> points = new List<TimeSpan> { };
 
                 for (int i = 0; i < 64; i++)
                 {
-                    realGapOpponentDelta.Add(0);
-                    realGapOpponentRelative.Add(0);
-                    sessionCarsLapsSincePit.Add(-1);
-                    sessionCarsLap.Add(-1);
+                    locks.Add(false);
+                    checks.Add(false);
+                    points.Add(TimeSpan.FromSeconds(0));
                 }
 
-                for (int i = 0; i < lapDeltaSections + 1; i++)
-                {
-                    lapDeltaCurrent.Add(-1);
-                    lapDeltaSessionBest.Add(-1);
-                    lapDeltaLast.Add(-1);
-                    lapDeltaRecord.Add(-1);
-                    lapDeltaLastChange.Add(0);
-                    lapDeltaSessionBestChange.Add(0);
-                    lapDeltaLapRecordChange.Add(0);
-                }
-                for (int i = 0; i < deltaChangeChunks; i++)
-                {
-                    lastChunks.Add(0);
-                    SBChunks.Add(0);
-                    LRChunks.Add(0);
-                }
+                realGapLocks.Add(locks);
+                realGapChecks.Add(checks);
+                realGapPoints.Add(points);
+            }
+
+            for (int i = 0; i < 64; i++)
+            {
+                realGapOpponentDelta.Add(0);
+                realGapOpponentRelative.Add(0);
+                sessionCarsLapsSincePit.Add(-1);
+                sessionCarsLap.Add(-1);
+            }
+
+            for (int i = 0; i < lapDeltaSections + 1; i++)
+            {
+                lapDeltaCurrent.Add(-1);
+                lapDeltaSessionBest.Add(-1);
+                lapDeltaLast.Add(-1);
+                lapDeltaRecord.Add(-1);
+                lapDeltaLastChange.Add(0);
+                lapDeltaSessionBestChange.Add(0);
+                lapDeltaLapRecordChange.Add(0);
+            }
+            for (int i = 0; i < deltaChangeChunks; i++)
+            {
+                lastChunks.Add(0);
+                SBChunks.Add(0);
+                LRChunks.Add(0);
             }
         }
+
         public override void DataUpdate()
         {
             if (GameDataAll.GameName != "IRacing")
@@ -1634,7 +1592,7 @@ namespace DahlDesign.Plugin.iRacing
 
             //Updating relevant data
             TimeSpan globalClock = TimeSpan.FromTicks(DateTime.Now.Ticks);
-            
+
             IRData.Telemetry.TryGetValue("PlayerCarTeamIncidentCount", out object rawIncidents);
             int incidents = Convert.ToInt32(rawIncidents);                                          //Incidents
 
@@ -6383,7 +6341,7 @@ namespace DahlDesign.Plugin.iRacing
                 changeSum = lastOfChunk - firstOfChunk;
             }
 
-            lastChunks[currentChunk] = Math.Round(changeSum,3);
+            lastChunks[currentChunk] = Math.Round(changeSum, 3);
 
             string lastResult = string.Join(",", lastChunks); //push result as string
 
@@ -6411,7 +6369,7 @@ namespace DahlDesign.Plugin.iRacing
                 changeSum = lastOfChunk - firstOfChunk;
             }
 
-            SBChunks[currentChunk] = Math.Round(changeSum,3);
+            SBChunks[currentChunk] = Math.Round(changeSum, 3);
 
             string SBResult = string.Join(",", SBChunks); //push result as string
 
@@ -6439,7 +6397,7 @@ namespace DahlDesign.Plugin.iRacing
                 changeSum = lastOfChunk - firstOfChunk;
             }
 
-            LRChunks[currentChunk] = Math.Round(changeSum,3);
+            LRChunks[currentChunk] = Math.Round(changeSum, 3);
 
             string LRResult = string.Join(",", LRChunks); //push result as string
 
@@ -6687,48 +6645,7 @@ namespace DahlDesign.Plugin.iRacing
                         SBChunks.Clear();
                         LRChunks.Clear();
 
-                        for (int u = 0; u < trackSections; u++)
-                        {
-                            List<bool> locks = new List<bool> { };
-                            List<bool> checks = new List<bool> { };
-                            List<TimeSpan> points = new List<TimeSpan> { };
-
-                            for (int i = 0; i < 64; i++)
-                            {
-                                locks.Add(false);
-                                checks.Add(false);
-                                points.Add(TimeSpan.FromSeconds(0));
-                            }
-
-                            realGapLocks.Add(locks);
-                            realGapChecks.Add(checks);
-                            realGapPoints.Add(points);
-                        }
-
-                        for (int i = 0; i < 64; i++)
-                        {
-                            realGapOpponentDelta.Add(0);
-                            realGapOpponentRelative.Add(0);
-                            sessionCarsLapsSincePit.Add(-1);
-                            sessionCarsLap.Add(-1);
-                        }
-
-                        for (int i = 0; i < lapDeltaSections + 1; i++)
-                        {
-                            lapDeltaCurrent.Add(-1);
-                            lapDeltaSessionBest.Add(-1);
-                            lapDeltaLast.Add(-1);
-                            lapDeltaRecord.Add(-1);
-                            lapDeltaLastChange.Add(0);
-                            lapDeltaSessionBestChange.Add(0);
-                            lapDeltaLapRecordChange.Add(0);
-                        }
-                        for (int i = 0; i < deltaChangeChunks; i++)
-                        {
-                            lastChunks.Add(0);
-                            SBChunks.Add(0);
-                            LRChunks.Add(0);
-                        }
+                        InitializeLists();
                     }
 
                 }
@@ -6746,14 +6663,14 @@ namespace DahlDesign.Plugin.iRacing
             //-----------------------------------------------------------------------------
             //----------------------SETTING GLOBAL PROPERTY VALUES-------------------------
             //-----------------------------------------------------------------------------
-            
+
             if (sessionBestSector1 > 0 && sessionBestSector2 > 0 && sessionBestSector3 > 0)
             {
                 optimalLapTime = TimeSpan.FromSeconds(sessionBestSector1 + sessionBestSector2 + sessionBestSector3);
             }
             else
             {
-                optimalLapTime =  new TimeSpan(0);
+                optimalLapTime = new TimeSpan(0);
             }
 
         }
