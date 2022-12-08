@@ -23,10 +23,12 @@ namespace DahlDesign.Plugin
         public int counter = 0;
         public ImageSource PictureIcon => this.ToIcon(Properties.Resources.Dahl_icon);
         public string LeftMenuTitle => "Dahl Design";
-        public bool gameRunning;
-        public string gameName;
-        public GameData gameData;
+        //public bool gameRunning;
+        //public string gameName;
+        //public GameData gameData;
+        public DahlGameData dahlGameData = new DahlGameData();
         public List<SectionBase> Sections = new List<SectionBase>();
+        private bool sectionsAreDirty = true;
 
         /// <summary>
         /// Called once after plugins startup
@@ -44,18 +46,31 @@ namespace DahlDesign.Plugin
             DDC = new Categories.DDC(this);
             iRacing = new iRacing.Data(this);
 
+            InitSections();
+        }
+
+        private void InitSections()
+        {
+            if (sectionsAreDirty == false) { return; }
+
+            Sections.Clear();
+
+            iRacing.DataUpdateIdle();
+
             Sections.Add(Dashboard);
             Sections.Add(DDC);
             Sections.Add(iRacing);
             Sections.Add(new Tires(this));
             Sections.Add(new iRacingSpotter(this));
+
+            sectionsAreDirty = false;
         }
 
         public void DataUpdate(PluginManager pluginManager, ref GameData data)
         {
-            gameRunning = data.GameRunning;
-            gameName = data.GameName;
-            gameData = data;
+            //gameRunning = data.GameRunning;
+            //gameName = data.GameName;
+            //gameData = data;
 
             //FRAME COUNTER FOR CPU SAVING
             //Counters used: 1,2,3,4,5,6,7,8,9,10,11,14,15,17,20,22,24,25,27,30,33,35,36,38,39,40,43,45,47,50,51,52,53,54,55,59  
@@ -68,17 +83,20 @@ namespace DahlDesign.Plugin
                 counter = 0;
             }
 
-            if (data.NewData != null)
+            if (data.GameRunning && data.NewData != null)
             {
-                //Parallel.ForEach(
-                //Sections,
-                //section =>
-                //    section.DataUpdate()
-                //);
+                dahlGameData.GameData = data;
+                dahlGameData.GameName = data.GameName;
+                dahlGameData.SetGameData();
+
                 foreach (SectionBase section in Sections)
                 {
                     section.DataUpdate();
                 }
+                sectionsAreDirty= true;
+            } else
+            {
+                InitSections();
             }
         }
 

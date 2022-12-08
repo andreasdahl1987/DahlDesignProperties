@@ -7,7 +7,7 @@ namespace DahlDesign.Plugin.Categories
     {
 
         public Tires(DahlDesign dahlDesign) : base(dahlDesign) { }
-        private DataSampleEx irData;
+        //private DataSampleEx irData;
 
         float LFCold = 0;
         float RFCold = 0;
@@ -16,7 +16,7 @@ namespace DahlDesign.Plugin.Categories
 
         public override void Init(PluginManager pluginManager)
         {
-            if (NewData?.GetRawDataObject() is DataSampleEx) { irData = NewData.GetRawDataObject() as DataSampleEx; }
+            //if (NewData?.GetRawDataObject() is DataSampleEx) { irData = NewData.GetRawDataObject() as DataSampleEx; }
 
             Base.AttachDelegate("PitServiceLFPCold", () => LFCold);
             Base.AttachDelegate("PitServiceRFPCold", () => RFCold);
@@ -31,12 +31,12 @@ namespace DahlDesign.Plugin.Categories
                 return;
             }
 
-            if (irData != null)
+            if (IRData != null)
             {
-                LFCold = irData.Telemetry.LFcoldPressure;
-                RFCold = irData.Telemetry.RFcoldPressure;
-                LRCold = irData.Telemetry.LRcoldPressure;
-                RRCold = irData.Telemetry.RRcoldPressure;
+                LFCold = IRData.Telemetry.LFcoldPressure;
+                RFCold = IRData.Telemetry.RFcoldPressure;
+                LRCold = IRData.Telemetry.LRcoldPressure;
+                RRCold = IRData.Telemetry.RRcoldPressure;
             }
         }
     }
