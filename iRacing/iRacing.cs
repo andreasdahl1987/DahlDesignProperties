@@ -393,11 +393,7 @@ namespace DahlDesign.Plugin.iRacing
         bool LEDwarningActive = false;
         bool spotMode = false;
 
-        TimeSpan stopWatch = new TimeSpan(0);
-        bool accelerationStart = false;
-        int accelerationPremature = 0;
-        bool oneHundered = false;
-        bool twoHundered = false;
+      
         TimeSpan reactionTime = new TimeSpan(0);
         string reactionGear = "";
         double reactionPush = 0;
@@ -2005,70 +2001,7 @@ namespace DahlDesign.Plugin.iRacing
                 jokerThisLap = true;
             }
 
-            //----------------------------------
-            //----ACCELERATION STOPWATCH--------
-            //----------------------------------
-
-            if (gear != "N" && speed < 0.5 && rpm > 300)
-            {
-                accelerationStart = true;
-            }
-            else if (accelerationPremature == 1)
-            {
-                Base.SetProp("AccelerationTo200KPH", 0);
-            }
-            else if (accelerationPremature == 2)
-            {
-                Base.SetProp("AccelerationTo100KPH", 0);
-                Base.SetProp("AccelerationTo200KPH", 0);
-            }
-
-            if (!accelerationStart && speed > 0.5)
-            {
-                if (!oneHundered && !twoHundered)
-                {
-                    accelerationPremature = 2;
-                }
-                else if (!twoHundered)
-                {
-                    accelerationPremature = 1;
-                }
-            }
-
-            if (accelerationStart)
-            {
-                stopWatch = globalClock;
-                oneHundered = false;
-                twoHundered = false;
-                Base.SetProp("AccelerationTo100KPH", 0);
-                Base.SetProp("AccelerationTo200KPH", 0);
-                accelerationStart = false;
-            }
-
-            if (!accelerationStart && speed > 0.5)
-            {
-                if (!oneHundered)
-                {
-                    Base.SetProp("AccelerationTo100KPH", globalClock.TotalSeconds - stopWatch.TotalSeconds);
-                }
-                if (!twoHundered)
-                {
-                    Base.SetProp("AccelerationTo200KPH", globalClock.TotalSeconds - stopWatch.TotalSeconds);
-                }
-
-            }
-
-            if (speed > 100 && !oneHundered)
-            {
-                oneHundered = true;
-                accelerationPremature = 1;
-            }
-
-            if (speed > 200 && !twoHundered)
-            {
-                twoHundered = true;
-                accelerationPremature = 0;
-            }
+          
 
             //----------------------------------
             //-------TRIGGERED STOPWATCH--------

@@ -5,10 +5,10 @@ namespace DahlDesign.Plugin.Categories
     /// <summary>
     /// Template example class
     /// </summary>
-    public class SmoothGear : SectionBase
+    public class Template : SectionBase
     {
 
-        public SmoothGear(DahlDesign dahlDesign) : base(dahlDesign) { }
+        public Template(DahlDesign dahlDesign) : base(dahlDesign) { }
 
         //class variables go here
         double templateVariable = 0;
