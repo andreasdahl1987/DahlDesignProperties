@@ -94,9 +94,9 @@ namespace DahlDesign.Plugin.Categories
 
         public override void DataUpdate()
         {
-            if (Base.gameName != "IRacing" || !Base.gameRunning) return;
+            if (GameDataAll.GameName != "IRacing") return;
         
-            string session = NewData.SessionTypeName;
+            string session = GameData.SessionTypeName;
 
             if (Base.iRacing.sessionHolder != session)
             {

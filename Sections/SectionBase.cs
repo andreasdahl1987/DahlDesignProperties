@@ -6,8 +6,10 @@ namespace DahlDesign.Plugin.Categories
     public abstract class SectionBase
     {
         protected readonly DahlDesign Base;
-        protected StatusDataBase NewData { get => Base.gameData?.NewData; }
-       
+        protected DahlGameData GameDataAll { get => Base.dahlGameData; }
+        protected StatusDataBase GameData { get => Base.dahlGameData.GameData.NewData; }
+        protected IRacingReader.DataSampleEx IRData { get => Base.dahlGameData.IRData; }
+
         public SectionBase(DahlDesign dahlDesign)
         {
             Base = dahlDesign;

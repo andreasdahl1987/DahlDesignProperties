@@ -126,6 +126,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameData.cs" />
     <Compile Include="Sections\SectionBase.cs" />
     <Compile Include="iRacing\LapRecords.cs" />
     <Compile Include="iRacing\Enums.cs" />
@@ -148,7 +149,6 @@
     <Compile Include="SettingsControl.xaml.cs">
       <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
-  
     <Compile Include="Sections\Dashboard.cs" />
     <Compile Include="Sections\Screen.cs" />
     <Compile Include="iRacing\Models\Tracks.cs" />

@@ -23,30 +23,30 @@ namespace DahlDesign.Plugin.Categories
 
         public override void DataUpdate()
         {
-            bool spotLeft = Convert.ToBoolean(NewData.SpotterCarLeft);                         //Spotter call left
-            bool spotRight = Convert.ToBoolean(NewData.SpotterCarRight);                       //Spotter call left
+            bool spotLeft = Convert.ToBoolean(GameData.SpotterCarLeft);                         //Spotter call left
+            bool spotRight = Convert.ToBoolean(GameData.SpotterCarRight);                       //Spotter call left
 
-            double trackLength = NewData.TrackLength;
+            double trackLength = GameData.TrackLength;
 
             if (spotLeft && !leftTaken) //Catch and lock
             {
                 leftTaken = true;
                 double? gap = 0;
-                for (int i = 0; i < NewData.OpponentsAheadOnTrack.Count; i++)
+                for (int i = 0; i < GameData.OpponentsAheadOnTrack.Count; i++)
                 {
-                    if (((NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer != 0 && gap == 0) || NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength < gap) && NewData.OpponentsAheadOnTrack[i].Name != carNameRight)
+                    if (((GameData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer != 0 && gap == 0) || GameData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength < gap) && GameData.OpponentsAheadOnTrack[i].Name != carNameRight)
                     {
-                        carNameLeft = NewData.OpponentsAheadOnTrack[i].Name;
-                        carPositionLeft = NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength;
+                        carNameLeft = GameData.OpponentsAheadOnTrack[i].Name;
+                        carPositionLeft = GameData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength;
                         gap = carPositionLeft;
                     }
                 }
-                for (int i = 0; i < NewData.OpponentsBehindOnTrack.Count; i++)
+                for (int i = 0; i < GameData.OpponentsBehindOnTrack.Count; i++)
                 {
-                    if (((NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer != 0 && gap == 0) || -1 * NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength < gap) && NewData.OpponentsBehindOnTrack[i].Name != carNameRight)
+                    if (((GameData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer != 0 && gap == 0) || -1 * GameData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength < gap) && GameData.OpponentsBehindOnTrack[i].Name != carNameRight)
                     {
-                        carNameLeft = NewData.OpponentsBehindOnTrack[i].Name;
-                        carPositionLeft = NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength;
+                        carNameLeft = GameData.OpponentsBehindOnTrack[i].Name;
+                        carPositionLeft = GameData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength;
                         gap = carPositionLeft;
                     }
                 }
@@ -54,19 +54,19 @@ namespace DahlDesign.Plugin.Categories
 
             if (leftTaken) //Read
             {
-                for (int i = 0; i < NewData.OpponentsAheadOnTrack.Count; i++)
+                for (int i = 0; i < GameData.OpponentsAheadOnTrack.Count; i++)
                 {
-                    if (NewData.OpponentsAheadOnTrack[i].Name == carNameLeft)
+                    if (GameData.OpponentsAheadOnTrack[i].Name == carNameLeft)
                     {
-                        carPositionLeft = NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength;
+                        carPositionLeft = GameData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength;
                         break;
                     }
                 }
-                for (int i = 0; i < NewData.OpponentsBehindOnTrack.Count; i++)
+                for (int i = 0; i < GameData.OpponentsBehindOnTrack.Count; i++)
                 {
-                    if (NewData.OpponentsBehindOnTrack[i].Name == carNameLeft)
+                    if (GameData.OpponentsBehindOnTrack[i].Name == carNameLeft)
                     {
-                        carPositionLeft = NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength;
+                        carPositionLeft = GameData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength;
                         break;
                     }
                 }
@@ -87,21 +87,21 @@ namespace DahlDesign.Plugin.Categories
             {
                 rightTaken = true;
                 double? gap = 0;
-                for (int i = 0; i < NewData.OpponentsAheadOnTrack.Count; i++)
+                for (int i = 0; i < GameData.OpponentsAheadOnTrack.Count; i++)
                 {
-                    if (((NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer != 0 && gap == 0) || NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength < gap) && NewData.OpponentsAheadOnTrack[i].Name != carNameLeft)
+                    if (((GameData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer != 0 && gap == 0) || GameData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength < gap) && GameData.OpponentsAheadOnTrack[i].Name != carNameLeft)
                     {
-                        carNameRight = NewData.OpponentsAheadOnTrack[i].Name;
-                        carPositionRight = NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength;
+                        carNameRight = GameData.OpponentsAheadOnTrack[i].Name;
+                        carPositionRight = GameData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength;
                         gap = carPositionRight;
                     }
                 }
-                for (int i = 0; i < NewData.OpponentsBehindOnTrack.Count; i++)
+                for (int i = 0; i < GameData.OpponentsBehindOnTrack.Count; i++)
                 {
-                    if (((NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer != 0 && gap == 0) || -1 * NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength < gap) && NewData.OpponentsBehindOnTrack[i].Name != carNameLeft)
+                    if (((GameData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer != 0 && gap == 0) || -1 * GameData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength < gap) && GameData.OpponentsBehindOnTrack[i].Name != carNameLeft)
                     {
-                        carNameRight = NewData.OpponentsBehindOnTrack[i].Name;
-                        carPositionRight = NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength;
+                        carNameRight = GameData.OpponentsBehindOnTrack[i].Name;
+                        carPositionRight = GameData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength;
                         gap = carPositionRight;
                     }
                 }
@@ -109,19 +109,19 @@ namespace DahlDesign.Plugin.Categories
 
             if (rightTaken) //Read
             {
-                for (int i = 0; i < NewData.OpponentsAheadOnTrack.Count; i++)
+                for (int i = 0; i < GameData.OpponentsAheadOnTrack.Count; i++)
                 {
-                    if (NewData.OpponentsAheadOnTrack[i].Name == carNameRight)
+                    if (GameData.OpponentsAheadOnTrack[i].Name == carNameRight)
                     {
-                        carPositionRight = NewData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength;
+                        carPositionRight = GameData.OpponentsAheadOnTrack[i].TrackPositionPercentToPlayer * trackLength;
                         break;
                     }
                 }
-                for (int i = 0; i < NewData.OpponentsBehindOnTrack.Count; i++)
+                for (int i = 0; i < GameData.OpponentsBehindOnTrack.Count; i++)
                 {
-                    if (NewData.OpponentsBehindOnTrack[i].Name == carNameRight)
+                    if (GameData.OpponentsBehindOnTrack[i].Name == carNameRight)
                     {
-                        carPositionRight = NewData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength;
+                        carPositionRight = GameData.OpponentsBehindOnTrack[i].TrackPositionPercentToPlayer * trackLength;
                         break;
                     }
                 }
