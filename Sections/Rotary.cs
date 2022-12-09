@@ -39,6 +39,7 @@ namespace DahlDesign.Plugin.Categories
             for (int i = 1; i < 13; i++)
             {
                 string propIndex = $"{i:0}";
+                int lel = i;
 
                 Base.AddAction($"PitMenu{propIndex}", (a, b) =>
                 {
