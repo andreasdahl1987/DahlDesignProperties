@@ -39,11 +39,11 @@ namespace DahlDesign.Plugin.Categories
             for (int i = 1; i < 13; i++)
             {
                 string propIndex = $"{i:0}";
-                int lel = i;
+                int temp = i;
 
                 Base.AddAction($"PitMenu{propIndex}", (a, b) =>
                 {
-                    pitMenuRotary = i;
+                    pitMenuRotary = temp;
                     if (Base.Settings.DDSEnabled)
                     {
                         inCarRotary = 0;
@@ -78,10 +78,11 @@ namespace DahlDesign.Plugin.Categories
             for (int i = 1; i < 13; i++)
             {
                 string propIndex = $"{i:0}";
+                int temp = i;
 
                 Base.AddAction($"InCarMenu{propIndex}", (a, b) =>
                 {
-                    inCarRotary = i;
+                    inCarRotary = temp;
                     if (Base.Settings.DDSEnabled)
                     {
                         if (rotaryType == "Single")
