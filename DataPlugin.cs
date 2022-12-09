@@ -20,6 +20,9 @@ namespace DahlDesign.Plugin
         public iRacing.Data iRacing;
         public Categories.Dashboard Dashboard;
         public Categories.DDC DDC;
+        public Rotary Rotary;
+        public SmoothGear SmoothGear;
+        public Acceleration Acceleration;
         public int counter = 0;
         public ImageSource PictureIcon => this.ToIcon(Properties.Resources.Dahl_icon);
         public string LeftMenuTitle => "Dahl Design";
@@ -44,7 +47,10 @@ namespace DahlDesign.Plugin
 
             Dashboard = new Categories.Dashboard(this);
             DDC = new Categories.DDC(this);
+            Rotary = new Rotary(this);
             iRacing = new iRacing.Data(this);
+            SmoothGear = new SmoothGear(this);
+            
 
             InitSections();
         }
@@ -59,9 +65,12 @@ namespace DahlDesign.Plugin
 
             Sections.Add(Dashboard);
             Sections.Add(DDC);
+            Sections.Add(Rotary);
             Sections.Add(iRacing);
             Sections.Add(new Tires(this));
-            Sections.Add(new iRacingSpotter(this));
+            Sections.Add(new iRacingSpotter(this));            
+            Sections.Add(SmoothGear);
+            Sections.Add(new Acceleration(this));
 
             sectionsAreDirty = false;
         }

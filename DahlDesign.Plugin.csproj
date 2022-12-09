@@ -151,6 +151,9 @@
     </Compile>
     <Compile Include="Sections\Dashboard.cs" />
     <Compile Include="Sections\Screen.cs" />
+    <Compile Include="Sections\Rotary.cs" />
+    <Compile Include="Sections\SmoothGear.cs" />
+    <Compile Include="Sections\Acceleration.cs" />
     <Compile Include="iRacing\Models\Tracks.cs" />
     <Compile Include="iRacing\TrackInfos.cs" />
   </ItemGroup>

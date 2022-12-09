@@ -55,8 +55,7 @@ namespace DahlDesign.Plugin.iRacing
         int lapDeltaSections = 120;
         int deltaChangeChunks = 20;
 
-        bool pitMenuRequirementMet = false;
-        float plannedLFPressure = 0;
+           float plannedLFPressure = 0;
         float plannedRFPressure = 0;
         float plannedLRPressure = 0;
         float plannedRRPressure = 0;
@@ -262,7 +261,7 @@ namespace DahlDesign.Plugin.iRacing
         int mapLow = -1;
         bool hasNoBoost = false;
         bool hasOvertake = false;
-        string rotaryType = "Single";
+
         string dashType = "Default";
         int shiftPoint1 = 0;
         int shiftPoint2 = 0;
@@ -352,13 +351,8 @@ namespace DahlDesign.Plugin.iRacing
         double highestThrottle = 0;
         bool throttleLift = false;
 
-        string smoothGear = "";
-        int neutralCounter = 0;
-
         //Buttons
-        int pitMenuRotary = 12; //Starting on strat page
-        int inCarRotary = 0;
-
+      
         bool TCactive = false;
         double TCOffTimer = 0;
         bool TCLimiter = false;
@@ -399,11 +393,7 @@ namespace DahlDesign.Plugin.iRacing
         bool LEDwarningActive = false;
         bool spotMode = false;
 
-        TimeSpan stopWatch = new TimeSpan(0);
-        bool accelerationStart = false;
-        int accelerationPremature = 0;
-        bool oneHundered = false;
-        bool twoHundered = false;
+      
         TimeSpan reactionTime = new TimeSpan(0);
         string reactionGear = "";
         double reactionPush = 0;
@@ -489,7 +479,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("MyClassColor", () => myClassColor);
 
             Base.AttachDelegate("CenterDashType", () => dashType);
-            Base.AttachDelegate("MenuType", () => rotaryType);
+      
 
 
             Base.AttachDelegate("OptimalShiftGear1", () => shiftPoint1);
@@ -534,10 +524,10 @@ namespace DahlDesign.Plugin.iRacing
 
             Base.AttachDelegate("SmallFuelIncrement", () => Base.Settings.SmallFuelIncrement);
             Base.AttachDelegate("LargeFuelIncrement", () => Base.Settings.LargeFuelIncrement);
-            Base.AttachDelegate("CoupleInCarToPit", () => Base.Settings.CoupleInCarToPit);
+            
 
             Base.AttachDelegate("Idle", () => iRIdle);
-            Base.AttachDelegate("SmoothGear", () => smoothGear);
+            
             Base.AttachDelegate("TrackEntry", () => offTrack);
             Base.AttachDelegate("LastGearMaxRPM", () => RPMlastGear);
             Base.AttachDelegate("LastGear", () => RPMgear);
@@ -1116,371 +1106,12 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddAction("TCPressed", (a, b) => TCactive = true);
             Base.AddAction("TCReleased", (a, b) => TCactive = false);
 
-            Base.AddProp("PitMenu", 1);
-            Base.AddAction("PitMenu1", (a, b) =>
-            {
-                pitMenuRotary = 1;
-                Base.SetProp("PitMenu", pitMenuRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    inCarRotary = 0;
-                    Base.SetProp("InCarMenu", inCarRotary);
-                }
-            });
-            Base.AddAction("PitMenu2", (a, b) =>
-            {
-                pitMenuRotary = 2;
-                Base.SetProp("PitMenu", pitMenuRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    inCarRotary = 0;
-                    Base.SetProp("InCarMenu", inCarRotary);
-                }
-            });
-            Base.AddAction("PitMenu3", (a, b) =>
-            {
-                pitMenuRotary = 3;
-                Base.SetProp("PitMenu", pitMenuRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    inCarRotary = 0;
-                    Base.SetProp("InCarMenu", inCarRotary);
-                }
-            });
-            Base.AddAction("PitMenu4", (a, b) =>
-            {
-                pitMenuRotary = 4;
-                Base.SetProp("PitMenu", pitMenuRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    inCarRotary = 0;
-                    Base.SetProp("InCarMenu", inCarRotary);
-                }
-            });
-            Base.AddAction("PitMenu5", (a, b) =>
-            {
-                pitMenuRotary = 5;
-                Base.SetProp("PitMenu", pitMenuRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    inCarRotary = 0;
-                    Base.SetProp("InCarMenu", inCarRotary);
-                }
-            });
-            Base.AddAction("PitMenu6", (a, b) =>
-            {
-                pitMenuRotary = 6;
-                Base.SetProp("PitMenu", pitMenuRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    inCarRotary = 0;
-                    Base.SetProp("InCarMenu", inCarRotary);
-                }
-            });
-            Base.AddAction("PitMenu7", (a, b) =>
-            {
-                pitMenuRotary = 7;
-                Base.SetProp("PitMenu", pitMenuRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    inCarRotary = 0;
-                    Base.SetProp("InCarMenu", inCarRotary);
-                }
-            });
-            Base.AddAction("PitMenu8", (a, b) =>
-            {
-                pitMenuRotary = 8;
-                Base.SetProp("PitMenu", pitMenuRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    inCarRotary = 0;
-                    Base.SetProp("InCarMenu", inCarRotary);
-                }
-            });
-            Base.AddAction("PitMenu9", (a, b) =>
-            {
-                pitMenuRotary = 9;
-                Base.SetProp("PitMenu", pitMenuRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    inCarRotary = 0;
-                    Base.SetProp("InCarMenu", inCarRotary);
-                }
-            });
-            Base.AddAction("PitMenu10", (a, b) =>
-            {
-                pitMenuRotary = 10;
-                Base.SetProp("PitMenu", pitMenuRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    inCarRotary = 0;
-                    Base.SetProp("InCarMenu", inCarRotary);
-                }
-            });
-            Base.AddAction("PitMenu11", (a, b) =>
-            {
-                pitMenuRotary = 11;
-                Base.SetProp("PitMenu", pitMenuRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    inCarRotary = 0;
-                    Base.SetProp("InCarMenu", inCarRotary);
-                }
-            });
-            Base.AddAction("PitMenu12", (a, b) =>
-            {
-                pitMenuRotary = 12;
-                Base.SetProp("PitMenu", pitMenuRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    inCarRotary = 0;
-                    Base.SetProp("InCarMenu", inCarRotary);
-                }
-            });
-            Base.AddAction("PitMenuInc", (a, b) =>
-            {
-                pitMenuRotary++;
-                if (pitMenuRotary > 12)
-                {
-                    pitMenuRotary = 1;
-                }
-                Base.SetProp("PitMenu", pitMenuRotary);
-            });
-            Base.AddAction("PitMenuDec", (a, b) =>
-            {
-                pitMenuRotary--;
-                if (pitMenuRotary < 1)
-                {
-                    pitMenuRotary = 12;
-                }
-                Base.SetProp("PitMenu", pitMenuRotary);
-            });
+
 
             Base.AttachDelegate("PitSavePaceLock", () => savePitTimerLock);
 
-            Base.AddProp("InCarMenu", 0);
-            Base.AddAction("InCarMenu1", (a, b) =>
-            {
-                inCarRotary = 1;
-                Base.SetProp("InCarMenu", inCarRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    if (rotaryType == "Single")
-                    {
-                        pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu", inCarRotary);
-                    }
-                    else
-                    {
-                        Base.SetProp("PitMenu", 0);
-                    }
-                }
-            });
-            Base.AddAction("InCarMenu2", (a, b) =>
-            {
-                inCarRotary = 2;
-                Base.SetProp("InCarMenu", inCarRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    if (rotaryType == "Single")
-                    {
-                        pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu", inCarRotary);
-                    }
-                    else
-                    {
-                        Base.SetProp("PitMenu", 0);
-                    }
-                }
-            });
-            Base.AddAction("InCarMenu3", (a, b) =>
-            {
-                inCarRotary = 3;
-                Base.SetProp("InCarMenu", inCarRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    if (rotaryType == "Single")
-                    {
-                        pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu", inCarRotary);
-                    }
-                    else
-                    {
-                        Base.SetProp("PitMenu", 0);
-                    }
-                }
-            });
-            Base.AddAction("InCarMenu4", (a, b) =>
-            {
-                inCarRotary = 4;
-                Base.SetProp("InCarMenu", inCarRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    if (rotaryType == "Single")
-                    {
-                        pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu", inCarRotary);
-                    }
-                    else
-                    {
-                        Base.SetProp("PitMenu", 0);
-                    }
-                }
-            });
-            Base.AddAction("InCarMenu5", (a, b) =>
-            {
-                inCarRotary = 5;
-                Base.SetProp("InCarMenu", inCarRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    if (rotaryType == "Single")
-                    {
-                        pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu", inCarRotary);
-                    }
-                    else
-                    {
-                        Base.SetProp("PitMenu", 0);
-                    }
-                }
-            });
-            Base.AddAction("InCarMenu6", (a, b) =>
-            {
-                inCarRotary = 6;
-                Base.SetProp("InCarMenu", inCarRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    if (rotaryType == "Single")
-                    {
-                        pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu", inCarRotary);
-                    }
-                    else
-                    {
-                        Base.SetProp("PitMenu", 0);
-                    }
-                }
-            });
-            Base.AddAction("InCarMenu7", (a, b) =>
-            {
-                inCarRotary = 7;
-                Base.SetProp("InCarMenu", inCarRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    if (rotaryType == "Single")
-                    {
-                        pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu", inCarRotary);
-                    }
-                    else
-                    {
-                        Base.SetProp("PitMenu", 0);
-                    }
-                }
-            });
-            Base.AddAction("InCarMenu8", (a, b) =>
-            {
-                inCarRotary = 8;
-                Base.SetProp("InCarMenu", inCarRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    if (rotaryType == "Single")
-                    {
-                        pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu", inCarRotary);
-                    }
-                    else
-                    {
-                        Base.SetProp("PitMenu", 0);
-                    }
-                }
-            });
-            Base.AddAction("InCarMenu9", (a, b) =>
-            {
-                inCarRotary = 9;
-                Base.SetProp("InCarMenu", inCarRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    if (rotaryType == "Single")
-                    {
-                        pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu", inCarRotary);
-                    }
-                    else
-                    {
-                        Base.SetProp("PitMenu", 0);
-                    }
-                }
-            });
-            Base.AddAction("InCarMenu10", (a, b) =>
-            {
-                inCarRotary = 10;
-                Base.SetProp("InCarMenu", inCarRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    if (rotaryType == "Single")
-                    {
-                        pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu", inCarRotary);
-                    }
-                    else
-                    {
-                        Base.SetProp("PitMenu", 0);
-                    }
-                }
-            });
-            Base.AddAction("InCarMenu11", (a, b) =>
-            {
-                inCarRotary = 11;
-                Base.SetProp("InCarMenu", inCarRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    if (rotaryType == "Single")
-                    {
-                        pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu", inCarRotary);
-                    }
-                    else
-                    {
-                        Base.SetProp("PitMenu", 0);
-                    }
-                }
-            });
-            Base.AddAction("InCarMenu12", (a, b) =>
-            {
-                inCarRotary = 12;
-                Base.SetProp("InCarMenu", inCarRotary);
-                if (Base.Settings.DDSEnabled)
-                {
-                    if (rotaryType == "Single")
-                    {
-                        pitMenuRotary = inCarRotary;
-                        Base.SetProp("PitMenu", inCarRotary);
-                    }
-                    else
-                    {
-                        Base.SetProp("PitMenu", 0);
-                    }
-                }
-            });
-            Base.AddAction("InCarMenuInc", (a, b) =>
-            {
-                inCarRotary++;
-                if (inCarRotary > 12)
-                {
-                    inCarRotary = 1;
-                }
-                Base.SetProp("InCarMenu", inCarRotary);
-            });
-            Base.AddAction("InCarMenuDec", (a, b) =>
-            {
-                inCarRotary--;
-                if (inCarRotary < 1)
-                {
-                    inCarRotary = 12;
-                }
-                Base.SetProp("InCarMenu", inCarRotary);
-            });
+          
+          
             #endregion
 
         }
@@ -1772,31 +1403,6 @@ namespace DahlDesign.Plugin.iRacing
 
 
             //----------------------------------------------
-            //--------SMOOTH GEAR---------------------------
-            //----------------------------------------------
-
-            if (gear != "N")
-            {
-                smoothGear = gear;
-                neutralCounter = 0;
-            }
-
-            if (gear == "N")
-            {
-                neutralCounter++;
-            }
-
-            if (neutralCounter > 6)
-            {
-                smoothGear = "N";
-                neutralCounter = 0;
-            }
-            if (Base.DDC.button8Mode == 1)
-            {
-                smoothGear = "N";
-            }
-
-            //----------------------------------------------
             //--------SoF AND IR LOSS/GAIN------------------
             //----------------------------------------------
 
@@ -1985,7 +1591,7 @@ namespace DahlDesign.Plugin.iRacing
                 mapLow = -1;
                 hasNoBoost = false;
                 hasOvertake = false;
-                rotaryType = "Single";
+                Base.Rotary.rotaryType = "Single";
                 dashType = "Default";
                 shiftPoint1 = 0;
                 shiftPoint2 = 0;
@@ -2040,7 +1646,7 @@ namespace DahlDesign.Plugin.iRacing
                     mapLow = _carInfo.MapLow;
                     hasNoBoost = _carInfo.HasNoBoost;
                     hasOvertake = _carInfo.HasOvertake;
-                    rotaryType = _carInfo.RotaryType;
+                    Base.Rotary.rotaryType = _carInfo.RotaryType;
                     dashType = _carInfo.DashType;
                     shiftPoint1 = _carInfo.ShiftPoint1;
                     shiftPoint2 = _carInfo.ShiftPoint2;
@@ -2114,7 +1720,7 @@ namespace DahlDesign.Plugin.iRacing
                 //No pit stop tracks
                 if (trackType > 0 && trackType < 5)
                 {
-                    rotaryType = "Default";
+                    Base.Rotary.rotaryType = "Default";
                 }
 
                 //Supercar gear ratio bite point setting
@@ -2291,7 +1897,7 @@ namespace DahlDesign.Plugin.iRacing
             }
             double amplifier = 1;
 
-            if (gear == "N" && smoothGear == "N")
+            if (gear == "N" && Base.SmoothGear.smoothGear == "N")
             {
                 currentShiftPoint = shiftPoint1;
                 shiftPointAdjustment = 0;
@@ -2395,70 +2001,7 @@ namespace DahlDesign.Plugin.iRacing
                 jokerThisLap = true;
             }
 
-            //----------------------------------
-            //----ACCELERATION STOPWATCH--------
-            //----------------------------------
-
-            if (gear != "N" && speed < 0.5 && rpm > 300)
-            {
-                accelerationStart = true;
-            }
-            else if (accelerationPremature == 1)
-            {
-                Base.SetProp("AccelerationTo200KPH", 0);
-            }
-            else if (accelerationPremature == 2)
-            {
-                Base.SetProp("AccelerationTo100KPH", 0);
-                Base.SetProp("AccelerationTo200KPH", 0);
-            }
-
-            if (!accelerationStart && speed > 0.5)
-            {
-                if (!oneHundered && !twoHundered)
-                {
-                    accelerationPremature = 2;
-                }
-                else if (!twoHundered)
-                {
-                    accelerationPremature = 1;
-                }
-            }
-
-            if (accelerationStart)
-            {
-                stopWatch = globalClock;
-                oneHundered = false;
-                twoHundered = false;
-                Base.SetProp("AccelerationTo100KPH", 0);
-                Base.SetProp("AccelerationTo200KPH", 0);
-                accelerationStart = false;
-            }
-
-            if (!accelerationStart && speed > 0.5)
-            {
-                if (!oneHundered)
-                {
-                    Base.SetProp("AccelerationTo100KPH", globalClock.TotalSeconds - stopWatch.TotalSeconds);
-                }
-                if (!twoHundered)
-                {
-                    Base.SetProp("AccelerationTo200KPH", globalClock.TotalSeconds - stopWatch.TotalSeconds);
-                }
-
-            }
-
-            if (speed > 100 && !oneHundered)
-            {
-                oneHundered = true;
-                accelerationPremature = 1;
-            }
-
-            if (speed > 200 && !twoHundered)
-            {
-                twoHundered = true;
-                accelerationPremature = 0;
-            }
+          
 
             //----------------------------------
             //-------TRIGGERED STOPWATCH--------
@@ -2589,21 +2132,7 @@ namespace DahlDesign.Plugin.iRacing
             //----------------------------------------------------
 
             //Pit commands
-            if (!Base.Settings.CoupleInCarToPit) // Ignore all of this if we explicitly state that coupling the InCar to Pit is off in settings)
-            {
-                pitMenuRequirementMet = true;
-            }
-            else if (
-                inCarRotary == 0 && pitMenuRotary != 0 ||
-                rotaryType == "Single" ||
-                (rotaryType != "Single" && rotaryType != "Default" && inCarRotary == 12))
-            {
-                pitMenuRequirementMet = true;
-            }
-            else
-            {
-                pitMenuRequirementMet = false;
-            }
+          
 
             bool aheadPlayerReady = false;
             bool behindPlayerReady = false;
@@ -2617,14 +2146,11 @@ namespace DahlDesign.Plugin.iRacing
                 behindPlayerReady = true;
             }
 
-            if (rotaryType == "Single" && pitMenuRotary == 0)
-            {
-                pitMenuRotary = inCarRotary;
-            }
+           
 
             if (plusButtonCheck)
             {
-                if (pitMenuRotary == 1 && pitMenuRequirementMet)
+                if (Base.Rotary.PitMenu(1))
                 {
                     string pushPit = "";
 
@@ -2639,15 +2165,15 @@ namespace DahlDesign.Plugin.iRacing
 
                     PitCommands.iRacingChat(pushPit);
                 }
-                else if (pitMenuRotary == 2 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(2))
                 {
                     launchActive = !launchActive;
                 }
-                else if (pitMenuRotary == 3 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(3))
                 {
                     PitCommands.iRacingChat("#lf +3kpa rf +3kpa lr +3kpa rr +3kpa$");
                 }
-                else if (pitMenuRotary == 4 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(4))
                 {
                     if (pitCrewType < CrewType.LeftRight || pitCrewType == CrewType.All)
                     {
@@ -2658,7 +2184,7 @@ namespace DahlDesign.Plugin.iRacing
                         PitCommands.iRacingChat("#lf +3kpa lr +3kpa$");
                     }
                 }
-                else if (pitMenuRotary == 5 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(5))
                 {
                     if (pitCrewType < CrewType.LeftRight || pitCrewType == CrewType.All)
                     {
@@ -2669,35 +2195,35 @@ namespace DahlDesign.Plugin.iRacing
                         PitCommands.iRacingChat("#rf +3kpa rr +3kpa$");
                     }
                 }
-                else if (pitMenuRotary == 6 && pitMenuRequirementMet && aheadPlayerReady)
+                else if (Base.Rotary.PitMenu(6) && aheadPlayerReady)
                 {
                     PitCommands.iRacingChat("/" + GameData.OpponentsAheadOnTrack[0].CarNumber + " " + Base.Settings.AheadPlayerText);
                 }
-                else if (pitMenuRotary == 7 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(7))
                 {
                     PitCommands.iRacingChat("#fuel +" + Base.Settings.SmallFuelIncrement + "l$");
                 }
-                else if (pitMenuRotary == 8 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(8))
                 {
                     PitCommands.iRacingChat("#fuel +" + Base.Settings.LargeFuelIncrement + "l$");
                 }
-                else if (pitMenuRotary == 9 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(9))
                 {
                     watchSplit = true;
                 }
 
-                else if (pitMenuRotary == 10 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(10))
                 {
                     Base.Settings.ShowMapEnabled = !Base.Settings.ShowMapEnabled;
                 }
 
-                else if (pitMenuRotary == 11 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(11))
                 {
                     savePitTimerLock = true;
                     savePitTimerSnap = slowestLapTimeSpanCopy;
                 }
 
-                else if (pitMenuRotary == 12 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(12))
                 {
                     Base.Settings.fuelPerLapTargetLocked = false;
                     fuelPerLapOffset = fuelPerLapOffset + Base.Settings.fuelOffsetIncrement;
@@ -2709,7 +2235,7 @@ namespace DahlDesign.Plugin.iRacing
 
             if (minusButtonCheck)
             {
-                if (pitMenuRotary == 1 && pitMenuRequirementMet)
+                if (Base.Rotary.PitMenu(1))
                 {
                     string pushPit = "";
                     if (commandMinFuel == 0)
@@ -2722,15 +2248,15 @@ namespace DahlDesign.Plugin.iRacing
                     }
                     PitCommands.iRacingChat(pushPit);
                 }
-                else if (pitMenuRotary == 2 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(2))
                 {
                     paceCheck = !paceCheck;
                 }
-                else if (pitMenuRotary == 3 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(3))
                 {
                     PitCommands.iRacingChat("#lf -3kpa rf -3kpa lr -3kpa rr -3kpa$");
                 }
-                else if (pitMenuRotary == 4 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(4))
                 {
                     if (pitCrewType < CrewType.LeftRight || pitCrewType == CrewType.All)
                     {
@@ -2741,7 +2267,7 @@ namespace DahlDesign.Plugin.iRacing
                         PitCommands.iRacingChat("#lf -3kpa lr -3kpa$");
                     }
                 }
-                else if (pitMenuRotary == 5 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(5))
                 {
                     if (pitCrewType < CrewType.LeftRight || pitCrewType == CrewType.All)
                     {
@@ -2752,21 +2278,21 @@ namespace DahlDesign.Plugin.iRacing
                         PitCommands.iRacingChat("#rf -3kpa rr -3kpa$");
                     }
                 }
-                else if (pitMenuRotary == 6 && pitMenuRequirementMet && behindPlayerReady)
+                else if (Base.Rotary.PitMenu(6) && behindPlayerReady)
                 {
                     string driverText = "/#" + GameData.OpponentsBehindOnTrack[0].CarNumber + " " + Base.Settings.BehindPlayerText;
                     PitCommands.iRacingChat(driverText);
                 }
-                else if (pitMenuRotary == 7 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(7))
                 {
                     PitCommands.iRacingChat("#fuel -" + Base.Settings.SmallFuelIncrement + "l$");
                 }
-                else if (pitMenuRotary == 8 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(8))
                 {
                     PitCommands.iRacingChat("#fuel -" + Base.Settings.LargeFuelIncrement + "l$");
                 }
 
-                else if (pitMenuRotary == 9 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(9))
                 {
                     watchTimer = globalClock;
                     watchSnap = 0;
@@ -2775,18 +2301,18 @@ namespace DahlDesign.Plugin.iRacing
                     watchSplit = false;
                 }
 
-                else if (pitMenuRotary == 10 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(10))
                 {
                     pitScreenEnable = !pitScreenEnable;
 
                 }
 
-                else if (pitMenuRotary == 11 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(11))
                 {
                     savePitTimerLock = false;
                 }
 
-                else if (pitMenuRotary == 12 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(12))
                 {
                     //pluginManager.TriggerAction("ShakeITBSV3Plugin.MainFeedbackLevelDecrement");
                     if ((calcFuelPerLap + fuelPerLapOffset - Base.Settings.fuelOffsetIncrement) > 0)
@@ -2805,22 +2331,22 @@ namespace DahlDesign.Plugin.iRacing
 
             if (OKButtonCheck)
             {
-                if (pitMenuRotary == 1 && pitMenuRequirementMet)
+                if (Base.Rotary.PitMenu(1))
                 {
                     PitCommands.iRacingChat("#clear$");
                     fuelPerLapOffset = 0;
                     Base.Settings.fuelPerLapTargetLocked = false;
                     fuelTargetDeltaCumulative = 0;
                 }
-                else if (pitMenuRotary == 2 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(2))
                 {
                     PitCommands.iRacingChat("#!fr$");
                 }
-                else if (pitMenuRotary == 3 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(3))
                 {
                     PitCommands.iRacingChat("#!cleartires$");
                 }
-                else if (pitMenuRotary == 4 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(4))
                 {
                     if (pitCrewType < CrewType.LeftRight)
                     {
@@ -2835,7 +2361,7 @@ namespace DahlDesign.Plugin.iRacing
                         PitCommands.iRacingChat("#!cleartires$");
                     }
                 }
-                else if (pitMenuRotary == 5 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(5))
                 {
                     if (pitCrewType < CrewType.LeftRight)
                     {
@@ -2850,31 +2376,31 @@ namespace DahlDesign.Plugin.iRacing
                         PitCommands.iRacingChat("#!cleartires$");
                     }
                 }
-                else if (pitMenuRotary == 6 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(6))
                 {
                     PitCommands.iRacingChat("#!ws$");
                 }
-                else if (pitMenuRotary == 7 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(7))
                 {
                     PitCommands.iRacingChat("#!fuel$");
                 }
-                else if (pitMenuRotary == 8 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(8))
                 {
                     PitCommands.iRacingChat("#!fuel$");
                 }
-                else if (pitMenuRotary == 9 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(9))
                 {
                     watchOn = !watchOn;
                 }
-                else if (pitMenuRotary == 10 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(10))
                 {
                     spotMode = !spotMode;
                 }
-                else if (pitMenuRotary == 11 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(11))
                 {
                     Base.Dashboard.DeltaScreen.Next();
                 }
-                else if (pitMenuRotary == 12 && pitMenuRequirementMet)
+                else if (Base.Rotary.PitMenu(12))
                 {
                     Base.Settings.fuelPerLapTarget = calcFuelPerLap + fuelPerLapOffset;
                     if (Base.Settings.fuelTargetLockOnTargetSet)
