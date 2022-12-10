@@ -4,6 +4,7 @@ using System.Linq;
 using SimHub.Plugins;
 using DahlDesign.Plugin.Categories;
 using IRacingReader;
+using System.Windows.Documents;
 
 namespace DahlDesign.Plugin.iRacing
 {
@@ -25,6 +26,7 @@ namespace DahlDesign.Plugin.iRacing
         double SoF = 0;
         int DRSleft = 0;
         string DRSpush = "";
+        double deviation = 0;
 
         List<pitOpponents> pitStopOpponents = new List<pitOpponents> { };
         List<pitOpponents> finalList = new List<pitOpponents> { };
@@ -470,7 +472,7 @@ namespace DahlDesign.Plugin.iRacing
 
             #region SimHub Properties
 
-            Base.AttachDelegate("TestProperty", () => TCreleaseCD != 0);
+            Base.AttachDelegate("TestProperty", () => deviation);
             Base.AttachDelegate("Position", () => realPosition);
             Base.AttachDelegate("HotLapPosition", () => hotLapPosition);
             Base.AttachDelegate("RaceFinished", () => raceFinished);
@@ -5868,6 +5870,8 @@ namespace DahlDesign.Plugin.iRacing
             }
 
             lastChunks[currentChunk] = Math.Round(changeSum, 3);
+
+            deviation = Calculation.StandardDeviation(Calculation.SampleExtractFromPosition(currentChunk, 8, 3, lastChunks));
 
             string lastResult = string.Join(",", lastChunks); //push result as string
 

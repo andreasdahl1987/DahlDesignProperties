@@ -127,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameData.cs" />
+    <Compile Include="Sections\Calculation.cs" />
     <Compile Include="Sections\SectionBase.cs" />
     <Compile Include="iRacing\LapRecords.cs" />
     <Compile Include="iRacing\Enums.cs" />
