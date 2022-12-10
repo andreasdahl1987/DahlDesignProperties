@@ -45,7 +45,7 @@ namespace DahlDesign.Plugin.Categories
                 smoothGear = "N";
                 neutralCounter = 0;
             }
-            if (Base.DDC.button8Mode == 1)
+            if (Base.DDC.SW1NeutralActiveMode == 1 || Base.DDC.DDCNeutralActiveMode == 1)
             {
                 smoothGear = "N";
             }

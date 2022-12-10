@@ -27,9 +27,11 @@ namespace DahlDesign.Plugin.Categories
         int button3Mode = 0;
         int button4Mode = 0;
         int button5Mode = 0;
+        public int DDCNeutralActiveMode = 0;
         int button6Mode = 0;
         int button7Mode = 0;
-        public int button8Mode = 0;
+        int button8Mode = 0;
+        public int SW1NeutralActiveMode = 0;
         int button9Mode = 0;
         int button10Mode = 0;
         int button11Mode = 0;
@@ -149,7 +151,7 @@ namespace DahlDesign.Plugin.Categories
                 button5Mode = (buttonField & 16) >> 4;
                 button6Mode = (buttonField & 32) >> 5;
                 button7Mode = (buttonField & 64) >> 6;
-                button8Mode = (buttonField & 128) >> 7;
+                SW1NeutralActiveMode = (buttonField & 128) >> 7;
                 button9Mode = (buttonField & 256) >> 8;
                 button10Mode = (buttonField & 512) >> 9;
                 button11Mode = (buttonField & 15360) >> 10;
@@ -168,7 +170,7 @@ namespace DahlDesign.Plugin.Categories
                 Base.SetProp("SW1RightToggleMode",  button5Mode);
                 Base.SetProp("SW1LeftToggleMode",  button6Mode);
                 Base.SetProp("SW1ShifterMode",  button7Mode);
-                Base.SetProp("SW1NeutralActive",  button8Mode);
+                Base.SetProp("SW1NeutralActive",  SW1NeutralActiveMode);
                 Base.SetProp("SW1ThrottleHoldActive",  button9Mode);
                 Base.SetProp("SW1MagicToggleActive",  button10Mode);
                 Base.SetProp("SW1Preset",  button11Mode + 1);
@@ -218,7 +220,7 @@ namespace DahlDesign.Plugin.Categories
                 button2Mode = (buttonField & 2) >> 1;
                 button3Mode = (buttonField & 4) >> 2;
                 button4Mode = (buttonField & 8) >> 3;
-                button5Mode = (buttonField & 16) >> 4;
+                DDCNeutralActiveMode = (buttonField & 16) >> 4;
                 button6Mode = (buttonField & 32) >> 5;
                 button7Mode = (buttonField & 64) >> 6;
                 button8Mode = (buttonField & 128) >> 7;
@@ -245,7 +247,7 @@ namespace DahlDesign.Plugin.Categories
                 Base.SetProp("DDChandbrakeActive",  button10Mode);
                 Base.SetProp("DDCPreset",  button11Mode + 1);
                 Base.SetProp("DDCneutralMode",  button15Mode);
-                Base.SetProp("DDCneutralActive",  button5Mode);
+                Base.SetProp("DDCneutralActive",  DDCNeutralActiveMode);
 
                 Base.SetProp("DDCclutch",  Math.Round(clutchValue, 1));
                 Base.SetProp("DDCbitePoint",  Math.Round(bitePointValue, 1));
