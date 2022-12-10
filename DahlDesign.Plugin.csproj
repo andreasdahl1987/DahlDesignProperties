@@ -144,6 +144,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="iRacing\Globals.cs" />
     <Compile Include="Sections\DDC.cs" />
     <Compile Include="iRacing\iRacing.cs" />
     <Compile Include="SettingsControl.xaml.cs">
@@ -154,6 +155,7 @@
     <Compile Include="Sections\Rotary.cs" />
     <Compile Include="Sections\SmoothGear.cs" />
     <Compile Include="Sections\Acceleration.cs" />
+    <Compile Include="Sections\Radio.cs" />
     <Compile Include="iRacing\Models\Tracks.cs" />
     <Compile Include="iRacing\TrackInfos.cs" />
   </ItemGroup>
