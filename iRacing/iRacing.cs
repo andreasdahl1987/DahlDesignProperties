@@ -26,7 +26,6 @@ namespace DahlDesign.Plugin.iRacing
         double SoF = 0;
         int DRSleft = 0;
         string DRSpush = "";
-        double deviation = 0;
 
         List<pitOpponents> pitStopOpponents = new List<pitOpponents> { };
         List<pitOpponents> finalList = new List<pitOpponents> { };
@@ -472,7 +471,7 @@ namespace DahlDesign.Plugin.iRacing
 
             #region SimHub Properties
 
-            Base.AttachDelegate("TestProperty", () => deviation);
+
             Base.AttachDelegate("Position", () => realPosition);
             Base.AttachDelegate("HotLapPosition", () => hotLapPosition);
             Base.AttachDelegate("RaceFinished", () => raceFinished);
@@ -514,6 +513,8 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("Lap06Status", () => lapStatusList[5]);
             Base.AttachDelegate("Lap07Status", () => lapStatusList[6]);
             Base.AttachDelegate("Lap08Status", () => lapStatusList[7]);
+
+            Base.AddProp("TestProperty", 0);
 
             Base.AddProp("Lap01Delta", 0);
             Base.AddProp("Lap02Delta", 0);
@@ -5770,6 +5771,10 @@ namespace DahlDesign.Plugin.iRacing
             double deltaLastLap = 0;
             double deltaSessionBest = 0;
             double deltaLapRecord = 0;
+            TimeSpan predictedLapTime = new TimeSpan (0);
+            TimeSpan predictedLapFetch = new TimeSpan(0);
+            List<double> predictedLapChunks = new List<double> (0);
+            double predictedLapDeltaFetch = 0;
 
 
             if (myDeltaIndex != myDeltaIndexOld)
@@ -5871,8 +5876,6 @@ namespace DahlDesign.Plugin.iRacing
 
             lastChunks[currentChunk] = Math.Round(changeSum, 3);
 
-            deviation = Calculation.StandardDeviation(Calculation.SampleExtractFromPosition(currentChunk, 8, 3, lastChunks));
-
             string lastResult = string.Join(",", lastChunks); //push result as string
 
             changeStarted = false;
@@ -5931,7 +5934,46 @@ namespace DahlDesign.Plugin.iRacing
 
             string LRResult = string.Join(",", LRChunks); //push result as string
 
+            //Prediced lap time calculations
+            if (lapRecord.TotalSeconds != 0)
+            {
+                predictedLapDeltaFetch = deltaLapRecord;
+                predictedLapChunks = LRChunks;
+                predictedLapFetch = lapRecord;
+            }
+            if (!(lapRecord.TotalSeconds != 0 && deltaLapRecord == 0) && ((lastLapTime.TotalSeconds != 0 && Math.Abs(deltaLastLap) < Math.Abs(deltaLapRecord)) || lapRecord.TotalSeconds == 0))
+            {
+                predictedLapDeltaFetch = deltaLastLap;
+                predictedLapChunks = lastChunks;
+                predictedLapFetch = lastLapTime;
+            }
+            if (!(predictedLapDeltaFetch == 0 && lapRecord.TotalSeconds != 0) && ((sessionBestLap.TotalSeconds != 0 &&  Math.Abs(deltaSessionBest) < Math.Abs(predictedLapDeltaFetch)) || lapRecord.TotalSeconds == 0))
+            {
+                predictedLapDeltaFetch = deltaSessionBest;
+                predictedLapChunks = SBChunks;
+                predictedLapFetch = sessionBestLap;
+            }
 
+            /*
+             * Finding the standard deviation of the full delta change on this lap, as well as the last 5 chunks of this lap.
+             * The SD of last 5 chunks as a ratio of the SD of full lap (as far as you've come on the lap) gives an indication of wheter the changes in delta has been rather stable and then suddenly changed, or has been unstable and now stabilized, or has been stable all the time. 
+            */
+
+            double sampleSD = Calculation.StandardDeviation(Calculation.SampleExtractFromPosition(currentChunk, 4, 2, predictedLapChunks));
+            double fullSD = Calculation.StandardDeviation(Calculation.SampleExtractFromPosition(currentChunk, currentChunk + 1, 2, predictedLapChunks));
+
+            double recentDeltaChange = Calculation.AverageFromSample(currentChunk,4,4,predictedLapChunks);
+
+            double ratio = 1;
+            if (fullSD != 0)
+            {
+                ratio = sampleSD / fullSD;
+            }
+            double predictedAddition = recentDeltaChange * (20 - (currentChunk + 1)) / (4 * ratio);
+
+            predictedLapTime = TimeSpan.FromSeconds(Math.Round(predictedLapFetch.TotalSeconds,3) + predictedLapDeltaFetch + predictedAddition);
+
+            Base.SetProp("TestProperty", predictedLapTime);
 
             Base.SetProp("DeltaLastLapChange", lastResult);
             Base.SetProp("DeltaSessionBestChange", SBResult);

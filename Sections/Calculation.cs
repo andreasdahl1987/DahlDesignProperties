@@ -53,5 +53,27 @@ namespace DahlDesign.Plugin.Categories
             return extraction;
         }
 
+        public static double AverageFromSample(int currentPosition, int maxItems, int minItems, List<double> raw)
+        {
+
+            double average = 0;
+
+            if (currentPosition < (minItems - 1))
+            {
+                return average;
+            }
+
+            int itemCount = Math.Min(maxItems - 1, currentPosition);
+
+            for (int i = currentPosition - itemCount; i < currentPosition + 1; i++)
+            {
+                average += raw[i];
+            }
+
+            average /= itemCount;
+
+            return average;
+        }
+
     }
 }
