@@ -62,6 +62,12 @@ namespace DahlDesign.Plugin.iRacing
                         break;
 
                     }
+                    index = 0;
+                    lapTime = new TimeSpan(0);
+                    for (int a = 0; a < deltaSections; a++)
+                    {
+                        deltas[a] = -1;
+                    }
                 }
             }
         }
