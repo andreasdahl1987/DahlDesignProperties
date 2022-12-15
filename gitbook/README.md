@@ -4,7 +4,7 @@
 
 <figure><img src=".gitbook/assets/Dahl design text.PNG" alt=""><figcaption></figcaption></figure>
 
-### Dahl Design Properties manual
+## Dahl Design Properties manual
 
 Welcome to the manual!
 
