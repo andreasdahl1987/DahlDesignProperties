@@ -53,10 +53,11 @@ namespace DahlDesign.Plugin.iRacing
         bool findLapRecord = true;
 
         int myDeltaIndexOld = -1;
-        int lapDeltaSections = 120;
+        int lapDeltaSections = -1;
+        bool buildDeltaSystem = true;
         int deltaChangeChunks = 20;
 
-           float plannedLFPressure = 0;
+        float plannedLFPressure = 0;
         float plannedRFPressure = 0;
         float plannedLRPressure = 0;
         float plannedRRPressure = 0;
@@ -1143,13 +1144,6 @@ namespace DahlDesign.Plugin.iRacing
             sessionCarsLapsSincePit.Clear();
             sessionCarsLap.Clear();
 
-            lapDeltaCurrent.Clear();
-            lapDeltaSessionBest.Clear();
-            lapDeltaLast.Clear();
-            lapDeltaRecord.Clear();
-            lapDeltaLastChange.Clear();
-            lapDeltaSessionBestChange.Clear();
-            lapDeltaLapRecordChange.Clear();
             lastChunks.Clear();
             SBChunks.Clear();
             LRChunks.Clear();
@@ -1185,16 +1179,6 @@ namespace DahlDesign.Plugin.iRacing
                 sessionCarsLap.Add(-1);
             }
 
-            for (int i = 0; i < lapDeltaSections + 1; i++)
-            {
-                lapDeltaCurrent.Add(-1);
-                lapDeltaSessionBest.Add(-1);
-                lapDeltaLast.Add(-1);
-                lapDeltaRecord.Add(-1);
-                lapDeltaLastChange.Add(0);
-                lapDeltaSessionBestChange.Add(0);
-                lapDeltaLapRecordChange.Add(0);
-            }
             for (int i = 0; i < deltaChangeChunks; i++)
             {
                 lastChunks.Add(0);
@@ -1253,6 +1237,11 @@ namespace DahlDesign.Plugin.iRacing
             TimeSpan timeLeft = GameData.SessionTimeLeft;                                       //Session time left
             double pitLocation = IRData.SessionData.DriverInfo.DriverPitTrkPct;                     //Pit location
             double trackLength = GameData.TrackLength;                                          //Track length
+            bool gotTrackLengthForCalc = false;
+            if (trackLength != 0)
+            {
+                gotTrackLengthForCalc = true;
+            }
             double defaultRevLim = GameData.CarSettings_MaxRPM;                                 //Default rev limiter
             int pitSpeedLimit = 0;                                                                  //Pit speed limit
             if (IRData.SessionData.WeekendInfo.TrackPitSpeedLimit != null)
@@ -1771,10 +1760,40 @@ namespace DahlDesign.Plugin.iRacing
 
 
             //----------------------------------------------------
-            //--------CHECK FOR BEST LAP--------------------------
+            //--------BUILD DELTA SYSTEM, FIND LAP RECORD--------------------------
             //----------------------------------------------------
+            if (gotTrackLengthForCalc)
+            {
+                if (buildDeltaSystem)
+                {
+                    lapDeltaSections = (((int)trackLength / 60) + 9) / 20 * 20;
 
-            LapRecords.lapFetch(ref findLapRecord, csvAdress, ref csvIndex, track, carModel, ref lapRecord, ref lapDeltaRecord, lapDeltaSections);
+                    lapDeltaCurrent.Clear();
+                    lapDeltaSessionBest.Clear();
+                    lapDeltaLast.Clear();
+                    lapDeltaRecord.Clear();
+                    lapDeltaLastChange.Clear();
+                    lapDeltaSessionBestChange.Clear();
+                    lapDeltaLapRecordChange.Clear();
+
+                    for (int i = 0; i < lapDeltaSections + 1; i++)
+                    {
+                        lapDeltaCurrent.Add(-1);
+                        lapDeltaSessionBest.Add(-1);
+                        lapDeltaLast.Add(-1);
+                        lapDeltaRecord.Add(-1);
+                        lapDeltaLastChange.Add(0);
+                        lapDeltaSessionBestChange.Add(0);
+                        lapDeltaLapRecordChange.Add(0);
+                    }
+
+                    buildDeltaSystem = false;
+                }
+
+                LapRecords.lapFetch(ref findLapRecord, csvAdress, ref csvIndex, track, carModel, ref lapRecord, ref lapDeltaRecord, lapDeltaSections);
+
+            }
+            
 
             //----------------------------------------------------
             //--------F3.5 DRS COUNT------------------------------
@@ -5706,246 +5725,253 @@ namespace DahlDesign.Plugin.iRacing
             //-----------------------------------------------------------------------------
             //----------------------LAP DELTA TIMING---------------------------------------
             //-----------------------------------------------------------------------------
-
-
-            int myDeltaIndex = ((int)((trackPosition * lapDeltaSections) * 100)) / 100;
-
-            if (myDeltaIndex >= lapDeltaSections)
+            if (gotTrackLengthForCalc)
             {
-                myDeltaIndex = trackSections - 1;
-            }
-            if (myDeltaIndex < 0)
-            {
-                myDeltaIndex = 0;
-                myDeltaIndexOld = 0;
-            }
+                int myDeltaIndex = ((int)((trackPosition * lapDeltaSections) * 100)) / 100;
 
-            double deltaLastLap = 0;
-            double deltaSessionBest = 0;
-            double deltaLapRecord = 0;
-            TimeSpan predictedLapTime = new TimeSpan (0);
-            TimeSpan predictedLapFetch = new TimeSpan(0);
-            List<double> predictedLapChunks = new List<double> (0);
-            double predictedLapDeltaFetch = 0;
-            bool snapPredictedLap = false;
-
-
-            if (myDeltaIndex != myDeltaIndexOld)
-            {
-                myDeltaIndexOld = myDeltaIndex;
-                snapPredictedLap = true;
-
-                lapDeltaCurrent[myDeltaIndex + 1] = currentLapTime.TotalMilliseconds;
-
-                if (currentLapTime.TotalSeconds < 2 && lapDeltaCurrent[0] != 1)
+                if (myDeltaIndex >= lapDeltaSections)
                 {
-                    lapDeltaCurrent[0] = 1; //This lap recording checked for full-length
+                    myDeltaIndex = trackSections - 1;
+                }
+                if (myDeltaIndex < 0)
+                {
+                    myDeltaIndex = 0;
+                    myDeltaIndexOld = 0;
                 }
 
-                bool passCheck = (pit == 0 && (myDeltaIndex > 5 || (myDeltaIndex > 3 && lapDeltaLast[myDeltaIndex + 1] < 10000 && lapDeltaCurrent[myDeltaIndex + 1] < 10000)));
-
-                //Setting last lap delta
-                if (passCheck && lapDeltaLast[myDeltaIndex + 1] > 0 && lapDeltaCurrent[myDeltaIndex + 1] > 0)
-                {
-                    deltaLastLap = (lapDeltaCurrent[myDeltaIndex + 1] - lapDeltaLast[myDeltaIndex + 1]) / 1000;
-                    lapDeltaLastChange[myDeltaIndex] = deltaLastLap;
-                    Base.SetProp("DeltaLastLap", deltaLastLap);
-                }
-
-                if (lapDeltaLast[myDeltaIndex + 1] == -1)
-                {
-                    Base.SetProp("DeltaLastLap", 0);
-                }
-
-                if (myDeltaIndex > 5 && lapDeltaSessionBest[myDeltaIndex + 1] < 10000)
-                {
-                    passCheck = false;
-                }
-
-                //Setting session best lap delta
-                if (passCheck && lapDeltaSessionBest[myDeltaIndex + 1] > 0 && lapDeltaCurrent[myDeltaIndex + 1] > 0)
-                {
-                    deltaSessionBest = (lapDeltaCurrent[myDeltaIndex + 1] - lapDeltaSessionBest[myDeltaIndex + 1]) / 1000;
-                    lapDeltaSessionBestChange[myDeltaIndex] = deltaSessionBest;
-                    Base.SetProp("DeltaSessionBest", deltaSessionBest);
-                }
-                if (lapDeltaSessionBest[myDeltaIndex + 1] == -1)
-                {
-                    Base.SetProp("DeltaSessionBest", 0);
-                }
+                double deltaLastLap = 0;
+                double deltaSessionBest = 0;
+                double deltaLapRecord = 0;
+                TimeSpan predictedLapTime = new TimeSpan(0);
+                TimeSpan predictedLapFetch = new TimeSpan(0);
+                List<double> predictedLapChunks = new List<double>(0);
+                double predictedLapDeltaFetch = 0;
+                bool snapPredictedLap = false;
 
 
-                //Setting lap record delta
-                bool recordCheck = (pit == 0 && (myDeltaIndex > 5 || (myDeltaIndex > 3 && lapDeltaRecord[myDeltaIndex + 1] < 10000 && lapDeltaCurrent[myDeltaIndex + 1] < 10000)));
-                if (recordCheck && lapDeltaRecord[myDeltaIndex + 1] > 0 && lapDeltaCurrent[myDeltaIndex + 1] > 0)
+                if (myDeltaIndex != myDeltaIndexOld)
                 {
-                    deltaLapRecord = (lapDeltaCurrent[myDeltaIndex + 1] - lapDeltaRecord[myDeltaIndex + 1]) / 1000;
-                    lapDeltaLapRecordChange[myDeltaIndex] = deltaLapRecord;
-                    Base.SetProp("DeltaLapRecord", deltaLapRecord);
-                }
-                if (lapDeltaRecord[myDeltaIndex + 1] == -1)
-                {
-                    Base.SetProp("DeltaLapRecord", 0);
-                }
+                    myDeltaIndexOld = myDeltaIndex;
+                    snapPredictedLap = true;
 
+                    lapDeltaCurrent[myDeltaIndex + 1] = currentLapTime.TotalMilliseconds;
 
-                if (myDeltaIndex == 0) //last section, copy to last lap. Further copy to session/ATB on lap changes. (from last lap)
-                {
-                    for (int i = 0; i < lapDeltaSections + 1; i++)
+                    if (currentLapTime.TotalSeconds < 2 && lapDeltaCurrent[0] != 1)
                     {
-                        lapDeltaLast[i] = lapDeltaCurrent[i];
-                        lapDeltaCurrent[i] = -1;
+                        lapDeltaCurrent[0] = 1; //This lap recording checked for full-length
+                    }
+
+                    bool passCheck = (pit == 0 && (myDeltaIndex > 5 || (myDeltaIndex > 3 && lapDeltaLast[myDeltaIndex + 1] < 10000 && lapDeltaCurrent[myDeltaIndex + 1] < 10000)));
+
+                    //Setting last lap delta
+                    if (passCheck && lapDeltaLast[myDeltaIndex + 1] > 0 && lapDeltaCurrent[myDeltaIndex + 1] > 0)
+                    {
+                        deltaLastLap = (lapDeltaCurrent[myDeltaIndex + 1] - lapDeltaLast[myDeltaIndex + 1]) / 1000;
+                        lapDeltaLastChange[myDeltaIndex] = deltaLastLap;
+                        Base.SetProp("DeltaLastLap", deltaLastLap);
+                    }
+
+                    if (lapDeltaLast[myDeltaIndex + 1] == -1)
+                    {
+                        Base.SetProp("DeltaLastLap", 0);
+                    }
+
+                    if (myDeltaIndex > 5 && lapDeltaSessionBest[myDeltaIndex + 1] < 10000)
+                    {
+                        passCheck = false;
+                    }
+
+                    //Setting session best lap delta
+                    if (passCheck && lapDeltaSessionBest[myDeltaIndex + 1] > 0 && lapDeltaCurrent[myDeltaIndex + 1] > 0)
+                    {
+                        deltaSessionBest = (lapDeltaCurrent[myDeltaIndex + 1] - lapDeltaSessionBest[myDeltaIndex + 1]) / 1000;
+                        lapDeltaSessionBestChange[myDeltaIndex] = deltaSessionBest;
+                        Base.SetProp("DeltaSessionBest", deltaSessionBest);
+                    }
+                    if (lapDeltaSessionBest[myDeltaIndex + 1] == -1)
+                    {
+                        Base.SetProp("DeltaSessionBest", 0);
+                    }
+
+
+                    //Setting lap record delta
+                    bool recordCheck = (pit == 0 && (myDeltaIndex > 5 || (myDeltaIndex > 3 && lapDeltaRecord[myDeltaIndex + 1] < 10000 && lapDeltaCurrent[myDeltaIndex + 1] < 10000)));
+                    if (recordCheck && lapDeltaRecord[myDeltaIndex + 1] > 0 && lapDeltaCurrent[myDeltaIndex + 1] > 0)
+                    {
+                        deltaLapRecord = (lapDeltaCurrent[myDeltaIndex + 1] - lapDeltaRecord[myDeltaIndex + 1]) / 1000;
+                        lapDeltaLapRecordChange[myDeltaIndex] = deltaLapRecord;
+                        Base.SetProp("DeltaLapRecord", deltaLapRecord);
+                    }
+                    if (lapDeltaRecord[myDeltaIndex + 1] == -1)
+                    {
+                        Base.SetProp("DeltaLapRecord", 0);
+                    }
+
+
+                    if (myDeltaIndex == 0) //last section, copy to last lap. Further copy to session/ATB on lap changes. (from last lap)
+                    {
+                        for (int i = 0; i < lapDeltaSections + 1; i++)
+                        {
+                            lapDeltaLast[i] = lapDeltaCurrent[i];
+                            lapDeltaCurrent[i] = -1;
+                        }
                     }
                 }
-            }
 
-            int chunkSize = lapDeltaSections / deltaChangeChunks;
-            int currentChunk = ((myDeltaIndex+1) / chunkSize);
-            if (currentChunk == deltaChangeChunks)
-            {
-                currentChunk--;
-            }
-            bool changeStarted = false;
-            double changeSum = 0;
-            double firstOfChunk = 0;
-            double lastOfChunk = 0;
+                int chunkSize = lapDeltaSections / deltaChangeChunks;
+                int currentChunk = (myDeltaIndex / chunkSize);
+                if (currentChunk == deltaChangeChunks)
+                {
+                    currentChunk--;
+                }
+                int startingIndex = currentChunk * chunkSize;
+                bool changeStarted = false;
+                double changeSum = 0;
+                double firstOfChunk = 0;
+                double lastOfChunk = 0;
 
-            if (lapDeltaLast[myDeltaIndex + 1] > 0)
-            {
-                for (int i = currentChunk * chunkSize; i < (myDeltaIndex + 1); i++)
+                if (lapDeltaLast[myDeltaIndex + 1] > 0)
+                {
+                    for (int i = startingIndex; i < myDeltaIndex +1; i++)
+                    {
+                        if (!changeStarted)
+                        {
+                            firstOfChunk = lapDeltaLastChange[i];
+                        }
+                        changeStarted = true;
+                        if (i > startingIndex)
+                        {
+                            lastOfChunk = lapDeltaLastChange[i];
+                        }
+                    }
+                }
+
+                if (myDeltaIndex > startingIndex)
+                {
+                    changeSum = lastOfChunk - firstOfChunk;
+                }
+                else if (startingIndex != 0)
+                {
+                    changeSum = firstOfChunk - lapDeltaLastChange[startingIndex - 1];
+                }
+
+                lastChunks[currentChunk] = Math.Round(changeSum, 3);
+
+                 string lastResult = string.Join(",", lastChunks); //push result as string
+
+                changeStarted = false;
+                changeSum = 0;
+                firstOfChunk = 0;
+                lastOfChunk = 0;
+
+                for (int i = currentChunk * chunkSize; i < myDeltaIndex + 1; i++)
                 {
                     if (!changeStarted)
                     {
-                        firstOfChunk = lapDeltaLastChange[i];
+                        firstOfChunk = lapDeltaSessionBestChange[i];
                     }
                     changeStarted = true;
 
                     if (i == myDeltaIndex)
                     {
-                        lastOfChunk = lapDeltaLastChange[i];
+                        lastOfChunk = lapDeltaSessionBestChange[i];
                     }
                 }
+
+                if (changeStarted)
+                {
+                    changeSum = lastOfChunk - firstOfChunk;
+                }
+
+                SBChunks[currentChunk] = Math.Round(changeSum, 3);
+
+                string SBResult = string.Join(",", SBChunks); //push result as string
+
+                changeStarted = false;
+                changeSum = 0;
+                firstOfChunk = 0;
+                lastOfChunk = 0;
+
+                for (int i = currentChunk * chunkSize; i < myDeltaIndex + 1; i++)
+                {
+                    if (!changeStarted)
+                    {
+                        firstOfChunk = lapDeltaLapRecordChange[i];
+                    }
+                    changeStarted = true;
+
+                    if (i == myDeltaIndex)
+                    {
+                        lastOfChunk = lapDeltaLapRecordChange[i];
+                    }
+                }
+
+                if (changeStarted)
+                {
+                    changeSum = lastOfChunk - firstOfChunk;
+                }
+
+                LRChunks[currentChunk] = Math.Round(changeSum, 3);
+
+                string LRResult = string.Join(",", LRChunks); //push result as string
+
+                //Prediced lap time calculations
+                if (snapPredictedLap)
+                {
+                    if (lapRecord.TotalSeconds != 0)
+                    {
+                        predictedLapDeltaFetch = deltaLapRecord;
+                        predictedLapChunks = LRChunks;
+                        predictedLapFetch = lapRecord;
+                    }
+                    if (!(lapRecord.TotalSeconds != 0 && deltaLapRecord == 0) && ((lastLapTime.TotalSeconds != 0 && Math.Abs(deltaLastLap) < Math.Abs(deltaLapRecord)) || lapRecord.TotalSeconds == 0))
+                    {
+                        predictedLapDeltaFetch = deltaLastLap;
+                        predictedLapChunks = lastChunks;
+                        predictedLapFetch = lastLapTime;
+                    }
+                    if (!(predictedLapDeltaFetch == 0 && lapRecord.TotalSeconds != 0) && ((sessionBestLap.TotalSeconds != 0 && Math.Abs(deltaSessionBest) < Math.Abs(predictedLapDeltaFetch)) || lapRecord.TotalSeconds == 0))
+                    {
+                        predictedLapDeltaFetch = deltaSessionBest;
+                        predictedLapChunks = SBChunks;
+                        predictedLapFetch = sessionBestLap;
+                    }
+
+                    /*
+                     * Finding the standard deviation of the full delta change on this lap, as well as the last 5 chunks of this lap.
+                     * The SD of last 5 chunks as a ratio of the SD of full lap (as far as you've come on the lap) gives an indication of wheter the changes in delta has been rather stable and then suddenly changed, or has been unstable and now stabilized, or has been stable all the time. 
+                    */
+
+                    double sampleSD = Calculation.StandardDeviation(Calculation.SampleExtractFromPosition(currentChunk, 4, 2, predictedLapChunks));
+                    double fullSD = Calculation.StandardDeviation(Calculation.SampleExtractFromPosition(currentChunk, currentChunk + 1, 2, predictedLapChunks));
+
+                    double recentDeltaChange = Calculation.AverageFromSample(currentChunk, 4, 4, predictedLapChunks);
+
+                    double ratio = 1;
+                    if (fullSD != 0)
+                    {
+                        ratio = sampleSD / fullSD;
+                    }
+
+
+                    if (ratio < 1)
+                    {
+                        ratio = 1;
+                    }
+                    double timeAdded = predictedLapDeltaFetch + (predictedLapDeltaFetch * (1 / ratio) * (1 - trackPosition));
+                    double timeAdjusted = recentDeltaChange * (1 / ratio) * (1 - trackPosition);
+
+                    predictedLapTime = TimeSpan.FromSeconds(Math.Round(predictedLapFetch.TotalSeconds + timeAdded + timeAdjusted, 3));
+
+                    Base.SetProp("TestProperty", predictedLapTime);
+
+                    Base.SetProp("DeltaLastLapChange", lastResult);
+                    Base.SetProp("DeltaSessionBestChange", SBResult);
+                    Base.SetProp("DeltaLapRecordChange", LRResult);
+                }
+
             }
 
-            if (changeStarted)
-            {
-                changeSum = lastOfChunk - firstOfChunk;
-            }
-
-            lastChunks[currentChunk] = Math.Round(changeSum, 3);
-
-            string lastResult = string.Join(",", lastChunks); //push result as string
-
-            changeStarted = false;
-            changeSum = 0;
-            firstOfChunk = 0;
-            lastOfChunk = 0;
-
-            for (int i = currentChunk * chunkSize; i < myDeltaIndex + 1; i++)
-            {
-                if (!changeStarted)
-                {
-                    firstOfChunk = lapDeltaSessionBestChange[i];
-                }
-                changeStarted = true;
-
-                if (i == myDeltaIndex)
-                {
-                    lastOfChunk = lapDeltaSessionBestChange[i];
-                }
-            }
-
-            if (changeStarted)
-            {
-                changeSum = lastOfChunk - firstOfChunk;
-            }
-
-            SBChunks[currentChunk] = Math.Round(changeSum, 3);
-
-            string SBResult = string.Join(",", SBChunks); //push result as string
-
-            changeStarted = false;
-            changeSum = 0;
-            firstOfChunk = 0;
-            lastOfChunk = 0;
-
-            for (int i = currentChunk * chunkSize; i < myDeltaIndex + 1; i++)
-            {
-                if (!changeStarted)
-                {
-                    firstOfChunk = lapDeltaLapRecordChange[i];
-                }
-                changeStarted = true;
-
-                if (i == myDeltaIndex)
-                {
-                    lastOfChunk = lapDeltaLapRecordChange[i];
-                }
-            }
-
-            if (changeStarted)
-            {
-                changeSum = lastOfChunk - firstOfChunk;
-            }
-
-            LRChunks[currentChunk] = Math.Round(changeSum, 3);
-
-            string LRResult = string.Join(",", LRChunks); //push result as string
-
-            //Prediced lap time calculations
-            if (snapPredictedLap)
-            {
-                if (lapRecord.TotalSeconds != 0)
-                {
-                    predictedLapDeltaFetch = deltaLapRecord;
-                    predictedLapChunks = LRChunks;
-                    predictedLapFetch = lapRecord;
-                }
-                if (!(lapRecord.TotalSeconds != 0 && deltaLapRecord == 0) && ((lastLapTime.TotalSeconds != 0 && Math.Abs(deltaLastLap) < Math.Abs(deltaLapRecord)) || lapRecord.TotalSeconds == 0))
-                {
-                    predictedLapDeltaFetch = deltaLastLap;
-                    predictedLapChunks = lastChunks;
-                    predictedLapFetch = lastLapTime;
-                }
-                if (!(predictedLapDeltaFetch == 0 && lapRecord.TotalSeconds != 0) && ((sessionBestLap.TotalSeconds != 0 && Math.Abs(deltaSessionBest) < Math.Abs(predictedLapDeltaFetch)) || lapRecord.TotalSeconds == 0))
-                {
-                    predictedLapDeltaFetch = deltaSessionBest;
-                    predictedLapChunks = SBChunks;
-                    predictedLapFetch = sessionBestLap;
-                }
-
-                /*
-                 * Finding the standard deviation of the full delta change on this lap, as well as the last 5 chunks of this lap.
-                 * The SD of last 5 chunks as a ratio of the SD of full lap (as far as you've come on the lap) gives an indication of wheter the changes in delta has been rather stable and then suddenly changed, or has been unstable and now stabilized, or has been stable all the time. 
-                */
-
-                double sampleSD = Calculation.StandardDeviation(Calculation.SampleExtractFromPosition(currentChunk, 4, 2, predictedLapChunks));
-                double fullSD = Calculation.StandardDeviation(Calculation.SampleExtractFromPosition(currentChunk, currentChunk + 1, 2, predictedLapChunks));
-
-                double recentDeltaChange = Calculation.AverageFromSample(currentChunk, 4, 4, predictedLapChunks);
-
-                double ratio = 1;
-                if (fullSD != 0)
-                {
-                    ratio = sampleSD / fullSD;
-                }
-
-
-                if (ratio < 1)
-                {
-                    ratio = 1;
-                }
-                double timeAdded = predictedLapDeltaFetch + (predictedLapDeltaFetch * (1 / ratio) * (1 - trackPosition));
-                double timeAdjusted = recentDeltaChange * (1 / ratio) * (1 - trackPosition);
-
-                predictedLapTime = TimeSpan.FromSeconds(Math.Round(predictedLapFetch.TotalSeconds + timeAdded + timeAdjusted, 3));
-
-                Base.SetProp("TestProperty", predictedLapTime);
-
-                Base.SetProp("DeltaLastLapChange", lastResult);
-                Base.SetProp("DeltaSessionBestChange", SBResult);
-                Base.SetProp("DeltaLapRecordChange", LRResult);
-            }
 
 
             //-----------------------------------------------------------------------------
@@ -6086,6 +6112,7 @@ namespace DahlDesign.Plugin.iRacing
             //Stuf that happens when idle
             if (iRIdle)
             {
+                buildDeltaSystem = true;
                 findLapRecord = true;
                 csvIndex = 0;
                 currentFrontWing = 0;
@@ -6123,6 +6150,7 @@ namespace DahlDesign.Plugin.iRacing
                 //Session or car or track change
                 if (carModelHolder != carModel || trackHolder != track || sessionHolder != session)
                 {
+                    buildDeltaSystem = true;
                     findLapRecord = true;
                     csvIndex = 0;
                     IRchange = 0;
@@ -6175,13 +6203,6 @@ namespace DahlDesign.Plugin.iRacing
                         sessionCarsLapsSincePit.Clear();
                         sessionCarsLap.Clear();
 
-                        lapDeltaCurrent.Clear();
-                        lapDeltaSessionBest.Clear();
-                        lapDeltaLast.Clear();
-                        lapDeltaRecord.Clear();
-                        lapDeltaLastChange.Clear();
-                        lapDeltaSessionBestChange.Clear();
-                        lapDeltaLapRecordChange.Clear();
                         lastChunks.Clear();
                         SBChunks.Clear();
                         LRChunks.Clear();
