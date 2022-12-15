@@ -148,9 +148,6 @@ namespace DahlDesign.Plugin.iRacing
         List<bool> carAheadP2PStatus = new List<bool> { };
         List<double?> carAheadRealGap = new List<double?> { };
         List<double?> carAheadRealRelative = new List<double?> { };
-
-        string aheadGlobal = "";
-
         List<double?> carBehindRelative = new List<double?> { };
         List<double?> carBehindGap = new List<double?> { };
         List<string> carBehindName = new List<string> { };
@@ -170,7 +167,6 @@ namespace DahlDesign.Plugin.iRacing
         List<double?> carBehindRealGap = new List<double?> { };
         List<double?> carBehindRealRelative = new List<double?> { };
 
-        string behindGlobal = "";
 
         List<int> sessionCarsLap = new List<int> { };
         List<int> sessionCarsLapsSincePit = new List<int> { };
@@ -195,7 +191,7 @@ namespace DahlDesign.Plugin.iRacing
         string aheadClass = "";
         int aheadClassPosition = 0;
 
-        int realPosition = 0;
+    
         int hotLapPosition = 0;
         bool isRaceLeader = false;
         List<string> finishedCars = new List<string> { };
@@ -363,10 +359,7 @@ namespace DahlDesign.Plugin.iRacing
         int myTireCompound = -1;
         int myDRSCount = -1;
 
-        bool radio = false;
-        string radioName = "";
-        int radioPosition;
-        bool radioIsSpectator;
+  
 
         bool NBpressed = false;
         bool NBactive = false;
@@ -471,7 +464,7 @@ namespace DahlDesign.Plugin.iRacing
             #region SimHub Properties
 
             Base.AttachDelegate("TestProperty", () => TCreleaseCD != 0);
-            Base.AttachDelegate("Position", () => realPosition);
+            Base.AttachDelegate("Position", () => Globals.realPosition);
             Base.AttachDelegate("HotLapPosition", () => hotLapPosition);
             Base.AttachDelegate("RaceFinished", () => raceFinished);
             Base.AttachDelegate("SoF", () => SoF);
@@ -1084,16 +1077,6 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddAction("NBPressed", (a, b) => NBpressed = true);
             Base.AttachDelegate("SpotterMode", () => spotMode);
 
-
-
-            Base.AttachDelegate("Radio", () => radio);
-            Base.AttachDelegate("RadioName", () => radioName);
-            Base.AttachDelegate("RadioPosition", () => radioPosition);
-            Base.AttachDelegate("RadioIsSpectator", () => radioIsSpectator);
-
-            Base.AddAction("RadioPressed", (a, b) => radio = true);
-            Base.AddAction("RadioReleased", (a, b) => radio = false);
-
             Base.AttachDelegate("PaceCheck", () => paceCheck);
             Base.AddAction("PacePressed", (a, b) => pacePressed = true);
             Base.AddAction("PaceReleased", (a, b) => paceReleased = true);
@@ -1410,7 +1393,7 @@ namespace DahlDesign.Plugin.iRacing
             {
                 List<double?> iratings = new List<double?> { };
                 double weight = 1600 / Math.Log(2);
-                double posCorr = (classOpponents / 2 - realPosition) / 100;
+                double posCorr = (classOpponents / 2 - Globals.realPosition) / 100;
 
                 for (int i = 0; i < opponents; i++)
                 {
@@ -1460,7 +1443,7 @@ namespace DahlDesign.Plugin.iRacing
                     SoF = Math.Round(weight * Math.Log(classOpponents / sum));
                     if (session == "Race" && !raceFinished && sessionState > 3)
                     {
-                        IRchange = Math.Round((classOpponents - realPosition - IRscore - posCorr) * 200 / classOpponents);
+                        IRchange = Math.Round((classOpponents - Globals.realPosition - IRscore - posCorr) * 200 / classOpponents);
                     }
 
                 }
@@ -2469,39 +2452,7 @@ namespace DahlDesign.Plugin.iRacing
                 bitePointReleased = false;
             }
 
-            //Radio toggle/name
-
-            if (IRData.Telemetry.RadioTransmitCarIdx != -1)
-            {
-                radioName = IRData.SessionData.DriverInfo.Drivers[IRData.Telemetry.RadioTransmitCarIdx].UserName;
-                radioIsSpectator = Convert.ToBoolean(IRData.SessionData.DriverInfo.Drivers[IRData.Telemetry.RadioTransmitCarIdx].IsSpectator);
-
-                if (radioName == aheadGlobal)
-                {
-                    radioPosition = realPosition - 1;
-                }
-                else if (radioName == behindGlobal)
-                {
-                    radioPosition = realPosition + 1;
-                }
-                else
-                {
-                    radioPosition = IRData.Telemetry.CarIdxClassPosition[IRData.Telemetry.RadioTransmitCarIdx];
-                }
-            }
-            else
-            {
-                radioName = "";
-                radioIsSpectator = false;
-            }
-
-            radioName = radioName.ToUpper();
-
-            if (IRData.Telemetry.RadioTransmitCarIdx != -1)
-            {
-                radio = false;
-            }
-
+            
             //No boost
             if (hasNoBoost)
             {
@@ -3697,12 +3648,12 @@ namespace DahlDesign.Plugin.iRacing
             if (Base.counter == 15 || Base.counter == 45)
             {
                 isRaceLeader = false;
-                realPosition = 1;
+                Globals.realPosition = 1;
 
                 if (session == "Lone Qualify" || session == "Open Qualify")
                 {
                     qualyPosition = myPosition;
-                    realPosition = myPosition;
+                    Globals.realPosition = myPosition;
                     hotLapPosition = myPosition;
                 }
 
@@ -3717,7 +3668,7 @@ namespace DahlDesign.Plugin.iRacing
                             isRaceLeader = false;
                             if (GameData.Opponents[i].CarClass == myClass)
                             {
-                                realPosition++;
+                                Globals.realPosition++;
                             }
                         }
                         hotLapPosition = 1;
@@ -3735,20 +3686,20 @@ namespace DahlDesign.Plugin.iRacing
                     {
                         if (aheadClass == myClass && aheadGap != 0)
                         {
-                            realPosition = aheadClassPosition + 1;
+                            Globals.realPosition = aheadClassPosition + 1;
                         }
                         if (aheadClass != myClass || aheadGap == 0)
                         {
-                            realPosition = myPosition;
+                            Globals.realPosition = myPosition;
                         }
                     }
                     if (currentLapTime.TotalSeconds == 0 && qualyPosition > 0)
                     {
-                        realPosition = qualyPosition;
+                        Globals.realPosition = qualyPosition;
                     }
                     if (currentLapTime.TotalSeconds == 0 && qualyPosition == 0)
                     {
-                        realPosition = myPosition;
+                        Globals.realPosition = myPosition;
                     }
                     if (currentLapTime.TotalSeconds > 0)
                     {
@@ -3776,22 +3727,22 @@ namespace DahlDesign.Plugin.iRacing
                             }
                         }
 
-                        realPosition = position + finishedCars.Count;
+                        Globals.realPosition = position + finishedCars.Count;
                     }
                     if ((lapRaceFinished || timeRaceFinished) && trackPosition < 0.1 && checkered == 1)
                     {
-                        realPosition = 1 + finishedCars.Count;
+                        Globals.realPosition = 1 + finishedCars.Count;
                     }
 
                     if (raceFinished)
                     {
-                        realPosition = myPosition;
+                        Globals.realPosition = myPosition;
                     }
 
                 }
                 else
                 {
-                    realPosition = myPosition;
+                    Globals.realPosition = myPosition;
                     hotLapPosition = myPosition;
 
                 }
@@ -3820,7 +3771,7 @@ namespace DahlDesign.Plugin.iRacing
 
                 double? aheadGap = 0;
                 string aheadName = "";
-                aheadGlobal = aheadName;
+                Globals.aheadGlobal = aheadName;
                 TimeSpan aheadLastLap = new TimeSpan(0);
                 TimeSpan aheadBestLap = new TimeSpan(0);
                 bool aheadIsConnected = false;
@@ -3834,7 +3785,7 @@ namespace DahlDesign.Plugin.iRacing
 
                 double? behindGap = 0;
                 string behindName = "";
-                behindGlobal = behindName;
+                Globals.behindGlobal = behindName;
                 TimeSpan behindLastLap = new TimeSpan(0);
                 TimeSpan behindBestLap = new TimeSpan(0);
                 bool behindIsConnected = false;
@@ -4354,7 +4305,7 @@ namespace DahlDesign.Plugin.iRacing
                         Base.SetProp("AheadP2PCount", aheadP2PCount);
                         Base.SetProp("AheadRealGap", aheadRealGap);
 
-                        aheadGlobal = aheadName;
+                        Globals.aheadGlobal = aheadName;
 
                     }
 
@@ -4416,7 +4367,7 @@ namespace DahlDesign.Plugin.iRacing
                         Base.SetProp("BehindP2PCount", behindP2PCount);
                         Base.SetProp("BehindRealGap", behindRealGap);
 
-                        behindGlobal = behindName;
+                        Globals.behindGlobal = behindName;
                     }
                 }
             }
