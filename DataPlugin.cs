@@ -23,12 +23,10 @@ namespace DahlDesign.Plugin
         public Rotary Rotary;
         public SmoothGear SmoothGear;
         public Acceleration Acceleration;
+        public Radio Radio;
         public int counter = 0;
         public ImageSource PictureIcon => this.ToIcon(Properties.Resources.Dahl_icon);
         public string LeftMenuTitle => "Dahl Design";
-        //public bool gameRunning;
-        //public string gameName;
-        //public GameData gameData;
         public DahlGameData dahlGameData = new DahlGameData();
         public List<SectionBase> Sections = new List<SectionBase>();
         private bool sectionsAreDirty = true;
@@ -50,6 +48,7 @@ namespace DahlDesign.Plugin
             Rotary = new Rotary(this);
             iRacing = new iRacing.Data(this);
             SmoothGear = new SmoothGear(this);
+            Radio = new Radio(this);
             
 
             InitSections();
@@ -66,21 +65,18 @@ namespace DahlDesign.Plugin
             Sections.Add(Dashboard);
             Sections.Add(DDC);
             Sections.Add(Rotary);
-            Sections.Add(iRacing);
+            Sections.Add(iRacing);            
             Sections.Add(new Tires(this));
             Sections.Add(new iRacingSpotter(this));            
             Sections.Add(SmoothGear);
             Sections.Add(new Acceleration(this));
+            Sections.Add(Radio);
 
             sectionsAreDirty = false;
         }
 
         public void DataUpdate(PluginManager pluginManager, ref GameData data)
         {
-            //gameRunning = data.GameRunning;
-            //gameName = data.GameName;
-            //gameData = data;
-
             //FRAME COUNTER FOR CPU SAVING
             //Counters used: 1,2,3,4,5,6,7,8,9,10,11,14,15,17,20,22,24,25,27,30,33,35,36,38,39,40,43,45,47,50,51,52,53,54,55,59  
 

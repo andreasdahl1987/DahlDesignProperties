@@ -98,6 +98,15 @@ namespace DahlDesign.Plugin.Categories
         
             string session = GameData.SessionTypeName;
 
+            //Fixing bug with old, stuck settings
+            if (Base.Settings.LeftQualyScreen == "None") { Base.Settings.LeftQualyScreen = "1"; }
+            if (Base.Settings.RightQualyScreen == "None") { Base.Settings.RightQualyScreen = "1"; }
+            if (Base.Settings.LeftPracticeScreen == "None") { Base.Settings.LeftPracticeScreen = "1"; }
+            if (Base.Settings.RightPracticeScreen == "None") { Base.Settings.RightPracticeScreen = "1"; }
+            if (Base.Settings.LeftRaceScreen == "None") { Base.Settings.LeftRaceScreen = "1"; }
+            if (Base.Settings.RightRaceScreen == "None") { Base.Settings.RightRaceScreen = "1"; }
+            if (Base.Settings.DeltaScreenStartup == "LastLap") { Base.Settings.DeltaScreenStartup = "1"; }
+
             if (Base.iRacing.sessionHolder != session)
             {
                 if (session == "Practice" || session == "Warmup" || session == "Offline Testing")
