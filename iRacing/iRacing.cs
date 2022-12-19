@@ -5,6 +5,7 @@ using SimHub.Plugins;
 using DahlDesign.Plugin.Categories;
 using IRacingReader;
 using System.Windows.Documents;
+using SimHub.Plugins.OutputPlugins.GraphicalDash.UI.Properties;
 
 namespace DahlDesign.Plugin.iRacing
 {
@@ -43,6 +44,8 @@ namespace DahlDesign.Plugin.iRacing
         List<double> lapDeltaLast = new List<double> { };
         List<double> lapDeltaSessionBest = new List<double> { };
         List<double> lapDeltaRecord = new List<double> { };
+        List<double> speedRegisterCurrent= new List<double> { };
+        List<double> speedRegisterLast = new List<double> { };
 
         List<double> lapDeltaLastChange = new List<double> { };
         List<double> lapDeltaSessionBestChange = new List<double> { };
@@ -1775,6 +1778,8 @@ namespace DahlDesign.Plugin.iRacing
                     lapDeltaLastChange.Clear();
                     lapDeltaSessionBestChange.Clear();
                     lapDeltaLapRecordChange.Clear();
+                    speedRegisterCurrent.Clear();
+                    speedRegisterLast.Clear();
 
                     for (int i = 0; i < lapDeltaSections + 1; i++)
                     {
@@ -1785,6 +1790,8 @@ namespace DahlDesign.Plugin.iRacing
                         lapDeltaLastChange.Add(0);
                         lapDeltaSessionBestChange.Add(0);
                         lapDeltaLapRecordChange.Add(0);
+                        speedRegisterCurrent.Add(-1);
+                        speedRegisterLast.Add(-1);
                     }
 
                     buildDeltaSystem = false;
@@ -3056,7 +3063,7 @@ namespace DahlDesign.Plugin.iRacing
                     //Checking for lap record
                     if (lapRecord.TotalSeconds == 0 && lapStatusList[0] == 1)
                     {
-                        LapRecords.addLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, ref csvIndex);
+                        LapRecords.addLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, ref csvIndex, speedRegisterLast);
                         for (int i = 0; i < lapDeltaSections + 1; i++) //Keep hold of the timings on that lap
                         {
                             lapDeltaRecord[i] = lapDeltaLast[i];
@@ -5756,6 +5763,7 @@ namespace DahlDesign.Plugin.iRacing
                     snapPredictedLap = true;
 
                     lapDeltaCurrent[myDeltaIndex + 1] = currentLapTime.TotalMilliseconds;
+                    speedRegisterCurrent[myDeltaIndex] = speed;
 
                     if (currentLapTime.TotalSeconds < 2 && lapDeltaCurrent[0] != 1)
                     {
@@ -5814,7 +5822,10 @@ namespace DahlDesign.Plugin.iRacing
                         for (int i = 0; i < lapDeltaSections + 1; i++)
                         {
                             lapDeltaLast[i] = lapDeltaCurrent[i];
+                            speedRegisterLast[i] = speedRegisterCurrent[i];
+
                             lapDeltaCurrent[i] = -1;
+                            speedRegisterCurrent[i] = -1;
                         }
                     }
                 }

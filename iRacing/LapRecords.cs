@@ -21,13 +21,13 @@ namespace DahlDesign.Plugin.iRacing
                 }
             }
         }
-        public static void addLapRecord(string track, string car, double lapTime, List<double> deltas, string path, ref int index)
+        public static void addLapRecord(string track, string car, double lapTime, List<double> deltas, string path, ref int index, List<double> speedRegister)
         {
             {
                 string[] allLines = File.ReadAllLines(path);
                 string allText = File.ReadAllText(path);
                 index = allLines.Length - 1;
-                allText = allText + track + "," + car + "," + Convert.ToString(lapTime) + "," + string.Join(",", deltas) + "\n";
+                allText = allText + track + "," + car + "," + Convert.ToString(lapTime) + "," + string.Join(",", deltas) + "," + string.Join(",", speedRegister) + "\n";
                 File.WriteAllText(path, allText);
             }
 
