@@ -596,6 +596,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("StintInvalidLaps", () => invalidStintLaps);
 
             Base.AddProp("Pace", new TimeSpan(0));
+            Base.AddProp("PredictedLapTime", new TimeSpan(0));
 
             Base.AttachDelegate("PitBoxPosition", () => pitBox);
             Base.AttachDelegate("PitBoxApproach", () => boxApproach);
@@ -1469,7 +1470,6 @@ namespace DahlDesign.Plugin.iRacing
             if (Base.counter == 1)
             {
                 //Resetting values to default
-
                 trackType = 0;
                 hasExempt = false;
                 exemptOne = 0;
@@ -3189,6 +3189,7 @@ namespace DahlDesign.Plugin.iRacing
 
                 fuelTargetDeltaCumulative = 0;
                 fuelHolder = fuel;
+                Base.SetProp("PredictedLapTime", new TimeSpan(0));
             }
             else pitBox = 0;
 
@@ -6013,9 +6014,7 @@ namespace DahlDesign.Plugin.iRacing
                     {
                         predictedLapTime = TimeSpan.FromSeconds(0);
                     }
-
-
-                    Base.SetProp("TestProperty", predictedLapTime);
+                    Base.SetProp("PredictedLapTime", predictedLapTime);
                 }
             }
 

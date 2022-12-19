@@ -46,7 +46,7 @@ namespace DahlDesign.Plugin.Categories
             Base.AttachDelegate("Dashboard.DeltaScreen", () => DeltaScreen.screenID);
             DeltaScreen.screenID = Base.Settings.DeltaScreen;
 
-            Base.AttachDelegate("DeltaBarSensitivity", () => Base.Settings.DeltaRoadSensitivity);
+            Base.AttachDelegate("DeltaBarSensitivity", () => DeltaBarSensitivity);
             Base.AttachDelegate("Dashboard.ShowGenericSplashEnabled", () => Base.Settings.ShowGenericSplashEnabled);
 
             Base.AddAction(
