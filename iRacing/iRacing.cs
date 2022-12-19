@@ -5731,7 +5731,7 @@ namespace DahlDesign.Plugin.iRacing
 
                 if (myDeltaIndex >= lapDeltaSections)
                 {
-                    myDeltaIndex = trackSections - 1;
+                    myDeltaIndex = lapDeltaSections - 1;
                 }
                 if (myDeltaIndex < 0)
                 {
@@ -5846,13 +5846,21 @@ namespace DahlDesign.Plugin.iRacing
                     }
                 }
 
-                if (myDeltaIndex > startingIndex)
+                if (myDeltaIndex > startingIndex && startingIndex != 0)
                 {
-                    changeSum = lastOfChunk - firstOfChunk;
+                    changeSum = lastOfChunk - lapDeltaLastChange[startingIndex - 1];
                 }
                 else if (startingIndex != 0)
                 {
                     changeSum = firstOfChunk - lapDeltaLastChange[startingIndex - 1];
+                }
+                else if (myDeltaIndex > 0)
+                {
+                    changeSum = lastOfChunk;
+                }
+                else
+                {
+                    changeSum = firstOfChunk;
                 }
 
                 lastChunks[currentChunk] = Math.Round(changeSum, 3);
