@@ -21,7 +21,8 @@
         LamboGT3,
         PorscheGT3R,
         Supercar,
-        F4
+        F4,
+        ToyotaGR86
     }
 
     public enum CrewType

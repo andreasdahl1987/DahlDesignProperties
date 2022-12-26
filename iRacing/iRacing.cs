@@ -2562,7 +2562,7 @@ namespace DahlDesign.Plugin.iRacing
 
             //Materials on road: 2
 
-            if (Base.Settings.WheelSlipLEDs || ((hasTCtog && TCswitch) || (hasTCtimer && TCPushTimer == 0)) && !(pitLimiter == 1 && speed > 0.9 * pitSpeedLimit) && TC != TCoffPosition)
+            if (Base.Settings.WheelSlipLEDs || ((hasTCtog && TCswitch) || (hasTCtimer && TCPushTimer == 0) || (!hasTCtog && !hasTCtimer && hasTC)) && !(pitLimiter == 1 && speed > 0.9 * pitSpeedLimit) && TC != TCoffPosition)
             {
 
                 if (TCrpm * 0.998 > rpm || TCdropCD > 0)  //Main filter
@@ -2650,7 +2650,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("SlipRR", slipRR);
                 }
 
-                if ((hasTCtog && TCswitch) || (hasTCtimer && TCPushTimer == 0)) //Push active TC, check again that calculations has been done because of TC, and not because of wheel slip calc
+                if ((hasTCtog && TCswitch) || (hasTCtimer && TCPushTimer == 0)|| (!hasTCtog && !hasTCtimer && hasTC)) //Push active TC, check again that calculations has been done because of TC, and not because of wheel slip calc
                 {
                     Base.SetProp("TCActive", TCon);
                 }
