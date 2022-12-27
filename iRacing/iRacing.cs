@@ -2562,7 +2562,7 @@ namespace DahlDesign.Plugin.iRacing
 
             //Materials on road: 2
 
-            if (Base.Settings.WheelSlipLEDs || ((hasTCtog && TCswitch) || (hasTCtimer && TCPushTimer == 0)) && !(pitLimiter == 1 && speed > 0.9 * pitSpeedLimit) && TC != TCoffPosition)
+            if (Base.Settings.WheelSlipLEDs || ((hasTCtog && TCswitch) || (hasTCtimer && TCPushTimer == 0) || (!hasTCtog && !hasTCtimer && hasTC)) && !(pitLimiter == 1 && speed > 0.9 * pitSpeedLimit) && TC != TCoffPosition)
             {
 
                 if (TCrpm * 0.998 > rpm || TCdropCD > 0)  //Main filter
@@ -2650,7 +2650,7 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("SlipRR", slipRR);
                 }
 
-                if ((hasTCtog && TCswitch) || (hasTCtimer && TCPushTimer == 0)) //Push active TC, check again that calculations has been done because of TC, and not because of wheel slip calc
+                if (((hasTCtog && TCswitch) || (hasTCtimer && TCPushTimer == 0)|| (!hasTCtog && !hasTCtimer && hasTC)) && TC != TCoffPosition) //Push active TC, check again that calculations has been done because of TC, and not because of wheel slip calc
                 {
                     Base.SetProp("TCActive", TCon);
                 }
@@ -5551,6 +5551,37 @@ namespace DahlDesign.Plugin.iRacing
                         else
                         {
                             tireTime = pitBaseTime;
+                        }
+                        if (carId == "Toyota GR86")
+                        {
+                            if (totalTireNumber == 4)
+                            {
+                                tireTime = pitBaseTime * 4 + pitSlowAdd * 3 - 3;
+                            }
+                            else if (totalTireNumber == 3 && ((pitFastSide == "Left" && !LFTog) || (pitFastSide == "Right" && !RFTog)))
+                            {
+                                tireTime = pitBaseTime * 3 + pitSlowAdd * 3 - 2;
+                            }
+                            else if (totalTireNumber == 3)
+                            {
+                                tireTime = pitBaseTime * 3 + pitSlowAdd * 2 - 2;
+                            }
+                            else if (totalTireNumber == 2 && ((pitFastSide == "Left" && (RFTog || RRTog) && !LFTog) || (pitFastSide == "Right" && (LFTog || LRTog) && !RFTog) || (RRTog && LRTog)))
+                            {
+                                tireTime = pitBaseTime * 2 + (2 * pitSlowAdd) - 1;
+                            }
+                            else if (totalTireNumber == 2)
+                            {
+                                tireTime = pitBaseTime * 2 + pitSlowAdd - 1;
+                            }
+                            else if (totalTireNumber == 1 && ((pitFastSide == "Left" && (RFTog || RRTog || LRTog)) || (pitFastSide == "Right" && (LFTog || LRTog || RRTog))))
+                            {
+                                tireTime = pitBaseTime + pitSlowAdd;
+                            }
+                            else
+                            {
+                                tireTime = pitBaseTime;
+                            }
                         }
                     }
 
