@@ -7,7 +7,7 @@ namespace DahlDesign.Plugin.Categories
     {
         public DDC(DahlDesign dahlDesign) : base(dahlDesign) { }
         public bool controllerEnabled;
-        public double WheelAngle;
+        public double SteeringAngle;
 
         //Switches
         int encoder1Mode = 0;
@@ -106,7 +106,7 @@ namespace DahlDesign.Plugin.Categories
             Base.AttachDelegate("DDUstartLED", () => Base.Settings.DDUstartLED);
             Base.AttachDelegate("SW1startLED", () => Base.Settings.SW1startLED);
             Base.AttachDelegate("DDUEnabled", () => Base.Settings.DDUEnabled);
-            Base.AttachDelegate("WheelAngle", () => Base.DDC.WheelAngle);
+            Base.AttachDelegate("SteeringAngle", () => Base.DDC.SteeringAngle);
         }
 
         public override void DataUpdate()
@@ -122,7 +122,7 @@ namespace DahlDesign.Plugin.Categories
 
             if (wheelBaseSearch == null)
             {
-                Base.DDC.WheelAngle = 0;
+                Base.DDC.SteeringAngle = 0;
             }
 
             else
@@ -133,11 +133,11 @@ namespace DahlDesign.Plugin.Categories
 
                 double position = wheelRaw % (65535 / revs);
 
-                Base.DDC.WheelAngle = 360 * position / (65535 / revs);
+                Base.DDC.SteeringAngle = 360 * position / (65535 / revs);
 
-                if (Base.DDC.WheelAngle < 0)
+                if (Base.DDC.SteeringAngle < 0)
                 {
-                    Base.DDC.WheelAngle = 360 + Base.DDC.WheelAngle;
+                    Base.DDC.SteeringAngle = 360 + Base.DDC.SteeringAngle;
                 }
             }
 

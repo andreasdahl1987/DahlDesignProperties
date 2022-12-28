@@ -29,3 +29,9 @@ You'll have to activate the slip effects in the ShakeIT Motors plugin page and e
 Navigate to the **Plugin setup** page in the plugin menu. Bind you shifter paddles/sequential shifter. A few calculations in the plugin needs to know if you've done a gearshift, and by the time the iRacing telemetry has updated your current gear, the relevant information is already lost. So keeping track of the actual shifter button press is necessary.&#x20;
 
 <figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+
+#### Steering angle
+
+Navigate to the **Controllers** page in the plugin menu. Under **Wheel base** you'll be able to type in the wheel base steering axis. Make sure the controllers input plugin is active (Settings->Plugins->Controllers input) and search for your wheel base in the **Available properties** tab. Type in the name of the steering axis as the example explains. This is used to make a property [DahlDesign.SteeringAngle] which can be used in the dashboard editor, and is also used for some cars in Dahl Design iRacing dashboard. .&#x20;
+
+<figure><img src="../.gitbook/assets/Capture3.png" alt=""><figcaption></figcaption></figure>
