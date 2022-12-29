@@ -3981,7 +3981,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
 
                     if (timeLeft.TotalSeconds == 0 && completedLaps > 0)
-                    {
+                    {                                                                              
                         timedOut = true;
                     }
                     if (timedOut || timeLeftSeconds < 0)
