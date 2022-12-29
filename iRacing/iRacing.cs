@@ -4008,9 +4008,10 @@ namespace DahlDesign.Plugin.iRacing
 
                     if (leaderExpectedLapTime == 0)
                     {
-                        timeLapsRemaining = (timeLeftSeconds / myExpectedLapTime) + trackPosition - 1; //No grid subtract
                         lapLapsRemaining = lapLapsRemaining + gridSubtract;
                     }
+
+                    timeLapsRemaining = timeLeftSeconds / myExpectedLapTime + trackPosition;
 
                     //Continuing calculations if we have leader pace and my pace --- and I'm not the leader. 
                     if (leaderExpectedLapTime > 0 && !isRaceLeader)
