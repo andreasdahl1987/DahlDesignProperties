@@ -2169,11 +2169,11 @@ namespace DahlDesign.Plugin.iRacing
 
                     if (commandMaxFuel == 0)
                     {
-                        pushPit = "#clear ws$";
+                        pushPit = "#ws$";
                     }
                     else
                     {
-                        pushPit = "#clear fuel " + Convert.ToString(commandMaxFuel) + "l ws$";
+                        pushPit = "#fuel " + Convert.ToString(commandMaxFuel) + "l ws$";
                     }
 
                     PitCommands.iRacingChat(pushPit);
@@ -2253,11 +2253,11 @@ namespace DahlDesign.Plugin.iRacing
                     string pushPit = "";
                     if (commandMinFuel == 0)
                     {
-                        pushPit = "#clear ws$";
+                        pushPit = "#ws$";
                     }
                     else
                     {
-                        pushPit = "#clear fuel " + Convert.ToString(commandMinFuel) + "l ws$";
+                        pushPit = "#fuel " + Convert.ToString(commandMinFuel) + "l ws$";
                     }
                     PitCommands.iRacingChat(pushPit);
                 }
