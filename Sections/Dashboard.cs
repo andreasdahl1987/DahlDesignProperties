@@ -25,7 +25,7 @@ namespace DahlDesign.Plugin.Categories
             Base.AttachDelegate("ShowBrakeThrottleGaugesEnabled", () => Base.Settings.ShowBrakeThrottleGaugesEnabled);
 
             Base.AttachDelegate("SW1Enabled", () => Base.Settings.SW1Enabled);
-            Base.AttachDelegate("DashLEDEnabled", () => Base.Settings.DashLEDEnabled);
+            Base.AttachDelegate("DashLEDType", () => Base.Settings.DashLEDType.ToString());
             Base.AttachDelegate("DashType", () => Base.Settings.DashType);
             Base.AttachDelegate("LapInfoScreen", () => Base.Settings.LapInfoScreen);
             Base.AttachDelegate("ShiftTimingAssist", () => Base.Settings.ShiftTimingAssist);

@@ -42,10 +42,15 @@
                                     </TextBlock>
                                     <styles:SHToggleButton Grid.Column="1" Grid.Row="8" HorizontalAlignment="Left" Height="20" IsChecked="{Binding ShowBrakeThrottleGaugesEnabled}" RenderTransformOrigin="0.45,0.2"/>
 
-                                    <TextBlock Grid.Row="1" Text="Swap RPM bar for LEDs:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
+                                    <TextBlock Grid.Row="1" Text="RPM Bar Type" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
                                     </TextBlock>
-                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DashLEDEnabled}" RenderTransformOrigin="0.45,0.2"/>
+                                    <ComboBox Grid.Row="1" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValue="{Binding DashLEDType}" SelectedValuePath="Content">
+                                        <ComboBoxItem IsSelected="True">RPMBar</ComboBoxItem>
+                                        <ComboBoxItem >LEDBar</ComboBoxItem>
+                                        <ComboBoxItem >None</ComboBoxItem>
 
+                                    </ComboBox>
+                                    
                                     <TextBlock Grid.Row="2" Text="RPM bar shift warning:" />
                                     <styles:SHToggleButton Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShiftWarning}" />
 
@@ -81,7 +86,7 @@
                                         <ComboBoxItem>Default</ComboBoxItem>
                                     </ComboBox>
 
-                                      <TextBlock Grid.Row="9" Text="Show generic splash screen" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
+                                      <TextBlock Grid.Row="9" Text="Show vehicle settings updates notification" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
                                     </TextBlock>
                                     <styles:SHToggleButton Grid.Column="1" Grid.Row="9" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShowGenericSplashEnabled}" RenderTransformOrigin="0.45,0.2"/>
 

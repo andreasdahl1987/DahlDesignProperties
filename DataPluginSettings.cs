@@ -15,7 +15,13 @@ namespace DahlDesign.Plugin
         public bool SW1Enabled { get; set; } = false;
         public int SW1startLED { get; set; } = 30;
 
-        public bool DashLEDEnabled { get; set; } = false;
+        public enum DashLEDTypeEnum
+        {
+            RPMBar,
+            LEDBar,
+            None
+        }
+        public DashLEDTypeEnum DashLEDType { get; set; } = DashLEDTypeEnum.RPMBar;
         public bool LapInfoScreen { get; set; } = true;
         public bool ShiftWarning { get; set; } = false;
         public bool WheelSlipLEDs { get; set; } = false;
