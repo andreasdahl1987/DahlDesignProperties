@@ -6200,7 +6200,6 @@ namespace DahlDesign.Plugin.iRacing
             //Stuf that happens when idle
             if (iRIdle)
             {
-                buildDeltaSystem = true;
                 findLapRecord = true;
                 csvIndex = 0;
                 currentFrontWing = 0;
