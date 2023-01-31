@@ -2167,9 +2167,14 @@ namespace DahlDesign.Plugin.iRacing
                 {
                     string pushPit = "";
 
-                    if (commandMaxFuel == 0)
+                    if (Base.Settings.FullTank)
                     {
-                        pushPit = "#clear ws$";
+                        pushPit = "#fuel 500l ws$";
+                    }
+
+                    else if (commandMaxFuel == 0)
+                    {
+                        pushPit = "#ws$";
                     }
                     else
                     {
@@ -2253,7 +2258,7 @@ namespace DahlDesign.Plugin.iRacing
                     string pushPit = "";
                     if (commandMinFuel == 0)
                     {
-                        pushPit = "#clear ws$";
+                        pushPit = "#ws$";
                     }
                     else
                     {
