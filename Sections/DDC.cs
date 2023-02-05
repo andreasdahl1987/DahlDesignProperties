@@ -7,6 +7,7 @@ namespace DahlDesign.Plugin.Categories
     {
         public DDC(DahlDesign dahlDesign) : base(dahlDesign) { }
         public bool controllerEnabled;
+        public double SteeringAngle;
 
         //Switches
         int encoder1Mode = 0;
@@ -105,12 +106,44 @@ namespace DahlDesign.Plugin.Categories
             Base.AttachDelegate("DDUstartLED", () => Base.Settings.DDUstartLED);
             Base.AttachDelegate("SW1startLED", () => Base.Settings.SW1startLED);
             Base.AttachDelegate("DDUEnabled", () => Base.Settings.DDUEnabled);
+            Base.AttachDelegate("SteeringAngle", () => Base.DDC.SteeringAngle);
         }
 
         public override void DataUpdate()
         {
             //Base.Settings.DDSEnabled = false;
             //Base.Settings.DDCclutchEnabled = false; 
+
+            //----------------------------------------
+            //--------Generic wheel base angle--------
+            //----------------------------------------
+
+            var wheelBaseSearch = Base.GetProp("JoystickPlugin." + Base.Settings.WheelBaseSteeringAxis);
+
+            if (wheelBaseSearch == null)
+            {
+                Base.DDC.SteeringAngle = 0;
+            }
+
+            else
+            {
+                int wheelRaw = Convert.ToInt32(Base.GetProp("JoystickPlugin." + Base.Settings.WheelBaseSteeringAxis)) - 32767;
+
+                double revs = Base.Settings.WheelRevolutions / 360;
+
+                double position = wheelRaw % (65535 / revs);
+
+                Base.DDC.SteeringAngle = 360 * position / (65535 / revs);
+
+                if (Base.DDC.SteeringAngle < 0)
+                {
+                    Base.DDC.SteeringAngle = 360 + Base.DDC.SteeringAngle;
+                }
+            }
+
+            //----------------------------------------
+            //--------DDC and SW1 calculations--------
+            //----------------------------------------
 
             controllerEnabled = Base.Settings.DDCEnabled;
 
@@ -120,7 +153,7 @@ namespace DahlDesign.Plugin.Categories
                 controllerEnabled = false;
             }
 
-            if (Base.Settings.SW1Enabled)
+                if (Base.Settings.SW1Enabled)
             {
                 int encoderField = Convert.ToInt32(Base.GetProp("JoystickPlugin." + Base.Settings.DDC + "_Z")); //Encoder field
                 encoder1Mode = (encoderField & 1);

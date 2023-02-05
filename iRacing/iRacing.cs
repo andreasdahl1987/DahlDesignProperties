@@ -47,6 +47,8 @@ namespace DahlDesign.Plugin.iRacing
         List<double> speedRegisterCurrent= new List<double> { };
         List<double> speedRegisterLast = new List<double> { };
 
+        TimeSpan predictedLapTime = new TimeSpan(0);
+
         List<double> lapDeltaLastChange = new List<double> { };
         List<double> lapDeltaSessionBestChange = new List<double> { };
         List<double> lapDeltaLapRecordChange = new List<double> { };
@@ -1338,8 +1340,6 @@ namespace DahlDesign.Plugin.iRacing
                 myDRSCount = 0;
             }
 
-            var estimatedLapTime = (TimeSpan)(Base.GetProp("PersistantTrackerPlugin.EstimatedLapTime")); //EstimatedLapTime
-
             if (GameData.OpponentsAheadOnTrack.Count > 0)
             {
                 aheadGap = GameData.OpponentsAheadOnTrack[0].GaptoPlayer;                       //Ahead GAP
@@ -2171,7 +2171,6 @@ namespace DahlDesign.Plugin.iRacing
                     {
                         pushPit = "#fuel 500l ws$";
                     }
-
                     else if (commandMaxFuel == 0)
                     {
                         pushPit = "#ws$";
@@ -3147,7 +3146,7 @@ namespace DahlDesign.Plugin.iRacing
                 int position = 0;
                 for (int i = 0; i < opponents; i++)
                 {
-                    if (estimatedLapTime.TotalSeconds > 0 && GameData.Opponents[i].BestLapTime.TotalSeconds > 0 && estimatedLapTime.TotalSeconds > GameData.Opponents[i].BestLapTime.TotalSeconds && GameData.Opponents[i].CarClass == myClass && !GameData.Opponents[i].IsPlayer)
+                    if (predictedLapTime.TotalSeconds > 0 && GameData.Opponents[i].BestLapTime.TotalSeconds > 0 && predictedLapTime.TotalSeconds > GameData.Opponents[i].BestLapTime.TotalSeconds && GameData.Opponents[i].CarClass == myClass && !GameData.Opponents[i].IsPlayer)
                     {
                         position++;
                     }
@@ -3158,7 +3157,7 @@ namespace DahlDesign.Plugin.iRacing
                     position++;
                 }
 
-                if (estimatedLapTime.TotalSeconds == 0)
+                if (predictedLapTime.TotalSeconds == 0)
                 {
                     position = 0;
                 }
@@ -3859,14 +3858,14 @@ namespace DahlDesign.Plugin.iRacing
 
                 for (int i = 0; i < opponents; i++)
                 {
-                    if (GameData.Opponents[i].GaptoPlayer < classLeaderGap && GameData.Opponents[i].CarClass == myClass)
+                    if (GameData.Opponents[i].GaptoPlayer <= classLeaderGap && GameData.Opponents[i].CarClass == myClass)
                     {
                         classLeaderGap = GameData.Opponents[i].GaptoPlayer;
                         classLeaderName = GameData.Opponents[i].Name;
                         classLeaderLastLap = GameData.Opponents[i].LastLapTime;
                         classLeaderBestLap = GameData.Opponents[i].BestLapTime;
                     }
-                    if (GameData.Opponents[i].GaptoPlayer < leaderGap)
+                    if (GameData.Opponents[i].GaptoPlayer <= leaderGap)
                     {
                         leaderGap = GameData.Opponents[i].GaptoPlayer;
                         leaderName = GameData.Opponents[i].Name;
@@ -3912,14 +3911,16 @@ namespace DahlDesign.Plugin.iRacing
                         luckyDogName = GameData.PlayerName;
                         luckyDogPositionsAhead = 0;
                     }
-
                 }
 
                 myExpectedLapTime = pace;
-
                 if (myExpectedLapTime == 0)
                 {
-                    myExpectedLapTime = lapRecord.TotalSeconds * 1.05;
+                    myExpectedLapTime = predictedLapTime.TotalSeconds;
+                }
+                if (myExpectedLapTime == 0)
+                {
+                    myExpectedLapTime = lapRecord.TotalSeconds * 1.03;
                 }
                 if (myExpectedLapTime == 0)
                 {
@@ -3984,7 +3985,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
 
                     if (timeLeft.TotalSeconds == 0 && completedLaps > 0)
-                    {
+                    {                                                                              
                         timedOut = true;
                     }
                     if (timedOut || timeLeftSeconds < 0)
@@ -4011,9 +4012,10 @@ namespace DahlDesign.Plugin.iRacing
 
                     if (leaderExpectedLapTime == 0)
                     {
-                        timeLapsRemaining = (timeLeftSeconds / myExpectedLapTime) + trackPosition - 1; //No grid subtract
                         lapLapsRemaining = lapLapsRemaining + gridSubtract;
                     }
+
+                    timeLapsRemaining = timeLeftSeconds / myExpectedLapTime + trackPosition;
 
                     //Continuing calculations if we have leader pace and my pace --- and I'm not the leader. 
                     if (leaderExpectedLapTime > 0 && !isRaceLeader)
@@ -5786,7 +5788,7 @@ namespace DahlDesign.Plugin.iRacing
                 double deltaLastLap = 0;
                 double deltaSessionBest = 0;
                 double deltaLapRecord = 0;
-                TimeSpan predictedLapTime = new TimeSpan(0);
+                predictedLapTime = new TimeSpan(0);
                 TimeSpan predictedLapFetch = new TimeSpan(0);
                 List<double> predictedLapChunks = new List<double>(0);
                 double predictedLapDeltaFetch = 0;

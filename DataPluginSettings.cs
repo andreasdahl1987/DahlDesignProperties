@@ -37,6 +37,10 @@ namespace DahlDesign.Plugin
 
         public string BehindPlayerText { get; set; } = "Sorry!";
 
+        public string WheelBaseSteeringAxis { get; set; } = "";
+
+        public double WheelRevolutions { get; set; } = 1080;
+
         public string DDC { get; set; } = "Arduino_Leonardo";
         
         public bool DDCEnabled { get; set; } = false;
@@ -55,6 +59,8 @@ namespace DahlDesign.Plugin
         public bool SupercarSwapPosition { get; set; } = false;
 
         public bool SupercarARBDirection { get; set; } = false;
+
+        public bool AngledCenterScreen { get; set; } = false;
 
         public bool CorrectByPitstop { get; set; } = false;
 

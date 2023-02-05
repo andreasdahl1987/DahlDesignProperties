@@ -10,228 +10,226 @@
     <Grid>
         <styles:SHTabControl x:Name="tabcontrol">
             <styles:SHTabItem Header="Dash settings">
-                <styles:SHSection Title="Dashboard" Margin="0,0,0,0">
-                    <ScrollViewer>
-                        <StackPanel>
-                            <styles:SHSection Title="Settings">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="2*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*" MinHeight="20"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
+                <ScrollViewer>
+                    <StackPanel>
+                        <styles:SHSection Title="Settings">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*" MinHeight="20"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
 
-                                    </Grid.RowDefinitions>
+                                </Grid.RowDefinitions>
 
-                                    <TextBlock Grid.Row="7" Text="Show Map instead of gear" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
-                                    </TextBlock>
-                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="7" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShowMapEnabled}" RenderTransformOrigin="0.45,0.2"/>
+                                <TextBlock Grid.Row="7" Text="Show Map instead of gear" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
+                                </TextBlock>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="7" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShowMapEnabled}" RenderTransformOrigin="0.45,0.2"/>
 
-                                    <TextBlock Grid.Row="8" Text="Show Brake and Throttle gauges" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
-                                    </TextBlock>
-                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="8" HorizontalAlignment="Left" Height="20" IsChecked="{Binding ShowBrakeThrottleGaugesEnabled}" RenderTransformOrigin="0.45,0.2"/>
+                                <TextBlock Grid.Row="8" Text="Show Brake and Throttle gauges" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
+                                </TextBlock>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="8" HorizontalAlignment="Left" Height="20" IsChecked="{Binding ShowBrakeThrottleGaugesEnabled}" RenderTransformOrigin="0.45,0.2"/>
 
-                                    <TextBlock Grid.Row="1" Text="Swap RPM bar for LEDs:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
-                                    </TextBlock>
-                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DashLEDEnabled}" RenderTransformOrigin="0.45,0.2"/>
+                                <TextBlock Grid.Row="1" Text="Swap RPM bar for LEDs:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
+                                </TextBlock>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DashLEDEnabled}" RenderTransformOrigin="0.45,0.2"/>
 
-                                    <TextBlock Grid.Row="2" Text="RPM bar shift warning:" />
-                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShiftWarning}" />
+                                <TextBlock Grid.Row="2" Text="RPM bar shift warning:" />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShiftWarning}" />
 
-                                    <TextBlock Grid.Row="3" Text="Shift timing assist active outside practice (purple and green line in RPM bar):" />
-                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShiftTimingAssist}" />
+                                <TextBlock Grid.Row="3" Text="Shift timing assist active outside practice (purple and green line in RPM bar):" />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShiftTimingAssist}" />
 
-                                    <TextBlock Grid.Row="4" Text="Lap info screen on new lap:" />
-                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding LapInfoScreen}"/>
+                                <TextBlock Grid.Row="4" Text="Lap info screen on new lap:" />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding LapInfoScreen}"/>
 
-                                    <TextBlock Grid.Row="5" Text="Swap ARB lever placement (Supercars):" />
-                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding SupercarSwapPosition}" />
+                                <TextBlock Grid.Row="5" Text="Swap ARB lever placement (Supercars):" />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding SupercarSwapPosition}" />
 
-                                    <TextBlock Grid.Row="6" Text="Swap ARB lever direction (Supercars):" />
-                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding SupercarARBDirection}" />
+                                <TextBlock Grid.Row="6" Text="Swap ARB lever direction (Supercars):" />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding SupercarARBDirection}" />
 
-                                    <TextBlock Grid.Row="10" Text="Override Dashboard Type"/>
-                                    <ComboBox Grid.Row="10" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValue="{Binding DashType}" SelectedValuePath="Content">
-                                        <ComboBoxItem IsSelected="True">Automatic Selection</ComboBoxItem>
+                                <TextBlock Grid.Row="10" Text="Override Dashboard Type"/>
+                                <ComboBox Grid.Row="10" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValue="{Binding DashType}" SelectedValuePath="Content">
+                                    <ComboBoxItem IsSelected="True">Automatic Selection</ComboBoxItem>
 
-                                        <ComboBoxItem >Porsche GT3R</ComboBoxItem>
-                                        <ComboBoxItem >Dallara LMP2</ComboBoxItem>
-                                        <ComboBoxItem >Rally</ComboBoxItem>
-                                        <ComboBoxItem >Supercar</ComboBoxItem>
-                                        <ComboBoxItem >FR3.5</ComboBoxItem>
-                                        <ComboBoxItem >Porsche 919</ComboBoxItem>
-                                        <ComboBoxItem >Mercedes W12</ComboBoxItem>
-                                        <ComboBoxItem >Mclaren F1</ComboBoxItem>
-                                        <ComboBoxItem >Williams F1</ComboBoxItem>
-                                        <ComboBoxItem >Indycar</ComboBoxItem>
-                                        <ComboBoxItem >Williams F1</ComboBoxItem>
-                                        <ComboBoxItem >GT3</ComboBoxItem>
-                                        <ComboBoxItem >BiasOnly</ComboBoxItem>
-                                        <ComboBoxItem>Default</ComboBoxItem>
-                                    </ComboBox>
+                                    <ComboBoxItem >Porsche GT3R</ComboBoxItem>
+                                    <ComboBoxItem >Dallara LMP2</ComboBoxItem>
+                                    <ComboBoxItem >Rally</ComboBoxItem>
+                                    <ComboBoxItem >Supercar</ComboBoxItem>
+                                    <ComboBoxItem >FR3.5</ComboBoxItem>
+                                    <ComboBoxItem >Porsche 919</ComboBoxItem>
+                                    <ComboBoxItem >Mercedes W12</ComboBoxItem>
+                                    <ComboBoxItem >Mclaren F1</ComboBoxItem>
+                                    <ComboBoxItem >Williams F1</ComboBoxItem>
+                                    <ComboBoxItem >Indycar</ComboBoxItem>
+                                    <ComboBoxItem >Williams F1</ComboBoxItem>
+                                    <ComboBoxItem >GT3</ComboBoxItem>
+                                    <ComboBoxItem >BiasOnly</ComboBoxItem>
+                                    <ComboBoxItem>Default</ComboBoxItem>
+                                </ComboBox>
 
-                                      <TextBlock Grid.Row="9" Text="Show generic splash screen" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
-                                    </TextBlock>
-                                    <styles:SHToggleButton Grid.Column="1" Grid.Row="9" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShowGenericSplashEnabled}" RenderTransformOrigin="0.45,0.2"/>
+                                <TextBlock Grid.Row="9" Text="Show generic splash screen" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
+                                </TextBlock>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="9" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShowGenericSplashEnabled}" RenderTransformOrigin="0.45,0.2"/>
 
-                                </Grid>
-                            </styles:SHSection>
-                            <styles:SHSection Title="Session setup">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="2*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*" MinHeight="20"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
+                            </Grid>
+                        </styles:SHSection>
+                        <styles:SHSection Title="Session setup">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*" MinHeight="20"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
 
 
-                                    </Grid.RowDefinitions>
-
+                                </Grid.RowDefinitions>
 
 
 
-                                    <TextBlock Grid.Row="1" Text="Left Screen in practice"/>
-                                    <ComboBox Grid.Row="1" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding LeftPracticeScreen}">
-                                        <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
-                                        <ComboBoxItem Tag="2">Time2</ComboBoxItem>
-                                        <ComboBoxItem Tag="3">Time3</ComboBoxItem>
-                                        <ComboBoxItem Tag="4">Qualy</ComboBoxItem>
-                                        <ComboBoxItem Tag="5">Race1</ComboBoxItem>
-                                        <ComboBoxItem Tag="6">Race2</ComboBoxItem>
-                                        <ComboBoxItem Tag="7">Race3</ComboBoxItem>
-                                        <ComboBoxItem Tag="8">Practice1</ComboBoxItem>
-                                        <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
-                                    </ComboBox>
 
-                                    <TextBlock Grid.Row="2" Text="Right Screen in practice"/>
-                                    <ComboBox Grid.Row="2" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding RightPracticeScreen}">
-                                        <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
-                                        <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
-                                        <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
-                                        <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
-                                        <ComboBoxItem Tag="5">Race1</ComboBoxItem>
-                                        <ComboBoxItem Tag="6">Race2</ComboBoxItem>
-                                        <ComboBoxItem Tag="7">Race3</ComboBoxItem>
-                                        <ComboBoxItem Tag="8">Track</ComboBoxItem>
-                                    </ComboBox>
+                                <TextBlock Grid.Row="1" Text="Left Screen in practice"/>
+                                <ComboBox Grid.Row="1" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding LeftPracticeScreen}">
+                                    <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
+                                    <ComboBoxItem Tag="2">Time2</ComboBoxItem>
+                                    <ComboBoxItem Tag="3">Time3</ComboBoxItem>
+                                    <ComboBoxItem Tag="4">Qualy</ComboBoxItem>
+                                    <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                    <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                    <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                    <ComboBoxItem Tag="8">Practice1</ComboBoxItem>
+                                    <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
+                                </ComboBox>
 
-                                    <TextBlock Grid.Row="3" Text="Left Screen in qualy"/>
-                                    <ComboBox Grid.Row="3" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding LeftQualyScreen}">
-                                        <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
-                                        <ComboBoxItem Tag="2">Time2</ComboBoxItem>
-                                        <ComboBoxItem Tag="3">Time3</ComboBoxItem>
-                                        <ComboBoxItem Tag="4">Qualy</ComboBoxItem>
-                                        <ComboBoxItem Tag="5">Race1</ComboBoxItem>
-                                        <ComboBoxItem Tag="6">Race2</ComboBoxItem>
-                                        <ComboBoxItem Tag="7">Race3</ComboBoxItem>
-                                        <ComboBoxItem Tag="8">Practice1</ComboBoxItem>
-                                        <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
-                                    </ComboBox>
+                                <TextBlock Grid.Row="2" Text="Right Screen in practice"/>
+                                <ComboBox Grid.Row="2" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding RightPracticeScreen}">
+                                    <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
+                                    <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
+                                    <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
+                                    <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
+                                    <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                    <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                    <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                    <ComboBoxItem Tag="8">Track</ComboBoxItem>
+                                </ComboBox>
 
-                                    <TextBlock Grid.Row="4" Text="Right Screen in qualy"/>
-                                    <ComboBox Grid.Row="4" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding RightQualyScreen}">
-                                        <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
-                                        <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
-                                        <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
-                                        <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
-                                        <ComboBoxItem Tag="5">Race1</ComboBoxItem>
-                                        <ComboBoxItem Tag="6">Race2</ComboBoxItem>
-                                        <ComboBoxItem Tag="7">Race3</ComboBoxItem>
-                                        <ComboBoxItem Tag="8">Track</ComboBoxItem>
-                                    </ComboBox>
+                                <TextBlock Grid.Row="3" Text="Left Screen in qualy"/>
+                                <ComboBox Grid.Row="3" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding LeftQualyScreen}">
+                                    <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
+                                    <ComboBoxItem Tag="2">Time2</ComboBoxItem>
+                                    <ComboBoxItem Tag="3">Time3</ComboBoxItem>
+                                    <ComboBoxItem Tag="4">Qualy</ComboBoxItem>
+                                    <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                    <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                    <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                    <ComboBoxItem Tag="8">Practice1</ComboBoxItem>
+                                    <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
+                                </ComboBox>
 
-                                    <TextBlock Grid.Row="5" Text="Left Screen in race"/>
-                                    <ComboBox Grid.Row="5" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding LeftRaceScreen}">
-                                        <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
-                                        <ComboBoxItem Tag="2">Time2</ComboBoxItem>
-                                        <ComboBoxItem Tag="3">Time3</ComboBoxItem>
-                                        <ComboBoxItem Tag="4">Qualy</ComboBoxItem>
-                                        <ComboBoxItem Tag="5">Race1</ComboBoxItem>
-                                        <ComboBoxItem Tag="6">Race2</ComboBoxItem>
-                                        <ComboBoxItem Tag="7">Race3</ComboBoxItem>
-                                        <ComboBoxItem Tag="8">Practice1</ComboBoxItem>
-                                        <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
-                                    </ComboBox>
+                                <TextBlock Grid.Row="4" Text="Right Screen in qualy"/>
+                                <ComboBox Grid.Row="4" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding RightQualyScreen}">
+                                    <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
+                                    <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
+                                    <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
+                                    <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
+                                    <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                    <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                    <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                    <ComboBoxItem Tag="8">Track</ComboBoxItem>
+                                </ComboBox>
 
-                                    <TextBlock Grid.Row="6" Text="Right Screen in race"/>
-                                    <ComboBox Grid.Row="6" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding RightRaceScreen}">
-                                        <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
-                                        <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
-                                        <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
-                                        <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
-                                        <ComboBoxItem Tag="5">Race1</ComboBoxItem>
-                                        <ComboBoxItem Tag="6">Race2</ComboBoxItem>
-                                        <ComboBoxItem Tag="7">Race3</ComboBoxItem>
-                                        <ComboBoxItem Tag="8">Track</ComboBoxItem>
-                                    </ComboBox>
+                                <TextBlock Grid.Row="5" Text="Left Screen in race"/>
+                                <ComboBox Grid.Row="5" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding LeftRaceScreen}">
+                                    <ComboBoxItem Tag="1" IsSelected="True">Time1</ComboBoxItem>
+                                    <ComboBoxItem Tag="2">Time2</ComboBoxItem>
+                                    <ComboBoxItem Tag="3">Time3</ComboBoxItem>
+                                    <ComboBoxItem Tag="4">Qualy</ComboBoxItem>
+                                    <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                    <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                    <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                    <ComboBoxItem Tag="8">Practice1</ComboBoxItem>
+                                    <ComboBoxItem Tag="9">Practice2</ComboBoxItem>
+                                </ComboBox>
 
-
-                                </Grid>
-                            </styles:SHSection>
-                            <styles:SHSection Title="Delta Screens">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="2*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*" MinHeight="20"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                        <RowDefinition Height="1*" MinHeight="30"/>
-                                    </Grid.RowDefinitions>
-
-                                    <TextBlock Grid.Row="1" Text="Startup screen"/>
-                                    <ComboBox Grid.Row="1" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding DeltaScreenStartup}">
-                                        <ComboBoxItem Tag="1" IsSelected="True">LastLap</ComboBoxItem>
-                                        <ComboBoxItem Tag="2">SessionBest</ComboBoxItem>
-                                        <ComboBoxItem Tag="3">LapRecord</ComboBoxItem>
-                                        <ComboBoxItem Tag="4">FuelSave</ComboBoxItem>
-                                        <ComboBoxItem Tag="5">FuelTarget</ComboBoxItem>
-                                    </ComboBox>
-
-                                    <TextBlock Text="Road tracks - Delta change bar sensitivity (10th's delta change to fill a whole bar)" Grid.Row="2" Margin="10,10,0,10" Grid.RowSpan="2"/>
-                                    <TextBlock Text="{Binding ElementName=DeltaRoadSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" HorizontalAlignment="Left" Margin="10,0,0,0" Width="50" Height="20"/>
-                                    <Slider x:Name="DeltaRoadSlider" Value="{Binding DeltaRoadSensitivity}" Grid.Row="4" Width="600" HorizontalAlignment="Left" Maximum="10" Minimum="0.5" SmallChange="0.25" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" TickFrequency="0.25" />
-                                    <TextBlock Text="Oval tracks - Delta change bar sensitivity (10th's delta change to fill a whole bar)" Grid.Row="5" Margin="10,10,0,10" Grid.RowSpan="2"/>
-                                    <TextBlock Text="{Binding ElementName=DeltaOvalSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" HorizontalAlignment="Left" Margin="10,0,0,0" Width="50" Height="20"/>
-                                    <Slider x:Name="DeltaOvalSlider" Value="{Binding DeltaOvalSensitivity}" Grid.Row="7" Width="600" HorizontalAlignment="Left" Maximum="2" Minimum="0.05" SmallChange="0.05" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" TickFrequency="0.05" />
-                                    <TextBlock Text="Rally tracks - Delta change bar sensitivity (10th's delta change to fill a whole bar)" Grid.Row="8" Margin="10,10,0,10" Grid.RowSpan="2"/>
-                                    <TextBlock Text="{Binding ElementName=DeltaRallySlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="9" HorizontalAlignment="Left" Margin="10,0,0,0" Width="50" Height="20"/>
-                                    <Slider x:Name="DeltaRallySlider" Value="{Binding DeltaRallySensitivity}" Grid.Row="10" Width="600" HorizontalAlignment="Left" Maximum="4" Minimum="0.2" SmallChange="0.2" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" TickFrequency="0.1" />
+                                <TextBlock Grid.Row="6" Text="Right Screen in race"/>
+                                <ComboBox Grid.Row="6" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding RightRaceScreen}">
+                                    <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
+                                    <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
+                                    <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
+                                    <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
+                                    <ComboBoxItem Tag="5">Race1</ComboBoxItem>
+                                    <ComboBoxItem Tag="6">Race2</ComboBoxItem>
+                                    <ComboBoxItem Tag="7">Race3</ComboBoxItem>
+                                    <ComboBoxItem Tag="8">Track</ComboBoxItem>
+                                </ComboBox>
 
 
+                            </Grid>
+                        </styles:SHSection>
+                        <styles:SHSection Title="Delta Screens">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*" MinHeight="20"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
+                                </Grid.RowDefinitions>
 
-                                </Grid>
-                            </styles:SHSection>
-                        </StackPanel>
-                    </ScrollViewer>
-                </styles:SHSection>
+                                <TextBlock Grid.Row="1" Text="Startup screen"/>
+                                <ComboBox Grid.Row="1" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding DeltaScreenStartup}">
+                                    <ComboBoxItem Tag="1" IsSelected="True">LastLap</ComboBoxItem>
+                                    <ComboBoxItem Tag="2">SessionBest</ComboBoxItem>
+                                    <ComboBoxItem Tag="3">LapRecord</ComboBoxItem>
+                                    <ComboBoxItem Tag="4">FuelSave</ComboBoxItem>
+                                    <ComboBoxItem Tag="5">FuelTarget</ComboBoxItem>
+                                </ComboBox>
+
+                                <TextBlock Text="Road tracks - Delta change bar sensitivity (10th's delta change to fill a whole bar)" Grid.Row="2" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                                <TextBlock Text="{Binding ElementName=DeltaRoadSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" HorizontalAlignment="Left" Margin="10,0,0,0" Width="50" Height="20"/>
+                                <Slider x:Name="DeltaRoadSlider" Value="{Binding DeltaRoadSensitivity}" Grid.Row="4" Width="600" HorizontalAlignment="Left" Maximum="10" Minimum="0.5" SmallChange="0.25" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" TickFrequency="0.25" />
+                                <TextBlock Text="Oval tracks - Delta change bar sensitivity (10th's delta change to fill a whole bar)" Grid.Row="5" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                                <TextBlock Text="{Binding ElementName=DeltaOvalSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" HorizontalAlignment="Left" Margin="10,0,0,0" Width="50" Height="20"/>
+                                <Slider x:Name="DeltaOvalSlider" Value="{Binding DeltaOvalSensitivity}" Grid.Row="7" Width="600" HorizontalAlignment="Left" Maximum="2" Minimum="0.05" SmallChange="0.05" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" TickFrequency="0.05" />
+                                <TextBlock Text="Rally tracks - Delta change bar sensitivity (10th's delta change to fill a whole bar)" Grid.Row="8" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                                <TextBlock Text="{Binding ElementName=DeltaRallySlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="9" HorizontalAlignment="Left" Margin="10,0,0,0" Width="50" Height="20"/>
+                                <Slider x:Name="DeltaRallySlider" Value="{Binding DeltaRallySensitivity}" Grid.Row="10" Width="600" HorizontalAlignment="Left" Maximum="4" Minimum="0.2" SmallChange="0.2" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" TickFrequency="0.1" />
+
+
+
+                            </Grid>
+                        </styles:SHSection>
+                    </StackPanel>
+                </ScrollViewer>
 
             </styles:SHTabItem>
             <styles:SHTabItem Header="Dash controls">
@@ -311,7 +309,7 @@
             </styles:SHTabItem>
             <styles:SHTabItem Header="Car controls">
                 <ScrollViewer>
-                    <styles:SHSection Title="Car control bindings">
+                    <styles:SHSection Title="Bindings">
                         <StackPanel>
                             <ui:ControlsEditor FriendlyName="TC Off (pressed)" ActionName="DahlDesign.TCPressed" HorizontalAlignment="Left" Width="750"/>
                             <ui:ControlsEditor FriendlyName="TC Off (released)" ActionName="DahlDesign.TCReleased" HorizontalAlignment="Left" Width="750"/>
@@ -479,6 +477,16 @@
                             </Grid>
                         </StackPanel>
                     </styles:SHSection>
+                    <styles:SHSection Title="Wheel base" Margin="0,0,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Wheel base steering axis. &quot;JoystickPlugin.FANATEC_Podium_Wheel_Base_DD2_X&quot;: Write &quot;FANATEC_Podium_Wheel_Base_DD2_X&quot; here." Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                            <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding WheelBaseSteeringAxis}"/>
+                            <TextBlock Text="Maximum steering angle" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                            <TextBlock Text="{Binding ElementName=WheelRevSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" HorizontalAlignment="Left" Margin="10,0,0,0" Width="50" Height="20"/>
+                            <Slider x:Name="WheelRevSlider" Value="{Binding WheelRevolutions}" Grid.Row="4" Width="600" HorizontalAlignment="Left" Maximum="2160" Minimum="180" SmallChange="180" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" TickFrequency="180" />
+
+                        </StackPanel>
+                    </styles:SHSection>
                     <styles:SHSection Title="Bindings" Margin="0,0,0,0">
                         <StackPanel>
                             <ui:ControlsEditor FriendlyName="Bite Point Adjust (pressed)" ActionName="DahlDesign.BitePointPressed" HorizontalAlignment="Left" Width="750"/>
@@ -519,9 +527,6 @@
                                 <TextBlock Grid.Row="3" Text="SW1 start LED" Margin="0,13,0,-13"/>
                                 <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="22,11,-58,0" Text="{Binding Path=SW1startLED}">
                                 </TextBox>
-
-
-
                             </Grid>
                         </StackPanel>
                     </styles:SHSection>
