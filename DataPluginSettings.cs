@@ -20,6 +20,8 @@ namespace DahlDesign.Plugin
         public bool ShiftWarning { get; set; } = false;
         public bool WheelSlipLEDs { get; set; } = false;
 
+        public bool FullTank { get; set; } = false;
+
         public int SmallFuelIncrement { get; set; } = 2; //In Liters
         public int LargeFuelIncrement { get; set; } = 10; //In Liters
 

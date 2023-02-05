@@ -2167,7 +2167,11 @@ namespace DahlDesign.Plugin.iRacing
                 {
                     string pushPit = "";
 
-                    if (commandMaxFuel == 0)
+                    if (Base.Settings.FullTank)
+                    {
+                        pushPit = "#fuel 500l ws$";
+                    }
+                    else if (commandMaxFuel == 0)
                     {
                         pushPit = "#ws$";
                     }
@@ -6203,7 +6207,6 @@ namespace DahlDesign.Plugin.iRacing
             //Stuf that happens when idle
             if (iRIdle)
             {
-                buildDeltaSystem = true;
                 findLapRecord = true;
                 csvIndex = 0;
                 currentFrontWing = 0;
