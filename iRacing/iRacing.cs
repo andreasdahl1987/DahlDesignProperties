@@ -3222,7 +3222,7 @@ namespace DahlDesign.Plugin.iRacing
 
             bool pitEntry = false;
 
-            if (pitLimiter == 1 && pit == 0 && stintLength > 1000)
+            if ((pitLimiter == 1 || trackLocation == 2) && pit == 0 && stintLength > 1000)
             {
                 pitEntry = true;
             }
