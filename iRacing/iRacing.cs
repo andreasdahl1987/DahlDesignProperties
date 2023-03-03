@@ -516,6 +516,8 @@ namespace DahlDesign.Plugin.iRacing
 
             Base.AddProp("TestProperty", 0);
 
+            Base.AddProp("Version", "1.17.0");
+
             Base.AddProp("Lap01Delta", 0);
             Base.AddProp("Lap02Delta", 0);
             Base.AddProp("Lap03Delta", 0);
