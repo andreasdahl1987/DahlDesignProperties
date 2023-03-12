@@ -3,9 +3,9 @@ using SimHub.Plugins;
 
 namespace DahlDesign.Plugin.Categories
 {
-    public class iRacingSpotter : SectionBase
+    public class Spotter : SectionBase
     {
-        public iRacingSpotter(DahlDesign dahlDesign) : base(dahlDesign) { }
+        public Spotter(DahlDesign dahlDesign) : base(dahlDesign) { }
         private bool leftTaken = false;
         private bool rightTaken = false;
         public string carNameLeft = "";

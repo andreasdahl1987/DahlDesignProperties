@@ -127,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameData.cs" />
+    <Compile Include="iRacing\iRacingRadio.cs" />
     <Compile Include="Sections\Calculation.cs" />
     <Compile Include="Sections\SectionBase.cs" />
     <Compile Include="iRacing\LapRecords.cs" />
@@ -136,7 +137,7 @@
     <Compile Include="iRacing\PitCommands.cs" />
     <Compile Include="iRacing\Tires.cs" />
     <Compile Include="iRacing\Models\PitOpponents.cs" />
-    <Compile Include="iRacing\iRacingSpotter.cs" />
+    <Compile Include="Sections\Spotter.cs" />
     <Compile Include="DataPlugin.cs" />
     <Compile Include="DataPluginSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -156,7 +157,6 @@
     <Compile Include="Sections\Rotary.cs" />
     <Compile Include="Sections\SmoothGear.cs" />
     <Compile Include="Sections\Acceleration.cs" />
-    <Compile Include="Sections\Radio.cs" />
     <Compile Include="iRacing\Models\Tracks.cs" />
     <Compile Include="iRacing\TrackInfos.cs" />
   </ItemGroup>

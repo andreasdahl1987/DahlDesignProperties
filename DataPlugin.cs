@@ -23,7 +23,7 @@ namespace DahlDesign.Plugin
         public Rotary Rotary;
         public SmoothGear SmoothGear;
         public Acceleration Acceleration;
-        public Radio Radio;
+        public iRacingRadio Radio;
         public int counter = 0;
         public ImageSource PictureIcon => this.ToIcon(Properties.Resources.Dahl_icon);
         public string LeftMenuTitle => "Dahl Design";
@@ -48,7 +48,7 @@ namespace DahlDesign.Plugin
             Rotary = new Rotary(this);
             iRacing = new iRacing.Data(this);
             SmoothGear = new SmoothGear(this);
-            Radio = new Radio(this);
+            Radio = new iRacingRadio(this);
             
 
             InitSections();
@@ -67,7 +67,7 @@ namespace DahlDesign.Plugin
             Sections.Add(Rotary);
             Sections.Add(iRacing);            
             Sections.Add(new Tires(this));
-            Sections.Add(new iRacingSpotter(this));            
+            Sections.Add(new Spotter(this));            
             Sections.Add(SmoothGear);
             Sections.Add(new Acceleration(this));
             Sections.Add(Radio);

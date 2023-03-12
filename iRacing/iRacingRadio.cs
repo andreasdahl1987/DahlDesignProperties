@@ -6,10 +6,10 @@ namespace DahlDesign.Plugin.Categories
     /// <summary>
     /// Radio toggle/name
     /// </summary>
-    public class Radio : SectionBase
+    public class iRacingRadio : SectionBase
     {
 
-        public Radio(DahlDesign dahlDesign) : base(dahlDesign) { }
+        public iRacingRadio(DahlDesign dahlDesign) : base(dahlDesign) { }
 
         //class variables go here
         bool radio = false;
@@ -39,6 +39,9 @@ namespace DahlDesign.Plugin.Categories
         /// </summary>
         public override void DataUpdate()
         {
+            if (GameDataAll.GameName != "IRacing")
+                return;
+
             if (IRData.Telemetry.RadioTransmitCarIdx != -1)
             {
                 radioName = IRData.SessionData.DriverInfo.Drivers[IRData.Telemetry.RadioTransmitCarIdx].UserName;
