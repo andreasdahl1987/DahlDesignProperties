@@ -235,6 +235,18 @@
             <styles:SHTabItem Header="Dash controls">
                 <ScrollViewer>
                     <StackPanel>
+                        <styles:SHSection Title="Screen page counters">
+                            <StackPanel>
+                                
+                                <TextBlock Text="Left screen:" Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                                <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding leftPageCount}"/>
+                                <TextBlock Text="Right screen:" Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                                <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding rightPageCount}"/>
+                                <TextBlock Text="Delta screen:" Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                                <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding deltaPageCount}"/>
+
+                            </StackPanel>
+                        </styles:SHSection>
                         <styles:SHSection Title="Fullscreens bindings">
                             <StackPanel>
                                 <ui:ControlsEditor FriendlyName="Launch Screen (toggle switch released)" ActionName="DahlDesign.LaunchReleased" HorizontalAlignment="Left" Width="750"/>
@@ -245,13 +257,13 @@
 
                                 <ui:ControlsEditor FriendlyName="Pace Screen (pressed)" ActionName="DahlDesign.PacePressed" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Pace Screen (released)" ActionName="DahlDesign.PaceReleased" HorizontalAlignment="Left" Width="750"/>
+                                
                             </StackPanel>
                         </styles:SHSection>
 
                         <styles:SHSection Title="Dashboard bindings">
                             <StackPanel>
-
-
+                                
                                 <ui:ControlsEditor FriendlyName="Radio (pressed)" ActionName="DahlDesign.RadioPressed" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Radio (released)" ActionName="DahlDesign.RadioReleased" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="LED Warnings (pressed)" ActionName="DahlDesign.LEDWarningPressed" HorizontalAlignment="Left" Width="750"/>

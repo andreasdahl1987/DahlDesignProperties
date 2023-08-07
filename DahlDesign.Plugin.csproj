@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Program Files %28x86%29\SimHub\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\Program Files %28x86%29\SimHub\</OutputPath>
     <!--OutputPath>bin\Debug\</OutputPath-->
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -34,7 +34,7 @@
   <ItemGroup>
     <Reference Include="ACSharedMemory, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>DLLs\ACSharedMemory.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\SimHub\ACSharedMemory.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ACToolsUtilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -46,12 +46,12 @@
       <HintPath>packages\CsvHelper.29.0.0\lib\net47\CsvHelper.dll</HintPath>
     </Reference>
     <Reference Include="GameReaderCommon">
-      <HintPath>DLLs\GameReaderCommon.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\SimHub\GameReaderCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ICarsReader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>DLLs\ICarsReader.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\SimHub\ICarsReader.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="InputManagerCS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -61,17 +61,17 @@
     </Reference>
     <Reference Include="iRacingSDK, Version=1.0.7896.30708, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>DLLs\iRacingSDK.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\SimHub\iRacingSDK.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>DLLs\log4net.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\SimHub\log4net.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.DLLs\MahApps.Metro.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\SimHub\MahApps.Metro.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -82,13 +82,17 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\SimHub\SharpDX.dll</HintPath>
+    </Reference>
     <Reference Include="SimHub.Logging, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>DLLs\SimHub.Logging.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\SimHub\SimHub.Logging.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SimHub.Plugins">
-      <HintPath>DLLs\SimHub.Plugins.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\SimHub\SimHub.Plugins.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

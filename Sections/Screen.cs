@@ -7,9 +7,9 @@ namespace DahlDesign.Plugin.Categories
 
         public string[] screenNames;
 
-        public Screen(string[] screenNames, int currentScreen = 1)
+        public Screen(string[] screenNames, int maxscreens, int currentScreen = 1)
         {
-            this.maxScreens = screenNames.Length;
+            this.maxScreens =maxscreens;
             this.screenNames = screenNames;
             screenID = currentScreen;
         }

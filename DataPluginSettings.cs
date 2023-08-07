@@ -9,6 +9,10 @@ namespace DahlDesign.Plugin
     /// </summary>
     public class DataPluginSettings : INotifyPropertyChanged
     {
+        public int rightPageCount { get; set; } = 8;
+        public int leftPageCount { get; set; } = 9;
+        public int deltaPageCount { get; set; } = 5;
+
         public int ReactionTime { get; set; } = 300;
         public bool DDUEnabled { get; set; } = false;
         public int DDUstartLED { get; set; } = 1;

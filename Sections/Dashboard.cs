@@ -17,9 +17,9 @@ namespace DahlDesign.Plugin.Categories
 
         public override void Init(PluginManager pluginManager)
         {
-            LeftScreen = new Screen(new string[] { "Time1", "Time2", "Time3", "Qualy", "Race1", "Race2", "Race3", "Practice1", "Practice2" });
-            RightScreen = new Screen(new string[] { "Stint1", "Stint2", "Qualy1", "Qualy2", "Race1", "Race2", "Race3", "Track" });
-            DeltaScreen = new Screen(new string[] { "LastLap", "SessionBest", "LapRecord", "FuelSave", "FuelTarget" });
+            LeftScreen = new Screen(new string[] { "Time1", "Time2", "Time3", "Qualy", "Race1", "Race2", "Race3", "Practice1", "Practice2" }, Base.Settings.leftPageCount);
+            RightScreen = new Screen(new string[] { "Stint1", "Stint2", "Qualy1", "Qualy2", "Race1", "Race2", "Race3", "Track" }, Base.Settings.rightPageCount);
+            DeltaScreen = new Screen(new string[] { "LastLap", "SessionBest", "LapRecord", "FuelSave", "FuelTarget" }, Base.Settings.deltaPageCount);
             
             Base.AttachDelegate("ShowMapEnabled", () => Base.Settings.ShowMapEnabled);
             Base.AttachDelegate("ShowBrakeThrottleGaugesEnabled", () => Base.Settings.ShowBrakeThrottleGaugesEnabled);
