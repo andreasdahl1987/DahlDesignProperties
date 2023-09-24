@@ -354,6 +354,19 @@ namespace DahlDesign.Plugin.iRacing
         double highestThrottle = 0;
         bool throttleLift = false;
 
+        //SF23 p2p stuff
+        bool sf23ToggleLock = false;
+        bool sf23CDLock = false;
+        bool sf23CDStart = false;
+        bool sf23p2pActive = false;
+        double sf23p2pSpent = 0;
+        double sf23p2pSpending = 0;
+        double sf23thisP2Ptime = 0;
+        double sf23TimeLeft = 0;
+        double sf23CDRef = 0;
+        double sf23CDTime = 0;
+        bool sf23P2PAllowed = false;
+
         //Buttons
       
         bool TCactive = false;
@@ -565,6 +578,12 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("P2PCount", () => p2pCounter);
             Base.AttachDelegate("P2PStatus", () => p2pActive);
             Base.AddProp("DRSCount", -1);
+
+            Base.AddProp("SF23.P2PAllowed", false);
+            Base.AddProp("SF23.P2PTimeLeft", 0);
+            Base.AddProp("SF23.P2PCooldownTimer", 0);
+            Base.AddProp("SF23.P2PActive", false);
+            Base.AddProp("SF23.P2PCooldownActive", false);
 
             Base.AddProp("SlipLF", 0);
             Base.AddProp("SlipRF", 0);
@@ -1348,6 +1367,10 @@ namespace DahlDesign.Plugin.iRacing
                 aheadClass = GameData.OpponentsAheadOnTrack[0].CarClass;                        //Ahead Class
                 aheadClassPosition = GameData.OpponentsAheadOnTrack[0].PositionInClass;         //Ahead Position (class)
             }
+
+            IRData.Telemetry.TryGetValue("PushToPass", out object rawP2P);                   //Right rear shock
+            bool pushToPass = Convert.ToBoolean(rawP2P);
+
             string myClass = GameData.CarClass;                                                 //My Class
             int myPosition = IRData.Telemetry.PlayerCarClassPosition;                               //My Position (class)
             double throttle = GameData.Throttle;                                                //Throttle application
@@ -1836,8 +1859,9 @@ namespace DahlDesign.Plugin.iRacing
 
 
             //-----------------------------------------------
-            //--------------DRS------------------------------
+            //--------------------DRS------------------------
             //-----------------------------------------------
+
             DRSpush = "";
             switch (DRSState)
             {
@@ -1863,11 +1887,99 @@ namespace DahlDesign.Plugin.iRacing
                     break;
             }
 
+
+            //-----------------------------------------------
+            //--------------------SF23 P2P-------------------
+            //-----------------------------------------------
+
+            bool sf23P2PAllowed = true;
+
+            if (session == "Race" || session == "Practice")
+            {
+                
+                if (!sf23ToggleLock && pushToPass && sf23CDTime == 0)
+                {
+                    sf23ToggleLock = true;
+                    sf23p2pActive = !sf23p2pActive;
+
+                    if(!sf23p2pActive)
+                    {
+                        sf23CDRef = globalClock.TotalSeconds;
+                        sf23CDTime = 0;
+                        sf23CDStart = true;
+                        sf23p2pSpent += sf23thisP2Ptime;
+                        sf23thisP2Ptime = 0;
+                    }
+                }
+
+                if(!pushToPass)
+                {
+                    sf23ToggleLock = false;
+                }
+
+                if(!sf23p2pActive)
+                {
+                    sf23p2pSpending = globalClock.TotalSeconds;
+                }
+                if (sf23p2pActive)
+                {
+                    sf23thisP2Ptime = globalClock.TotalSeconds - sf23p2pSpending;
+                }
+
+                if (sf23CDStart)
+                {
+                    sf23CDTime = 100 - (globalClock.TotalSeconds - sf23CDRef);
+                }
+                else
+                {
+                    sf23CDTime = 0;
+                }
+
+                if (sf23CDTime <= 0)
+                {
+                    sf23CDTime = 0;
+                    sf23CDStart = false;
+                }
+
+                sf23TimeLeft = 200 - sf23p2pSpent - sf23thisP2Ptime;
+
+                if (pitBox > 0 || sessionState < 4)
+                {
+                    sf23P2PAllowed = false;
+                    sf23p2pActive = false;
+                    sf23CDStart = false;
+                    sf23CDTime = 0;
+                    sf23ToggleLock = false;
+                    sf23CDRef = globalClock.TotalSeconds;
+                    sf23thisP2Ptime = globalClock.TotalSeconds - sf23p2pSpending;
+                    sf23p2pSpending = globalClock.TotalSeconds;
+                }
+            }
+            else
+            {
+                sf23P2PAllowed = false;
+                sf23TimeLeft = 0;
+                sf23p2pActive = false;
+                sf23CDStart = false;
+                sf23CDTime = 0;
+                sf23ToggleLock = false;
+                sf23CDRef = globalClock.TotalSeconds;
+                sf23p2pSpending = globalClock.TotalSeconds;
+                sf23thisP2Ptime = 0;
+                sf23p2pSpent = 0;
+            }
+
+
+            Base.SetProp("SF23.P2PAllowed", sf23P2PAllowed);
+            Base.SetProp("SF23.P2PTimeLeft", sf23TimeLeft);
+            Base.SetProp("SF23.P2PCooldownTimer", sf23CDTime);
+            Base.SetProp("SF23.P2PActive", sf23p2pActive);
+            Base.SetProp("SF23.P2PCooldownActive", sf23CDStart);
+
+
             //----------------------------------------------
             //-------SHIFT LIGHT/SHIFT POINT PER GEAR-------
             //----------------------------------------------
-
-
 
             switch (gear)
             {
@@ -6284,6 +6396,18 @@ namespace DahlDesign.Plugin.iRacing
                     minFuelPush = 0;
                     maxFuelPush = 0;
                     qLapStarted2 = false;
+
+                    //SF23
+                    sf23TimeLeft = 0;
+                    sf23p2pActive = false;
+                    sf23CDStart = false;
+                    sf23CDTime = 0;
+                    sf23ToggleLock = false;
+                    sf23CDRef = globalClock.TotalSeconds;
+                    sf23p2pSpending = globalClock.TotalSeconds;
+                    sf23thisP2Ptime = 0;
+                    sf23p2pSpent = 0;
+                    sf23P2PAllowed = false;
 
                     //Props that need refresh
                     Base.SetProp("TCActive", false);
