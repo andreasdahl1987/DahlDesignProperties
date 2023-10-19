@@ -33,10 +33,10 @@ namespace DahlDesign.Plugin.iRacing
 
         }
 
-        public static void replaceLapRecord(string track, string car, double lapTime, List<double> deltas, string path, int index)
+        public static void replaceLapRecord(string track, string car, double lapTime, List<double> deltas, string path, int index, List<double> speedRegister)
         {
             string[] allLines = File.ReadAllLines(path);
-            allLines[index] = track + "," + car + "," + Convert.ToString(lapTime) + "," + string.Join(",", deltas);
+            allLines[index] = track + "," + car + "," + Convert.ToString(lapTime) + "," + string.Join(",", deltas) + "," + string.Join(",", speedRegister);
             File.WriteAllLines(path, allLines);
         }
 
@@ -64,12 +64,34 @@ namespace DahlDesign.Plugin.iRacing
                     }
                     index = 0;
                     lapTime = new TimeSpan(0);
-                    for (int a = 0; a < deltaSections; a++)
+                    for (int a = 0; a < deltaSections + 1; a++)
                     {
                         deltas[a] = -1;
                     }
                 }
             }
+        }
+
+        public static void deleteLapRecord(string track, string car, string path, int index, int deltaSections)
+        {
+            List<int> emptyDelta = new List<int>();
+            List<int> emptySpeed = new List<int>();
+
+            emptyDelta.Add(-2);
+
+            for (int a = 1; a < deltaSections + 1; a++)
+            {
+                emptyDelta.Add(-1);
+            }
+
+            for (int a = 0; a < deltaSections; a++)
+            {
+                emptySpeed.Add(-1);
+            }
+
+            string[] allLines = File.ReadAllLines(path);
+            allLines[index] = track + "," + car + "," + Convert.ToString(0) + "," + string.Join(",", emptyDelta) + "," + string.Join(",", emptySpeed);
+            File.WriteAllLines(path, allLines);
         }
     }
 }

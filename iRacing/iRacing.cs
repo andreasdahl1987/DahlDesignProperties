@@ -378,7 +378,7 @@ namespace DahlDesign.Plugin.iRacing
         int myTireCompound = -1;
         int myDRSCount = -1;
 
-  
+        bool deleteLapRecord = false;
 
         bool NBpressed = false;
         bool NBactive = false;
@@ -1120,7 +1120,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddAction("TCPressed", (a, b) => TCactive = true);
             Base.AddAction("TCReleased", (a, b) => TCactive = false);
 
-
+            Base.AddAction("DeleteLapRecord", (a, b) => deleteLapRecord = true);
 
             Base.AttachDelegate("PitSavePaceLock", () => savePitTimerLock);
 
@@ -2603,6 +2603,15 @@ namespace DahlDesign.Plugin.iRacing
                 paceReleased = false;
             }
 
+            //DeleteLapTime
+
+            if(deleteLapRecord)
+            {
+                LapRecords.deleteLapRecord(track, carModel, csvAdress, csvIndex, lapDeltaSections);
+                deleteLapRecord = false;
+                findLapRecord = true;
+            }
+
             //Bite adjust
             if (bitePointPressed)
             {
@@ -3196,7 +3205,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
 
                     //Checking for lap record
-                    if (lapRecord.TotalSeconds == 0 && lapStatusList[0] == 1)
+                    if (lapRecord.TotalSeconds == 0 && lapStatusList[0] == 1 && lapDeltaRecord[0] != -2) //lapDeltaRecord[0] of -2 means previously deleted lap, ready to be overwritten
                     {
                         LapRecords.addLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, ref csvIndex, speedRegisterLast);
                         for (int i = 0; i < lapDeltaSections + 1; i++) //Keep hold of the timings on that lap
@@ -3205,9 +3214,9 @@ namespace DahlDesign.Plugin.iRacing
                         }
                         findLapRecord = true;
                     }
-                    else if (lapTimeList[0].TotalSeconds < lapRecord.TotalSeconds && lapStatusList[0] == 1)
+                    else if ((lapTimeList[0].TotalSeconds < lapRecord.TotalSeconds || lapDeltaRecord[0] == -2) && lapStatusList[0] == 1)
                     {
-                        LapRecords.replaceLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, csvIndex);
+                        LapRecords.replaceLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, csvIndex, speedRegisterLast);
                         findLapRecord = true;
                     }
 

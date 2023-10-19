@@ -294,6 +294,7 @@
 
                         <styles:SHSection Title="Delta screen bindings">
                             <StackPanel>
+                                <ui:ControlsEditor FriendlyName="Delete current lap record" ActionName="DahlDesign.DeleteLapRecord" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Delta Screen > Next Page" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.Next" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Delta Screen > Previous Page" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.Previous" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Delta Screen - LastLap" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.LastLap" HorizontalAlignment="Left" Width="750"/>
