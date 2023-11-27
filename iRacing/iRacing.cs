@@ -46,6 +46,7 @@ namespace DahlDesign.Plugin.iRacing
         List<double> lapDeltaRecord = new List<double> { };
         List<double> speedRegisterCurrent= new List<double> { };
         List<double> speedRegisterLast = new List<double> { };
+        List<double> speedRegisterRecord = new List<double> { };
 
         TimeSpan predictedLapTime = new TimeSpan(0);
 
@@ -681,6 +682,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("DeltaLastLapChange", "");
             Base.AddProp("DeltaSessionBestChange", "");
             Base.AddProp("DeltaLapRecordChange", "");
+            Base.AddProp("SpeedDeltaLapRecord", 0);
 
             Base.AddProp("P1Gap", 0);
             Base.AddProp("P1Name", "");
@@ -1806,6 +1808,7 @@ namespace DahlDesign.Plugin.iRacing
                     lapDeltaLapRecordChange.Clear();
                     speedRegisterCurrent.Clear();
                     speedRegisterLast.Clear();
+                    speedRegisterRecord.Clear();
 
                     for (int i = 0; i < lapDeltaSections + 1; i++)
                     {
@@ -1816,14 +1819,19 @@ namespace DahlDesign.Plugin.iRacing
                         lapDeltaLastChange.Add(0);
                         lapDeltaSessionBestChange.Add(0);
                         lapDeltaLapRecordChange.Add(0);
+                    }
+
+                    for (int i = 0; i < lapDeltaSections; i++)
+                    {
                         speedRegisterCurrent.Add(-1);
                         speedRegisterLast.Add(-1);
+                        speedRegisterRecord.Add(-1);
                     }
 
                     buildDeltaSystem = false;
                 }
 
-                LapRecords.lapFetch(ref findLapRecord, csvAdress, ref csvIndex, track, carModel, ref lapRecord, ref lapDeltaRecord, lapDeltaSections);
+                LapRecords.lapFetch(ref findLapRecord, csvAdress, ref csvIndex, track, carModel, ref lapRecord, ref lapDeltaRecord, ref speedRegisterRecord, lapDeltaSections);
 
             }
             
@@ -3184,6 +3192,10 @@ namespace DahlDesign.Plugin.iRacing
                         for (int i = 0; i < lapDeltaSections + 1; i++) //Keep hold of the timings on that lap
                         {
                             lapDeltaRecord[i] = lapDeltaLast[i];
+                        }
+                        for (int i = 0; i < lapDeltaSections; i++) //Keep hold of the speed on that lap
+                        {
+                            speedRegisterRecord[i] = speedRegisterLast[i];
                         }
                         findLapRecord = true;
                     }
@@ -5901,6 +5913,7 @@ namespace DahlDesign.Plugin.iRacing
                 double deltaLastLap = 0;
                 double deltaSessionBest = 0;
                 double deltaLapRecord = 0;
+                double speedDeltaLapRecord = 0;
                 predictedLapTime = new TimeSpan(0);
                 TimeSpan predictedLapFetch = new TimeSpan(0);
                 List<double> predictedLapChunks = new List<double>(0);
@@ -5961,10 +5974,14 @@ namespace DahlDesign.Plugin.iRacing
                         deltaLapRecord = (lapDeltaCurrent[myDeltaIndex + 1] - lapDeltaRecord[myDeltaIndex + 1]) / 1000;
                         lapDeltaLapRecordChange[myDeltaIndex] = deltaLapRecord;
                         Base.SetProp("DeltaLapRecord", deltaLapRecord);
+
+                        speedDeltaLapRecord = (speed - speedRegisterRecord[myDeltaIndex]);
+                        Base.SetProp("SpeedDeltaLapRecord", speedDeltaLapRecord);
                     }
                     if (lapDeltaRecord[myDeltaIndex + 1] == -1)
                     {
                         Base.SetProp("DeltaLapRecord", 0);
+                        Base.SetProp("SpeedDeltaLapRecord", 0);
                     }
 
 
@@ -5973,9 +5990,11 @@ namespace DahlDesign.Plugin.iRacing
                         for (int i = 0; i < lapDeltaSections + 1; i++)
                         {
                             lapDeltaLast[i] = lapDeltaCurrent[i];
-                            speedRegisterLast[i] = speedRegisterCurrent[i];
-
                             lapDeltaCurrent[i] = -1;
+                        }
+                        for (int i = 0; i < lapDeltaSections; i++)
+                        {
+                            speedRegisterLast[i] = speedRegisterCurrent[i];
                             speedRegisterCurrent[i] = -1;
                         }
                     }

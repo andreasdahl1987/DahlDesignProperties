@@ -40,7 +40,7 @@ namespace DahlDesign.Plugin.iRacing
             File.WriteAllLines(path, allLines);
         }
 
-        public static void lapFetch(ref bool initiate, string path, ref int index, string track, string car, ref TimeSpan lapTime, ref List<double> deltas, int deltaSections)
+        public static void lapFetch(ref bool initiate, string path, ref int index, string track, string car, ref TimeSpan lapTime, ref List<double> deltas, ref List<double> speeds, int deltaSections)
         {
             if (initiate)
             {
@@ -58,6 +58,21 @@ namespace DahlDesign.Plugin.iRacing
                         {
                             deltas[j] = Convert.ToDouble(line[j + 3]);
                         }
+                        if (line.Length >= deltaSections + deltaSections + 3)
+                        {
+                            for (int k = 0; k < deltaSections; k++)
+                            {
+                                speeds[k] = Convert.ToDouble(line[k + deltaSections + 4]);
+                            }
+                        }
+                        else
+                        {
+                            for (int k = 0; k < deltaSections; k++)
+                            {
+                                speeds[k] = -2;
+                            }
+                        }
+
 
                         break;
 
@@ -67,6 +82,10 @@ namespace DahlDesign.Plugin.iRacing
                     for (int a = 0; a < deltaSections + 1; a++)
                     {
                         deltas[a] = -1;
+                    }
+                    for (int a = 0; a < deltaSections; a++)
+                    {
+                        speeds[a] = -1;
                     }
                 }
             }
