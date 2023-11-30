@@ -2090,7 +2090,7 @@ namespace DahlDesign.Plugin.iRacing
 
 
 
-            if (carId == "Mclaren MP4-30" || carId == "Mercedes W12")
+            if (carId == "Mclaren MP4-30" || carId == "Mercedes W12" || carId == "Mercedes-AMG W13 E Performance")
             {
                 IRData.Telemetry.TryGetValue("dcMGUKDeployMode", out object rawERSMode);
                 int ERSselectedMode = Convert.ToInt32(rawERSMode);
