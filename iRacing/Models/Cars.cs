@@ -52,6 +52,7 @@
         public bool PitHasWindscreen;
         public AnimationType AnimationType;
         public double RevSpeed;
+        public bool IsHybrid;
 
         public Cars(
             string id,
@@ -103,7 +104,8 @@
             bool pitMultitask,
             bool pitHasWindscreen,
             AnimationType animationType,
-            double revSpeed)
+            double revSpeed,
+            bool isHybrid)
         {
             Id = id;
             HasAntiStall = hasAntiStall;
@@ -155,6 +157,7 @@
             PitHasWindscreen = pitHasWindscreen;
             AnimationType = animationType;
             RevSpeed = revSpeed;
+            IsHybrid = isHybrid;
         }
     }
 }
