@@ -35,6 +35,7 @@ namespace DahlDesign.Plugin.iRacing
             carInfo.Add(new Cars("Toyota GR86", false, false, false, false, 0, true, true, false, 0, -1, -1, false, false, "Single", "TC/ABS", 7400, 7370, 7350, 7330, 7330, 0, 0, 7465, 1000, 56.0, 48.0, 48.0, 62.0, 1, 100, 1, 100, false, 0, 0.8, 0.83, 0.95, 0.5, 1.65, false, 0, 0, 14.5, -6.5, CrewType.SingleTyre, true, true, AnimationType.ToyotaGR86, 0.15, false));
             carInfo.Add(new Cars("Super Formula SF23 - Toyota", false, false, false, false, -1, false, false, false, -1, -1, -1, false, true, "Single", "SF23", 9250, 9250, 9250, 9250, 9250, 0, 0, 9325, 2687, 49.0, 0, 0, 0, 1, 50, 1, 90, true, 50, 1.2, 1.1, 1.2, 1.2, 8.5, false, 0, 0, 6, 1.5, CrewType.All, true, false, AnimationType.SF23, 0.6, false));
             carInfo.Add(new Cars("Super Formula SF23 - Honda", false, false, false, false, -1, false, false, false, -1, -1, -1, false, true, "Single", "SF23", 9250, 9250, 9250, 9250, 9250, 0, 0, 9325, 2687, 49.0, 0, 0, 0, 1, 50, 1, 90, true, 50, 1.2, 1.1, 1.2, 1.2, 8.5, false, 0, 0, 6, 1.5, CrewType.All, true, false, AnimationType.SF23, 0.6, false));
+            carInfo.Add(new Cars("BMW M Hybrid V8", true, false, true, true, -1, false, true, false, -1, -1, -1, false, false, "BMW LMDh", "BMW LMDh", 7700, 7700, 7700, 7700, 7700, 7700, 0, 8000, 2500, 55, 46, 50, 70, 1, 5, 1, 50, true, 70, 1.2, 1.4, 1.4, 1.0, 1.8, false, 0, 0, 9.8, 1.2, CrewType.FrontRear, true, true, AnimationType.CenterFill, 0, true));
         }        
     }
 }
