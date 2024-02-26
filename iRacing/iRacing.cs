@@ -964,10 +964,6 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("PitToggleRepair", () => repairTog);
 
             Base.AddProp("PitServiceFuelTarget", 0);
-            Base.AddProp("PitServiceLFPSet", 0);
-            Base.AddProp("PitServiceRFPSet", 0);
-            Base.AddProp("PitServiceLRPSet", 0);
-            Base.AddProp("PitServiceRRPSet", 0);
 
             Base.AttachDelegate("CurrentFrontWing", () => currentFrontWing);
             Base.AttachDelegate("CurrentRearWing", () => currentRearWing);
