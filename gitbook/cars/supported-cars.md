@@ -17,6 +17,7 @@
 * Formula Renault 3.5
 * Dallara IR18
 * Mercedes W12
+* Mercedes W13
 * Mclaren MP4-30
 
 ### GT3
@@ -31,4 +32,5 @@
 
 * Porsche 919&#x20;
 * Dallara P217
+* BMW M Hybrid V8
 

@@ -308,6 +308,7 @@ namespace DahlDesign.Plugin.iRacing
         bool pitHasWindscreen = false;
         AnimationType animaionType = AnimationType.Analog;
         double revSpeed = 1;
+        bool isHybrid = false;
 
         int ERSlapCounter = 0;
         int ERSreturnMode = 0;
@@ -1683,6 +1684,7 @@ namespace DahlDesign.Plugin.iRacing
                 pitHasWindscreen = true;
                 animaionType = AnimationType.Analog;
                 revSpeed = 1;
+                isHybrid = false;
 
 
                 Cars _carInfo = carInfo.FirstOrDefault(x => x.Id == carModel);
@@ -1738,6 +1740,7 @@ namespace DahlDesign.Plugin.iRacing
                     pitHasWindscreen = _carInfo.PitHasWindscreen;
                     animaionType = _carInfo.AnimationType;
                     revSpeed = _carInfo.RevSpeed;
+                    isHybrid = _carInfo.IsHybrid;
 
                 }
 
@@ -2126,12 +2129,12 @@ namespace DahlDesign.Plugin.iRacing
             }
 
             //-------------------------------------
-            //-------MCLAREN MP4-30 ERS TARGET-----
+            //-------HYBRID CARS ERS TARGET-----
             //-------------------------------------
 
 
 
-            if (carId == "Mclaren MP4-30" || carId == "Mercedes W12" || carId == "Mercedes-AMG W13 E Performance")
+            if (isHybrid && carId != "Porsche 919 2016")
             {
                 IRData.Telemetry.TryGetValue("dcMGUKDeployMode", out object rawERSMode);
                 int ERSselectedMode = Convert.ToInt32(rawERSMode);
