@@ -52,8 +52,6 @@ namespace DahlDesign.Plugin.Categories
                 RFSet = IRData.Telemetry.PitSvRFP;
                 LRSet = IRData.Telemetry.PitSvLRP;
                 RRSet = IRData.Telemetry.PitSvRRP;
-
-
             }
         }
     }
