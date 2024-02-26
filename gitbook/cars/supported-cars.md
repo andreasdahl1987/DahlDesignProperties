@@ -24,6 +24,7 @@
 
 * Porsche 911 GT3 Cup 992
 * Ferrari 488 GT3 EVO 2020
+* Ferrari 296 GT3
 * Mercedes AMG GT3
 * Lamborghini Huracan GT3 EVO
 * Audi R8 GT3
