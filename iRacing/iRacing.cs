@@ -972,10 +972,6 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("PitToggleRepair", () => repairTog);
 
             Base.AddProp("PitServiceFuelTarget", 0);
-            Base.AddProp("PitServiceLFPSet", 0);
-            Base.AddProp("PitServiceRFPSet", 0);
-            Base.AddProp("PitServiceLRPSet", 0);
-            Base.AddProp("PitServiceRRPSet", 0);
 
             Base.AttachDelegate("CurrentFrontWing", () => currentFrontWing);
             Base.AttachDelegate("CurrentRearWing", () => currentRearWing);
@@ -1270,7 +1266,7 @@ namespace DahlDesign.Plugin.iRacing
             int currentLap = GameData.CurrentLap;                                               //Current lap
             int totalLaps = GameData.TotalLaps;                                                 //Total laps
             TimeSpan currentLapTime = GameData.CurrentLapTime;                                  //Current lap time
-            int pit = GameData.IsInPit;                                                         //Pit
+            int pit = GameData.IsInPit | GameData.IsInPitLane;                                  //Pit
             int pitLimiter = GameData.PitLimiterOn;                                             //Pit limiter on/off
             string gear = GameData.Gear;                                                        //Gear
             double fuelAvgLap = Convert.ToDouble(Base.GetProp("DataCorePlugin.Computed.Fuel_LitersPerLap")); //Fuel avg lap
