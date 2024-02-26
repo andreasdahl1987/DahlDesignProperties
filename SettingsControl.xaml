@@ -76,6 +76,7 @@
                                     <ComboBoxItem >Indycar</ComboBoxItem>
                                     <ComboBoxItem >Williams F1</ComboBoxItem>
                                     <ComboBoxItem >GT3</ComboBoxItem>
+                                    <ComboBoxItem>BMW LMDh</ComboBoxItem>
                                     <ComboBoxItem >BiasOnly</ComboBoxItem>
                                     <ComboBoxItem>Default</ComboBoxItem>
                                 </ComboBox>
