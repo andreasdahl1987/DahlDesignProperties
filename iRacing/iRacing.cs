@@ -1261,7 +1261,7 @@ namespace DahlDesign.Plugin.iRacing
             int currentLap = GameData.CurrentLap;                                               //Current lap
             int totalLaps = GameData.TotalLaps;                                                 //Total laps
             TimeSpan currentLapTime = GameData.CurrentLapTime;                                  //Current lap time
-            int pit = GameData.IsInPit;                                                         //Pit
+            int pit = GameData.IsInPit | GameData.IsInPitLane;                                  //Pit
             int pitLimiter = GameData.PitLimiterOn;                                             //Pit limiter on/off
             string gear = GameData.Gear;                                                        //Gear
             double fuelAvgLap = Convert.ToDouble(Base.GetProp("DataCorePlugin.Computed.Fuel_LitersPerLap")); //Fuel avg lap
