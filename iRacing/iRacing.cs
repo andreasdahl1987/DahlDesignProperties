@@ -75,6 +75,10 @@ namespace DahlDesign.Plugin.iRacing
         bool statusReadyToFetch = false;
         bool lineCross = false;
 
+        bool radio = false;
+        string radioName = "";
+        int radioPosition;
+        bool radioIsSpectator;
 
         int currentSector = 0;
         bool sector1to2 = false;
@@ -483,6 +487,10 @@ namespace DahlDesign.Plugin.iRacing
 
             #region SimHub Properties
 
+            Base.AttachDelegate("Radio", () => radio);
+            Base.AttachDelegate("RadioName", () => radioName);
+            Base.AttachDelegate("RadioPosition", () => radioPosition);
+            Base.AttachDelegate("RadioIsSpectator", () => radioIsSpectator);
 
             Base.AttachDelegate("Position", () => Globals.realPosition);
             
@@ -965,10 +973,6 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("PitToggleRepair", () => repairTog);
 
             Base.AddProp("PitServiceFuelTarget", 0);
-            Base.AddProp("PitServiceLFPSet", 0);
-            Base.AddProp("PitServiceRFPSet", 0);
-            Base.AddProp("PitServiceLRPSet", 0);
-            Base.AddProp("PitServiceRRPSet", 0);
 
             Base.AttachDelegate("CurrentFrontWing", () => currentFrontWing);
             Base.AttachDelegate("CurrentRearWing", () => currentRearWing);
@@ -1121,7 +1125,8 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddAction("TCPressed", (a, b) => TCactive = true);
             Base.AddAction("TCReleased", (a, b) => TCactive = false);
 
-
+            Base.AddAction("RadioPressed", (a, b) => radio = true);
+            Base.AddAction("RadioReleased", (a, b) => radio = false);
 
             Base.AttachDelegate("PitSavePaceLock", () => savePitTimerLock);
 
@@ -1262,7 +1267,7 @@ namespace DahlDesign.Plugin.iRacing
             int currentLap = GameData.CurrentLap;                                               //Current lap
             int totalLaps = GameData.TotalLaps;                                                 //Total laps
             TimeSpan currentLapTime = GameData.CurrentLapTime;                                  //Current lap time
-            int pit = GameData.IsInPit;                                                         //Pit
+            int pit = GameData.IsInPit | GameData.IsInPitLane;                                  //Pit
             int pitLimiter = GameData.PitLimiterOn;                                             //Pit limiter on/off
             string gear = GameData.Gear;                                                        //Gear
             double fuelAvgLap = Convert.ToDouble(Base.GetProp("DataCorePlugin.Computed.Fuel_LitersPerLap")); //Fuel avg lap
@@ -1418,6 +1423,42 @@ namespace DahlDesign.Plugin.iRacing
             WSTog = Convert.ToBoolean(pitInfo & 32);
             repairTog = Convert.ToBoolean(pitInfo & 64);
 
+
+            //----------------------------------------------
+            //------------------RADIO-----------------------
+            //----------------------------------------------
+
+
+            if (IRData.Telemetry.RadioTransmitCarIdx != -1)
+            {
+                radioName = IRData.SessionData.DriverInfo.Drivers[IRData.Telemetry.RadioTransmitCarIdx].UserName;
+                radioIsSpectator = Convert.ToBoolean(IRData.SessionData.DriverInfo.Drivers[IRData.Telemetry.RadioTransmitCarIdx].IsSpectator);
+
+                if (radioName == Globals.aheadGlobal)
+                {
+                    radioPosition = Globals.realPosition - 1;
+                }
+                else if (radioName == Globals.behindGlobal)
+                {
+                    radioPosition = Globals.realPosition + 1;
+                }
+                else
+                {
+                    radioPosition = IRData.Telemetry.CarIdxClassPosition[IRData.Telemetry.RadioTransmitCarIdx];
+                }
+            }
+            else
+            {
+                radioName = "";
+                radioIsSpectator = false;
+            }
+
+            radioName = radioName.ToUpper();
+
+            if (IRData.Telemetry.RadioTransmitCarIdx != -1)
+            {
+                radio = false;
+            }
 
             //----------------------------------------------
             //--------SoF AND IR LOSS/GAIN------------------
