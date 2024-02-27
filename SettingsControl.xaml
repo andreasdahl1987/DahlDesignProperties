@@ -451,64 +451,67 @@
                 </ScrollViewer>
             </styles:SHTabItem>
             <styles:SHTabItem Header="Controllers">
-                <StackPanel>
-                    <styles:SHSection Title="Dahl Design Controller" Margin="0,0,0,0">
-                        <StackPanel Margin="0,0,9,0">
-                            <TextBlock Text="Name of your joystick controller &quot;JoystickPlugin.Arduino_Leonardo_B01&quot; means you write &quot;Arduino_Leonardo&quot; here." Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
-                            <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding DDC}"/>
+                <ScrollViewer>
+                    <StackPanel>
+                        <styles:SHSection Title="Dahl Design Controller" Margin="0,0,0,0">
+                            <StackPanel Margin="0,0,9,0">
+                                <TextBlock Text="Name of your joystick controller &quot;JoystickPlugin.Arduino_Leonardo_B01&quot; means you write &quot;Arduino_Leonardo&quot; here." Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                                <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding DDC}"/>
 
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                </Grid.ColumnDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Row="1" Text="DDC Enabled"/>
-                                <styles:SHToggleButton Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding Path=DDCEnabled}"/>
-                                <TextBlock Grid.Row="2" Text="DDS Enabled" />
-                                <styles:SHToggleButton Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DDSEnabled}"/>
-                                <TextBlock Grid.Row="3" Text="DDC Clutch"/>
-                                <styles:SHToggleButton Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DDCclutchEnabled}"/>
-                            </Grid>
-                        </StackPanel>
-                    </styles:SHSection>
-                    <styles:SHSection Title="Wheel base" Margin="0,0,0,0">
-                        <StackPanel>
-                            <TextBlock Text="Wheel base steering axis. &quot;JoystickPlugin.FANATEC_Podium_Wheel_Base_DD2_X&quot;: Write &quot;FANATEC_Podium_Wheel_Base_DD2_X&quot; here." Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
-                            <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding WheelBaseSteeringAxis}"/>
-                            <TextBlock Text="Maximum steering angle" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
-                            <TextBlock Text="{Binding ElementName=WheelRevSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" HorizontalAlignment="Left" Margin="10,0,0,0" Width="50" Height="20"/>
-                            <Slider x:Name="WheelRevSlider" Value="{Binding WheelRevolutions}" Grid.Row="4" Width="600" HorizontalAlignment="Left" Maximum="2160" Minimum="180" SmallChange="180" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" TickFrequency="180" />
-                        </StackPanel>
-                        
-                    </styles:SHSection>
+                                    <TextBlock Grid.Row="1" Text="DDC Enabled"/>
+                                    <styles:SHToggleButton Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding Path=DDCEnabled}"/>
+                                    <TextBlock Grid.Row="2" Text="DDS Enabled" />
+                                    <styles:SHToggleButton Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DDSEnabled}"/>
+                                    <TextBlock Grid.Row="3" Text="DDC Clutch"/>
+                                    <styles:SHToggleButton Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DDCclutchEnabled}"/>
+                                </Grid>
+                            </StackPanel>
+                        </styles:SHSection>
+                        <styles:SHSection Title="Wheel base" Margin="0,0,0,0">
+                            <StackPanel>
+                                <TextBlock Text="Wheel base steering axis. &quot;JoystickPlugin.FANATEC_Podium_Wheel_Base_DD2_X&quot;: Write &quot;FANATEC_Podium_Wheel_Base_DD2_X&quot; here." Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                                <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding WheelBaseSteeringAxis}"/>
+                                <TextBlock Text="Maximum steering angle" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
+                                <TextBlock Text="{Binding ElementName=WheelRevSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" HorizontalAlignment="Left" Margin="10,0,0,0" Width="50" Height="20"/>
+                                <Slider x:Name="WheelRevSlider" Value="{Binding WheelRevolutions}" Grid.Row="4" Width="600" HorizontalAlignment="Left" Maximum="2160" Minimum="180" SmallChange="180" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" TickFrequency="180" />
+                            </StackPanel>
 
-                    <styles:SHSection Title="Clutch and bite point" Margin="0,0,0,0">
-                        <StackPanel>
-                            <TextBlock Text="Your clutch pedal/paddle. Will make clutch visible in launch screen. &quot;JoystickPlugin.Generic_Wheel_X&quot;: Write &quot;.Generic_Wheel_X&quot; here." Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
-                            <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding myClutch}"/>
-                            <TextBlock Text="Your bite point potmeter axis. Will make bite point visible in launch screen. &quot;JoystickPlugin.Generic_Wheel_Y&quot;: Write &quot;.Generic_Wheel_Y&quot; here." Grid.Row="2" Margin="10,25,0,23" Grid.RowSpan="2"/>
-                            <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding myBitePoint}"/>
+                        </styles:SHSection>
 
-                        </StackPanel>
+                        <styles:SHSection Title="Clutch and bite point" Margin="0,0,0,0">
+                            <StackPanel>
+                                <TextBlock Text="Your clutch pedal/paddle. Will make clutch visible in launch screen. &quot;JoystickPlugin.Generic_Wheel_X&quot;: Write &quot;Generic_Wheel_X&quot; here." Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                                <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding myClutch}"/>
+                                <TextBlock Text="Your bite point potmeter axis. Will make bite point visible in launch screen. &quot;JoystickPlugin.Generic_Wheel_Y&quot;: Write &quot;Generic_Wheel_Y&quot; here." Grid.Row="2" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                                <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding myBitePoint}"/>
 
-                    </styles:SHSection>
+                            </StackPanel>
 
-                    <styles:SHSection Title="Bindings" Margin="0,0,0,0">
-                        <StackPanel>
-                            <ui:ControlsEditor FriendlyName="Bite Point Adjust (pressed)" ActionName="DahlDesign.BitePointPressed" HorizontalAlignment="Left" Width="750"/>
-                            <ui:ControlsEditor FriendlyName="Bite Point Adjust (released)" ActionName="DahlDesign.BitePointReleased" HorizontalAlignment="Left" Width="750"/>
-                        </StackPanel>
-                    </styles:SHSection>
-                </StackPanel>
+                        </styles:SHSection>
+
+                        <styles:SHSection Title="Bindings" Margin="0,0,0,0">
+                            <StackPanel>
+                                <ui:ControlsEditor FriendlyName="Bite Point Adjust (pressed)" ActionName="DahlDesign.BitePointPressed" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Bite Point Adjust (released)" ActionName="DahlDesign.BitePointReleased" HorizontalAlignment="Left" Width="750"/>
+                            </StackPanel>
+                        </styles:SHSection>
+                    </StackPanel>
+                </ScrollViewer>
             </styles:SHTabItem>
+            
             <styles:SHTabItem Header="LED plugin">
                 <Grid >
                     <styles:SHSection Title="Dahl Design LED controls" Margin="0,0,0,0">
