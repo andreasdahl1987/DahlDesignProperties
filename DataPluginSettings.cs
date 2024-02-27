@@ -38,6 +38,8 @@ namespace DahlDesign.Plugin
         public string BehindPlayerText { get; set; } = "Sorry!";
 
         public string WheelBaseSteeringAxis { get; set; } = "";
+        public string myClutch { get; set; } = "";
+        public string myBitePoint { get; set; } = "";
 
         public double WheelRevolutions { get; set; } = 1080;
 

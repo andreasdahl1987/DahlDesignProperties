@@ -486,9 +486,21 @@
                             <TextBlock Text="Maximum steering angle" Grid.Row="1" Margin="10,10,0,10" Grid.RowSpan="2"/>
                             <TextBlock Text="{Binding ElementName=WheelRevSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" HorizontalAlignment="Left" Margin="10,0,0,0" Width="50" Height="20"/>
                             <Slider x:Name="WheelRevSlider" Value="{Binding WheelRevolutions}" Grid.Row="4" Width="600" HorizontalAlignment="Left" Maximum="2160" Minimum="180" SmallChange="180" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10,0,0,0" TickFrequency="180" />
+                        </StackPanel>
+                        
+                    </styles:SHSection>
+
+                    <styles:SHSection Title="Clutch and bite point" Margin="0,0,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Your clutch pedal/paddle. Will make clutch visible in launch screen. &quot;JoystickPlugin.Generic_Wheel_X&quot;: Write &quot;.Generic_Wheel_X&quot; here." Grid.Row="1" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                            <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding myClutch}"/>
+                            <TextBlock Text="Your bite point potmeter axis. Will make bite point visible in launch screen. &quot;JoystickPlugin.Generic_Wheel_Y&quot;: Write &quot;.Generic_Wheel_Y&quot; here." Grid.Row="2" Margin="10,25,0,23" Grid.RowSpan="2"/>
+                            <TextBox Grid.Column="1" VerticalAlignment="Top" Height="20" Margin="10,-20,0,10" Text="{Binding myBitePoint}"/>
 
                         </StackPanel>
+
                     </styles:SHSection>
+
                     <styles:SHSection Title="Bindings" Margin="0,0,0,0">
                         <StackPanel>
                             <ui:ControlsEditor FriendlyName="Bite Point Adjust (pressed)" ActionName="DahlDesign.BitePointPressed" HorizontalAlignment="Left" Width="750"/>
