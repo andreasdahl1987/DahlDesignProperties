@@ -211,6 +211,8 @@
                                     <ComboBoxItem Tag="1" IsSelected="True">LastLap</ComboBoxItem>
                                     <ComboBoxItem Tag="2">SessionBest</ComboBoxItem>
                                     <ComboBoxItem Tag="3">LapRecord</ComboBoxItem>
+                                    <ComboBoxItem Tag="4">Speed</ComboBoxItem>
+                                    <ComboBoxItem Tag="5">SpeedPercent</ComboBoxItem>
                                     <ComboBoxItem Tag="4">FuelSave</ComboBoxItem>
                                     <ComboBoxItem Tag="5">FuelTarget</ComboBoxItem>
                                 </ComboBox>
@@ -301,6 +303,8 @@
                                 <ui:ControlsEditor FriendlyName="Delta Screen - LastLap" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.LastLap" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Delta Screen - SessionBest" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.SessionBest" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Delta Screen - LapRecord" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.LapRecord" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Delta Screen - Speed" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.Speed" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Delta Screen - SpeedPercent" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.SpeedPercent" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Delta Screen - FuelSave" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.FuelSave" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Delta Screen - FuelTarget" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.FuelTarget" HorizontalAlignment="Left" Width="750"/>
 
