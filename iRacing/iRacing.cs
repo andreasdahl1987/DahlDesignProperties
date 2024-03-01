@@ -56,7 +56,13 @@ namespace DahlDesign.Plugin.iRacing
         List<double> lastChunks = new List<double> { };
         List<double> SBChunks = new List<double> { };
         List<double> LRChunks = new List<double> { };
+        
         bool findLapRecord = true;
+
+        public bool hasCheckedSetup { get; set; } = false;
+        double recordSetupIsFixed = 0;
+        double recordAirTemp = 0;
+        double recordTrackTemp = 0;
 
         int myDeltaIndexOld = -1;
         int lapDeltaSections = -1;
@@ -140,6 +146,7 @@ namespace DahlDesign.Plugin.iRacing
 
         string carModelHolder = "";
         string trackHolder = "";
+        long sessionIDHolder = 0;
         public string sessionHolder { get; set; } = "";
         bool boxApproach = false;
         List<double?> carAheadRelative = new List<double?> { };
@@ -684,6 +691,9 @@ namespace DahlDesign.Plugin.iRacing
                 Base.AttachDelegate($"Lap{propIndex}FuelTargetDelta", () => fuelTargetDeltas[i]);
             }
 
+            Base.AttachDelegate("LapRecordTrackTemp", () => recordTrackTemp);
+            Base.AttachDelegate("LapRecordAirTemp", () => recordAirTemp);
+            Base.AttachDelegate("LapRecordSetupIsFixed", () => recordSetupIsFixed);
             Base.AttachDelegate("LapRecord", () => lapRecord);
             Base.AddProp("DeltaLastLap", 0);
             Base.AddProp("DeltaSessionBest", 0);
@@ -692,6 +702,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("DeltaSessionBestChange", "");
             Base.AddProp("DeltaLapRecordChange", "");
             Base.AddProp("SpeedDeltaLapRecord", 0);
+            Base.AddProp("SpeedPercentDeltaLapRecord", 0);
 
             Base.AddProp("P1Gap", 0);
             Base.AddProp("P1Name", "");
@@ -1391,6 +1402,12 @@ namespace DahlDesign.Plugin.iRacing
             double speed = GameData.SpeedLocal;                                                 //Speed
             double rpm = GameData.Rpms;                                                         //RPM value
 
+            double airTemp = IRData.Telemetry.AirTemp;
+            double trackTemp = IRData.Telemetry.TrackTemp;
+            double fixedSetup = IRData.SessionData.WeekendInfo.WeekendOptions.IsFixedSetup;
+            long season = IRData.SessionData.WeekendInfo.SeasonID;
+            long sessionID = IRData.SessionData.WeekendInfo.SessionID;
+
             double plannedFuel = Convert.ToDouble(IRData.Telemetry.PitSvFuel);                      //Planned fuel
             double maxFuel = GameData.MaxFuel;
             plannedLFPressure = IRData.Telemetry.PitSvLFP;                                    //Planned LF pressure
@@ -1878,7 +1895,7 @@ namespace DahlDesign.Plugin.iRacing
                     buildDeltaSystem = false;
                 }
 
-                LapRecords.lapFetch(ref findLapRecord, csvAdress, ref csvIndex, track, carModel, ref lapRecord, ref lapDeltaRecord, ref speedRegisterRecord, lapDeltaSections);
+                LapRecords.lapFetch(ref findLapRecord, csvAdress, ref csvIndex, track, carModel, fixedSetup, ref lapRecord, ref lapDeltaRecord, ref speedRegisterRecord, ref recordTrackTemp, ref recordAirTemp, ref recordSetupIsFixed, lapDeltaSections);
 
             }
             
@@ -3235,7 +3252,7 @@ namespace DahlDesign.Plugin.iRacing
                     //Checking for lap record
                     if (lapRecord.TotalSeconds == 0 && lapStatusList[0] == 1 && lapDeltaRecord[0] != -2) //lapDeltaRecord[0] of -2 means previously deleted lap, ready to be overwritten
                     {
-                        LapRecords.addLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, ref csvIndex, speedRegisterLast);
+                        LapRecords.addLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, ref csvIndex, speedRegisterLast, trackTemp, airTemp, fixedSetup);
                         for (int i = 0; i < lapDeltaSections + 1; i++) //Keep hold of the timings on that lap
                         {
                             lapDeltaRecord[i] = lapDeltaLast[i];
@@ -3248,7 +3265,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
                     else if ((lapTimeList[0].TotalSeconds < lapRecord.TotalSeconds || lapDeltaRecord[0] == -2) && lapStatusList[0] == 1)
                     {
-                        LapRecords.replaceLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, csvIndex, speedRegisterLast);
+                        LapRecords.replaceLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, csvIndex, speedRegisterLast, trackTemp, airTemp, fixedSetup);
                         findLapRecord = true;
                     }
 
@@ -5961,6 +5978,7 @@ namespace DahlDesign.Plugin.iRacing
                 double deltaSessionBest = 0;
                 double deltaLapRecord = 0;
                 double speedDeltaLapRecord = 0;
+                double speedDeltaPercent = 0;
                 predictedLapTime = new TimeSpan(0);
                 TimeSpan predictedLapFetch = new TimeSpan(0);
                 List<double> predictedLapChunks = new List<double>(0);
@@ -6022,13 +6040,16 @@ namespace DahlDesign.Plugin.iRacing
                         lapDeltaLapRecordChange[myDeltaIndex] = deltaLapRecord;
                         Base.SetProp("DeltaLapRecord", deltaLapRecord);
 
-                        speedDeltaLapRecord = (speed - speedRegisterRecord[myDeltaIndex]);
+                        speedDeltaLapRecord = speed - speedRegisterRecord[myDeltaIndex];
+                        speedDeltaPercent = speedDeltaLapRecord * 100 / speed;
                         Base.SetProp("SpeedDeltaLapRecord", speedDeltaLapRecord);
+                        Base.SetProp("SpeedPercentDeltaLapRecord", speedDeltaPercent);
                     }
                     if (lapDeltaRecord[myDeltaIndex + 1] == -1)
                     {
                         Base.SetProp("DeltaLapRecord", 0);
                         Base.SetProp("SpeedDeltaLapRecord", 0);
+                        Base.SetProp("SpeedPercentDeltaLapRecord", 0);
                     }
 
 
@@ -6421,7 +6442,7 @@ namespace DahlDesign.Plugin.iRacing
                 Base.SetProp("TCActive", false);
 
                 //Session or car or track change
-                if (carModelHolder != carModel || trackHolder != track || sessionHolder != session)
+                if (carModelHolder != carModel || trackHolder != track || sessionHolder != session || sessionIDHolder != sessionID)
                 {
                     buildDeltaSystem = true;
                     findLapRecord = true;
@@ -6500,6 +6521,7 @@ namespace DahlDesign.Plugin.iRacing
                 carModelHolder = carModel; //Updating choice of car, track and session
                 trackHolder = track;
                 sessionHolder = session;
+                sessionIDHolder = sessionID;
             }
 
             //-----------------------------------------------------------------------------
