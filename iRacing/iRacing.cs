@@ -388,6 +388,7 @@ namespace DahlDesign.Plugin.iRacing
         int myDRSCount = -1;
 
         bool deleteLapRecord = false;
+        bool resetSessionBest = false;
 
         bool NBpressed = false;
         bool NBactive = false;
@@ -1135,6 +1136,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddAction("TCReleased", (a, b) => TCactive = false);
 
             Base.AddAction("DeleteLapRecord", (a, b) => deleteLapRecord = true);
+            Base.AddAction("ResetSessionBest", (a, b) => resetSessionBest = true);
 
             Base.AddAction("RadioPressed", (a, b) => radio = true);
             Base.AddAction("RadioReleased", (a, b) => radio = false);
@@ -2656,6 +2658,22 @@ namespace DahlDesign.Plugin.iRacing
                 LapRecords.deleteLapRecord(track, carModel, csvAdress, csvIndex, lapDeltaSections);
                 deleteLapRecord = false;
                 findLapRecord = true;
+            }
+
+            if (resetSessionBest)
+            {
+                SBChunks.Clear();
+                sessionBestSector1 = 0;
+                sessionBestSector2 = 0;
+                sessionBestSector3 = 0;
+                sessionBestLap = new TimeSpan(0);
+
+                for (int i = 0; i < deltaChangeChunks; i++)
+                {
+                    SBChunks.Add(0);
+                }
+
+                resetSessionBest = false;
             }
 
             //Bite adjust
