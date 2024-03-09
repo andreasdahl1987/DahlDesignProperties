@@ -2282,7 +2282,7 @@ namespace DahlDesign.Plugin.iRacing
 
 
             //Idle property
-            if (sessionScreen && !spotMode)
+            if (sessionScreen && !spotMode && !Base.Settings.SpotterEnable)
             {
                 iRIdle = true;
             }
@@ -2588,6 +2588,7 @@ namespace DahlDesign.Plugin.iRacing
                 else if (Base.Rotary.PitMenu(10))
                 {
                     spotMode = !spotMode;
+                    Base.Settings.SpotterEnable = spotMode;
                 }
                 else if (Base.Rotary.PitMenu(11))
                 {
@@ -3211,6 +3212,8 @@ namespace DahlDesign.Plugin.iRacing
                     calcLastLapFuel = fuelHolder - fuel;
                 }
                 fuelHolder = fuel;
+
+                Base.SetProp("CalcLastLapFuel", calcLastLapFuel);
 
             }
 

@@ -30,38 +30,42 @@
                                     <RowDefinition Height="1*" MinHeight="30"/>
                                     <RowDefinition Height="1*" MinHeight="30"/>
                                     <RowDefinition Height="1*" MinHeight="30"/>
+                                    <RowDefinition Height="1*" MinHeight="30"/>
 
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="7" Text="Show Map instead of gear" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
+                                <TextBlock Grid.Row="1" Text="Enable spotter mode">
                                 </TextBlock>
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="7" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShowMapEnabled}" RenderTransformOrigin="0.45,0.2"/>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding SpotterEnable}" RenderTransformOrigin="0.45,0.2"/>
 
-                                <TextBlock Grid.Row="8" Text="Show Brake and Throttle gauges" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
+                                <TextBlock Grid.Row="8" Text="Show Map instead of gear">
                                 </TextBlock>
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="8" HorizontalAlignment="Left" Height="20" IsChecked="{Binding ShowBrakeThrottleGaugesEnabled}" RenderTransformOrigin="0.45,0.2"/>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="8" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShowMapEnabled}" RenderTransformOrigin="0.45,0.2"/>
 
-                                <TextBlock Grid.Row="1" Text="Swap RPM bar for LEDs:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
+                                <TextBlock Grid.Row="9" Text="Show brake and throttle gauges"/>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="9" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShowBrakeThrottleGaugesEnabled}" RenderTransformOrigin="0.45,0.2"/>
+
+                                <TextBlock Grid.Row="2" Text="Swap RPM bar for LEDs:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
                                 </TextBlock>
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DashLEDEnabled}" RenderTransformOrigin="0.45,0.2"/>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding DashLEDEnabled}" RenderTransformOrigin="0.45,0.2"/>
 
-                                <TextBlock Grid.Row="2" Text="RPM bar shift warning:" />
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShiftWarning}" />
+                                <TextBlock Grid.Row="3" Text="RPM bar shift warning:" />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShiftWarning}" />
 
-                                <TextBlock Grid.Row="3" Text="Shift timing assist active outside practice (purple and green line in RPM bar):" />
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShiftTimingAssist}" />
+                                <TextBlock Grid.Row="4" Text="Shift timing assist active outside practice (purple and green line in RPM bar):" />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShiftTimingAssist}" />
 
-                                <TextBlock Grid.Row="4" Text="Lap info screen on new lap:" />
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding LapInfoScreen}"/>
+                                <TextBlock Grid.Row="5" Text="Lap info screen on new lap:" />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding LapInfoScreen}"/>
 
-                                <TextBlock Grid.Row="5" Text="Swap ARB lever placement (Supercars):" />
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding SupercarSwapPosition}" />
+                                <TextBlock Grid.Row="6" Text="Swap ARB lever placement (Supercars):" />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding SupercarSwapPosition}" />
 
-                                <TextBlock Grid.Row="6" Text="Swap ARB lever direction (Supercars):" />
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding SupercarARBDirection}" />
+                                <TextBlock Grid.Row="7" Text="Swap ARB lever direction (Supercars):" />
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="7" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding SupercarARBDirection}" />
 
-                                <TextBlock Grid.Row="10" Text="Override Dashboard Type"/>
-                                <ComboBox Grid.Row="10" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValue="{Binding DashType}" SelectedValuePath="Content">
+                                <TextBlock Grid.Row="11" Text="Override Dashboard Type"/>
+                                <ComboBox Grid.Row="11" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValue="{Binding DashType}" SelectedValuePath="Content">
                                     <ComboBoxItem IsSelected="True">Automatic Selection</ComboBoxItem>
 
                                     <ComboBoxItem >Porsche GT3R</ComboBoxItem>
@@ -81,9 +85,8 @@
                                     <ComboBoxItem>Default</ComboBoxItem>
                                 </ComboBox>
 
-                                <TextBlock Grid.Row="9" Text="Show generic splash screen" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="18">
-                                </TextBlock>
-                                <styles:SHToggleButton Grid.Column="1" Grid.Row="9" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShowGenericSplashEnabled}" RenderTransformOrigin="0.45,0.2"/>
+                                <TextBlock Grid.Row="10" Text="Show generic splash screen"/>
+                                <styles:SHToggleButton Grid.Column="1" Grid.Row="10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" IsChecked="{Binding ShowGenericSplashEnabled}"/>
 
                             </Grid>
                         </styles:SHSection>
