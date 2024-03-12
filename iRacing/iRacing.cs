@@ -140,6 +140,7 @@ namespace DahlDesign.Plugin.iRacing
         List<double> fuelTargetDeltas = new List<double> { 0, 0, 0, 0, 0, 0, 0, 0 };
         double fuelTargetDeltaCumulative = 0;
         double fuelTargetDelta = 0;
+        bool commingFromGrid = false;
 
         string classLeaderName = "";
         double? classLeaderRealGap = 0;
@@ -1437,6 +1438,10 @@ namespace DahlDesign.Plugin.iRacing
             WSTog = Convert.ToBoolean(pitInfo & 32);
             repairTog = Convert.ToBoolean(pitInfo & 64);
 
+            if (sessionState == 2)
+            {
+                commingFromGrid = true;
+            }
 
             //----------------------------------------------
             //------------------RADIO-----------------------
@@ -2651,7 +2656,7 @@ namespace DahlDesign.Plugin.iRacing
                 paceReleased = false;
             }
 
-            //DeleteLapTime
+            //DeleteLapTime and session best
 
             if(deleteLapRecord)
             {
@@ -2965,6 +2970,7 @@ namespace DahlDesign.Plugin.iRacing
             if ((currentLapTime.TotalSeconds > 6 && trackPosition > 0.15 && trackPosition < twoThirds) || pit == 1)
             {
                 currentLapTimeStarted = true;
+                commingFromGrid = false;
             }
             if (trackPosition > twoThirds)
             {
@@ -3344,6 +3350,10 @@ namespace DahlDesign.Plugin.iRacing
                     fuelTargetDeltas.RemoveAt(8);
 
                     fuelTargetDeltaCumulative = fuelTargetDeltaCumulative + fuelTargetDelta;
+                    if (commingFromGrid)
+                    {
+                        fuelTargetDeltaCumulative = 0;
+                    }
                 }
             }
 
@@ -4075,6 +4085,8 @@ namespace DahlDesign.Plugin.iRacing
                         classLeaderLastLap = GameData.Opponents[i].LastLapTime;
                         classLeaderBestLap = GameData.Opponents[i].BestLapTime;
                     }
+                    
+                    
                     if (GameData.Opponents[i].GaptoPlayer <= leaderGap)
                     {
                         leaderGap = GameData.Opponents[i].GaptoPlayer;
