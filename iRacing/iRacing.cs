@@ -140,7 +140,7 @@ namespace DahlDesign.Plugin.iRacing
         List<double> fuelTargetDeltas = new List<double> { 0, 0, 0, 0, 0, 0, 0, 0 };
         double fuelTargetDeltaCumulative = 0;
         double fuelTargetDelta = 0;
-        bool commingFromGrid = false;
+        bool loadedToGrid = false;
 
         string classLeaderName = "";
         double? classLeaderRealGap = 0;
@@ -1438,10 +1438,11 @@ namespace DahlDesign.Plugin.iRacing
             WSTog = Convert.ToBoolean(pitInfo & 32);
             repairTog = Convert.ToBoolean(pitInfo & 64);
 
-            if (sessionState == 2)
+            if (sessionState == 2 && !loadedToGrid)
             {
-                commingFromGrid = true;
+                loadedToGrid = true;
             }
+
 
             //----------------------------------------------
             //------------------RADIO-----------------------
@@ -2970,7 +2971,7 @@ namespace DahlDesign.Plugin.iRacing
             if ((currentLapTime.TotalSeconds > 6 && trackPosition > 0.15 && trackPosition < twoThirds) || pit == 1)
             {
                 currentLapTimeStarted = true;
-                commingFromGrid = false;
+                loadedToGrid = false;
             }
             if (trackPosition > twoThirds)
             {
@@ -3350,7 +3351,7 @@ namespace DahlDesign.Plugin.iRacing
                     fuelTargetDeltas.RemoveAt(8);
 
                     fuelTargetDeltaCumulative = fuelTargetDeltaCumulative + fuelTargetDelta;
-                    if (commingFromGrid)
+                    if (loadedToGrid)
                     {
                         fuelTargetDeltaCumulative = 0;
                     }
@@ -6441,6 +6442,7 @@ namespace DahlDesign.Plugin.iRacing
             if (iRIdle)
             {
                 findLapRecord = true;
+                loadedToGrid = false;
                 csvIndex = 0;
                 currentFrontWing = 0;
                 currentRearWing = 0;
