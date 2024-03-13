@@ -52,7 +52,7 @@ jobs:
         7z x SimHub.8.01.2.zip
         dir
         mkdir D:\SimHub
-        D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\Program Files (x86)\SimHub\" SimHubSetup_8.1.2.exe GameReaderCommon.dll SimHub.plugins.dll log4net.dll SharpDX.dll SimHub.logging.dll
+        D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\Program Files (x86)\SimHub\" SimHubSetup_8.1.2.exe GameReaderCommon.dll SimHub.plugins.dll log4net.dll SharpDX.dll SimHub.logging.dll Microsoft.Bcl.AsyncInterfaces.dll
         D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\a\DahlDesignProperties\DahlDesignProperties\DLLs" SimHubSetup_8.1.2.exe ACSharedMemory.dll ACToolsUtilities.dll GameReaderCommon.dll ICarsReader.dll InputManagerCS.dll iRacingSDK.dll SimHub.logging.dll SimHub.plugins.dll log4net.dll
         D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\Program Files (x86)\SimHub\" SimHubSetup_8.1.2.exe MahApps.*.dll
 
