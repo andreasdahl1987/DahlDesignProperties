@@ -44,7 +44,7 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: | 
         aria2c -j1 -o innounp050.rar "https://sourceforge.net/projects/innounp/files/innounp/innounp%200.50/innounp050.rar/download"
-        aria2c -j1 -o SimHub.8.01.2.zip "https://github.com/SHWotever/SimHub/releases/download/9.2.6/SimHub.9.02.6.zip"
+        aria2c -j1 -o SimHub.9.02.6.zip "https://github.com/SHWotever/SimHub/releases/download/9.2.6/SimHub.9.02.6.zip"
     
     - name: Extract Requirements # Used to extract the SimHub DLLs
       run: | 
