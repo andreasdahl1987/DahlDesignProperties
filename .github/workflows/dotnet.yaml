@@ -59,6 +59,10 @@ jobs:
     - name: Restore Packages
       run: nuget restore "Dahl Design Properties.sln"
 
+    - name: CopyCsvHelper
+      run: |
+        cp C:\Users\runneradmin\.nuget\packages\csvhelper\30.0.1\*.dll D:\Program Files (x86)\SimHub\
+
     - name: Build solution
       run: msbuild "Dahl Design Properties.sln" -t:rebuild -property:Configuration=Release
 
