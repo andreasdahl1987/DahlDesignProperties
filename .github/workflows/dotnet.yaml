@@ -45,6 +45,10 @@ jobs:
       run: | 
         aria2c -j1 -o innounp050.rar "https://sourceforge.net/projects/innounp/files/innounp/innounp%200.50/innounp050.rar/download"
         aria2c -j1 -o SimHub.9.02.6.zip "https://github.com/SHWotever/SimHub/releases/download/9.2.6/SimHub.9.02.6.zip"
+
+    - name: Make Directories # Used to download the SimHub DLLs - only if not in cache.
+      run: | 
+        mkdir -p "D:\Program Files (x86)\SimHub\"
     
     - name: Extract Requirements # Used to extract the SimHub DLLs
       run: | 
@@ -55,6 +59,10 @@ jobs:
         D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\SimHub" SimHubSetup_9.2.6.exe GameReaderCommon.dll SimHub.plugins.dll
         D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\a\DahlDesignProperties\DahlDesignProperties\DLLs" SimHubSetup_9.2.6.exe ACSharedMemory.dll ACToolsUtilities.dll GameReaderCommon.dll ICarsReader.dll InputManagerCS.dll iRacingSDK.dll SimHub.logging.dll SimHub.plugins.dll log4net.dll
         D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\Program Files (x86)\SimHub\" SimHubSetup_9.2.6.exe MahApps.*.dll
+
+    - name: List Directories # Used to download the SimHub DLLs - only if not in cache.
+      run: | 
+        ls -latR "D:\Program Files (x86)\SimHub\"
 
     - name: Restore Packages
       run: nuget restore "Dahl Design Properties.sln"
