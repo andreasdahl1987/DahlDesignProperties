@@ -44,17 +44,17 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: | 
         aria2c -j1 -o innounp050.rar "https://sourceforge.net/projects/innounp/files/innounp/innounp%200.50/innounp050.rar/download"
-        aria2c -j1 -o SimHub.8.01.2.zip "https://github.com/SHWotever/SimHub/releases/download/8.1.2/SimHub.8.01.2.zip"
+        aria2c -j1 -o SimHub.8.01.2.zip "https://github.com/SHWotever/SimHub/releases/download/9.2.6/SimHub.9.02.6.zip"
     
     - name: Extract Requirements # Used to extract the SimHub DLLs
       run: | 
         7z x innounp050.rar
-        7z x SimHub.8.01.2.zip
+        7z x SimHub.9.02.6.zip
         dir
         mkdir D:\SimHub
-        D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\SimHub" SimHubSetup_8.1.2.exe GameReaderCommon.dll SimHub.plugins.dll
-        D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\a\DahlDesignProperties\DahlDesignProperties\DLLs" SimHubSetup_8.1.2.exe ACSharedMemory.dll ACToolsUtilities.dll GameReaderCommon.dll ICarsReader.dll InputManagerCS.dll iRacingSDK.dll SimHub.logging.dll SimHub.plugins.dll log4net.dll
-        D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\Program Files (x86)\SimHub\" SimHubSetup_8.1.2.exe MahApps.*.dll
+        D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\SimHub" SimHubSetup_9.2.6.exe GameReaderCommon.dll SimHub.plugins.dll
+        D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\a\DahlDesignProperties\DahlDesignProperties\DLLs" SimHubSetup_9.2.6.exe ACSharedMemory.dll ACToolsUtilities.dll GameReaderCommon.dll ICarsReader.dll InputManagerCS.dll iRacingSDK.dll SimHub.logging.dll SimHub.plugins.dll log4net.dll
+        D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\Program Files (x86)\SimHub\" SimHubSetup_9.2.6.exe MahApps.*.dll
 
     - name: Restore Packages
       run: nuget restore "Dahl Design Properties.sln"
