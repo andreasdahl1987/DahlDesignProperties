@@ -9,10 +9,10 @@ on:
       version:
         type: string
         description: What Properties version does this correspond to?
-        required: false
+        required: true
       is-pre-release:
         type: boolean
-        required: false
+        required: true
         description: "is this a prerelease version?"
 
 jobs:
