@@ -19,7 +19,7 @@ namespace DahlDesign.Plugin.Categories
         {
             LeftScreen = new Screen(new string[] { "Time1", "Time2", "Time3", "Qualy", "Race1", "Race2", "Race3", "Practice1", "Practice2" });
             RightScreen = new Screen(new string[] { "Stint1", "Stint2", "Qualy1", "Qualy2", "Race1", "Race2", "Race3", "Track" });
-            DeltaScreen = new Screen(new string[] { "LastLap", "SessionBest", "LapRecord", "FuelSave", "FuelTarget" });
+            DeltaScreen = new Screen(new string[] { "LastLap", "SessionBest", "LapRecord", "Speed", "SpeedPercent", "FuelSave", "FuelTarget" });
             
             Base.AttachDelegate("ShowMapEnabled", () => Base.Settings.ShowMapEnabled);
             Base.AttachDelegate("ShowBrakeThrottleGaugesEnabled", () => Base.Settings.ShowBrakeThrottleGaugesEnabled);
@@ -88,8 +88,11 @@ namespace DahlDesign.Plugin.Categories
             Base.AddAction("Controls.Dashboard.DeltaScreen.LastLap", (a, b) => DeltaScreen.screenID = 1);
             Base.AddAction("Controls.Dashboard.DeltaScreen.SessionBest", (a, b) => DeltaScreen.screenID = 2);
             Base.AddAction("Controls.Dashboard.DeltaScreen.LapRecord", (a, b) => DeltaScreen.screenID = 3);
-            Base.AddAction("Controls.Dashboard.DeltaScreen.FuelSave", (a, b) => DeltaScreen.screenID = 4);
-            Base.AddAction("Controls.Dashboard.DeltaScreen.FuelTarget", (a, b) => DeltaScreen.screenID = 5);
+            Base.AddAction("Controls.Dashboard.DeltaScreen.Speed", (a, b) => DeltaScreen.screenID = 4);
+            Base.AddAction("Controls.Dashboard.DeltaScreen.SpeedPercet", (a, b) => DeltaScreen.screenID = 5);
+            Base.AddAction("Controls.Dashboard.DeltaScreen.FuelSave", (a, b) => DeltaScreen.screenID = 6);
+            Base.AddAction("Controls.Dashboard.DeltaScreen.FuelTarget", (a, b) => DeltaScreen.screenID = 7);
+
         }
 
         public override void DataUpdate()

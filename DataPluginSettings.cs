@@ -15,6 +15,8 @@ namespace DahlDesign.Plugin
         public bool SW1Enabled { get; set; } = false;
         public int SW1startLED { get; set; } = 30;
 
+        public bool SpotterEnable { get; set; } = false;
+
         public bool DashLEDEnabled { get; set; } = false;
         public bool LapInfoScreen { get; set; } = true;
         public bool ShiftWarning { get; set; } = false;
@@ -38,6 +40,8 @@ namespace DahlDesign.Plugin
         public string BehindPlayerText { get; set; } = "Sorry!";
 
         public string WheelBaseSteeringAxis { get; set; } = "";
+        public string myClutch { get; set; } = "";
+        public string myBitePoint { get; set; } = "";
 
         public double WheelRevolutions { get; set; } = 1080;
 

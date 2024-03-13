@@ -46,6 +46,7 @@ namespace DahlDesign.Plugin.iRacing
         List<double> lapDeltaRecord = new List<double> { };
         List<double> speedRegisterCurrent= new List<double> { };
         List<double> speedRegisterLast = new List<double> { };
+        List<double> speedRegisterRecord = new List<double> { };
 
         TimeSpan predictedLapTime = new TimeSpan(0);
 
@@ -55,7 +56,13 @@ namespace DahlDesign.Plugin.iRacing
         List<double> lastChunks = new List<double> { };
         List<double> SBChunks = new List<double> { };
         List<double> LRChunks = new List<double> { };
+        
         bool findLapRecord = true;
+
+        public bool hasCheckedSetup { get; set; } = false;
+        double recordSetupIsFixed = 0;
+        double recordAirTemp = 0;
+        double recordTrackTemp = 0;
 
         int myDeltaIndexOld = -1;
         int lapDeltaSections = -1;
@@ -133,12 +140,14 @@ namespace DahlDesign.Plugin.iRacing
         List<double> fuelTargetDeltas = new List<double> { 0, 0, 0, 0, 0, 0, 0, 0 };
         double fuelTargetDeltaCumulative = 0;
         double fuelTargetDelta = 0;
+        bool loadedToGrid = false;
 
         string classLeaderName = "";
         double? classLeaderRealGap = 0;
 
         string carModelHolder = "";
         string trackHolder = "";
+        long sessionIDHolder = 0;
         public string sessionHolder { get; set; } = "";
         bool boxApproach = false;
         List<double?> carAheadRelative = new List<double?> { };
@@ -361,14 +370,10 @@ namespace DahlDesign.Plugin.iRacing
 
         //SF23 p2p stuff
         bool sf23ToggleLock = false;
-        bool sf23CDStart = false;
-        bool sf23OTActive = false;
-        double sf23OTSpent = 0;
-        double sf23OTSpending = 0;
-        double sf23thisOTtime = 0;
-        double sf23TimeLeft = 0;
+        bool sf23OTOld = false;
         double sf23CDRef = 0;
         double sf23CDTime = 0;
+        bool sf23CDStart = false;
         bool sf23OTAllowed = false;
 
         //Buttons
@@ -383,7 +388,8 @@ namespace DahlDesign.Plugin.iRacing
         int myTireCompound = -1;
         int myDRSCount = -1;
 
-  
+        bool deleteLapRecord = false;
+        bool resetSessionBest = false;
 
         bool NBpressed = false;
         bool NBactive = false;
@@ -687,6 +693,9 @@ namespace DahlDesign.Plugin.iRacing
                 Base.AttachDelegate($"Lap{propIndex}FuelTargetDelta", () => fuelTargetDeltas[i]);
             }
 
+            Base.AttachDelegate("LapRecordTrackTemp", () => recordTrackTemp);
+            Base.AttachDelegate("LapRecordAirTemp", () => recordAirTemp);
+            Base.AttachDelegate("LapRecordSetupIsFixed", () => recordSetupIsFixed);
             Base.AttachDelegate("LapRecord", () => lapRecord);
             Base.AddProp("DeltaLastLap", 0);
             Base.AddProp("DeltaSessionBest", 0);
@@ -694,6 +703,8 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("DeltaLastLapChange", "");
             Base.AddProp("DeltaSessionBestChange", "");
             Base.AddProp("DeltaLapRecordChange", "");
+            Base.AddProp("SpeedDeltaLapRecord", 0);
+            Base.AddProp("SpeedPercentDeltaLapRecord", 0);
 
             Base.AddProp("P1Gap", 0);
             Base.AddProp("P1Name", "");
@@ -1125,8 +1136,12 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddAction("TCPressed", (a, b) => TCactive = true);
             Base.AddAction("TCReleased", (a, b) => TCactive = false);
 
+            Base.AddAction("DeleteLapRecord", (a, b) => deleteLapRecord = true);
+            Base.AddAction("ResetSessionBest", (a, b) => resetSessionBest = true);
+
             Base.AddAction("RadioPressed", (a, b) => radio = true);
             Base.AddAction("RadioReleased", (a, b) => radio = false);
+
 
             Base.AttachDelegate("PitSavePaceLock", () => savePitTimerLock);
 
@@ -1165,15 +1180,11 @@ namespace DahlDesign.Plugin.iRacing
             IRchange = 0;
 
             //SF23
-            sf23TimeLeft = 0;
-            sf23OTActive = false;
-            sf23CDStart = false;
             sf23CDTime = 0;
             sf23ToggleLock = false;
+            sf23OTOld = false;
             sf23CDRef = 0;
-            sf23OTSpending = 0;
-            sf23thisOTtime = 0;
-            sf23OTSpent = 0;
+            sf23CDStart = false;
             sf23OTAllowed = false;
 
             //Props that need refresh
@@ -1385,8 +1396,6 @@ namespace DahlDesign.Plugin.iRacing
                 aheadClassPosition = GameData.OpponentsAheadOnTrack[0].PositionInClass;         //Ahead Position (class)
             }
 
-            IRData.Telemetry.TryGetValue("PushToPass", out object rawP2P);                   //Right rear shock
-            bool pushToPass = Convert.ToBoolean(rawP2P);
 
             string myClass = GameData.CarClass;                                                 //My Class
             int myPosition = IRData.Telemetry.PlayerCarClassPosition;                               //My Position (class)
@@ -1395,6 +1404,12 @@ namespace DahlDesign.Plugin.iRacing
             double clutch = GameData.Clutch;                                                    //Clutch application
             double speed = GameData.SpeedLocal;                                                 //Speed
             double rpm = GameData.Rpms;                                                         //RPM value
+
+            double airTemp = IRData.Telemetry.AirTemp;
+            double trackTemp = IRData.Telemetry.TrackTemp;
+            double fixedSetup = IRData.SessionData.WeekendInfo.WeekendOptions.IsFixedSetup;
+            long season = IRData.SessionData.WeekendInfo.SeasonID;
+            long sessionID = IRData.SessionData.WeekendInfo.SessionID;
 
             double plannedFuel = Convert.ToDouble(IRData.Telemetry.PitSvFuel);                      //Planned fuel
             double maxFuel = GameData.MaxFuel;
@@ -1422,6 +1437,11 @@ namespace DahlDesign.Plugin.iRacing
             fuelTog = Convert.ToBoolean(pitInfo & 16);
             WSTog = Convert.ToBoolean(pitInfo & 32);
             repairTog = Convert.ToBoolean(pitInfo & 64);
+
+            if (sessionState == 2 && !loadedToGrid)
+            {
+                loadedToGrid = true;
+            }
 
 
             //----------------------------------------------
@@ -1860,6 +1880,7 @@ namespace DahlDesign.Plugin.iRacing
                     lapDeltaLapRecordChange.Clear();
                     speedRegisterCurrent.Clear();
                     speedRegisterLast.Clear();
+                    speedRegisterRecord.Clear();
 
                     for (int i = 0; i < lapDeltaSections + 1; i++)
                     {
@@ -1870,14 +1891,19 @@ namespace DahlDesign.Plugin.iRacing
                         lapDeltaLastChange.Add(0);
                         lapDeltaSessionBestChange.Add(0);
                         lapDeltaLapRecordChange.Add(0);
+                    }
+
+                    for (int i = 0; i < lapDeltaSections; i++)
+                    {
                         speedRegisterCurrent.Add(-1);
                         speedRegisterLast.Add(-1);
+                        speedRegisterRecord.Add(-1);
                     }
 
                     buildDeltaSystem = false;
                 }
 
-                LapRecords.lapFetch(ref findLapRecord, csvAdress, ref csvIndex, track, carModel, ref lapRecord, ref lapDeltaRecord, lapDeltaSections);
+                LapRecords.lapFetch(ref findLapRecord, csvAdress, ref csvIndex, track, carModel, fixedSetup, ref lapRecord, ref lapDeltaRecord, ref speedRegisterRecord, ref recordTrackTemp, ref recordAirTemp, ref recordSetupIsFixed, lapDeltaSections);
 
             }
             
@@ -1947,94 +1973,77 @@ namespace DahlDesign.Plugin.iRacing
             //--------------------SF23 OT--------------------
             //-----------------------------------------------
 
-            if (session == "Race" || session == "Practice" || session == "Offline Testing")
+            if (carId == "Super Formula SF23 - Honda" || carId == "Super Formula SF23 - Toyota")  
             {
-                sf23OTAllowed = true;
-                
-                if (!sf23ToggleLock && pushToPass && sf23CDTime == 0)
-                {
-                    sf23ToggleLock = true;
-                    sf23OTActive = !sf23OTActive;
 
-                    if(!sf23OTActive)
+                if( (session == "Race" || session == "Practice" || session == "Offline Testing") && p2pCounter > 0)
+                {
+                    sf23OTAllowed = true;
+                }
+                else
+                {
+                    sf23OTAllowed = false;
+                }
+
+                if (p2pActive != sf23OTOld)
+                {
+                    if (p2pActive == false && !iRIdle)
                     {
-                        sf23CDRef = globalClock.TotalSeconds;
-                        sf23CDTime = 0;
-                        sf23CDStart = true;
-                        sf23OTSpent += sf23thisOTtime;
-                        sf23thisOTtime = 0;
+                        sf23ToggleLock = true;
                     }
+                    else
+                    {
+                        sf23ToggleLock = false;
+                    }
+                    sf23OTOld = p2pActive;
                 }
+                    
 
-                if(!pushToPass)
+                if(sf23ToggleLock)
                 {
+                    sf23CDRef = globalClock.TotalSeconds;
+                    sf23CDTime = 0;
                     sf23ToggleLock = false;
+                    sf23CDStart = true;
                 }
 
-                if(!sf23OTActive)
+                if(sf23CDStart)
                 {
-                    sf23OTSpending = globalClock.TotalSeconds;
-                }
-                if (sf23OTActive)
-                {
-                    sf23thisOTtime = globalClock.TotalSeconds - sf23OTSpending;
-                }
-
-                if (sf23CDStart)
-                {
-                    sf23CDTime = 100 - (globalClock.TotalSeconds - sf23CDRef);
+                    sf23CDTime = 100 - globalClock.TotalSeconds + sf23CDRef;
                 }
                 else
                 {
                     sf23CDTime = 0;
                 }
+                
 
-                if (sf23CDTime <= 0)
+                if (sf23CDTime < 0 || session != "Race")
                 {
                     sf23CDTime = 0;
                     sf23CDStart = false;
                 }
 
-                sf23TimeLeft = 200 - sf23OTSpent - sf23thisOTtime;
-
-                if (pitBox > 0 || (session == "Race" && sessionState < 4))
+                if(pitStall == 1 || pitBox > 0 || p2pActive)
                 {
-                    sf23OTAllowed = false;
-                    sf23OTActive = false;
-                    sf23CDStart = false;
                     sf23CDTime = 0;
-                    sf23ToggleLock = false;
+                    sf23CDStart = false;
                     sf23CDRef = globalClock.TotalSeconds;
-                    sf23thisOTtime = globalClock.TotalSeconds - sf23OTSpending;
-                    sf23OTSpending = globalClock.TotalSeconds;
-                }
-
-                if(session == "Practice" || session == "Offline Testing")
-                {
-                    sf23CDStart = false;
-                    sf23CDTime = 0;
-                    sf23TimeLeft = 999;
+                    sf23ToggleLock = false;
                 }
             }
             else
             {
                 sf23OTAllowed = false;
-                sf23TimeLeft = 0;
-                sf23OTActive = false;
                 sf23CDStart = false;
                 sf23CDTime = 0;
                 sf23ToggleLock = false;
                 sf23CDRef = globalClock.TotalSeconds;
-                sf23OTSpending = globalClock.TotalSeconds;
-                sf23thisOTtime = 0;
-                sf23OTSpent = 0;
             }
 
-
             Base.SetProp("SF23.OTAllowed", sf23OTAllowed);
-            Base.SetProp("SF23.OTTimeLeft", sf23TimeLeft);
+            Base.SetProp("SF23.OTTimeLeft", p2pCounter);
             Base.SetProp("SF23.OTCooldownTimer", sf23CDTime);
-            Base.SetProp("SF23.OTActive", sf23OTActive);
+            Base.SetProp("SF23.OTActive", p2pActive);
             Base.SetProp("SF23.OTCooldownActive", sf23CDStart);
 
 
@@ -2281,7 +2290,7 @@ namespace DahlDesign.Plugin.iRacing
 
 
             //Idle property
-            if (sessionScreen && !spotMode)
+            if (sessionScreen && !spotMode && !Base.Settings.SpotterEnable)
             {
                 iRIdle = true;
             }
@@ -2587,6 +2596,7 @@ namespace DahlDesign.Plugin.iRacing
                 else if (Base.Rotary.PitMenu(10))
                 {
                     spotMode = !spotMode;
+                    Base.Settings.SpotterEnable = spotMode;
                 }
                 else if (Base.Rotary.PitMenu(11))
                 {
@@ -2645,6 +2655,31 @@ namespace DahlDesign.Plugin.iRacing
                 paceCheck = false;
                 pacePressed = false;
                 paceReleased = false;
+            }
+
+            //DeleteLapTime and session best
+
+            if(deleteLapRecord)
+            {
+                LapRecords.deleteLapRecord(track, carModel, csvAdress, csvIndex, lapDeltaSections);
+                deleteLapRecord = false;
+                findLapRecord = true;
+            }
+
+            if (resetSessionBest)
+            {
+                SBChunks.Clear();
+                sessionBestSector1 = 0;
+                sessionBestSector2 = 0;
+                sessionBestSector3 = 0;
+                sessionBestLap = new TimeSpan(0);
+
+                for (int i = 0; i < deltaChangeChunks; i++)
+                {
+                    SBChunks.Add(0);
+                }
+
+                resetSessionBest = false;
             }
 
             //Bite adjust
@@ -2936,6 +2971,7 @@ namespace DahlDesign.Plugin.iRacing
             if ((currentLapTime.TotalSeconds > 6 && trackPosition > 0.15 && trackPosition < twoThirds) || pit == 1)
             {
                 currentLapTimeStarted = true;
+                loadedToGrid = false;
             }
             if (trackPosition > twoThirds)
             {
@@ -3202,6 +3238,8 @@ namespace DahlDesign.Plugin.iRacing
                 }
                 fuelHolder = fuel;
 
+                Base.SetProp("CalcLastLapFuel", calcLastLapFuel);
+
             }
 
             if (lastLapHolder != lastLapTime && (lastLapTime != new TimeSpan(0)))  //New lap time arrives, update certain lists and values
@@ -3240,18 +3278,22 @@ namespace DahlDesign.Plugin.iRacing
                     }
 
                     //Checking for lap record
-                    if (lapRecord.TotalSeconds == 0 && lapStatusList[0] == 1)
+                    if (lapRecord.TotalSeconds == 0 && lapStatusList[0] == 1 && lapDeltaRecord[0] != -2) //lapDeltaRecord[0] of -2 means previously deleted lap, ready to be overwritten
                     {
-                        LapRecords.addLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, ref csvIndex, speedRegisterLast);
+                        LapRecords.addLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, ref csvIndex, speedRegisterLast, trackTemp, airTemp, fixedSetup);
                         for (int i = 0; i < lapDeltaSections + 1; i++) //Keep hold of the timings on that lap
                         {
                             lapDeltaRecord[i] = lapDeltaLast[i];
                         }
+                        for (int i = 0; i < lapDeltaSections; i++) //Keep hold of the speed on that lap
+                        {
+                            speedRegisterRecord[i] = speedRegisterLast[i];
+                        }
                         findLapRecord = true;
                     }
-                    else if (lapTimeList[0].TotalSeconds < lapRecord.TotalSeconds && lapStatusList[0] == 1)
+                    else if ((lapTimeList[0].TotalSeconds < lapRecord.TotalSeconds || lapDeltaRecord[0] == -2) && lapStatusList[0] == 1)
                     {
-                        LapRecords.replaceLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, csvIndex);
+                        LapRecords.replaceLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, csvIndex, speedRegisterLast, trackTemp, airTemp, fixedSetup);
                         findLapRecord = true;
                     }
 
@@ -3309,6 +3351,10 @@ namespace DahlDesign.Plugin.iRacing
                     fuelTargetDeltas.RemoveAt(8);
 
                     fuelTargetDeltaCumulative = fuelTargetDeltaCumulative + fuelTargetDelta;
+                    if (loadedToGrid)
+                    {
+                        fuelTargetDeltaCumulative = 0;
+                    }
                 }
             }
 
@@ -4040,6 +4086,8 @@ namespace DahlDesign.Plugin.iRacing
                         classLeaderLastLap = GameData.Opponents[i].LastLapTime;
                         classLeaderBestLap = GameData.Opponents[i].BestLapTime;
                     }
+                    
+                    
                     if (GameData.Opponents[i].GaptoPlayer <= leaderGap)
                     {
                         leaderGap = GameData.Opponents[i].GaptoPlayer;
@@ -5963,6 +6011,8 @@ namespace DahlDesign.Plugin.iRacing
                 double deltaLastLap = 0;
                 double deltaSessionBest = 0;
                 double deltaLapRecord = 0;
+                double speedDeltaLapRecord = 0;
+                double speedDeltaPercent = 0;
                 predictedLapTime = new TimeSpan(0);
                 TimeSpan predictedLapFetch = new TimeSpan(0);
                 List<double> predictedLapChunks = new List<double>(0);
@@ -6023,10 +6073,17 @@ namespace DahlDesign.Plugin.iRacing
                         deltaLapRecord = (lapDeltaCurrent[myDeltaIndex + 1] - lapDeltaRecord[myDeltaIndex + 1]) / 1000;
                         lapDeltaLapRecordChange[myDeltaIndex] = deltaLapRecord;
                         Base.SetProp("DeltaLapRecord", deltaLapRecord);
+
+                        speedDeltaLapRecord = speed - speedRegisterRecord[myDeltaIndex];
+                        speedDeltaPercent = speedDeltaLapRecord * 100 / speed;
+                        Base.SetProp("SpeedDeltaLapRecord", speedDeltaLapRecord);
+                        Base.SetProp("SpeedPercentDeltaLapRecord", speedDeltaPercent);
                     }
                     if (lapDeltaRecord[myDeltaIndex + 1] == -1)
                     {
                         Base.SetProp("DeltaLapRecord", 0);
+                        Base.SetProp("SpeedDeltaLapRecord", 0);
+                        Base.SetProp("SpeedPercentDeltaLapRecord", 0);
                     }
 
 
@@ -6035,9 +6092,11 @@ namespace DahlDesign.Plugin.iRacing
                         for (int i = 0; i < lapDeltaSections + 1; i++)
                         {
                             lapDeltaLast[i] = lapDeltaCurrent[i];
-                            speedRegisterLast[i] = speedRegisterCurrent[i];
-
                             lapDeltaCurrent[i] = -1;
+                        }
+                        for (int i = 0; i < lapDeltaSections; i++)
+                        {
+                            speedRegisterLast[i] = speedRegisterCurrent[i];
                             speedRegisterCurrent[i] = -1;
                         }
                     }
@@ -6383,6 +6442,7 @@ namespace DahlDesign.Plugin.iRacing
             if (iRIdle)
             {
                 findLapRecord = true;
+                loadedToGrid = false;
                 csvIndex = 0;
                 currentFrontWing = 0;
                 currentRearWing = 0;
@@ -6417,7 +6477,7 @@ namespace DahlDesign.Plugin.iRacing
                 Base.SetProp("TCActive", false);
 
                 //Session or car or track change
-                if (carModelHolder != carModel || trackHolder != track || sessionHolder != session)
+                if (carModelHolder != carModel || trackHolder != track || sessionHolder != session || sessionIDHolder != sessionID)
                 {
                     buildDeltaSystem = true;
                     findLapRecord = true;
@@ -6459,15 +6519,10 @@ namespace DahlDesign.Plugin.iRacing
                     qLapStarted2 = false;
 
                     //SF23
-                    sf23TimeLeft = 0;
-                    sf23OTActive = false;
                     sf23CDStart = false;
                     sf23CDTime = 0;
                     sf23ToggleLock = false;
                     sf23CDRef = globalClock.TotalSeconds;
-                    sf23OTSpending = globalClock.TotalSeconds;
-                    sf23thisOTtime = 0;
-                    sf23OTSpent = 0;
                     sf23OTAllowed = false;
 
                     //Props that need refresh
@@ -6501,6 +6556,7 @@ namespace DahlDesign.Plugin.iRacing
                 carModelHolder = carModel; //Updating choice of car, track and session
                 trackHolder = track;
                 sessionHolder = session;
+                sessionIDHolder = sessionID;
             }
 
             //-----------------------------------------------------------------------------

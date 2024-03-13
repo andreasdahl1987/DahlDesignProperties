@@ -8,6 +8,8 @@ namespace DahlDesign.Plugin.Categories
         public DDC(DahlDesign dahlDesign) : base(dahlDesign) { }
         public bool controllerEnabled;
         public double SteeringAngle;
+        public double MyClutch;
+        public double MyBitePoint;
 
         //Switches
         int encoder1Mode = 0;
@@ -107,6 +109,9 @@ namespace DahlDesign.Plugin.Categories
             Base.AttachDelegate("SW1startLED", () => Base.Settings.SW1startLED);
             Base.AttachDelegate("DDUEnabled", () => Base.Settings.DDUEnabled);
             Base.AttachDelegate("SteeringAngle", () => Base.DDC.SteeringAngle);
+
+            Base.AttachDelegate("MyClutch", () => Base.DDC.MyClutch);
+            Base.AttachDelegate("MyBitePoint", () => Base.DDC.MyBitePoint);
         }
 
         public override void DataUpdate()
@@ -140,6 +145,35 @@ namespace DahlDesign.Plugin.Categories
                     Base.DDC.SteeringAngle = 360 + Base.DDC.SteeringAngle;
                 }
             }
+
+            //----------------------------------------
+            //--------Clutch and bite pot-------------
+            //----------------------------------------
+
+            var clutchSearch = Base.GetProp("JoystickPlugin." + Base.Settings.myClutch);
+
+            if (clutchSearch == null)
+            {
+                Base.DDC.MyClutch = 0;
+            }
+
+            else
+            {
+                Base.DDC.MyClutch = Convert.ToInt32(Base.GetProp("JoystickPlugin." + Base.Settings.myClutch)) / 655.35;
+            }
+
+            var biteSearch = Base.GetProp("JoystickPlugin." + Base.Settings.myBitePoint);
+
+            if (biteSearch == null)
+            {
+                Base.DDC.MyBitePoint = 0;
+            }
+
+            else
+            {
+                Base.DDC.MyBitePoint = Convert.ToInt32(Base.GetProp("JoystickPlugin." + Base.Settings.myBitePoint)) / 655.35;
+            }
+
 
             //----------------------------------------
             //--------DDC and SW1 calculations--------
