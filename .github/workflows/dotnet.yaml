@@ -62,7 +62,7 @@ jobs:
 
     - name: List Directories # Used to download the SimHub DLLs - only if not in cache.
       run: | 
-        ls -latR "D:\Program Files (x86)\SimHub\"
+        Get-ChildItem -Path "D:\Program Files (x86)\SimHub\" -Recurse -Force 
 
     - name: Restore Packages
       run: nuget restore "Dahl Design Properties.sln"
