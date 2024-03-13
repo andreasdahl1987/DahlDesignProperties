@@ -37,8 +37,8 @@ jobs:
       with:
         path: |
           innounp050.rar
-          SimHub.8.01.2.zip
-        key: SimHub.8.01.2
+          SimHub.9.02.6.zip
+        key: SimHub.9.02.6
 
     - name: Download Requirements # Used to download the SimHub DLLs - only if not in cache.
       if: steps.cache.outputs.cache-hit != 'true'
