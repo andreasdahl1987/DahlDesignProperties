@@ -56,8 +56,8 @@ jobs:
         7z x SimHub.9.02.6.zip
         dir
         mkdir D:\SimHub
-        D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\SimHub" SimHubSetup_9.2.6.exe GameReaderCommon.dll SimHub.plugins.dll
-        D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\a\DahlDesignProperties\DahlDesignProperties\DLLs" SimHubSetup_9.2.6.exe ACSharedMemory.dll ACToolsUtilities.dll GameReaderCommon.dll ICarsReader.dll InputManagerCS.dll iRacingSDK.dll SimHub.logging.dll SimHub.plugins.dll log4net.dll
+        D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\Program Files (x86)\SimHub\" SimHubSetup_9.2.6.exe GameReaderCommon.dll SimHub.plugins.dll
+        D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\Program Files (x86)\SimHub\" SimHubSetup_9.2.6.exe ACSharedMemory.dll ACToolsUtilities.dll GameReaderCommon.dll ICarsReader.dll InputManagerCS.dll iRacingSDK.dll SimHub.logging.dll SimHub.plugins.dll log4net.dll
         D:\a\DahlDesignProperties\DahlDesignProperties\innounp.exe -v -x -b -e -d"D:\Program Files (x86)\SimHub\" SimHubSetup_9.2.6.exe MahApps.*.dll
 
     - name: List Directories # Used to download the SimHub DLLs - only if not in cache.
