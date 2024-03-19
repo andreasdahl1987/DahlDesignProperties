@@ -71,6 +71,7 @@ namespace DahlDesign.Plugin.iRacing
 
         int myDeltaIndexOld = -1;
         int lapDeltaSections = -1;
+        int opponentChunkSize = - 1;
         bool buildDeltaSystem = true;
         int deltaChangeChunks = 20;
 
@@ -213,6 +214,7 @@ namespace DahlDesign.Plugin.iRacing
         bool raceFinished = false;
 
         double? aheadGap = 0;
+        string aheadChunks = "";
         string aheadClass = "";
         int aheadClassPosition = 0;
 
@@ -740,6 +742,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("AheadP2PStatus", false);
             Base.AddProp("AheadP2PCount", -1);
             Base.AddProp("AheadRealGap", 0);
+            Base.AddProp("AheadDeltaChange", "");
 
             Base.AddProp("BehindName", "");
             Base.AddProp("BehindGap", 0);
@@ -754,6 +757,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("BehindP2PStatus", false);
             Base.AddProp("BehindP2PCount", -1);
             Base.AddProp("BehindRealGap", 0);
+            Base.AddProp("BehindDeltaChange", "");
 
             Base.AddProp("CarAhead01Relative", 0);
             Base.AddProp("CarAhead01Gap", 0);
@@ -1220,7 +1224,6 @@ namespace DahlDesign.Plugin.iRacing
                 List<bool> locks = new List<bool> { };
                 List<bool> checks = new List<bool> { };
                 List <double> change = new List<double> { };
-                List <double> chunk = new List<double> { };
                 List<TimeSpan> points = new List<TimeSpan> { };
 
                 for (int i = 0; i < 64; i++)
@@ -1229,15 +1232,27 @@ namespace DahlDesign.Plugin.iRacing
                     checks.Add(false);
                     points.Add(TimeSpan.FromSeconds(0));
                     change.Add(0);
-                    chunk.Add(0);
                 }
-
+                
                 realGapLocks.Add(locks);
                 realGapChecks.Add(checks);
                 realGapPoints.Add(points);
                 realGapChange.Add(change);
+            }
+
+            for (int u = 0; u < 64; u++)
+            {
+                List<double> chunk = new List<double> { };
+
+                for (int i = 0; i < deltaChangeChunks; i++)
+                {
+                    chunk.Add(0);
+                }
+
                 realGapChunks.Add(chunk);
             }
+
+
 
             for (int i = 0; i < 64; i++)
             {
@@ -1883,6 +1898,7 @@ namespace DahlDesign.Plugin.iRacing
                 if (buildDeltaSystem)
                 {
                     lapDeltaSections = (((int)trackLength / 60) + 9) / 20 * 20;
+                    opponentChunkSize = trackSections / deltaChangeChunks;
 
                     lapDeltaCurrent.Clear();
                     lapDeltaSessionBest.Clear();
@@ -4053,6 +4069,7 @@ namespace DahlDesign.Plugin.iRacing
                 double? aheadRealGap = 0;
 
                 double? behindGap = 0;
+                string behindChunks = "";
                 string behindName = "";
                 Globals.behindGlobal = behindName;
                 TimeSpan behindLastLap = new TimeSpan(0);
@@ -4110,7 +4127,7 @@ namespace DahlDesign.Plugin.iRacing
                         leaderBestLap = GameData.Opponents[i].BestLapTime;
                         leaderTrackPosition = GameData.Opponents[i].TrackPositionPercent;
                     }
-                    if (GameData.Opponents[i].GaptoPlayer < 0 && (aheadGap == 0 || GameData.Opponents[i].GaptoPlayer > aheadGap))
+                    if (GameData.Opponents[i].GaptoPlayer < 0 && (aheadGap == 0 || GameData.Opponents[i].GaptoPlayer > aheadGap) && !(GameData.Opponents[i].IsCarInPitLane && GameData.Opponents[i].CurrentLap == 1))
                     {
                         aheadGap = GameData.Opponents[i].GaptoPlayer;
                         aheadName = GameData.Opponents[i].Name;
@@ -4365,6 +4382,8 @@ namespace DahlDesign.Plugin.iRacing
                 Base.SetProp("AheadIsConnected", false);
                 Base.SetProp("AheadIsInPit", true);
                 Base.SetProp("AheadRealGap", 0);
+                Base.SetProp("AheadDeltaChange", "");
+
 
                 Base.SetProp("BehindName", "");
                 Base.SetProp("BehindGap", 0);
@@ -4372,6 +4391,7 @@ namespace DahlDesign.Plugin.iRacing
                 Base.SetProp("BehindIsConnected", false);
                 Base.SetProp("BehindIsInPit", true);
                 Base.SetProp("BehindRealGap", 0);
+                Base.SetProp("BehindDeltaChange", "");
 
                 Base.SetProp("ClassP1RealGap", 0);
 
@@ -4398,6 +4418,7 @@ namespace DahlDesign.Plugin.iRacing
                             int carID = Convert.ToInt16(IRData.SessionData.DriverInfo.CompetingDrivers[e].CarIdx);
 
                             aheadRealGap = realGapOpponentDelta[carID];
+                            aheadChunks = string.Join(",", realGapChunks[carID]); //push result as string
 
                             if ((aheadRealGap > aheadGap * 1.25 && aheadRealGap - aheadGap > 10) || (aheadRealGap < aheadGap * 0.75 && aheadRealGap - aheadGap < -10) || aheadRealGap >= 0)
                             {
@@ -4430,7 +4451,9 @@ namespace DahlDesign.Plugin.iRacing
                         if (behindName == IRData.SessionData.DriverInfo.CompetingDrivers[i].UserName)
                         {
                             int carID = Convert.ToInt16(IRData.SessionData.DriverInfo.CompetingDrivers[i].CarIdx);
+
                             behindRealGap = realGapOpponentDelta[carID];
+                            behindChunks = string.Join(",", realGapChunks[carID]); //push result as string
 
                             if ((behindRealGap > behindGap * 1.25 && behindRealGap - behindGap > 10) || (behindRealGap < behindGap * 0.75 && behindRealGap - behindGap < -10) || behindRealGap <= 0)
                             {
@@ -4509,7 +4532,12 @@ namespace DahlDesign.Plugin.iRacing
                     {
                         Base.SetProp("LuckyDogRealGap", luckyDogRealGap);
                     }
+
                     Base.SetProp("ClassP1RealGap", classLeaderRealGap);
+                    Base.SetProp("AheadRealGap", aheadRealGap);
+                    Base.SetProp("AheadDeltaChange", aheadChunks);
+                    Base.SetProp("BehindRealGap", behindRealGap);
+                    Base.SetProp("BehindDeltaChange", behindChunks);
 
                     double overtakeThreshold = -0.5;
 
@@ -4577,7 +4605,7 @@ namespace DahlDesign.Plugin.iRacing
                         Base.SetProp("AheadLapsSincePit", aheadLapsSincePit);
                         Base.SetProp("AheadP2PStatus", aheadP2PActive);
                         Base.SetProp("AheadP2PCount", aheadP2PCount);
-                        Base.SetProp("AheadRealGap", aheadRealGap);
+
 
                         Globals.aheadGlobal = aheadName;
 
@@ -4639,7 +4667,7 @@ namespace DahlDesign.Plugin.iRacing
                         Base.SetProp("BehindLapsSincePit", behindLapsSincePit);
                         Base.SetProp("BehindP2PStatus", behindP2PActive);
                         Base.SetProp("BehindP2PCount", behindP2PCount);
-                        Base.SetProp("BehindRealGap", behindRealGap);
+
 
                         Globals.behindGlobal = behindName;
                     }
@@ -6339,8 +6367,6 @@ namespace DahlDesign.Plugin.iRacing
                 gapIndexOld = 0;
             }
 
-            bool setNewGapChunks = false;
-
             if (sessionState == 4 && BestLapTimes != null)
             {
                 for (int i = 0; i < 64; i++)
@@ -6407,9 +6433,56 @@ namespace DahlDesign.Plugin.iRacing
                                 realGapChange[myDistIndex][i] = oldDelta - delta;
                                 realGapLocks[myDistIndex][i] = false;
 
+                                //Check if opponent is same class, in the case calculate delta chunks
 
+                                if (IRData.SessionData.DriverInfo.CompetingDrivers[i].CarClassID == IRData.SessionData.DriverInfo.CompetingDrivers[myCarIdx].CarClassID)
+                                {
+                                    int currentChunk = (myDistIndex / opponentChunkSize);
+                                    if (currentChunk == deltaChangeChunks)
+                                    {
+                                        currentChunk--;
+                                    }
+                                    int startingIndex = currentChunk * opponentChunkSize;
+                                    bool changeStarted = false;
+                                    double changeSum = 0;
+                                    double firstOfChunk = 0;
+                                    double lastOfChunk = 0;
+
+                                    //Last lap calculations
+                                    for (int e = startingIndex; e < myDistIndex + 1; e++)
+                                    {
+                                        if (!changeStarted)
+                                        {
+                                            firstOfChunk = realGapChange[e][i];
+                                        }
+                                        changeStarted = true;
+                                        if (i > startingIndex)
+                                        {
+                                            lastOfChunk = realGapChange[e][i];
+                                        }
+                                    }
+
+
+                                    if (myDistIndex > startingIndex && startingIndex != 0)
+                                    {
+                                        changeSum = lastOfChunk - realGapChange[startingIndex - 1][i];
+                                    }
+                                    else if (startingIndex != 0)
+                                    {
+                                        changeSum = firstOfChunk - realGapChange[startingIndex - 1][i];
+                                    }
+                                    else if (myDistIndex > 0)
+                                    {
+                                        changeSum = lastOfChunk;
+                                    }
+                                    else
+                                    {
+                                        changeSum = firstOfChunk;
+                                    }
+
+                                    realGapChunks[i][currentChunk] = Math.Round(changeSum, 3);
+                                }
                             }
-
                         }
 
                         else//Assume the car is behind
@@ -6445,87 +6518,63 @@ namespace DahlDesign.Plugin.iRacing
                                 realGapChange[myDistIndex][i] = oldDelta - delta;
                                 realGapLocks[distIndex][i] = false;
 
+                                //Check if opponent is same class, in the case calculate delta chunks
 
-                            }
-
-                        }
-                    }
-                }
-
-                //---------------------------
-                //---OPPONENT DELTA CHANGES--
-                //---------------------------
-
-                if (myDistIndex != gapIndexOld)
-                {
-                    myDeltaIndexOld = gapIndexOld;
-                    setNewGapChunks = true;
-                }
-
-                if (setNewGapChunks)
-                {
-                    setNewGapChunks = false;
-
-                    int chunkSize = 3;
-                    int currentChunk = (myDistIndex / chunkSize);
-                    if (currentChunk == deltaChangeChunks)
-                    {
-                        currentChunk--;
-                    }
-
-                    int startingIndex = currentChunk * chunkSize;
-                    bool changeStarted = false;
-                    double changeSum = 0;
-                    double firstOfChunk = 0;
-                    double lastOfChunk = 0;
-
-                    for (int i = 0; i < 64; i++)
-                    {
-                        if (IRData.SessionData.DriverInfo.CompetingDrivers[i].CarClassID == IRData.SessionData.DriverInfo.CompetingDrivers[myCarIdx].CarClassID)
-                        {
-                            for (int e = startingIndex; e < myDistIndex + 1; i++)
-                            {
-                                if (!changeStarted)
+                                if (IRData.SessionData.DriverInfo.CompetingDrivers[i].CarClassID == IRData.SessionData.DriverInfo.CompetingDrivers[myCarIdx].CarClassID)
                                 {
-                                    firstOfChunk = realGapChange[i];
+                                    int currentChunk = (myDistIndex / opponentChunkSize);
+                                    if (currentChunk == deltaChangeChunks)
+                                    {
+                                        currentChunk--;
+                                    }
+                                    int startingIndex = currentChunk * opponentChunkSize;
+                                    bool changeStarted = false;
+                                    double changeSum = 0;
+                                    double firstOfChunk = 0;
+                                    double lastOfChunk = 0;
+
+                                    //Last lap calculations
+                                    for (int e = startingIndex; e < myDistIndex + 1; e++)
+                                    {
+                                        if (!changeStarted)
+                                        {
+                                            firstOfChunk = realGapChange[e][i];
+                                        }
+                                        changeStarted = true;
+                                        if (i > startingIndex)
+                                        {
+                                            lastOfChunk = realGapChange[e][i];
+                                        }
+                                    }
+
+
+                                    if (myDistIndex > startingIndex && startingIndex != 0)
+                                    {
+                                        changeSum = lastOfChunk - realGapChange[startingIndex - 1][i];
+                                    }
+                                    else if (startingIndex != 0)
+                                    {
+                                        changeSum = firstOfChunk - realGapChange[startingIndex - 1][i];
+                                    }
+                                    else if (myDistIndex > 0)
+                                    {
+                                        changeSum = lastOfChunk;
+                                    }
+                                    else
+                                    {
+                                        changeSum = firstOfChunk;
+                                    }
+
+                                    realGapChunks[i][currentChunk] = Math.Round(changeSum, 3);
                                 }
-                                changeStarted = true;
-                                if (i > startingIndex)
-                                {
-                                    lastOfChunk = lapDeltaLastChange[i];
-                                }
+
                             }
 
-
-                            if (myDistIndex > startingIndex && startingIndex != 0)
-                            {
-                                changeSum = lastOfChunk - lapDeltaLastChange[startingIndex - 1];
-                            }
-                            else if (startingIndex != 0)
-                            {
-                                changeSum = firstOfChunk - lapDeltaLastChange[startingIndex - 1];
-                            }
-                            else if (myDistIndex > 0)
-                            {
-                                changeSum = lastOfChunk;
-                            }
-                            else
-                            {
-                                changeSum = firstOfChunk;
-                            }
-
-                            lastChunks[currentChunk] = Math.Round(changeSum, 3);
-
-                            string lastResult = string.Join(",", lastChunks); //push result as string
                         }
                     }
                 }
 
             }
-
-
-
-
 
             //-----------------------------------------------------------------------------
             //----------------------IDLE AND RESETS----------------------------------------
