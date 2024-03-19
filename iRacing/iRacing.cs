@@ -32,12 +32,17 @@ namespace DahlDesign.Plugin.iRacing
         List<pitOpponents> finalList = new List<pitOpponents> { };
 
         int trackSections = 60;
+        int gapIndexOld = -1;
         List<double> realGapOpponentDelta = new List<double> { };
         List<double> realGapOpponentRelative = new List<double> { };
 
         List<List<TimeSpan>> realGapPoints = new List<List<TimeSpan>> { };
         List<List<bool>> realGapLocks = new List<List<bool>> { };
         List<List<bool>> realGapChecks = new List<List<bool>> { };
+
+        List<List<double>> realGapChange = new List<List<double>> { };
+        List<List<double>> realGapChunks = new List<List<double>> { };
+        
 
         int lapStatus = 1;
         List<double> lapDeltaCurrent = new List<double> { };
@@ -1196,6 +1201,8 @@ namespace DahlDesign.Plugin.iRacing
             realGapPoints.Clear();
             realGapOpponentDelta.Clear();
             realGapOpponentRelative.Clear();
+            realGapChange.Clear();
+            realGapChunks.Clear();
             sessionCarsLapsSincePit.Clear();
             sessionCarsLap.Clear();
 
@@ -1212,6 +1219,8 @@ namespace DahlDesign.Plugin.iRacing
             {
                 List<bool> locks = new List<bool> { };
                 List<bool> checks = new List<bool> { };
+                List <double> change = new List<double> { };
+                List <double> chunk = new List<double> { };
                 List<TimeSpan> points = new List<TimeSpan> { };
 
                 for (int i = 0; i < 64; i++)
@@ -1219,11 +1228,15 @@ namespace DahlDesign.Plugin.iRacing
                     locks.Add(false);
                     checks.Add(false);
                     points.Add(TimeSpan.FromSeconds(0));
+                    change.Add(0);
+                    chunk.Add(0);
                 }
 
                 realGapLocks.Add(locks);
                 realGapChecks.Add(checks);
                 realGapPoints.Add(points);
+                realGapChange.Add(change);
+                realGapChunks.Add(chunk);
             }
 
             for (int i = 0; i < 64; i++)
@@ -1273,7 +1286,10 @@ namespace DahlDesign.Plugin.iRacing
             double slipLR = Convert.ToDouble(Base.GetProp("ShakeITMotorsV3Plugin.Export.WheelSlip.RearLeft"));  //Wheel slip
             double slipRR = Convert.ToDouble(Base.GetProp("ShakeITMotorsV3Plugin.Export.WheelSlip.RearRight"));  //Wheel slip
 
-            double trackPosition = IRData.Telemetry.LapDistPct;                                     //Lap distance
+            IRData.Telemetry.TryGetValue("PlayerCarIdx", out object rawPlayerIdx);                  //My CarIdx
+            int myCarIdx = Convert.ToInt32(rawPlayerIdx);
+
+            double trackPosition = IRData.Telemetry.CarIdxLapDistPct[myCarIdx];                 //Track position
             int completedLaps = GameData.CompletedLaps;                                         //Completed laps
             int currentLap = GameData.CurrentLap;                                               //Current lap
             int totalLaps = GameData.TotalLaps;                                                 //Total laps
@@ -1362,9 +1378,6 @@ namespace DahlDesign.Plugin.iRacing
 
             IRData.Telemetry.TryGetValue("SessionOnJokerLap", out object rawisOnJoker);             //Joker lap
             bool onJokerLap = Convert.ToBoolean(rawisOnJoker);
-
-            IRData.Telemetry.TryGetValue("PlayerCarIdx", out object rawPlayerIdx);                  //My CarIdx
-            int myCarIdx = Convert.ToInt32(rawPlayerIdx);
 
             IRData.Telemetry.TryGetValue("CarIdxP2P_Count", out object p2pCount);                   //P2P Counts
             IRData.Telemetry.TryGetValue("CarIdxP2P_Status", out object p2pStatus);                 //P2P Statuses
@@ -1863,7 +1876,7 @@ namespace DahlDesign.Plugin.iRacing
 
 
             //----------------------------------------------------
-            //--------BUILD DELTA SYSTEM, FIND LAP RECORD--------------------------
+            //--------BUILD DELTA SYSTEM, FIND LAP RECORD---------
             //----------------------------------------------------
             if (gotTrackLengthForCalc)
             {
@@ -6323,7 +6336,10 @@ namespace DahlDesign.Plugin.iRacing
             {
                 myDistIndex = 0;
                 myPrevIndex = 0;
+                gapIndexOld = 0;
             }
+
+            bool setNewGapChunks = false;
 
             if (sessionState == 4 && BestLapTimes != null)
             {
@@ -6386,8 +6402,12 @@ namespace DahlDesign.Plugin.iRacing
                                     delta = bestLap + delta + truncdiff * bestLap;
                                 }
 
+                                double oldDelta = realGapOpponentDelta[i];
                                 realGapOpponentDelta[i] = delta;
+                                realGapChange[myDistIndex][i] = oldDelta - delta;
                                 realGapLocks[myDistIndex][i] = false;
+
+
                             }
 
                         }
@@ -6420,7 +6440,9 @@ namespace DahlDesign.Plugin.iRacing
                                     delta = delta + truncdiff * bestLap;
                                 }
 
+                                double oldDelta = realGapOpponentDelta[i];
                                 realGapOpponentDelta[i] = delta;
+                                realGapChange[myDistIndex][i] = oldDelta - delta;
                                 realGapLocks[distIndex][i] = false;
 
 
@@ -6429,7 +6451,78 @@ namespace DahlDesign.Plugin.iRacing
                         }
                     }
                 }
+
+                //---------------------------
+                //---OPPONENT DELTA CHANGES--
+                //---------------------------
+
+                if (myDistIndex != gapIndexOld)
+                {
+                    myDeltaIndexOld = gapIndexOld;
+                    setNewGapChunks = true;
+                }
+
+                if (setNewGapChunks)
+                {
+                    setNewGapChunks = false;
+
+                    int chunkSize = 3;
+                    int currentChunk = (myDistIndex / chunkSize);
+                    if (currentChunk == deltaChangeChunks)
+                    {
+                        currentChunk--;
+                    }
+
+                    int startingIndex = currentChunk * chunkSize;
+                    bool changeStarted = false;
+                    double changeSum = 0;
+                    double firstOfChunk = 0;
+                    double lastOfChunk = 0;
+
+                    for (int i = 0; i < 64; i++)
+                    {
+                        if (IRData.SessionData.DriverInfo.CompetingDrivers[i].CarClassID == IRData.SessionData.DriverInfo.CompetingDrivers[myCarIdx].CarClassID)
+                        {
+                            for (int e = startingIndex; e < myDistIndex + 1; i++)
+                            {
+                                if (!changeStarted)
+                                {
+                                    firstOfChunk = realGapChange[i];
+                                }
+                                changeStarted = true;
+                                if (i > startingIndex)
+                                {
+                                    lastOfChunk = lapDeltaLastChange[i];
+                                }
+                            }
+
+
+                            if (myDistIndex > startingIndex && startingIndex != 0)
+                            {
+                                changeSum = lastOfChunk - lapDeltaLastChange[startingIndex - 1];
+                            }
+                            else if (startingIndex != 0)
+                            {
+                                changeSum = firstOfChunk - lapDeltaLastChange[startingIndex - 1];
+                            }
+                            else if (myDistIndex > 0)
+                            {
+                                changeSum = lastOfChunk;
+                            }
+                            else
+                            {
+                                changeSum = firstOfChunk;
+                            }
+
+                            lastChunks[currentChunk] = Math.Round(changeSum, 3);
+
+                            string lastResult = string.Join(",", lastChunks); //push result as string
+                        }
+                    }
+                }
+
             }
+
 
 
 
@@ -6536,6 +6629,8 @@ namespace DahlDesign.Plugin.iRacing
                         realGapPoints.Clear();
                         realGapOpponentDelta.Clear();
                         realGapOpponentRelative.Clear();
+                        realGapChunks.Clear();
+                        realGapChange.Clear();
                         sessionCarsLapsSincePit.Clear();
                         sessionCarsLap.Clear();
 
