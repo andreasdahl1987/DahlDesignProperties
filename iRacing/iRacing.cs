@@ -2370,7 +2370,7 @@ namespace DahlDesign.Plugin.iRacing
             if (GameData.OpponentsBehindOnTrack.Count > 0)
             {
                 behindPlayerReady = true;
-            }
+            }sdf
 
            
 
