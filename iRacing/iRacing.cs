@@ -75,6 +75,10 @@ namespace DahlDesign.Plugin.iRacing
         bool buildDeltaSystem = true;
         int deltaChangeChunks = 20;
 
+        double trackPosition = 0;
+        double? aheadTrackPosition = 0;
+        double? behindTrackPosition = 0;
+
         float plannedLFPressure = 0;
         float plannedRFPressure = 0;
         float plannedLRPressure = 0;
@@ -548,9 +552,13 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("Lap07Status", () => lapStatusList[6]);
             Base.AttachDelegate("Lap08Status", () => lapStatusList[7]);
 
+            Base.AttachDelegate("MyTrackPosition", () => trackPosition);
+            Base.AttachDelegate("AheadTrackPosition", () => aheadTrackPosition);
+            Base.AttachDelegate("BehindTrackPosition", () => behindTrackPosition);
+
             Base.AddProp("TestProperty", 0);
 
-            Base.AddProp("Version", "1.18.0");
+            Base.AddProp("Version", "1.20.0");
 
             Base.AddProp("Lap01Delta", 0);
             Base.AddProp("Lap02Delta", 0);
@@ -1304,7 +1312,7 @@ namespace DahlDesign.Plugin.iRacing
             IRData.Telemetry.TryGetValue("PlayerCarIdx", out object rawPlayerIdx);                  //My CarIdx
             int myCarIdx = Convert.ToInt32(rawPlayerIdx);
 
-            double trackPosition = IRData.Telemetry.CarIdxLapDistPct[myCarIdx];                 //Track position
+            trackPosition = IRData.Telemetry.CarIdxLapDistPct[myCarIdx];                 //Track position
             int completedLaps = GameData.CompletedLaps;                                         //Completed laps
             int currentLap = GameData.CurrentLap;                                               //Current lap
             int totalLaps = GameData.TotalLaps;                                                 //Total laps
@@ -4066,6 +4074,7 @@ namespace DahlDesign.Plugin.iRacing
                 int aheadP2PCount = -1;
                 bool aheadP2PActive = false;
                 double? aheadRealGap = 0;
+                aheadTrackPosition = 0;
 
                 double? behindGap = 0;
                 string behindChunks = "";
@@ -4081,6 +4090,7 @@ namespace DahlDesign.Plugin.iRacing
                 int behindP2PCount = -1;
                 bool behindP2PActive = false;
                 double? behindRealGap = 0;
+                behindTrackPosition = 0;
 
                 double? luckyDogRealGap = 0;
                 double? luckyDogGap = 0;
@@ -4134,6 +4144,7 @@ namespace DahlDesign.Plugin.iRacing
                         aheadBestLap = GameData.Opponents[i].BestLapTime;
                         aheadIsConnected = GameData.Opponents[i].IsConnected;
                         aheadIsInPit = GameData.Opponents[i].IsCarInPit;
+                        aheadTrackPosition = GameData.Opponents[i].TrackPositionPercent;
                     }
                     else if (GameData.Opponents[i].GaptoPlayer > 0 && (behindGap == 0 || GameData.Opponents[i].GaptoPlayer < behindGap))
                     {
@@ -4143,6 +4154,7 @@ namespace DahlDesign.Plugin.iRacing
                         behindBestLap = GameData.Opponents[i].BestLapTime;
                         behindIsConnected = GameData.Opponents[i].IsConnected;
                         behindIsInPit = GameData.Opponents[i].IsCarInPit;
+                        behindTrackPosition = GameData.Opponents[i].TrackPositionPercent;
                     }
                     if ((leaderCurrentLap + leaderTrackPosition) - (GameData.Opponents[i].TrackPositionPercent + GameData.Opponents[i].CurrentLap) > 1 && GameData.Opponents[i].CarClass == myClass && (luckyDogGap == 0 || GameData.Opponents[i].GaptoLeader < luckyDogGap))
                     {
@@ -6429,7 +6441,7 @@ namespace DahlDesign.Plugin.iRacing
 
                                 double oldDelta = realGapOpponentDelta[i];
                                 realGapOpponentDelta[i] = delta;
-                                realGapChange[myDistIndex][i] = oldDelta - delta;
+                                realGapChange[myDistIndex][i] = delta - oldDelta;
                                 realGapLocks[myDistIndex][i] = false;
 
                                 //Check if opponent is same class, in the case calculate delta chunks
@@ -6514,14 +6526,14 @@ namespace DahlDesign.Plugin.iRacing
 
                                 double oldDelta = realGapOpponentDelta[i];
                                 realGapOpponentDelta[i] = delta;
-                                realGapChange[myDistIndex][i] = oldDelta - delta;
+                                realGapChange[distIndex][i] = delta-oldDelta;
                                 realGapLocks[distIndex][i] = false;
 
                                 //Check if opponent is same class, in the case calculate delta chunks
 
                                 if (IRData.SessionData.DriverInfo.CompetingDrivers[i].CarClassID == IRData.SessionData.DriverInfo.CompetingDrivers[myCarIdx].CarClassID)
                                 {
-                                    int currentChunk = (myDistIndex / opponentChunkSize);
+                                    int currentChunk = (distIndex / opponentChunkSize);
                                     if (currentChunk == deltaChangeChunks)
                                     {
                                         currentChunk--;
@@ -6533,7 +6545,7 @@ namespace DahlDesign.Plugin.iRacing
                                     double lastOfChunk = 0;
 
                                     //Last lap calculations
-                                    for (int e = startingIndex; e < myDistIndex + 1; e++)
+                                    for (int e = startingIndex; e < distIndex + 1; e++)
                                     {
                                         if (!changeStarted)
                                         {
@@ -6547,7 +6559,7 @@ namespace DahlDesign.Plugin.iRacing
                                     }
 
 
-                                    if (myDistIndex > startingIndex && startingIndex != 0)
+                                    if (distIndex > startingIndex && startingIndex != 0)
                                     {
                                         changeSum = lastOfChunk - realGapChange[startingIndex - 1][i];
                                     }
@@ -6555,7 +6567,7 @@ namespace DahlDesign.Plugin.iRacing
                                     {
                                         changeSum = firstOfChunk - realGapChange[startingIndex - 1][i];
                                     }
-                                    else if (myDistIndex > 0)
+                                    else if (distIndex > 0)
                                     {
                                         changeSum = lastOfChunk;
                                     }
