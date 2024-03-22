@@ -128,8 +128,8 @@
                                 <ComboBox Grid.Row="2" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding RightPracticeScreen}">
                                     <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
                                     <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
-                                    <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
-                                    <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
+                                    <ComboBoxItem Tag="3">Qualy</ComboBoxItem>
+                                    <ComboBoxItem Tag="4">Delta</ComboBoxItem>
                                     <ComboBoxItem Tag="5">Race1</ComboBoxItem>
                                     <ComboBoxItem Tag="6">Race2</ComboBoxItem>
                                     <ComboBoxItem Tag="7">Race3</ComboBoxItem>
@@ -153,8 +153,8 @@
                                 <ComboBox Grid.Row="4" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding RightQualyScreen}">
                                     <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
                                     <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
-                                    <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
-                                    <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
+                                    <ComboBoxItem Tag="3">Qualy</ComboBoxItem>
+                                    <ComboBoxItem Tag="4">Delta</ComboBoxItem>
                                     <ComboBoxItem Tag="5">Race1</ComboBoxItem>
                                     <ComboBoxItem Tag="6">Race2</ComboBoxItem>
                                     <ComboBoxItem Tag="7">Race3</ComboBoxItem>
@@ -178,8 +178,8 @@
                                 <ComboBox Grid.Row="6" Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedValue="{Binding RightRaceScreen}">
                                     <ComboBoxItem Tag="1" IsSelected="True">Stint1</ComboBoxItem>
                                     <ComboBoxItem Tag="2">Stint2</ComboBoxItem>
-                                    <ComboBoxItem Tag="3">Qualy1</ComboBoxItem>
-                                    <ComboBoxItem Tag="4">Qualy2</ComboBoxItem>
+                                    <ComboBoxItem Tag="3">Qualy</ComboBoxItem>
+                                    <ComboBoxItem Tag="4">Delta</ComboBoxItem>
                                     <ComboBoxItem Tag="5">Race1</ComboBoxItem>
                                     <ComboBoxItem Tag="6">Race2</ComboBoxItem>
                                     <ComboBoxItem Tag="7">Race3</ComboBoxItem>
@@ -289,8 +289,8 @@
                                 <ui:ControlsEditor FriendlyName="Right Screen > Previous Page" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Previous" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Right Screen - Stint1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Stint1" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Right Screen - Stint2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Stint2" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Right Screen - Qualy1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Qualy1" HorizontalAlignment="Left" Width="750"/>
-                                <ui:ControlsEditor FriendlyName="Right Screen - Qualy2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Qualy2" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Right Screen - Qualy" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Qualy" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Right Screen - Delta" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Delta" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Right Screen - Race1" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Race1" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Right Screen - Race2" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Race2" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Right Screen - Race3" ActionName="DahlDesign.Controls.Dashboard.RightScreen.Race3" HorizontalAlignment="Left" Width="750"/>

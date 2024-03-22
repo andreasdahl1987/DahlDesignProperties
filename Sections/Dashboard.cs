@@ -18,7 +18,7 @@ namespace DahlDesign.Plugin.Categories
         public override void Init(PluginManager pluginManager)
         {
             LeftScreen = new Screen(new string[] { "Time1", "Time2", "Time3", "Qualy", "Race1", "Race2", "Race3", "Practice1", "Practice2" });
-            RightScreen = new Screen(new string[] { "Stint1", "Stint2", "Qualy1", "Qualy2", "Race1", "Race2", "Race3", "Track" });
+            RightScreen = new Screen(new string[] { "Stint1", "Stint2", "Qualy", "Delta", "Race1", "Race2", "Race3", "Track" });
             DeltaScreen = new Screen(new string[] { "LastLap", "SessionBest", "LapRecord", "Speed", "SpeedPercent", "FuelSave", "FuelTarget" });
             
             Base.AttachDelegate("ShowMapEnabled", () => Base.Settings.ShowMapEnabled);
@@ -75,8 +75,8 @@ namespace DahlDesign.Plugin.Categories
 
             Base.AddAction("Controls.Dashboard.RightScreen.Stint1", (a, b) => RightScreen.screenID=1);
             Base.AddAction("Controls.Dashboard.RightScreen.Stint2", (a, b) => RightScreen.screenID=2);
-            Base.AddAction("Controls.Dashboard.RightScreen.Qualy1", (a, b) => RightScreen.screenID=3);
-            Base.AddAction("Controls.Dashboard.RightScreen.Qualy2", (a, b) => RightScreen.screenID=4);
+            Base.AddAction("Controls.Dashboard.RightScreen.Qualy", (a, b) => RightScreen.screenID=3);
+            Base.AddAction("Controls.Dashboard.RightScreen.Delta", (a, b) => RightScreen.screenID=4);
             Base.AddAction("Controls.Dashboard.RightScreen.Race1", (a, b) => RightScreen.screenID=5);
             Base.AddAction("Controls.Dashboard.RightScreen.Race2", (a, b) => RightScreen.screenID=6);
             Base.AddAction("Controls.Dashboard.RightScreen.Race3", (a, b) => RightScreen.screenID=7);
