@@ -154,6 +154,7 @@ namespace DahlDesign.Plugin.iRacing
 
         string classLeaderName = "";
         double? classLeaderRealGap = 0;
+        string classLeaderChunks = "";
 
         string carModelHolder = "";
         string trackHolder = "";
@@ -731,6 +732,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("ClassP1Name", "");
             Base.AddProp("ClassP1Pace", new TimeSpan(0));
             Base.AddProp("ClassP1RealGap", 0);
+            Base.AddProp("ClassP1DeltaChange", "");
 
             Base.AddProp("LuckyDogGap", 0);
             Base.AddProp("LuckyDogRealGap", 0);
@@ -4405,6 +4407,7 @@ namespace DahlDesign.Plugin.iRacing
                 Base.SetProp("BehindDeltaChange", "");
 
                 Base.SetProp("ClassP1RealGap", 0);
+                Base.SetProp("ClassP1DeltaChange", "");
 
                 if (session == "Race")
                 {
@@ -4522,6 +4525,7 @@ namespace DahlDesign.Plugin.iRacing
                         if (classLeaderName == IRData.SessionData.DriverInfo.CompetingDrivers[e].UserName)
                         {
                             int carID = Convert.ToInt16(IRData.SessionData.DriverInfo.CompetingDrivers[e].CarIdx);
+                            classLeaderChunks = string.Join(",", realGapChunks[carID]);
 
                             if (carID == myCarIdx)
                             {
@@ -4545,6 +4549,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
 
                     Base.SetProp("ClassP1RealGap", classLeaderRealGap);
+                    Base.SetProp("ClassP1DeltaChange", classLeaderChunks);
                     Base.SetProp("AheadRealGap", aheadRealGap);
                     Base.SetProp("AheadDeltaChange", aheadChunks);
                     Base.SetProp("BehindRealGap", behindRealGap);
