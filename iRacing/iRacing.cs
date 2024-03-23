@@ -32,7 +32,6 @@ namespace DahlDesign.Plugin.iRacing
         List<pitOpponents> finalList = new List<pitOpponents> { };
 
         int trackSections = 60;
-        int gapIndexOld = -1;
         List<double> realGapOpponentDelta = new List<double> { };
         List<double> realGapOpponentRelative = new List<double> { };
 
@@ -6384,7 +6383,6 @@ namespace DahlDesign.Plugin.iRacing
             {
                 myDistIndex = 0;
                 myPrevIndex = 0;
-                gapIndexOld = 0;
             }
 
             if (sessionState == 4 && BestLapTimes != null)
