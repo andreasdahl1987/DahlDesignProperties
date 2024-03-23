@@ -250,6 +250,7 @@ namespace DahlDesign.Plugin.iRacing
         double pace = 0;
         double? remainingLaps = 0;
 
+        bool teamMemberDriving = false;
         int myIR = 0;
         double IRchange = 0;
 
@@ -2354,6 +2355,18 @@ namespace DahlDesign.Plugin.iRacing
                 }
             }
 
+            //Checking if my another driver in my team is driving
+
+            if (GameData.PlayerName != IRData.SessionData.DriverInfo.CompetingDrivers[myCarIdx].UserName)
+            {
+                teamMemberDriving = true;
+            }
+            else
+            {
+                teamMemberDriving = false;
+            }
+
+
             //Looking for exempt sector
             if (hasExempt && ((trackPosition > exemptOne && trackPosition < (exemptOne + exemptOneMargin)) || (trackPosition > exemptTwo && trackPosition < (exemptTwo + exemptTwoMargin))))
             {
@@ -3317,7 +3330,7 @@ namespace DahlDesign.Plugin.iRacing
                     }
 
                     //Checking for lap record
-                    if (lapRecord.TotalSeconds == 0 && lapStatusList[0] == 1 && lapDeltaRecord[0] != -2) //lapDeltaRecord[0] of -2 means previously deleted lap, ready to be overwritten
+                    if (lapRecord.TotalSeconds == 0 && lapStatusList[0] == 1 && lapDeltaRecord[0] != -2 && !teamMemberDriving) //lapDeltaRecord[0] of -2 means previously deleted lap, ready to be overwritten
                     {
                         LapRecords.addLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, ref csvIndex, speedRegisterLast, trackTemp, airTemp, fixedSetup);
                         for (int i = 0; i < lapDeltaSections + 1; i++) //Keep hold of the timings on that lap
@@ -3330,7 +3343,7 @@ namespace DahlDesign.Plugin.iRacing
                         }
                         findLapRecord = true;
                     }
-                    else if ((lapTimeList[0].TotalSeconds < lapRecord.TotalSeconds || lapDeltaRecord[0] == -2) && lapStatusList[0] == 1)
+                    else if ((lapTimeList[0].TotalSeconds < lapRecord.TotalSeconds || lapDeltaRecord[0] == -2) && lapStatusList[0] == 1 && !teamMemberDriving)
                     {
                         LapRecords.replaceLapRecord(track, carModel, lapTimeList[0].TotalMilliseconds, lapDeltaLast, csvAdress, csvIndex, speedRegisterLast, trackTemp, airTemp, fixedSetup);
                         findLapRecord = true;
