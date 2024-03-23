@@ -78,6 +78,7 @@ namespace DahlDesign.Plugin.iRacing
         double trackPosition = 0;
         double? aheadTrackPosition = 0;
         double? behindTrackPosition = 0;
+        double? classLeaderTrackPosition = 0;
 
         float plannedLFPressure = 0;
         float plannedRFPressure = 0;
@@ -556,6 +557,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("MyTrackPosition", () => trackPosition);
             Base.AttachDelegate("AheadTrackPosition", () => aheadTrackPosition);
             Base.AttachDelegate("BehindTrackPosition", () => behindTrackPosition);
+            Base.AttachDelegate("ClassLeaderTrackPosition", () => classLeaderTrackPosition);
 
             Base.AddProp("TestProperty", 0);
 
@@ -4062,6 +4064,7 @@ namespace DahlDesign.Plugin.iRacing
                 classLeaderName = "";
                 TimeSpan classLeaderLastLap = new TimeSpan(0);
                 TimeSpan classLeaderBestLap = new TimeSpan(0);
+                classLeaderTrackPosition = 0;
 
                 double? aheadGap = 0;
                 string aheadName = "";
@@ -4126,6 +4129,7 @@ namespace DahlDesign.Plugin.iRacing
                         classLeaderName = GameData.Opponents[i].Name;
                         classLeaderLastLap = GameData.Opponents[i].LastLapTime;
                         classLeaderBestLap = GameData.Opponents[i].BestLapTime;
+                        classLeaderTrackPosition = GameData.Opponents[i].TrackPositionPercent;
                     }
                     
                     
