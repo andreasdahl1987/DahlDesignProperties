@@ -216,8 +216,11 @@
                                     <ComboBoxItem Tag="3">LapRecord</ComboBoxItem>
                                     <ComboBoxItem Tag="4">Speed</ComboBoxItem>
                                     <ComboBoxItem Tag="5">SpeedPercent</ComboBoxItem>
-                                    <ComboBoxItem Tag="4">FuelSave</ComboBoxItem>
-                                    <ComboBoxItem Tag="5">FuelTarget</ComboBoxItem>
+                                    <ComboBoxItem Tag="6">FuelSave</ComboBoxItem>
+                                    <ComboBoxItem Tag="7">FuelTarget</ComboBoxItem>
+                                    <ComboBoxItem Tag="8">AheadDelta</ComboBoxItem>
+                                    <ComboBoxItem Tag="9">BehindDelta</ComboBoxItem>
+                                    <ComboBoxItem Tag="10">P1Delta</ComboBoxItem>
                                 </ComboBox>
 
                                 <TextBlock Text="Road tracks - Delta change bar sensitivity (10th's delta change to fill a whole bar)" Grid.Row="2" Margin="10,10,0,10" Grid.RowSpan="2"/>
@@ -311,6 +314,9 @@
                                 <ui:ControlsEditor FriendlyName="Delta Screen - SpeedPercent" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.SpeedPercent" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Delta Screen - FuelSave" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.FuelSave" HorizontalAlignment="Left" Width="750"/>
                                 <ui:ControlsEditor FriendlyName="Delta Screen - FuelTarget" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.FuelTarget" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Delta Screen - AheadDelta" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.AheadDelta" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Delta Screen - BehindDelta" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.BehindDelta" HorizontalAlignment="Left" Width="750"/>
+                                <ui:ControlsEditor FriendlyName="Delta Screen - P1Delta" ActionName="DahlDesign.Controls.Dashboard.DeltaScreen.P1Delta" HorizontalAlignment="Left" Width="750"/>
 
                             </StackPanel>
                         </styles:SHSection>
