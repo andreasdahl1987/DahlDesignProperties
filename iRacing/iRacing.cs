@@ -735,6 +735,9 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("ClassP1Pace", new TimeSpan(0));
             Base.AddProp("ClassP1RealGap", 0);
             Base.AddProp("ClassP1DeltaChange", "");
+            Base.AddProp("ClassP1Prognosis", 0);
+            Base.AddProp("ClassP1SlowLap", false);
+            Base.AddProp("ClassP1LapsToOvertake", 0);
 
             Base.AddProp("LuckyDogGap", 0);
             Base.AddProp("LuckyDogRealGap", 0);
@@ -3275,7 +3278,7 @@ namespace DahlDesign.Plugin.iRacing
 
             //Sector calculations finished
 
-            if (lineCross && statusReadyToFetch)     //Updating values at finish line crossing
+            if (lineCross && statusReadyToFetch)     //Updating values at finish line crossing  
             {
                 lastStatusHolder = lapStatus;
                 lastSectorStatusHolder = currentSector3Status;
@@ -4077,6 +4080,8 @@ namespace DahlDesign.Plugin.iRacing
                 TimeSpan classLeaderLastLap = new TimeSpan(0);
                 TimeSpan classLeaderBestLap = new TimeSpan(0);
                 classLeaderTrackPosition = 0;
+                int classLeaderOvertakePrediction = 0;
+                bool classLeaderSlowLap = false;
 
                 double? aheadGap = 0;
                 string aheadName = "";
@@ -4424,6 +4429,8 @@ namespace DahlDesign.Plugin.iRacing
 
                 Base.SetProp("ClassP1RealGap", 0);
                 Base.SetProp("ClassP1DeltaChange", "");
+                Base.SetProp("ClassP1SlowLap", false);
+                Base.SetProp("ClassP1Prognosis", 0);
 
                 if (session == "Race")
                 {
@@ -4577,6 +4584,8 @@ namespace DahlDesign.Plugin.iRacing
                     double aheadLastLapSeconds = aheadLastLap.TotalSeconds;
                     double behindBestLapSeconds = behindBestLap.TotalSeconds;
                     double behindLastLapSeconds = behindLastLap.TotalSeconds;
+                    double classLeaderBestLapSeconds = classLeaderBestLap.TotalSeconds;
+                    double classLeaderLastLapSeconds = classLeaderLastLap.TotalSeconds;
 
 
                     if ((aheadBestLapSeconds != 0 || aheadLastLapSeconds != 0) && pace != 0)
@@ -4702,6 +4711,56 @@ namespace DahlDesign.Plugin.iRacing
 
 
                         Globals.behindGlobal = behindName;
+                    }
+
+                    if ((classLeaderBestLapSeconds != 0 || classLeaderBestLapSeconds != 0) && pace != 0)
+                    {
+                        double? overtakeGap = classLeaderRealGap + overtakeThreshold;
+
+                        if (classLeaderBestLapSeconds * 1.02 < classLeaderLastLapSeconds && classLeaderBestLapSeconds != 0)
+                        {
+                            classLeaderSlowLap = true;
+                        }
+
+                        double distanceLeft = truncRemainingLaps + (1 - trackPosition);
+                        double paceDifference = classLeaderPace.TotalSeconds - pace;
+                        double? gapOnFinish = overtakeGap + (paceDifference * distanceLeft);
+                        double? marginPerLap = gapOnFinish / distanceLeft;
+
+                        if (marginPerLap > 0.7)
+                        {
+                            classLeaderOvertakePrediction = 1;
+                        }
+                        else if (marginPerLap > 0.2)
+                        {
+                            classLeaderOvertakePrediction = 2;
+                        }
+                        else if (marginPerLap > -0.2)
+                        {
+                            classLeaderOvertakePrediction = 3;
+                        }
+                        else if (marginPerLap > -0.7)
+                        {
+                            classLeaderOvertakePrediction = 4;
+                        }
+                        else
+                        {
+                            classLeaderOvertakePrediction = 5;
+                        }
+
+                        int classLeaderLapsToOvertake = ((int)(((-overtakeGap / paceDifference) + trackPosition) * 100)) / 100;
+                        if (paceDifference > 0 || overtakeGap < 0.5)
+                        {
+                            classLeaderLapsToOvertake = -1;
+                        }
+
+                        TimeSpan classLeaderPaceTime = TimeSpan.FromSeconds(classLeaderPace);
+
+                        Base.SetProp("ClassLeaderPace", classLeaderPaceTime);
+                        Base.SetProp("ClassLeaderSlowLap", classLeaderSlowLap);
+                        Base.SetProp("ClassLeaderPrognosis", classLeaderOvertakePrediction);
+
+
                     }
                 }
             }
