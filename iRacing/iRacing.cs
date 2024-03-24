@@ -4431,6 +4431,7 @@ namespace DahlDesign.Plugin.iRacing
                 Base.SetProp("ClassP1DeltaChange", "");
                 Base.SetProp("ClassP1SlowLap", false);
                 Base.SetProp("ClassP1Prognosis", 0);
+                Base.SetProp("ClassP1LapsToOvertake",-1);
 
                 if (session == "Race")
                 {
@@ -4749,18 +4750,15 @@ namespace DahlDesign.Plugin.iRacing
                         }
 
                         int classLeaderLapsToOvertake = ((int)(((-overtakeGap / paceDifference) + trackPosition) * 100)) / 100;
-                        if (paceDifference > 0 || overtakeGap < 0.5)
+                        if (paceDifference < 0 || overtakeGap > -0.5)
                         {
                             classLeaderLapsToOvertake = -1;
                         }
 
-                        TimeSpan classLeaderPaceTime = TimeSpan.FromSeconds(classLeaderPace);
 
-                        Base.SetProp("ClassLeaderPace", classLeaderPaceTime);
-                        Base.SetProp("ClassLeaderSlowLap", classLeaderSlowLap);
-                        Base.SetProp("ClassLeaderPrognosis", classLeaderOvertakePrediction);
-
-
+                        Base.SetProp("ClassP1SlowLap", classLeaderSlowLap);
+                        Base.SetProp("ClassP1Prognosis", classLeaderOvertakePrediction);
+                        Base.SetProp("ClassP1LapsToOvertake", classLeaderLapsToOvertake);
                     }
                 }
             }
