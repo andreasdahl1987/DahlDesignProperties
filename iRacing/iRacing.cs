@@ -975,6 +975,9 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("CalcLastLapFuel", 0);
             Base.AddProp("CalcFuelPerLap", 0);
             Base.AddProp("CalcAverageFuel", 0);
+            Base.AddProp("FuelRemainingOnPit", 0);
+            Base.AddProp("FuelSaveForOneMoreLap", 0);
+            Base.AddProp("FuelTargetForOneMoreLap", 0);
 
             Base.AddProp("FuelDeltaLL", 0);
             Base.AddProp("FuelPitWindowFirstLL", 0);
@@ -983,6 +986,9 @@ namespace DahlDesign.Plugin.iRacing
             Base.AddProp("FuelMaximumFuelFillLL", 0);
             Base.AddProp("FuelPitStopsLL", 0);
             Base.AddProp("FuelConserveToSaveAStopLL", 0);
+            Base.AddProp("FuelRemainingOnPitLL", 0);
+            Base.AddProp("FuelSaveForOneMoreLapLL", 0);
+            Base.AddProp("FuelTargetForOneMoreLapLL", 0);
 
             Base.AddProp("FuelSlowestFuelSavePace", new TimeSpan(0));
             Base.AddProp("FuelSaveDeltaValue", 0);
@@ -5235,6 +5241,9 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("FuelSlowestFuelSavePace", new TimeSpan(0));
                     Base.SetProp("FuelAlert", false);
                     Base.SetProp("FuelPerLapTargetLocked", Base.Settings.fuelPerLapTargetLocked);
+                    Base.SetProp("FuelRemainingOnPit", 0);
+                    Base.SetProp("FuelSaveForOneMoreLap", 0);
+                    Base.SetProp("FuelTargetForOneMoreLap", 0);
 
                 }
                 else
@@ -5247,6 +5256,9 @@ namespace DahlDesign.Plugin.iRacing
                     Base.SetProp("FuelPitStopsLL", 0);
                     Base.SetProp("FuelConserveToSaveAStopLL", 0);
                     Base.SetProp("FuelSaveDeltaValue", 0);
+                    Base.SetProp("FuelRemainingOnPitLL", 0);
+                    Base.SetProp("FuelSaveForOneMoreLapLL", 0);
+                    Base.SetProp("FuelTargetForOneMoreLapLL", 0);
                 }
 
 
@@ -5279,6 +5291,10 @@ namespace DahlDesign.Plugin.iRacing
 
                     //How much is left on tank on latest possible stop
                     double latestPitFuelLoad = (dryPosition - (latestPitLap + 1)) * fuelPerLap;
+                    //How much to save to make 1 more lap
+                    double saveToGetAnotherLap = fuelPerLap - latestPitFuelLoad + 0.2;
+                    //Target to get another lap
+                    double targetForOneMoreLap = fuelPerLap - (saveToGetAnotherLap / (latestPitLap-currentLap + 2 - trackPosition));
                     //The most I can fuel
                     double maxFillOnStop = maxFuel - latestPitFuelLoad;
                     //How far can I get on that tank?
@@ -5423,6 +5439,10 @@ namespace DahlDesign.Plugin.iRacing
                         Base.SetProp("FuelPitStops", pitStops);
                         Base.SetProp("FuelConserveToSaveAStop", conserveToNotPit);
                         Base.SetProp("FuelAlert", fuelAlert);
+                        Base.SetProp("FuelRemainingOnPit", latestPitFuelLoad);
+                        Base.SetProp("FuelSaveForOneMoreLap", saveToGetAnotherLap);
+                        Base.SetProp("FuelTargetForOneMoreLap", targetForOneMoreLap);
+
 
 
                         if (!savePitTimerLock)
@@ -5496,6 +5516,9 @@ namespace DahlDesign.Plugin.iRacing
                         Base.SetProp("FuelPitStopsLL", pitStops);
                         Base.SetProp("FuelConserveToSaveAStopLL", conserveToNotPit);
                         Base.SetProp("FuelSaveDeltaValue", saveDelta);
+                        Base.SetProp("FuelRemainingOnPitLL", latestPitFuelLoad);
+                        Base.SetProp("FuelSaveForOneMoreLapLL", saveToGetAnotherLap);
+                        Base.SetProp("FuelTargetForOneMoreLapLL", targetForOneMoreLap);
 
 
                         //Fuel target calculations
