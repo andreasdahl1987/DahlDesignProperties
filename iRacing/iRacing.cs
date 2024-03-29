@@ -557,7 +557,7 @@ namespace DahlDesign.Plugin.iRacing
             Base.AttachDelegate("MyTrackPosition", () => trackPosition);
             Base.AttachDelegate("AheadTrackPosition", () => aheadTrackPosition);
             Base.AttachDelegate("BehindTrackPosition", () => behindTrackPosition);
-            Base.AttachDelegate("ClassLeaderTrackPosition", () => classLeaderTrackPosition);
+            Base.AttachDelegate("ClassP1TrackPosition", () => classLeaderTrackPosition);
 
             Base.AddProp("TestProperty", 0);
 
