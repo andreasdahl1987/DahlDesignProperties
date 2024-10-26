@@ -366,6 +366,7 @@ namespace DahlDesign.Plugin.iRacing
         double fuelPerLapOffset = 0;
         bool onlyThrough = true;
 
+        int calculationAccuracy = 0;
         double fuelHolder = 0;
         double calcLastLapFuel = 0;
         double calcAverageFuel = 0;
@@ -3543,7 +3544,7 @@ namespace DahlDesign.Plugin.iRacing
                 List<double> slowFuelList = new List<double> { };
                 double thresholdLap = fastLap * 1.015;
                 double runOffLap = fastLap * 1.05;
-                int calculationAccuracy = 0;
+                calculationAccuracy = 0;
                 double averageFuelHolder = 0;
                 int averageCounter = 0;
 
@@ -4317,7 +4318,11 @@ namespace DahlDesign.Plugin.iRacing
 
                         double? leaderRaceTime = leaderExpectedLapTime * (totalLaps - leaderCurrentLap + 1 - leaderTrackPosition);
                         double? lapsWhileLeaderRace = leaderRaceTime / myExpectedLapTime;
-                        lapLapsRemaining = lapsWhileLeaderRace + trackPosition;
+                        double? reCalcLaps = lapsWhileLeaderRace + trackPosition;
+                        if(reCalcLaps <= lapLapsRemaining &&  calculationAccuracy >= 2)
+                        {
+                            lapLapsRemaining = reCalcLaps;
+                        }
 
                         //Time limited session calculations
                         double? leaderTimeOut = (timeLeftSeconds / leaderExpectedLapTime) + leaderTrackPosition;

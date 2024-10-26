@@ -22,7 +22,7 @@ namespace DahlDesign.Plugin.Categories
         public override void Init(PluginManager pluginManager)
         {
             pitMenuRotary = 12; //Starting on strat page
-            inCarRotary = 0;
+            inCarRotary = 12; //Defaulting to pit page
             rotaryType = "Single";
             pitMenuRequirementMet = false;
 
