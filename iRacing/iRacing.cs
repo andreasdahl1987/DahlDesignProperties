@@ -4319,7 +4319,7 @@ namespace DahlDesign.Plugin.iRacing
                         double? leaderRaceTime = leaderExpectedLapTime * (totalLaps - leaderCurrentLap + 1 - leaderTrackPosition);
                         double? lapsWhileLeaderRace = leaderRaceTime / myExpectedLapTime;
                         double? reCalcLaps = lapsWhileLeaderRace + trackPosition;
-                        if(reCalcLaps <= lapLapsRemaining &&  calculationAccuracy >= 2)
+                        if(reCalcLaps <= lapLapsRemaining &&  calculationAccuracy == 3)
                         {
                             lapLapsRemaining = reCalcLaps;
                         }
