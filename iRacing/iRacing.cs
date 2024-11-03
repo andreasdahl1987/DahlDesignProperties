@@ -4599,6 +4599,15 @@ namespace DahlDesign.Plugin.iRacing
                     double classLeaderBestLapSeconds = classLeaderBestLap.TotalSeconds;
                     double classLeaderLastLapSeconds = classLeaderLastLap.TotalSeconds;
 
+                    double overtakeSmallMargin = 0.2;
+                    double overtakeBigMargin = 0.7;
+
+                    if(trackType > 4)
+                    {
+                        overtakeSmallMargin = 0.1;
+                        overtakeBigMargin = 0.3;
+                    }
+
 
                     if ((aheadBestLapSeconds != 0 || aheadLastLapSeconds != 0) && pace != 0)
                     {
@@ -4620,19 +4629,19 @@ namespace DahlDesign.Plugin.iRacing
                         double? gapOnFinish = overtakeGap + (paceDifference * distanceLeft);
                         double? marginPerLap = gapOnFinish / distanceLeft;
 
-                        if (marginPerLap > 0.7)
+                        if (marginPerLap > overtakeBigMargin)
                         {
                             aheadOvertakePrediction = 1;
                         }
-                        else if (marginPerLap > 0.2)
+                        else if (marginPerLap > overtakeSmallMargin)
                         {
                             aheadOvertakePrediction = 2;
                         }
-                        else if (marginPerLap > -0.2)
+                        else if (marginPerLap > -overtakeSmallMargin)
                         {
                             aheadOvertakePrediction = 3;
                         }
-                        else if (marginPerLap > -0.7)
+                        else if (marginPerLap > -overtakeBigMargin)
                         {
                             aheadOvertakePrediction = 4;
                         }
@@ -4684,19 +4693,19 @@ namespace DahlDesign.Plugin.iRacing
                         double? gapOnFinish = overtakeGap + (paceDifference * distanceLeft);
                         double? marginPerLap = gapOnFinish / distanceLeft;
 
-                        if (marginPerLap > 0.7)
+                        if (marginPerLap > overtakeBigMargin)
                         {
                             behindOvertakePrediction = 1;
                         }
-                        else if (marginPerLap > 0.2)
+                        else if (marginPerLap > overtakeSmallMargin)
                         {
                             behindOvertakePrediction = 2;
                         }
-                        else if (marginPerLap > -0.2)
+                        else if (marginPerLap > -overtakeSmallMargin)
                         {
                             behindOvertakePrediction = 3;
                         }
-                        else if (marginPerLap > -0.7)
+                        else if (marginPerLap > -overtakeBigMargin)
                         {
                             behindOvertakePrediction = 4;
                         }
@@ -4739,19 +4748,19 @@ namespace DahlDesign.Plugin.iRacing
                         double? gapOnFinish = overtakeGap + (paceDifference * distanceLeft);
                         double? marginPerLap = gapOnFinish / distanceLeft;
 
-                        if (marginPerLap > 0.7)
+                        if (marginPerLap > overtakeBigMargin)
                         {
                             classLeaderOvertakePrediction = 1;
                         }
-                        else if (marginPerLap > 0.2)
+                        else if (marginPerLap > overtakeSmallMargin)
                         {
                             classLeaderOvertakePrediction = 2;
                         }
-                        else if (marginPerLap > -0.2)
+                        else if (marginPerLap > -overtakeSmallMargin)
                         {
                             classLeaderOvertakePrediction = 3;
                         }
-                        else if (marginPerLap > -0.7)
+                        else if (marginPerLap > -overtakeBigMargin)
                         {
                             classLeaderOvertakePrediction = 4;
                         }
